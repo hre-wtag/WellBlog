@@ -32,7 +32,7 @@ export class ValidatorsService {
   getErrorMessages(errors: ValidationErrors): string {
     let errorMessage = '';
     if (errors['noSpaces']) {
-      return 'This field cannot contain spaces.'; // Generic error message
+      return 'Spaces are not allowed.'; // Generic error message
     } else if (errors['required']) {
       errorMessage = 'This field is required.';
     } else if (errors['minlength']) {

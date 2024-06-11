@@ -71,6 +71,7 @@ export class LoginComponent implements OnInit {
       );
     }
   }
+  
   onTouched(fieldName: string) {
     const control = this.loginForm.get(fieldName);
     if (control) {

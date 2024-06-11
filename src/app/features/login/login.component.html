@@ -11,9 +11,19 @@
               class="form-control"
               formControlName="username"
               (blur)="onTouched('username')"
-              [ngClass]="{ 'border-danger': usernameError }"
+              [ngClass]="{
+                'border-danger':
+                  !loginForm.get('username')?.valid &&
+                  loginForm.get('username')?.touched
+              }"
             />
-            <div *ngIf="usernameError" class="text-danger">
+            <div
+              *ngIf="
+                !loginForm.get('username')?.valid &&
+                loginForm.get('username')?.touched
+              "
+              class="text-danger"
+            >
               {{ usernameError }}
             </div>
           </div>
@@ -24,9 +34,19 @@
               class="form-control"
               formControlName="password"
               (blur)="onTouched('password')"
-              [ngClass]="{ 'border-danger': passwordError }"
+              [ngClass]="{
+                'border-danger':
+                  !loginForm.get('password')?.valid &&
+                  loginForm.get('password')?.touched
+              }"
             />
-            <div *ngIf="passwordError" class="text-danger">
+            <div
+              *ngIf="
+                !loginForm.get('password')?.valid &&
+                loginForm.get('password')?.touched
+              "
+              class="text-danger"
+            >
               {{ passwordError }}
             </div>
           </div>
