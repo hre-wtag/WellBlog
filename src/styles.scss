@@ -15,3 +15,6 @@
 body {
   font: 100% $font-stack;
 }
+input:focus{
+  box-shadow: none !important;
+}

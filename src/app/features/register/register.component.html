@@ -1,1 +1,59 @@
-<p>register works!</p>
+<div class="row m-0 p-4">
+  <div class="col-12">
+    <form [formGroup]="registerForm">
+      <div class="row">
+        <div class="col-md-5 mx-auto border p-3 bg-light rounded">
+          <h3 class="text-center color-primary">Register</h3>
+          <div class="mb-3">
+            <label for="firstname" class="form-label">First Name</label>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="firstname"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="lastname" class="form-label">Last Name</label>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="lastname"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input
+              type="email"
+              class="form-control"
+              formControlName="email"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="username" class="form-label">Username</label>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="username"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input
+              type="password"
+              class="form-control"
+              formControlName="password"
+            />
+          </div>
+          <button
+            type="submit"
+            [disabled]="!registerForm.valid"
+            class="btn bg-primary"
+            (click)="onRegister()"
+          >
+            Register
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

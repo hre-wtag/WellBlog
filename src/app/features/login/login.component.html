@@ -1,1 +1,45 @@
-<p>login works!</p>
+<div class="row m-0 p-4">
+  <div class="col-12">
+    <form [formGroup]="loginForm">
+      <div class="row">
+        <div class="col-md-5 mx-auto border p-3 bg-light rounded">
+          <h3 class="text-center color-primary">Login</h3>
+          <div class="mb-3">
+            <label for="username" class="form-label">Username</label>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="username"
+              (blur)="onTouched('username')"
+              [ngClass]="{ 'border-danger': usernameError }"
+            />
+            <div *ngIf="usernameError" class="text-danger">
+              {{ usernameError }}
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input
+              type="password"
+              class="form-control"
+              formControlName="password"
+              (blur)="onTouched('password')"
+              [ngClass]="{ 'border-danger': passwordError }"
+            />
+            <div *ngIf="passwordError" class="text-danger">
+              {{ passwordError }}
+            </div>
+          </div>
+          <button
+            type="submit"
+            class="btn bg-primary"
+            [disabled]="!loginForm.valid"
+            (click)="onLogin()"
+          >
+            Login
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

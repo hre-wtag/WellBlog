@@ -1,6 +1,10 @@
 $font-stack: Roboto;
-$primary-color: #5151d5;
-
-.color-primary{
-    color: $primary-color !important;
+$--color-primary: #5151d5;
+$--color-white: #fff;
+.color-primary {
+  color: $--color-primary !important;
+}
+.bg-primary {
+  color: $--color-white !important;
+  background-color: $--color-primary !important;
 }
