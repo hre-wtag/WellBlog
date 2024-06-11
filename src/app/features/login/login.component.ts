@@ -8,6 +8,7 @@ import {
 import { AuthUser } from '../../core/interfaces/authUser';
 import { ValidatorsService } from '../../core/services/validators.service';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -20,7 +21,10 @@ export class LoginComponent implements OnInit {
   usernameError: string | null = null;
   passwordError: string | null = null;
 
-  constructor(private validatorService: ValidatorsService) {
+  constructor(
+    private validatorService: ValidatorsService,
+    private router: Router
+  ) {
     this.loginForm = new FormGroup({
       username: new FormControl('', [
         Validators.required,
@@ -49,6 +53,7 @@ export class LoginComponent implements OnInit {
     this.passwordError = null;
     if (user.username === 'user' && user.password === 'aaaa@1111') {
       alert('login Sucessfull!');
+      this.router.navigate(['/']);
     }
   }
 
@@ -71,7 +76,7 @@ export class LoginComponent implements OnInit {
       );
     }
   }
-  
+
   onTouched(fieldName: string) {
     const control = this.loginForm.get(fieldName);
     if (control) {

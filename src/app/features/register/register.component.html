@@ -10,7 +10,22 @@
               type="text"
               class="form-control"
               formControlName="firstname"
+              (blur)="onTouched('firstname')"
+              [ngClass]="{
+                'border-danger':
+                  !registerForm.get('firstname')?.valid &&
+                  registerForm.get('firstname')?.touched
+              }"
             />
+            <div
+              *ngIf="
+                !registerForm.get('firstname')?.valid &&
+                registerForm.get('firstname')?.touched
+              "
+              class="text-danger"
+            >
+              {{ firstNameError }}
+            </div>
           </div>
           <div class="mb-3">
             <label for="lastname" class="form-label">Last Name</label>
@@ -18,7 +33,22 @@
               type="text"
               class="form-control"
               formControlName="lastname"
+              (blur)="onTouched('lastname')"
+              [ngClass]="{
+                'border-danger':
+                  !registerForm.get('lastname')?.valid &&
+                  registerForm.get('lastname')?.touched
+              }"
             />
+            <div
+              *ngIf="
+                !registerForm.get('lastname')?.valid &&
+                registerForm.get('lastname')?.touched
+              "
+              class="text-danger"
+            >
+              {{ lastNameError }}
+            </div>
           </div>
           <div class="mb-3">
             <label for="email" class="form-label">Email</label>
@@ -26,7 +56,22 @@
               type="email"
               class="form-control"
               formControlName="email"
+              (blur)="onTouched('email')"
+              [ngClass]="{
+                'border-danger':
+                  !registerForm.get('email')?.valid &&
+                  registerForm.get('email')?.touched
+              }"
             />
+            <div
+              *ngIf="
+                !registerForm.get('email')?.valid &&
+                registerForm.get('email')?.touched
+              "
+              class="text-danger"
+            >
+              {{ emailError }}
+            </div>
           </div>
           <div class="mb-3">
             <label for="username" class="form-label">Username</label>
@@ -34,7 +79,22 @@
               type="text"
               class="form-control"
               formControlName="username"
+              (blur)="onTouched('username')"
+              [ngClass]="{
+                'border-danger':
+                  !registerForm.get('username')?.valid &&
+                  registerForm.get('username')?.touched
+              }"
             />
+            <div
+              *ngIf="
+                !registerForm.get('username')?.valid &&
+                registerForm.get('username')?.touched
+              "
+              class="text-danger"
+            >
+              {{ usernameError }}
+            </div>
           </div>
           <div class="mb-3">
             <label for="password" class="form-label">Password</label>
@@ -42,7 +102,22 @@
               type="password"
               class="form-control"
               formControlName="password"
+              (blur)="onTouched('password')"
+              [ngClass]="{
+                'border-danger':
+                  !registerForm.get('password')?.valid &&
+                  registerForm.get('password')?.touched
+              }"
             />
+            <div
+              *ngIf="
+                !registerForm.get('password')?.valid &&
+                registerForm.get('password')?.touched
+              "
+              class="text-danger"
+            >
+              {{ passwordError }}
+            </div>
           </div>
           <button
             type="submit"

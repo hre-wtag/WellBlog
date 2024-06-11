@@ -42,6 +42,8 @@ export class ValidatorsService {
     } else if (errors['pattern']) {
       errorMessage =
         'Password must contain at least one character, one number and one special character.';
+    } else if (errors['email']) {
+      errorMessage = 'Please enter a valid email address.';
     }
     return errorMessage;
   }
