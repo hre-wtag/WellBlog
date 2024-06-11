@@ -86,7 +86,7 @@ export class RegisterComponent implements OnInit {
     const usernameControl = this.registerForm.get('username');
     const passwordControl = this.registerForm.get('password');
 
-    if (fisrtnameControl?.touched && fisrtnameControl?.errors) {
+    if ((fisrtnameControl?.touched )&& fisrtnameControl?.errors) {
       this.firstNameError = this.validatorService.getErrorMessages(
         fisrtnameControl.errors
       );

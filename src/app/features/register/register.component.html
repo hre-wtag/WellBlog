@@ -14,13 +14,13 @@
               [ngClass]="{
                 'border-danger':
                   !registerForm.get('firstname')?.valid &&
-                  registerForm.get('firstname')?.touched
+                  (registerForm.get('firstname')?.touched )
               }"
             />
             <div
               *ngIf="
                 !registerForm.get('firstname')?.valid &&
-                registerForm.get('firstname')?.touched
+                (registerForm.get('firstname')?.touched)
               "
               class="text-danger"
             >
