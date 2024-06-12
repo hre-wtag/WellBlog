@@ -1,0 +1,10 @@
+/* You can add global styles to this file, and also import other style files */
+@import "bootstrap/scss/bootstrap";
+
+$font-stack: Roboto;
+$primary-color: #5151d5;
+
+body {
+  font: 100% $font-stack;
+  color: $primary-color;
+}
