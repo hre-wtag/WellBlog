@@ -9,6 +9,8 @@ import { AuthUser } from '../../core/interfaces/authUser';
 import { ValidatorsService } from '../../core/services/validators.service';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { HOME_ROUTE } from '../../core/utils/constants';
+import { AuthService } from '../../core/services/auth.service';
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -20,10 +22,12 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   usernameError: string | null = null;
   passwordError: string | null = null;
+  home_route: string = HOME_ROUTE;
 
   constructor(
     private validatorService: ValidatorsService,
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ) {
     this.loginForm = new FormGroup({
       username: new FormControl('', [
@@ -49,12 +53,13 @@ export class LoginComponent implements OnInit {
     }
     const user: AuthUser = this.loginForm.value;
     console.log(user.username, user.password);
+    const loginStatus = this.authService.authenticateUser(user);
+    console.log(loginStatus);
+    if (loginStatus === true) {
+      this.router.navigate([this.home_route]);
+    }
     this.usernameError = null;
     this.passwordError = null;
-    if (user.username === 'user' && user.password === 'aaaa@1111') {
-      alert('login Sucessfull!');
-      this.router.navigate(['/']);
-    }
   }
 
   updateErrorMessages() {

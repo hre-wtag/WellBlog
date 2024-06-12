@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import {
-  AbstractControl,
   FormControl,
   FormGroup,
   ReactiveFormsModule,
@@ -9,6 +8,9 @@ import {
 import { User } from '../../core/interfaces/user';
 import { ValidatorsService } from '../../core/services/validators.service';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../../core/services/auth.service';
+import { Router } from '@angular/router';
+import { LOGIN_ROUTE } from '../../core/utils/constants';
 
 @Component({
   selector: 'app-register',
@@ -24,8 +26,13 @@ export class RegisterComponent implements OnInit {
   emailError: string | null = null;
   usernameError: string | null = null;
   passwordError: string | null = null;
+  login_route: string = LOGIN_ROUTE;
 
-  constructor(private validatorService: ValidatorsService) {
+  constructor(
+    private validatorService: ValidatorsService,
+    private authService: AuthService,
+    private router: Router
+  ) {
     this.registerForm = new FormGroup({
       firstname: new FormControl('', [
         Validators.required,
@@ -63,7 +70,10 @@ export class RegisterComponent implements OnInit {
   }
   onRegister() {
     const user: User = this.registerForm.value;
-    console.log(user.username, user.password);
+    console.log('User registration successful!');
+    console.log(user);
+    this.authService.setUserData(user);
+    this.router.navigate([this.login_route]);
   }
   onTouched(fieldName: string) {
     const control = this.registerForm.get(fieldName);
@@ -86,7 +96,7 @@ export class RegisterComponent implements OnInit {
     const usernameControl = this.registerForm.get('username');
     const passwordControl = this.registerForm.get('password');
 
-    if ((fisrtnameControl?.touched )&& fisrtnameControl?.errors) {
+    if (fisrtnameControl?.touched && fisrtnameControl?.errors) {
       this.firstNameError = this.validatorService.getErrorMessages(
         fisrtnameControl.errors
       );
