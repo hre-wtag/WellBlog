@@ -10,9 +10,9 @@ import { RouterModule } from '@angular/router';
   styleUrl: './header.component.scss',
 })
 export class HeaderComponent implements OnInit {
-  title = TITLE;
-  login_route = LOGIN_ROUTE;
-  register_route = REGISTER_ROUTE;
+  title: string = TITLE;
+  login_route: string = LOGIN_ROUTE;
+  register_route: string = REGISTER_ROUTE;
   ngOnInit() {
     console.log('Header Init!');
   }
