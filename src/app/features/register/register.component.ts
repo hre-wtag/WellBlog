@@ -19,6 +19,7 @@ import { HeaderComponent } from '../../shared/header/header.component';
   imports: [ReactiveFormsModule, CommonModule, HeaderComponent],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss',
+  styleUrl: './register.component.scss',
 })
 export class RegisterComponent implements OnInit {
   registerForm: FormGroup;
