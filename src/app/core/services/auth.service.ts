@@ -29,7 +29,6 @@ export class AuthService {
     const storedUserData = localStorage.getItem('registeredUser');
     if (storedUserData) {
       user = JSON.parse(storedUserData);
-      console.log(user);
     }
     return user;
   }
@@ -40,7 +39,6 @@ export class AuthService {
     const statusString = localStorage.getItem('loginStatus');
     if (statusString) {
       const status = JSON.parse(statusString);
-      console.log(status);
       return status;
     }
     return false;

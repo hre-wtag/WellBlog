@@ -58,9 +58,7 @@ export class LoginComponent implements OnInit {
       return;
     }
     const user: AuthUser = this.loginForm.value;
-    console.log(user.username, user.password);
     const loginStatus = this.authService.authenticateUser(user);
-    console.log(loginStatus);
     if (loginStatus === true) {
       this.router.navigate([this.home_route]);
     }

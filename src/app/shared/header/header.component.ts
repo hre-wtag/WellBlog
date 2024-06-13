@@ -32,8 +32,6 @@ export class HeaderComponent implements OnInit {
     if (this.router.url === this.login_route.toString()) {
       this.insideLogin = true;
     }
-
-    console.log(typeof this.router.url, this.insideLogin, this.insideRegister);
   }
   logout() {
     this.authService.removeUserAuth();
