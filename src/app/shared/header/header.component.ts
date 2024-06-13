@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TITLE, LOGIN_ROUTE, REGISTER_ROUTE } from '../../core/utils/constants';
-import { Router, RouterLink, RouterModule } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
 import { CommonModule } from '@angular/common';
 
@@ -17,6 +17,8 @@ export class HeaderComponent implements OnInit {
   register_route: string = REGISTER_ROUTE;
   isLoggedin: boolean = false;
   userName: string = '';
+  insideRegister: boolean = false;
+  insideLogin: boolean = false;
 
   constructor(private authService: AuthService, private router: Router) {}
   ngOnInit() {
@@ -24,6 +26,14 @@ export class HeaderComponent implements OnInit {
     if (this.isLoggedin) {
       this.userName = this.authService.getUserData().username;
     }
+    if (this.router.url === this.register_route.toString()) {
+      this.insideRegister = true;
+    }
+    if (this.router.url === this.login_route.toString()) {
+      this.insideLogin = true;
+    }
+
+    console.log(typeof this.router.url, this.insideLogin, this.insideRegister);
   }
   logout() {
     this.authService.removeUserAuth();

@@ -11,10 +11,11 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { HOME_ROUTE } from '../../core/utils/constants';
 import { AuthService } from '../../core/services/auth.service';
+import { HeaderComponent } from '../../shared/header/header.component';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule,HeaderComponent],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })

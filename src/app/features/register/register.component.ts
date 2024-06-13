@@ -9,13 +9,14 @@ import { User } from '../../core/interfaces/user';
 import { ValidatorsService } from '../../core/services/validators.service';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../core/services/auth.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { LOGIN_ROUTE } from '../../core/utils/constants';
+import { HeaderComponent } from '../../shared/header/header.component';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [ReactiveFormsModule, CommonModule, HeaderComponent],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss',
 })
@@ -26,6 +27,7 @@ export class RegisterComponent implements OnInit {
   emailError: string | null = null;
   usernameError: string | null = null;
   passwordError: string | null = null;
+  confirmPasswordError: string | null = null;
   login_route: string = LOGIN_ROUTE;
 
   constructor(
@@ -63,13 +65,12 @@ export class RegisterComponent implements OnInit {
         this.validatorService.noSpacesValidator(),
         this.validatorService.passwordValidator(),
       ]),
+      confirmPassword: new FormControl('', Validators.required),
     });
   }
   ngOnInit() {}
   onRegister() {
     const user: User = this.registerForm.value;
-    console.log('User registration successful!');
-    console.log(user);
     this.authService.setUserData(user);
     this.router.navigate([this.login_route]);
   }
@@ -78,6 +79,7 @@ export class RegisterComponent implements OnInit {
     if (control) {
       control.markAsTouched();
       this.updateErrorMessages();
+      this.matchPassword();
     }
   }
 
@@ -87,12 +89,14 @@ export class RegisterComponent implements OnInit {
     this.emailError = null;
     this.usernameError = null;
     this.passwordError = null;
+    this.confirmPasswordError = null;
 
     const fisrtnameControl = this.registerForm.get('firstname');
     const lastameControl = this.registerForm.get('lastname');
     const emailControl = this.registerForm.get('email');
     const usernameControl = this.registerForm.get('username');
     const passwordControl = this.registerForm.get('password');
+    const confirmPasswordControl = this.registerForm.get('confirmPassword');
 
     if (fisrtnameControl?.touched && fisrtnameControl?.errors) {
       this.firstNameError = this.validatorService.getErrorMessages(
@@ -120,5 +124,19 @@ export class RegisterComponent implements OnInit {
         passwordControl.errors
       );
     }
+    if (confirmPasswordControl?.touched && confirmPasswordControl?.errors) {
+      this.confirmPasswordError = this.validatorService.getErrorMessages(
+        confirmPasswordControl.errors
+      );
+    }
+  }
+
+  matchPassword() {
+    if (
+      this.registerForm.get('password')?.value !==
+      this.registerForm.get('confirmPassword')?.value
+    ) {
+      this.confirmPasswordError = 'Password and Confirm Password must match.';
+    } 
   }
 }

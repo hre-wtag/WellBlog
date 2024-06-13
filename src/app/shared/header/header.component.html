@@ -2,6 +2,7 @@
   <div class="container-fluid">
     <a class="navbar-brand color-primary" [routerLink]="'/'">{{ title }}</a>
     <button
+      *ngIf="insideRegister === false && insideLogin === false"
       class="navbar-toggler"
       type="button"
       data-bs-toggle="collapse"
@@ -12,7 +13,11 @@
     >
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <div
+      class="collapse navbar-collapse"
+      id="navbarSupportedContent"
+      *ngIf="insideRegister === false && insideLogin === false"
+    >
       <form class="d-flex mx-auto w-25" role="search">
         <div class="form-control d-flex m-0 p-0">
           <input
@@ -27,7 +32,10 @@
         </div>
       </form>
     </div>
-    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+    <ul
+      class="navbar-nav ms-auto mb-2 mb-lg-0"
+      *ngIf="insideRegister===false && insideLogin === false"
+    >
       <li
         class="nav-item d-flex align-items-center"
         *ngIf="isLoggedin === false"

@@ -29,10 +29,11 @@ export class ValidatorsService {
       return null;
     };
   }
+
   getErrorMessages(errors: ValidationErrors): string {
     let errorMessage = '';
     if (errors['noSpaces']) {
-      return 'Spaces are not allowed.'; // Generic error message
+      return 'Spaces are not allowed.';
     } else if (errors['required']) {
       errorMessage = 'This field is required.';
     } else if (errors['minlength']) {
