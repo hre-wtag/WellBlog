@@ -23,6 +23,7 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   usernameError: string | null = null;
   passwordError: string | null = null;
+  loginError: string | null = null;
   home_route: string = HOME_ROUTE;
   register_route: string = REGISTER_ROUTE;
   textFieldType: boolean = false;
@@ -61,14 +62,18 @@ export class LoginComponent implements OnInit {
     const loginStatus = this.authService.authenticateUser(user);
     if (loginStatus === true) {
       this.router.navigate([this.home_route]);
+      this.usernameError = null;
+      this.passwordError = null;
+      this.loginError = null;
+    } else {
+      this.loginError = 'Incorrect username or password.';
     }
-    this.usernameError = null;
-    this.passwordError = null;
   }
 
   updateErrorMessages() {
     this.usernameError = null;
     this.passwordError = null;
+    this.loginError = null;
 
     const usernameControl = this.loginForm.get('username');
     const passwordControl = this.loginForm.get('password');
