@@ -12,6 +12,7 @@
   padding: 0;
   text-decoration: none;
 }
+
 body {
   font: 100% $font-stack;
 }
@@ -19,6 +20,7 @@ body {
 .color-primary {
   color: $--color-primary !important;
 }
+
 .bg-primary {
   color: $--color-white !important;
   background-color: $--color-primary !important;
@@ -35,13 +37,14 @@ input:focus {
   box-shadow: none !important;
   border-color: $--color-primary !important;
 }
+
 .eye-btn {
   cursor: pointer;
   i {
     color: #686a6c;
   }
-}
-.eye-btn:hover {
-  background-color: #ededff;
-  border-color: $--color-primary !important;
+  &:hover {
+    background-color: #ededff;
+    border-color: $--color-primary !important;
+  }
 }
