@@ -12,10 +12,17 @@ import { Router, RouterLink } from '@angular/router';
 import { HOME_ROUTE, REGISTER_ROUTE } from '../../core/utils/constants';
 import { AuthService } from '../../core/services/auth.service';
 import { HeaderComponent } from '../../shared/header/header.component';
+import { ToggleOnHoldDirective } from '../../shared/Directives/toggle-on-hold.directive';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, HeaderComponent, RouterLink],
+  imports: [
+    ReactiveFormsModule,
+    CommonModule,
+    HeaderComponent,
+    RouterLink,
+    ToggleOnHoldDirective,
+  ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
@@ -26,7 +33,7 @@ export class LoginComponent implements OnInit {
   loginError: string | null = null;
   home_route: string = HOME_ROUTE;
   register_route: string = REGISTER_ROUTE;
-  textFieldType: boolean = false;
+  textFieldType: boolean | Event = false;
 
   constructor(
     private validatorService: ValidatorsService,
@@ -50,8 +57,10 @@ export class LoginComponent implements OnInit {
   }
   ngOnInit() {}
 
-  toggleFieldType() {
-    this.textFieldType = !this.textFieldType;
+  onHoldChange(event: Event | boolean) {
+    console.log(event);
+
+    this.textFieldType = event;
   }
 
   onLogin() {

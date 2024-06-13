@@ -9,14 +9,15 @@ import { User } from '../../core/interfaces/user';
 import { ValidatorsService } from '../../core/services/validators.service';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../core/services/auth.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { LOGIN_ROUTE } from '../../core/utils/constants';
 import { HeaderComponent } from '../../shared/header/header.component';
+import { ToggleOnHoldDirective } from '../../shared/Directives/toggle-on-hold.directive';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, HeaderComponent],
+  imports: [ReactiveFormsModule, CommonModule, HeaderComponent,ToggleOnHoldDirective],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss',
 })
@@ -29,9 +30,9 @@ export class RegisterComponent implements OnInit {
   passwordError: string | null = null;
   confirmPasswordError: string | null = null;
   login_route: string = LOGIN_ROUTE;
-  passwordField: boolean = false;
-  confirmPasswordField: boolean = false;
-
+  passwordField: boolean | Event = false;
+  confirmPasswordField: boolean | Event = false;
+  activeField: string = '';
   constructor(
     private validatorService: ValidatorsService,
     private authService: AuthService,
@@ -71,6 +72,18 @@ export class RegisterComponent implements OnInit {
     });
   }
   ngOnInit() {}
+
+  onHoldChange(event: Event | boolean) {
+    console.log(event);
+
+    if (this.activeField === 'password') {
+      this.passwordField = event;
+    } else if (this.activeField === 'confirmPassword') {
+      this.confirmPasswordField = event;
+    } else {
+      this.activeField = '';
+    }
+  }
   onRegister() {
     const user: User = this.registerForm.value;
     this.authService.setUserData(user);

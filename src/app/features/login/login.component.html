@@ -47,7 +47,7 @@
                     loginForm.get('password')?.touched
                 }"
               />
-              <span class="input-group-text eye-btn" (click)="toggleFieldType()"
+              <span class="input-group-text eye-btn" appToggleOnHold (hold)="onHoldChange($event)"
                 ><i
                   class="bi"
                   [ngClass]="textFieldType !== true ? 'bi-eye' : 'bi-eye-slash'"
