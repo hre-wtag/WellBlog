@@ -65,9 +65,7 @@ export class RegisterComponent implements OnInit {
       ]),
     });
   }
-  ngOnInit() {
-    console.log('Register Init!');
-  }
+  ngOnInit() {}
   onRegister() {
     const user: User = this.registerForm.value;
     console.log('User registration successful!');

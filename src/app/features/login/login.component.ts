@@ -45,7 +45,6 @@ export class LoginComponent implements OnInit {
     });
   }
   ngOnInit() {
-    console.log('Login Init!');
   }
   onLogin() {
     if (this.loginForm.invalid) {

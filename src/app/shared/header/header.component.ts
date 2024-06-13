@@ -17,9 +17,9 @@ export class HeaderComponent implements OnInit {
   register_route: string = REGISTER_ROUTE;
   isLoggedin: boolean = false;
   userName: string = '';
+
   constructor(private authService: AuthService, private router: Router) {}
   ngOnInit() {
-    console.log('Header Init!');
     this.isLoggedin = this.authService.getLoginStatus();
     if (this.isLoggedin) {
       this.userName = this.authService.getUserData().username;
