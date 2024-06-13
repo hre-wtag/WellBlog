@@ -15,15 +15,33 @@
 body {
   font: 100% $font-stack;
 }
+
+.color-primary {
+  color: $--color-primary !important;
+}
+.bg-primary {
+  color: $--color-white !important;
+  background-color: $--color-primary !important;
+}
+
+.btn {
+  width: 8rem;
+  height: 2.9rem;
+  border-radius: 1.5rem;
+  text-align: center;
+}
+
 input:focus {
   box-shadow: none !important;
+  border-color: $--color-primary !important;
 }
 .eye-btn {
   cursor: pointer;
-  i{
+  i {
     color: #686a6c;
   }
 }
 .eye-btn:hover {
-  background-color: #eaf4ff;
+  background-color: #ededff;
+  border-color: $--color-primary !important;
 }

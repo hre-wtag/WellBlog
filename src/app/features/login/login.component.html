@@ -62,14 +62,20 @@
               {{ passwordError }}
             </div>
           </div>
-          <button
-            type="button"
-            class="btn bg-primary"
-            [disabled]="!loginForm.valid"
-            (click)="onLogin()"
-          >
-            Login
-          </button>
+          <div class="d-flex align-items-center">
+            <button
+              type="button"
+              class="btn bg-primary"
+              [disabled]="!loginForm.valid"
+              (click)="onLogin()"
+            >
+              Login
+            </button>
+            <span class="text-muted fs-3 p-1">|</span>
+            <button class="btn btn-register" [routerLink]="register_route">
+              Register
+            </button>
+          </div>
         </div>
       </div>
     </form>

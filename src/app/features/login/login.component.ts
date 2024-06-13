@@ -8,14 +8,14 @@ import {
 import { AuthUser } from '../../core/interfaces/authUser';
 import { ValidatorsService } from '../../core/services/validators.service';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
-import { HOME_ROUTE } from '../../core/utils/constants';
+import { Router, RouterLink } from '@angular/router';
+import { HOME_ROUTE, REGISTER_ROUTE } from '../../core/utils/constants';
 import { AuthService } from '../../core/services/auth.service';
 import { HeaderComponent } from '../../shared/header/header.component';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, HeaderComponent],
+  imports: [ReactiveFormsModule, CommonModule, HeaderComponent, RouterLink],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
@@ -24,6 +24,7 @@ export class LoginComponent implements OnInit {
   usernameError: string | null = null;
   passwordError: string | null = null;
   home_route: string = HOME_ROUTE;
+  register_route: string = REGISTER_ROUTE;
   textFieldType: boolean = false;
 
   constructor(
