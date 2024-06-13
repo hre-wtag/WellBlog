@@ -8,7 +8,5 @@ import { Component, OnInit } from '@angular/core';
   styleUrl: './login.component.scss',
 })
 export class LoginComponent implements OnInit {
-  ngOnInit() {
-    console.log('Login Init!');
-  }
+  ngOnInit() {}
 }

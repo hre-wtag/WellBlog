@@ -13,7 +13,6 @@ export class HeaderComponent implements OnInit {
   title: string = TITLE;
   login_route: string = LOGIN_ROUTE;
   register_route: string = REGISTER_ROUTE;
-  ngOnInit() {
-    console.log('Header Init!');
-  }
+
+  ngOnInit() {}
 }

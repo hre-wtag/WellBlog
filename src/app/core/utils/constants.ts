@@ -1,3 +1,3 @@
-export const TITLE = 'WEllBlog';
-export const LOGIN_ROUTE = 'login';
-export const REGISTER_ROUTE = 'register';
+export const TITLE: string = 'WellBlog';
+export const LOGIN_ROUTE: string = 'login';
+export const REGISTER_ROUTE: string = 'register';

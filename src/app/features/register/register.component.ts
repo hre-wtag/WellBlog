@@ -5,10 +5,8 @@ import { Component, OnInit } from '@angular/core';
   standalone: true,
   imports: [],
   templateUrl: './register.component.html',
-  styleUrl: './register.component.scss'
+  styleUrl: './register.component.scss',
 })
 export class RegisterComponent implements OnInit {
-  ngOnInit() {
-    console.log('Register Init!');
-  }
+  ngOnInit() {}
 }
