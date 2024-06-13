@@ -1,3 +1,4 @@
+<app-header></app-header>
 <div class="row m-0 p-4">
   <div class="col-12">
     <form [formGroup]="loginForm">
@@ -6,6 +7,7 @@
           <h3 class="text-center color-primary">Login</h3>
           <div class="mb-3">
             <label for="username" class="form-label">Username</label>
+
             <input
               type="text"
               class="form-control"
@@ -17,6 +19,7 @@
                   loginForm.get('username')?.touched
               }"
             />
+
             <div
               *ngIf="
                 !loginForm.get('username')?.valid &&
@@ -29,17 +32,26 @@
           </div>
           <div class="mb-3">
             <label for="password" class="form-label">Password</label>
-            <input
-              type="password"
-              class="form-control"
-              formControlName="password"
-              (blur)="onTouched('password')"
-              [ngClass]="{
-                'border-danger':
-                  !loginForm.get('password')?.valid &&
-                  loginForm.get('password')?.touched
-              }"
-            />
+            <div class="input-group mb-3">
+              <input
+                [type]="textFieldType !== true ? 'password' : 'text'"
+                class="form-control"
+                formControlName="password"
+                (blur)="onTouched('password')"
+                [ngClass]="{
+                  'border-danger':
+                    !loginForm.get('password')?.valid &&
+                    loginForm.get('password')?.touched
+                }"
+              />
+              <span class="input-group-text eye-btn" (click)="toggleFieldType()"
+                ><i
+                  class="bi"
+                  [ngClass]="textFieldType !== true ? 'bi-eye' : 'bi-eye-slash'"
+                ></i
+              ></span>
+            </div>
+
             <div
               *ngIf="
                 !loginForm.get('password')?.valid &&

@@ -18,3 +18,12 @@ body {
 input:focus {
   box-shadow: none !important;
 }
+.eye-btn {
+  cursor: pointer;
+  i{
+    color: #686a6c;
+  }
+}
+.eye-btn:hover {
+  background-color: #eaf4ff;
+}

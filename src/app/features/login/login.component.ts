@@ -15,7 +15,7 @@ import { HeaderComponent } from '../../shared/header/header.component';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule,HeaderComponent],
+  imports: [ReactiveFormsModule, CommonModule, HeaderComponent],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
@@ -24,6 +24,7 @@ export class LoginComponent implements OnInit {
   usernameError: string | null = null;
   passwordError: string | null = null;
   home_route: string = HOME_ROUTE;
+  textFieldType: boolean = false;
 
   constructor(
     private validatorService: ValidatorsService,
@@ -45,8 +46,12 @@ export class LoginComponent implements OnInit {
       ]),
     });
   }
-  ngOnInit() {
+  ngOnInit() {}
+
+  toggleFieldType() {
+    this.textFieldType = !this.textFieldType;
   }
+
   onLogin() {
     if (this.loginForm.invalid) {
       return;

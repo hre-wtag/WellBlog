@@ -99,17 +99,27 @@
           </div>
           <div class="mb-3">
             <label for="password" class="form-label">Password</label>
-            <input
-              type="password"
-              class="form-control"
-              formControlName="password"
-              (blur)="onTouched('password')"
-              [ngClass]="{
-                'border-danger':
-                  !registerForm.get('password')?.valid &&
-                  registerForm.get('password')?.touched
-              }"
-            />
+            <div class="input-group mb-3">
+              <input
+                [type]="passwordField !== true ? 'password' : 'text'"
+                class="form-control"
+                formControlName="password"
+                (blur)="onTouched('password')"
+                [ngClass]="{
+                  'border-danger':
+                    !registerForm.get('password')?.valid &&
+                    registerForm.get('password')?.touched
+                }"
+              />
+              <span
+                class="input-group-text eye-btn"
+                (click)="passwordField = !passwordField"
+                ><i
+                  class="bi"
+                  [ngClass]="passwordField !== true ? 'bi-eye' : 'bi-eye-slash'"
+                ></i
+              ></span>
+            </div>
             <div
               *ngIf="
                 !registerForm.get('password')?.valid &&
@@ -121,17 +131,40 @@
             </div>
           </div>
           <div class="mb-3">
-            <label for="password" class="form-label">Confirm Password</label>
-            <input
-              type="password"
-              class="form-control"
-              formControlName="confirmPassword"
-              (blur)="onTouched('confirmPassword')"
-              [ngClass]="{
-                'border-danger': confirmPasswordError
-              }"
-            />
-            <div *ngIf="confirmPasswordError" class="text-danger">
+            <label for="confirmPassword" class="form-label"
+              >Confirm Password</label
+            >
+            <div class="input-group mb-3">
+              <input
+                [type]="confirmPasswordField !== true ? 'password' : 'text'"
+                class="form-control"
+                formControlName="confirmPassword"
+                (blur)="onTouched('confirmPassword')"
+                [ngClass]="{
+                  'border-danger':
+                    confirmPasswordError &&
+                    registerForm.get('confirmPassword')?.touched
+                }"
+              />
+              <span
+                class="input-group-text eye-btn"
+                (click)="confirmPasswordField = !confirmPasswordField"
+                ><i
+                  class="bi"
+                  [ngClass]="
+                    confirmPasswordField !== true ? 'bi-eye' : 'bi-eye-slash'
+                  "
+                ></i
+              ></span>
+            </div>
+
+            <div
+              *ngIf="
+                confirmPasswordError &&
+                registerForm.get('confirmPassword')?.touched
+              "
+              class="text-danger"
+            >
               {{ confirmPasswordError }}
             </div>
           </div>

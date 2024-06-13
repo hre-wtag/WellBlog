@@ -29,6 +29,8 @@ export class RegisterComponent implements OnInit {
   passwordError: string | null = null;
   confirmPasswordError: string | null = null;
   login_route: string = LOGIN_ROUTE;
+  passwordField: boolean = false;
+  confirmPasswordField: boolean = false;
 
   constructor(
     private validatorService: ValidatorsService,
@@ -137,6 +139,6 @@ export class RegisterComponent implements OnInit {
       this.registerForm.get('confirmPassword')?.value
     ) {
       this.confirmPasswordError = 'Password and Confirm Password must match.';
-    } 
+    }
   }
 }
