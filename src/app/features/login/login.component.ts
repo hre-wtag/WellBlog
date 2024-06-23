@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -13,6 +13,7 @@ import { HOME_ROUTE, REGISTER_ROUTE } from '../../core/utils/constants';
 import { AuthService } from '../../core/services/auth.service';
 import { HeaderComponent } from '../../shared/header/header.component';
 import { ToggleOnHoldDirective } from '../../shared/Directives/toggle-on-hold.directive';
+import { PreviousRouteService } from '../../core/services/previous-route.service';
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -27,6 +28,8 @@ import { ToggleOnHoldDirective } from '../../shared/Directives/toggle-on-hold.di
   styleUrl: './login.component.scss',
 })
 export class LoginComponent implements OnInit {
+  prevRouteService = inject(PreviousRouteService);
+
   loginForm: FormGroup;
   usernameError: string | null = null;
   passwordError: string | null = null;
@@ -39,7 +42,8 @@ export class LoginComponent implements OnInit {
     private validatorService: ValidatorsService,
     private router: Router,
     private authService: AuthService
-  ) {
+  ) // private prevRouteService: PreviousRouteService
+  {
     this.loginForm = new FormGroup({
       username: new FormControl('', [
         Validators.required,

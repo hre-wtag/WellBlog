@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { HeaderComponent } from '../../shared/header/header.component';
+import { PreviousRouteService } from '../../core/services/previous-route.service';
 
 @Component({
   selector: 'app-home',
@@ -8,4 +9,7 @@ import { HeaderComponent } from '../../shared/header/header.component';
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
-export class HomeComponent {}
+export class HomeComponent {
+  // constructor(private prevRouteService: PreviousRouteService) {}
+  prevRouteService = inject(PreviousRouteService);
+}
