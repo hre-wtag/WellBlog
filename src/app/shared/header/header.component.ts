@@ -22,7 +22,7 @@ export class HeaderComponent implements OnInit {
 
   constructor(private authService: AuthService, private router: Router) {}
   ngOnInit() {
-    this.isLoggedin = this.authService.getLoginStatus();
+    this.isLoggedin = this.authService.isLoggedIn();
     if (this.isLoggedin) {
       this.userName = this.authService.getUserData().username;
     }

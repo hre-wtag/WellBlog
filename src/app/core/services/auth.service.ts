@@ -35,7 +35,7 @@ export class AuthService {
   setLoginStatus(status: boolean) {
     localStorage.setItem('loginStatus', JSON.stringify(status));
   }
-  getLoginStatus(): boolean {
+  isLoggedIn(): boolean {
     const statusString = localStorage.getItem('loginStatus');
     if (statusString) {
       const status = JSON.parse(statusString);
