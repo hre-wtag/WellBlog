@@ -11,7 +11,6 @@ export class PreviousRouteService {
   router = inject(Router);
 
   constructor() {
-    // Capture the initial URL before any navigation occurs
     this.currURL = this.router.url;
 
     this.router.events
@@ -21,9 +20,10 @@ export class PreviousRouteService {
         )
       )
       .subscribe((event: NavigationStart) => {
-        // Update prevURL before navigation starts (captures the current URL)
         this.prevURL = this.currURL;
-        this.currURL = event.url; // Update currURL to the upcoming URL
+        this.currURL = event.url;
+        localStorage.setItem('prevURL', this.prevURL);
+        localStorage.setItem('currURL', this.currURL);
         console.log(this.prevURL + ' prev', this.currURL + ' curr');
       });
   }
