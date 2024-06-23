@@ -13,7 +13,7 @@ export class AuthService {
   }
   authenticateUser(authUser: AuthUser): boolean {
     const user = this.getUserData();
-    if (
+    if ( user &&
       user.username === authUser.username &&
       user.password === authUser.password
     ) {
