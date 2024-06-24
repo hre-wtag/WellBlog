@@ -9,7 +9,7 @@ import { UserProfileComponent } from './features/user-profile/user-profile.compo
 
 let previousUrl: string = '';
 
-const notLoggedInGuard: CanMatchFn = (route, state) => {
+const notLoggedInGuard: CanMatchFn = (route, segments) => {
   const router = inject(Router);
   const authService = inject(AuthService);
   const prevRouteService = inject(PreviousRouteService);
@@ -22,7 +22,7 @@ const notLoggedInGuard: CanMatchFn = (route, state) => {
   return new RedirectCommand(router.parseUrl(previousUrl));
 };
 
-const loggedInGuard: CanMatchFn = (route, state) => {
+const loggedInGuard: CanMatchFn = (route, segments) => {
   const router = inject(Router);
   const authService = inject(AuthService);
   const prevRouteService = inject(PreviousRouteService);
