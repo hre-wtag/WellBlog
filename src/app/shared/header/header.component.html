@@ -34,7 +34,7 @@
     </div>
     <ul
       class="navbar-nav ms-auto mb-2 mb-lg-0"
-      *ngIf="insideRegister===false && insideLogin === false"
+      *ngIf="insideRegister === false && insideLogin === false"
     >
       <li
         class="nav-item d-flex align-items-center"
@@ -61,7 +61,13 @@
       >
         <a class="nav-link d-flex align-items-center justify-content-between">
           <span>Welcome&nbsp; </span
-          ><span class="color-primary fs-"> {{ userName }}</span>
+          ><span
+            class="color-primary"
+            style="cursor: pointer"
+            [routerLink]="profile_route"
+          >
+            {{ userName }}</span
+          >
         </a>
         <a
           class="nav-link d-flex align-items-center mt-1"
