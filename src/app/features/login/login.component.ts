@@ -55,8 +55,6 @@ export class LoginComponent {
   }
 
   onHoldChange(event: Event | boolean) {
-    console.log(event);
-
     this.textFieldType = event;
   }
 

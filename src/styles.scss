@@ -33,11 +33,15 @@ body {
   text-align: center;
 }
 
-input:focus {
-  box-shadow: none !important;
-  border-color: $--color-primary !important;
+input {
+  &:focus {
+    box-shadow: none !important;
+    border-color: $--color-primary !important ;
+  }
 }
-
+input.border-danger:focus {
+  border-color: #dc3545 !important;
+}
 .eye-btn {
   cursor: pointer;
   i {

@@ -80,7 +80,6 @@ export class RegisterComponent {
   }
 
   onHoldChange(event: Event | boolean, activeField: string) {
-    console.log(event);
     this.activeField = activeField;
     if (this.activeField === 'password') {
       this.passwordField = event;
