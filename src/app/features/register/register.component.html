@@ -172,14 +172,24 @@
               {{ confirmPasswordError }}
             </div>
           </div>
-          <button
-            type="button"
-            [disabled]="!registerForm.valid"
-            class="btn bg-primary"
-            (click)="onRegister()"
-          >
-            Register
-          </button>
+          <div class="d-flex align-items-center">
+            <button
+              type="button"
+              [disabled]="!registerForm.valid"
+              class="btn bg-primary"
+              (click)="onRegister()"
+            >
+              Register
+            </button>
+            <span class="text-muted fs-3 p-1">|</span>
+            <button
+              class="btn btn-login"
+              [routerLink]="login_route"
+              type="button"
+            >
+              Login
+            </button>
+          </div>
         </div>
       </div>
     </form>

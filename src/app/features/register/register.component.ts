@@ -9,7 +9,7 @@ import { User } from '../../core/interfaces/user';
 import { ValidatorsService } from '../../core/services/validators.service';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../core/services/auth.service';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { LOGIN_ROUTE } from '../../core/utils/constants';
 import { HeaderComponent } from '../../shared/header/header.component';
 import { ToggleOnHoldDirective } from '../../shared/Directives/toggle-on-hold.directive';
@@ -21,6 +21,7 @@ import { ToggleOnHoldDirective } from '../../shared/Directives/toggle-on-hold.di
     ReactiveFormsModule,
     CommonModule,
     HeaderComponent,
+    RouterLink,
     ToggleOnHoldDirective,
   ],
   templateUrl: './register.component.html',
@@ -38,6 +39,7 @@ export class RegisterComponent implements OnInit {
   passwordField: boolean | Event = false;
   confirmPasswordField: boolean | Event = false;
   activeField: string = '';
+
   constructor(
     private validatorService: ValidatorsService,
     private authService: AuthService,
