@@ -22,6 +22,18 @@ const notLoggedInGuard: CanMatchFn = (route, state) => {
   return new RedirectCommand(router.parseUrl(previousUrl));
 };
 
+const loggedInGuard: CanMatchFn = (route, state) => {
+  const router = inject(Router);
+  const authService = inject(AuthService);
+  const prevRouteService = inject(PreviousRouteService);
+  const isLoggedIn = authService.isLoggedIn();
+  previousUrl = prevRouteService.getPreviousUrl();
+
+  if (isLoggedIn) {
+    return true;
+  }
+  return new RedirectCommand(router.parseUrl(previousUrl));
+};
 
 export const routes: Routes = [
   { path: '', title: 'Home', component: HomeComponent },
@@ -41,6 +53,7 @@ export const routes: Routes = [
     path: 'me',
     title: 'Profile',
     component: UserProfileComponent,
+    canMatch: [loggedInGuard],
   },
   {
     path: '**',
