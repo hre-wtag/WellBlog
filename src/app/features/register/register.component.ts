@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -13,7 +13,6 @@ import { Router } from '@angular/router';
 import { LOGIN_ROUTE } from '../../core/utils/constants';
 import { HeaderComponent } from '../../shared/header/header.component';
 import { ToggleOnHoldDirective } from '../../shared/Directives/toggle-on-hold.directive';
-import { PreviousRouteService } from '../../core/services/previous-route.service';
 
 @Component({
   selector: 'app-register',
@@ -28,8 +27,6 @@ import { PreviousRouteService } from '../../core/services/previous-route.service
   styleUrl: './register.component.scss',
 })
 export class RegisterComponent implements OnInit {
-  prevRouteService = inject(PreviousRouteService);
-
   registerForm: FormGroup;
   firstNameError: string | null = null;
   lastNameError: string | null = null;
@@ -44,9 +41,8 @@ export class RegisterComponent implements OnInit {
   constructor(
     private validatorService: ValidatorsService,
     private authService: AuthService,
-    private router: Router
-  ) // private prevRouteService: PreviousRouteService
-  {
+    private router: Router // private prevRouteService: PreviousRouteService
+  ) {
     this.registerForm = new FormGroup({
       firstname: new FormControl('', [
         Validators.required,
