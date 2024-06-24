@@ -113,9 +113,8 @@
               />
               <span
                 class="input-group-text eye-btn"
-                (click)="activeField = 'password'"
                 appToggleOnHold
-                (hold)="onHoldChange($event)"
+                (hold)="onHoldChange($event, 'password')"
                 ><i
                   class="bi"
                   [ngClass]="passwordField !== true ? 'bi-eye' : 'bi-eye-slash'"
@@ -150,9 +149,8 @@
               />
               <span
                 class="input-group-text eye-btn"
-                (click)="activeField = 'confirmPassword'"
                 appToggleOnHold
-                (hold)="onHoldChange($event)"
+                (hold)="onHoldChange($event, 'confirmPassword')"
                 ><i
                   class="bi"
                   [ngClass]="

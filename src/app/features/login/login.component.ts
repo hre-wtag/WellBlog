@@ -26,7 +26,7 @@ import { ToggleOnHoldDirective } from '../../shared/Directives/toggle-on-hold.di
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
   loginForm: FormGroup;
   usernameError: string | null = null;
   passwordError: string | null = null;
@@ -38,7 +38,7 @@ export class LoginComponent implements OnInit {
   constructor(
     private validatorService: ValidatorsService,
     private router: Router,
-    private authService: AuthService // private prevRouteService: PreviousRouteService
+    private authService: AuthService
   ) {
     this.loginForm = new FormGroup({
       username: new FormControl('', [
@@ -53,7 +53,6 @@ export class LoginComponent implements OnInit {
       ]),
     });
   }
-  ngOnInit() {}
 
   onHoldChange(event: Event | boolean) {
     console.log(event);

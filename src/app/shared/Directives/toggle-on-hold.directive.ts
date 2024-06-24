@@ -1,11 +1,4 @@
-import {
-  Directive,
-  ElementRef,
-  EventEmitter,
-  HostListener,
-  Input,
-  Output,
-} from '@angular/core';
+import { Directive, EventEmitter, HostListener, Output } from '@angular/core';
 
 @Directive({
   selector: '[appToggleOnHold]',
@@ -13,10 +6,7 @@ import {
 })
 export class ToggleOnHoldDirective {
   private isHolding = false;
-  private timeoutHandle: any;
-  @Output() hold = new EventEmitter<boolean>(); // Output event for hold state
-
-  constructor(private el: ElementRef) {}
+  @Output() hold = new EventEmitter<boolean>();
 
   @HostListener('mousedown')
   onMouseDown() {
@@ -30,7 +20,6 @@ export class ToggleOnHoldDirective {
   @HostListener('mouseleave')
   onMouseUp() {
     this.isHolding = false;
-    clearTimeout(this.timeoutHandle);
     this.hold.emit(false);
   }
 }

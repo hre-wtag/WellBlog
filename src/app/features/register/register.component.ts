@@ -27,7 +27,7 @@ import { ToggleOnHoldDirective } from '../../shared/Directives/toggle-on-hold.di
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss',
 })
-export class RegisterComponent implements OnInit {
+export class RegisterComponent {
   registerForm: FormGroup;
   firstNameError: string | null = null;
   lastNameError: string | null = null;
@@ -43,7 +43,7 @@ export class RegisterComponent implements OnInit {
   constructor(
     private validatorService: ValidatorsService,
     private authService: AuthService,
-    private router: Router // private prevRouteService: PreviousRouteService
+    private router: Router
   ) {
     this.registerForm = new FormGroup({
       firstname: new FormControl('', [
@@ -78,11 +78,10 @@ export class RegisterComponent implements OnInit {
       confirmPassword: new FormControl('', Validators.required),
     });
   }
-  ngOnInit() {}
 
-  onHoldChange(event: Event | boolean) {
+  onHoldChange(event: Event | boolean, activeField: string) {
     console.log(event);
-
+    this.activeField = activeField;
     if (this.activeField === 'password') {
       this.passwordField = event;
     } else if (this.activeField === 'confirmPassword') {
@@ -91,11 +90,13 @@ export class RegisterComponent implements OnInit {
       this.activeField = '';
     }
   }
+
   onRegister() {
     const user: User = this.registerForm.value;
     this.authService.setUserData(user);
     this.router.navigate([this.login_route]);
   }
+
   onTouched(fieldName: string) {
     const control = this.registerForm.get(fieldName);
     if (control) {
