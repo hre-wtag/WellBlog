@@ -3,6 +3,7 @@ import { TITLE, LOGIN_ROUTE, REGISTER_ROUTE } from '../../core/utils/constants';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
 import { CommonModule } from '@angular/common';
+import { PreviousRouteService } from '../../core/services/previous-route.service';
 
 @Component({
   selector: 'app-header',
@@ -20,7 +21,11 @@ export class HeaderComponent implements OnInit {
   insideRegister: boolean = false;
   insideLogin: boolean = false;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private prevRouteService: PreviousRouteService
+  ) {}
   ngOnInit() {
     this.isLoggedin = this.authService.isLoggedIn();
     if (this.isLoggedin) {
