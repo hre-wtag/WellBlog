@@ -141,7 +141,7 @@
                 [type]="confirmPasswordField !== true ? 'password' : 'text'"
                 class="form-control"
                 formControlName="confirmPassword"
-                (blur)="onTouched('confirmPassword')"
+                (input)="onTouched('confirmPassword')"
                 [ngClass]="{
                   'border-danger':
                     confirmPasswordError &&

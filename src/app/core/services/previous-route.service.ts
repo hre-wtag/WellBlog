@@ -13,11 +13,9 @@ export class PreviousRouteService {
     this.tempURl = window.location.href.split('4200')[1];
     this.prevURL = localStorage.getItem('prevURL') || this.tempURl;
     this.currURL = localStorage.getItem('currURL') || this.tempURl;
-
     this.prevURL = this.currURL;
     this.currURL = this.tempURl;
     this.tempURl = '';
-    console.log('prev=> ' + this.prevURL, ' curr=> ' + this.currURL);
     localStorage.setItem('prevURL', this.prevURL);
     localStorage.setItem('currURL', this.currURL);
     this.router.events
@@ -28,7 +26,6 @@ export class PreviousRouteService {
       )
       .subscribe((event: NavigationStart) => {
         this.currURL = event.url;
-        console.log('prev=> ' + this.prevURL, ' curr=> ' + this.currURL);
         localStorage.setItem('prevURL', this.prevURL);
         localStorage.setItem('currURL', this.currURL);
         this.prevURL = this.currURL;
