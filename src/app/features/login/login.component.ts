@@ -54,11 +54,11 @@ export class LoginComponent {
     });
   }
 
-  onHoldChange(event: Event | boolean) {
+  onHoldChange(event: Event | boolean): void {
     this.textFieldType = event;
   }
 
-  onLogin() {
+  onLogin(): void {
     if (this.loginForm.invalid) {
       return;
     }
@@ -74,7 +74,7 @@ export class LoginComponent {
     }
   }
 
-  updateErrorMessages() {
+  updateErrorMessages(): void {
     this.usernameError = null;
     this.passwordError = null;
     this.loginError = null;
@@ -95,7 +95,7 @@ export class LoginComponent {
     }
   }
 
-  onTouched(fieldName: string) {
+  onTouched(fieldName: string): void {
     const control = this.loginForm.get(fieldName);
     if (control) {
       control.markAsTouched();
