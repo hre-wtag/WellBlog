@@ -61,7 +61,7 @@ export class RegisterComponent {
       email: new FormControl('', [
         Validators.required,
         this.validatorService.noSpacesValidator(),
-        Validators.email,
+        this.validatorService.emailValidator(),
       ]),
       username: new FormControl('', [
         Validators.required,
