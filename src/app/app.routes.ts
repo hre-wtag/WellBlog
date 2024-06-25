@@ -6,14 +6,12 @@ import { AuthService } from './core/services/auth.service';
 import { PreviousRouteService } from './core/services/previous-route.service';
 import { inject } from '@angular/core';
 
-let previousUrl: string = '';
-
 export const notLoggedInGuard: CanMatchFn = (route, state) => {
   const router = inject(Router);
   const authService = inject(AuthService);
   const prevRouteService = inject(PreviousRouteService);
   const isLoggedIn = authService.isLoggedIn();
-  previousUrl = prevRouteService.getPreviousUrl();
+  const previousUrl = prevRouteService.getPreviousUrl();
 
   if (!isLoggedIn) {
     return true;
