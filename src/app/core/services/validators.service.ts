@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { EMAIL_REGEX } from '../utils/constants';
 
 @Injectable({
   providedIn: 'root',
@@ -29,7 +30,18 @@ export class ValidatorsService {
       return null;
     };
   }
+  emailValidator(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const email = control.value as string;
+      const emailRegex = EMAIL_REGEX;
 
+      if (!emailRegex.test(email)) {
+        return { email: true };
+      }
+
+      return null;
+    };
+  }
   getErrorMessages(errors: ValidationErrors): string {
     let errorMessage = '';
     if (errors['noSpaces']) {
