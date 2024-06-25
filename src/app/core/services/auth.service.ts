@@ -44,7 +44,7 @@ export class AuthService {
     }
     return false;
   }
-  removeUserAuth() {
+  removeUserAuth(): void {
     localStorage.removeItem('loginStatus');
   }
 }
