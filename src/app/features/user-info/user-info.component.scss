@@ -1,0 +1,21 @@
+@import "../../../../public/styles/variables.scss";
+
+.user-photo {
+  img {
+    height: $--width-profile-photo;
+    width: $--width-profile-photo;
+  }
+}
+.card-titles {
+  .text-body-secondary {
+    font-size: 0.95rem;
+    .joining-date {
+      font-size: 0.85rem;
+    }
+  }
+}
+.card-footer{
+    .card-link{
+        padding: .4rem .5rem;
+    }
+}
