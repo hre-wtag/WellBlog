@@ -101,7 +101,7 @@
             <label class="form-label">Password</label>
             <div class="input-group mb-3">
               <input
-                [type]="passwordField !== true ? 'password' : 'text'"
+                [type]="!passwordField ? 'password' : 'text'"
                 class="form-control"
                 formControlName="password"
                 (blur)="onTouched('password')"
@@ -117,7 +117,7 @@
                 (hold)="onHoldChange($event, 'password')"
                 ><i
                   class="bi"
-                  [ngClass]="passwordField !== true ? 'bi-eye' : 'bi-eye-slash'"
+                  [ngClass]="!passwordField ? 'bi-eye' : 'bi-eye-slash'"
                 ></i
               ></span>
             </div>
@@ -135,7 +135,7 @@
             <label class="form-label">Confirm Password</label>
             <div class="input-group mb-3">
               <input
-                [type]="confirmPasswordField !== true ? 'password' : 'text'"
+                [type]="!confirmPasswordField ? 'password' : 'text'"
                 class="form-control"
                 formControlName="confirmPassword"
                 (input)="onTouched('confirmPassword')"
@@ -151,9 +151,7 @@
                 (hold)="onHoldChange($event, 'confirmPassword')"
                 ><i
                   class="bi"
-                  [ngClass]="
-                    confirmPasswordField !== true ? 'bi-eye' : 'bi-eye-slash'
-                  "
+                  [ngClass]="!confirmPasswordField ? 'bi-eye' : 'bi-eye-slash'"
                 ></i
               ></span>
             </div>
