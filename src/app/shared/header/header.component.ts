@@ -26,7 +26,7 @@ export class HeaderComponent {
     private router: Router,
     private prevRouteService: PreviousRouteService
   ) {}
-  ngOnInit() {
+  ngOnInit(): void {
     this.isLoggedin = this.authService.isLoggedIn();
     if (this.isLoggedin) {
       this.userName = this.authService.getUserData().username;
@@ -38,7 +38,7 @@ export class HeaderComponent {
       this.insideLogin = true;
     }
   }
-  logout() {
+  logout(): void {
     this.authService.removeUserAuth();
     this.router.navigate([this.login_route]);
   }
