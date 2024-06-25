@@ -61,7 +61,7 @@ export class RegisterComponent {
       email: new FormControl('', [
         Validators.required,
         this.validatorService.noSpacesValidator(),
-        Validators.email,
+        this.validatorService.emailValidator(),
       ]),
       username: new FormControl('', [
         Validators.required,
@@ -79,7 +79,7 @@ export class RegisterComponent {
     });
   }
 
-  onHoldChange(event: Event | boolean, activeField: string) {
+  onHoldChange(event: Event | boolean, activeField: string): void {
     this.activeField = activeField;
     if (this.activeField === 'password') {
       this.passwordField = event;
@@ -90,13 +90,13 @@ export class RegisterComponent {
     }
   }
 
-  onRegister() {
+  onRegister(): void {
     const user: User = this.registerForm.value;
     this.authService.setUserData(user);
     this.router.navigate([this.login_route]);
   }
 
-  onTouched(fieldName: string) {
+  onTouched(fieldName: string): void {
     const control = this.registerForm.get(fieldName);
     if (control) {
       control.markAsTouched();
@@ -105,7 +105,7 @@ export class RegisterComponent {
     }
   }
 
-  updateErrorMessages() {
+  updateErrorMessages(): void {
     this.firstNameError = null;
     this.lastNameError = null;
     this.emailError = null;
@@ -153,7 +153,7 @@ export class RegisterComponent {
     }
   }
 
-  matchPassword() {
+  matchPassword(): void {
     if (
       this.registerForm.get('password')?.value !==
       this.registerForm.get('confirmPassword')?.value

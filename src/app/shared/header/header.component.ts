@@ -17,7 +17,7 @@ import { PreviousRouteService } from '../../core/services/previous-route.service
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent {
   title: string = TITLE;
   login_route: string = LOGIN_ROUTE;
   register_route: string = REGISTER_ROUTE;
@@ -32,7 +32,7 @@ export class HeaderComponent implements OnInit {
     private router: Router,
     private prevRouteService: PreviousRouteService
   ) {}
-  ngOnInit() {
+  ngOnInit(): void {
     this.isLoggedin = this.authService.isLoggedIn();
     if (this.isLoggedin) {
       this.userName = this.authService.getUserData().username;
@@ -44,7 +44,7 @@ export class HeaderComponent implements OnInit {
       this.insideLogin = true;
     }
   }
-  logout() {
+  logout(): void {
     this.authService.removeUserAuth();
     this.router.navigate([this.login_route]);
   }

@@ -1,7 +1,7 @@
-export interface User {
-  firstName?: string;
-  lastName?: string;
-  email?: string;
-  username?: string;
-  password?: string;
+import { AuthUser } from './authUser';
+
+export interface User extends AuthUser {
+  firstName: string;
+  lastName: string;
+  email: string;
 }

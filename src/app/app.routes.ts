@@ -14,7 +14,7 @@ const notLoggedInGuard: CanMatchFn = (route, segments) => {
   const authService = inject(AuthService);
   const prevRouteService = inject(PreviousRouteService);
   const isLoggedIn = authService.isLoggedIn();
-  previousUrl = prevRouteService.getPreviousUrl();
+  const previousUrl = prevRouteService.getPreviousUrl();
 
   if (!isLoggedIn) {
     return true;
@@ -27,7 +27,7 @@ const loggedInGuard: CanMatchFn = (route, segments) => {
   const authService = inject(AuthService);
   const prevRouteService = inject(PreviousRouteService);
   const isLoggedIn = authService.isLoggedIn();
-  previousUrl = prevRouteService.getPreviousUrl();
+  const previousUrl = prevRouteService.getPreviousUrl();
 
   if (isLoggedIn) {
     return true;
