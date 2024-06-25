@@ -8,12 +8,13 @@ import { AuthUser } from '../interfaces/authUser';
 export class AuthService {
   constructor() {}
 
-  setUserData(user: User) {
+  setUserData(user: User): void {
     localStorage.setItem('registeredUser', JSON.stringify(user));
   }
   authenticateUser(authUser: AuthUser): boolean {
     const user = this.getUserData();
-    if ( user &&
+    if (
+      user &&
       user.username === authUser.username &&
       user.password === authUser.password
     ) {
@@ -24,7 +25,7 @@ export class AuthService {
     return false;
   }
 
-  getUserData() {
+  getUserData(): User {
     let user;
     const storedUserData = localStorage.getItem('registeredUser');
     if (storedUserData) {
@@ -32,7 +33,7 @@ export class AuthService {
     }
     return user;
   }
-  setLoginStatus(status: boolean) {
+  setLoginStatus(status: boolean): void {
     localStorage.setItem('loginStatus', JSON.stringify(status));
   }
   isLoggedIn(): boolean {
