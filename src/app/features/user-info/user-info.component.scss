@@ -7,15 +7,21 @@
   }
 }
 .card-titles {
+  letter-spacing: 0.05rem;
   .text-body-secondary {
-    font-size: 0.95rem;
-    .joining-date {
-      font-size: 0.85rem;
-    }
+    font-size: 0.85rem;
+    color: #888f9d !important;
   }
 }
-.card-footer{
-    .card-link{
-        padding: .4rem .5rem;
-    }
+.card-body {
+  font-size: 0.98rem;
+  letter-spacing: 0.1rem;
+  .card-text {
+    color: #737373;
+  }
+}
+.card-footer {
+  .card-link {
+    padding: 0.4rem 0.5rem;
+  }
 }
