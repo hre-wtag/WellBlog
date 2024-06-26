@@ -28,18 +28,7 @@ export class ValidatorsService {
       return null;
     };
   }
-  emailValidator(): ValidatorFn {
-    return (control: AbstractControl): ValidationErrors | null => {
-      const email = control.value as string;
-      const emailRegex = EMAIL_REGEX;
 
-      if (!emailRegex.test(email)) {
-        return { email: true };
-      }
-
-      return null;
-    };
-  }
   getErrorMessages(errors: ValidationErrors): string {
     let errorMessage = '';
     if (errors['noSpaces']) {
@@ -51,10 +40,12 @@ export class ValidatorsService {
     } else if (errors['maxlength']) {
       errorMessage = `Maximum length is ${errors['maxlength'].requiredLength}.`;
     } else if (errors['pattern']) {
-      errorMessage =
-        'Password must contain at least one character, one number and one special character.';
-    } else if (errors['email']) {
-      errorMessage = 'Please enter a valid email address.';
+      if (errors['pattern'].requiredPattern === EMAIL_REGEX.toString()) {
+        errorMessage = 'Please enter a valid email address.';
+      } else {
+        errorMessage =
+          'Password must contain at least one character, one number and one special character.';
+      }
     }
     return errorMessage;
   }

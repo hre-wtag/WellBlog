@@ -10,7 +10,7 @@ import { ValidatorsService } from '../../core/services/validators.service';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../core/services/auth.service';
 import { Router, RouterLink } from '@angular/router';
-import { LOGIN_ROUTE } from '../../core/utils/constants';
+import { EMAIL_REGEX, LOGIN_ROUTE } from '../../core/utils/constants';
 import { HeaderComponent } from '../../shared/header/header.component';
 import { ToggleOnHoldDirective } from '../../shared/Directives/toggle-on-hold.directive';
 
@@ -61,7 +61,8 @@ export class RegisterComponent {
       email: new FormControl('', [
         Validators.required,
         this.validatorService.noSpacesValidator(),
-        this.validatorService.emailValidator(),
+        // this.validatorService.emailValidator(),
+        Validators.pattern(EMAIL_REGEX),
       ]),
       username: new FormControl('', [
         Validators.required,
