@@ -148,22 +148,21 @@
             }
           </div>
           <div class="d-flex align-items-center">
-            <button
-              type="submit"
-              [disabled]="!registerForm.valid"
-              class="btn bg-primary"
-              (click)="onRegister()"
-            >
-              Register
-            </button>
+            <app-button
+              [btnLabel]="'Register'"
+              [btnType]="'submit'"
+              [classes]="'bg-primary'"
+              [isDisabled]="!registerForm.valid"
+              (clickEvent)="onRegister($event)"
+            />
             <span class="text-muted fs-3 p-1">|</span>
-            <button
-              class="btn btn-login"
-              [routerLink]="login_route"
-              type="button"
-            >
-              Login
-            </button>
+            <app-button
+              [btnLabel]="'Login'"
+              [btnType]="'button'"
+              [classes]="'btn-login'"
+              [isDisabled]="false"
+              (clickEvent)="onLogin($event)"
+            />
           </div>
         </div>
       </div>

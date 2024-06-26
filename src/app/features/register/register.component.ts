@@ -13,6 +13,7 @@ import { Router, RouterLink } from '@angular/router';
 import { EMAIL_REGEX, LOGIN_ROUTE } from '../../core/utils/constants';
 import { HeaderComponent } from '../../shared/header/header.component';
 import { ToggleOnHoldDirective } from '../../shared/Directives/toggle-on-hold.directive';
+import { ButtonComponent } from '../../shared/button/button.component';
 
 @Component({
   selector: 'app-register',
@@ -23,6 +24,7 @@ import { ToggleOnHoldDirective } from '../../shared/Directives/toggle-on-hold.di
     HeaderComponent,
     RouterLink,
     ToggleOnHoldDirective,
+    ButtonComponent,
   ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss',
@@ -90,11 +92,17 @@ export class RegisterComponent {
       this.activeField = '';
     }
   }
-
-  onRegister(): void {
-    const user: User = this.registerForm.value;
-    this.authService.setUserData(user);
+  onLogin(event: Event): void {
+    event.preventDefault();
     this.router.navigate([this.login_route]);
+  }
+  onRegister(event: Event): void {
+    event.preventDefault();
+    if (this.registerForm.valid) {
+      const user: User = this.registerForm.value;
+      this.authService.setUserData(user);
+      this.router.navigate([this.login_route]);
+    }
   }
 
   onTouched(fieldName: string): void {
