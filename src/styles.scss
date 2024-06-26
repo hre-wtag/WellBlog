@@ -17,12 +17,12 @@ body {
 }
 
 .color-primary {
-  color: $--color-primary !important;
+  color: $primary--color !important;
 }
 
 .bg-primary {
-  background-color: $--color-primary !important;
-  color: $--color-white !important;
+  background-color: $primary--color !important;
+  color: $white--color !important;
 }
 
 .btn {
@@ -34,7 +34,7 @@ body {
 
 input {
   &:focus {
-    border-color: $--color-primary !important ;
+    border-color: $primary--color !important ;
     box-shadow: none !important;
   }
 }
@@ -48,6 +48,6 @@ input.border-danger:focus {
   }
   &:hover {
     background-color: #ededff;
-    border-color: $--color-primary !important;
+    border-color: $primary--color !important;
   }
 }
