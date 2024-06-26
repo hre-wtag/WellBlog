@@ -6,8 +6,6 @@ import { EMAIL_REGEX } from '../utils/constants';
   providedIn: 'root',
 })
 export class ValidatorsService {
-  constructor() {}
-
   passwordValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       const password = control.value as string;
