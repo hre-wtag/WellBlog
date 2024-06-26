@@ -1,7 +1,6 @@
-/* You can add global styles to this file, and also import other style files */
 @import "bootstrap/scss/bootstrap";
 @import "bootstrap-icons/font/bootstrap-icons.scss";
-@import "assets/styles/variables.scss";
+@import "../public/styles/variables.scss";
 
 // global css
 *,
@@ -22,21 +21,21 @@ body {
 }
 
 .bg-primary {
-  color: $--color-white !important;
   background-color: $--color-primary !important;
+  color: $--color-white !important;
 }
 
 .btn {
-  width: 8rem;
-  height: 2.9rem;
   border-radius: 1.5rem;
+  height: 2.9rem;
   text-align: center;
+  width: 8rem;
 }
 
 input {
   &:focus {
-    box-shadow: none !important;
     border-color: $--color-primary !important ;
+    box-shadow: none !important;
   }
 }
 input.border-danger:focus {
