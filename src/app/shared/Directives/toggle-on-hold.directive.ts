@@ -5,7 +5,7 @@ import { Directive, EventEmitter, HostListener, Output } from '@angular/core';
   standalone: true,
 })
 export class ToggleOnHoldDirective {
-  private isHolding = false;
+  private isHolding: boolean = false;
   @Output() hold = new EventEmitter<boolean>();
 
   @HostListener('mousedown')
