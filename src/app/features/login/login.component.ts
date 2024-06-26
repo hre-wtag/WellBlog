@@ -13,6 +13,7 @@ import { HOME_ROUTE, REGISTER_ROUTE } from '../../core/utils/constants';
 import { AuthService } from '../../core/services/auth.service';
 import { HeaderComponent } from '../../shared/header/header.component';
 import { ToggleOnHoldDirective } from '../../shared/Directives/toggle-on-hold.directive';
+import { ButtonComponent } from '../../shared/button/button.component';
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -22,6 +23,7 @@ import { ToggleOnHoldDirective } from '../../shared/Directives/toggle-on-hold.di
     HeaderComponent,
     RouterLink,
     ToggleOnHoldDirective,
+    ButtonComponent,
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
@@ -57,8 +59,12 @@ export class LoginComponent {
   onHoldChange(event: Event | boolean): void {
     this.textFieldType = event;
   }
-
-  onLogin(): void {
+  onRegister(event: Event): void {
+    event.preventDefault();
+    this.router.navigate([this.register_route]);
+  }
+  onLogin(event: Event): void {
+    event.preventDefault();
     if (this.loginForm.invalid) {
       return;
     }
