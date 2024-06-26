@@ -8,6 +8,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   styleUrl: './button.component.scss',
 })
 export class ButtonComponent {
+  @Input() btnLabel!: string;
   @Input() btnType!: string;
   @Input() classes!: string;
   @Input() isDisabled!: boolean;
