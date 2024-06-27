@@ -15,7 +15,6 @@ import { HeaderComponent } from '../../shared/header/header.component';
 import { ToggleOnHoldDirective } from '../../shared/Directives/toggle-on-hold.directive';
 import { ButtonComponent } from '../../shared/button/button.component';
 import { InputComponent } from '../../shared/input/input.component';
-import { SharedService } from '../../core/services/shared.service';
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -40,8 +39,7 @@ export class LoginComponent {
   constructor(
     private validatorService: ValidatorsService,
     private router: Router,
-    private authService: AuthService,
-    private sharedService: SharedService
+    private authService: AuthService
   ) {
     this.loginForm = new FormGroup({
       username: new FormControl('', [
@@ -56,9 +54,9 @@ export class LoginComponent {
       ]),
     });
   }
-  getFormControl(formGroup: FormGroup, formControlName: string): FormControl {
-    return this.sharedService.getFormControl(formGroup, formControlName);
-  }
+  getFormControl = (formGroup: FormGroup, formControlName: string) => {
+    return formGroup.get(formControlName) as FormControl;
+  };
 
   onRegister(event: Event): void {
     event.preventDefault();
