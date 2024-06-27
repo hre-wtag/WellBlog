@@ -12,6 +12,7 @@
       "
       [formControl]="fControl"
       (input)="onTouched(fControl)"
+      (blur)="onTouched(fControl)"
       [ngClass]="{
         'border-danger':
           fControl.invalid && (fControl.dirty || fControl.touched)
