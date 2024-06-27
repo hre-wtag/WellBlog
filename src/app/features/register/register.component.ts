@@ -38,7 +38,7 @@ export class RegisterComponent {
   passwordField: boolean | Event = false;
   confirmPasswordField: boolean | Event = false;
   activeField: string = '';
-
+  passMatched: boolean = false;
   constructor(
     private validatorService: ValidatorsService,
     private authService: AuthService,
@@ -95,7 +95,8 @@ export class RegisterComponent {
   }
   onRegister(event: Event): void {
     event.preventDefault();
-    if (this.registerForm.valid) {
+
+    if (this.registerForm.valid && this.passMatched) {
       const user: User = this.registerForm.value;
       this.authService.setUserData(user);
       this.router.navigate([this.login_route]);
@@ -107,16 +108,15 @@ export class RegisterComponent {
   };
 
   matchPassword(): void {
-    console.log('jbhjhjo');
-    console.log(
-      this.registerForm.get('password')?.value,
-      this.registerForm.get('confirmPassword')?.value
-    );
     if (
       this.registerForm.get('password')?.value !==
       this.registerForm.get('confirmPassword')?.value
     ) {
+      this.passMatched = false;
+      this.confirmPasswordError = 'Password and confirm password must match.';
     } else {
+      this.passMatched = true;
+      this.confirmPasswordError = null;
     }
   }
 }

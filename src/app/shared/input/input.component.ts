@@ -20,7 +20,10 @@ export class InputComponent {
   @Input() fieldlabel!: string;
   @Input() fieldName!: string;
   @Input() fieldType!: 'text' | 'password' | 'email';
+  @Input() passwordMatched!: boolean;
+
   @Input() fControl = new FormControl();
+
   errorMsg!: string | null;
   showPasswoord: boolean | Event = false;
 

@@ -13,7 +13,12 @@
       [formControl]="fControl"
       (blur)="onTouched(fControl)"
       [ngClass]="{
-        'border-danger': fControl.invalid && fControl.dirty && fControl.touched
+        'border-danger':
+          (fControl.invalid && fControl.dirty && fControl.touched) ||
+          (fieldName === 'confirmPassword' &&
+            !passwordMatched &&
+            fControl.dirty &&
+            fControl.touched)
       }"
     />
     @if( fieldType == 'password'){<span
