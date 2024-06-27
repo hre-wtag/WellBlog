@@ -1,4 +1,3 @@
-/* You can add global styles to this file, and also import other style files */
 @import "bootstrap/scss/bootstrap";
 @import "bootstrap-icons/font/bootstrap-icons.scss";
 @import "../public/styles/variables.scss";
@@ -18,25 +17,25 @@ body {
 }
 
 .color-primary {
-  color: $--color-primary !important;
+  color: $primary--color !important;
 }
 
 .bg-primary {
-  color: $--color-white !important;
-  background-color: $--color-primary !important;
+  background-color: $primary--color !important;
+  color: $white--color !important;
 }
 
 .btn {
-  width: 8rem;
-  height: 2.9rem;
   border-radius: 1.5rem;
+  height: 2.9rem;
   text-align: center;
+  width: 8rem;
 }
 
 input {
   &:focus {
+    border-color: $primary--color !important ;
     box-shadow: none !important;
-    border-color: $--color-primary !important ;
   }
 }
 input.border-danger:focus {
@@ -49,6 +48,6 @@ input.border-danger:focus {
   }
   &:hover {
     background-color: #ededff;
-    border-color: $--color-primary !important;
+    border-color: $primary--color !important;
   }
 }

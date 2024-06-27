@@ -2,8 +2,7 @@
 
 .user-photo {
   img {
-    height: $--width-profile-photo;
-    width: $--width-profile-photo;
+    width: $profile-photo--width;
   }
 }
 .card-titles {

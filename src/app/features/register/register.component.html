@@ -1,188 +1,72 @@
-<app-header></app-header>
+@defer () {<app-header />}
 <div class="row m-0 p-4">
   <div class="col-12">
     <form [formGroup]="registerForm">
       <div class="row">
         <div class="col-md-5 mx-auto border p-3 bg-light rounded">
           <h3 class="text-center color-primary">Register</h3>
-          <div class="mb-3">
-            <label class="form-label">First Name</label>
-            <input
-              type="text"
-              class="form-control"
-              formControlName="firstname"
-              (blur)="onTouched('firstname')"
-              [ngClass]="{
-                'border-danger':
-                  !registerForm.get('firstname')?.valid &&
-                  registerForm.get('firstname')?.touched
-              }"
-            />
-            <div
-              *ngIf="
-                !registerForm.get('firstname')?.valid &&
-                registerForm.get('firstname')?.touched
-              "
-              class="text-danger"
-            >
-              {{ firstNameError }}
-            </div>
+          <app-input
+            [fieldlabel]="'First Name'"
+            [fieldName]="'firstname'"
+            [fieldType]="'text'"
+            [fControl]="getFormControl(registerForm, 'firstname')"
+          />
+          <app-input
+            [fieldlabel]="'Last Name'"
+            [fieldName]="'lastname'"
+            [fieldType]="'text'"
+            [fControl]="getFormControl(registerForm, 'lastname')"
+          />
+          <app-input
+            [fieldlabel]="'Email'"
+            [fieldName]="'email'"
+            [fieldType]="'email'"
+            [fControl]="getFormControl(registerForm, 'email')"
+          />
+          <app-input
+            [fieldlabel]="'Username'"
+            [fieldName]="'username'"
+            [fieldType]="'text'"
+            [fControl]="getFormControl(registerForm, 'username')"
+          />
+          <app-input
+            [fieldlabel]="'Password'"
+            [fieldName]="'password'"
+            [fieldType]="'password'"
+            [fControl]="getFormControl(registerForm, 'password')"
+            (input)="matchPassword()"
+          />
+          <app-input
+            [fieldlabel]="'Confirm Password'"
+            [fieldName]="'confirmPassword'"
+            [fieldType]="'password'"
+            [passwordMatched]="passMatched"
+            [fControl]="getFormControl(registerForm, 'confirmPassword')"
+            (input)="matchPassword()"
+          />
+          @if( confirmPasswordError &&
+          registerForm.get('confirmPassword')?.touched &&
+          registerForm.get('confirmPassword')?.valid ){
+          <div class="text-danger mb-3">
+            {{ confirmPasswordError }}
           </div>
-          <div class="mb-3">
-            <label class="form-label">Last Name</label>
-            <input
-              type="text"
-              class="form-control"
-              formControlName="lastname"
-              (blur)="onTouched('lastname')"
-              [ngClass]="{
-                'border-danger':
-                  !registerForm.get('lastname')?.valid &&
-                  registerForm.get('lastname')?.touched
-              }"
-            />
-            <div
-              *ngIf="
-                !registerForm.get('lastname')?.valid &&
-                registerForm.get('lastname')?.touched
-              "
-              class="text-danger"
-            >
-              {{ lastNameError }}
-            </div>
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Email</label>
-            <input
-              type="email"
-              class="form-control"
-              formControlName="email"
-              (blur)="onTouched('email')"
-              [ngClass]="{
-                'border-danger':
-                  !registerForm.get('email')?.valid &&
-                  registerForm.get('email')?.touched
-              }"
-            />
-            <div
-              *ngIf="
-                !registerForm.get('email')?.valid &&
-                registerForm.get('email')?.touched
-              "
-              class="text-danger"
-            >
-              {{ emailError }}
-            </div>
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Username</label>
-            <input
-              type="text"
-              class="form-control"
-              formControlName="username"
-              (blur)="onTouched('username')"
-              [ngClass]="{
-                'border-danger':
-                  !registerForm.get('username')?.valid &&
-                  registerForm.get('username')?.touched
-              }"
-            />
-            <div
-              *ngIf="
-                !registerForm.get('username')?.valid &&
-                registerForm.get('username')?.touched
-              "
-              class="text-danger"
-            >
-              {{ usernameError }}
-            </div>
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Password</label>
-            <div class="input-group mb-3">
-              <input
-                [type]="!passwordField ? 'password' : 'text'"
-                class="form-control"
-                formControlName="password"
-                (blur)="onTouched('password')"
-                [ngClass]="{
-                  'border-danger':
-                    !registerForm.get('password')?.valid &&
-                    registerForm.get('password')?.touched
-                }"
-              />
-              <span
-                class="input-group-text eye-btn"
-                appToggleOnHold
-                (hold)="onHoldChange($event, 'password')"
-                ><i
-                  class="bi"
-                  [ngClass]="!passwordField ? 'bi-eye' : 'bi-eye-slash'"
-                ></i
-              ></span>
-            </div>
-            <div
-              *ngIf="
-                !registerForm.get('password')?.valid &&
-                registerForm.get('password')?.touched
-              "
-              class="text-danger"
-            >
-              {{ passwordError }}
-            </div>
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Confirm Password</label>
-            <div class="input-group mb-3">
-              <input
-                [type]="!confirmPasswordField ? 'password' : 'text'"
-                class="form-control"
-                formControlName="confirmPassword"
-                (input)="onTouched('confirmPassword')"
-                [ngClass]="{
-                  'border-danger':
-                    confirmPasswordError &&
-                    registerForm.get('confirmPassword')?.touched
-                }"
-              />
-              <span
-                class="input-group-text eye-btn"
-                appToggleOnHold
-                (hold)="onHoldChange($event, 'confirmPassword')"
-                ><i
-                  class="bi"
-                  [ngClass]="!confirmPasswordField ? 'bi-eye' : 'bi-eye-slash'"
-                ></i
-              ></span>
-            </div>
-
-            <div
-              *ngIf="
-                confirmPasswordError &&
-                registerForm.get('confirmPassword')?.touched
-              "
-              class="text-danger"
-            >
-              {{ confirmPasswordError }}
-            </div>
-          </div>
+          }
           <div class="d-flex align-items-center">
-            <button
-              type="submit"
-              [disabled]="!registerForm.valid"
-              class="btn bg-primary"
-              (click)="onRegister()"
-            >
-              Register
-            </button>
+            <app-button
+              [btnLabel]="'Register'"
+              [btnType]="'submit'"
+              [classes]="'bg-primary'"
+              [isDisabled]="!registerForm.valid || !passMatched"
+              (clickEvent)="onRegister($event)"
+            />
             <span class="text-muted fs-3 p-1">|</span>
-            <button
-              class="btn btn-login"
-              [routerLink]="login_route"
-              type="button"
-            >
-              Login
-            </button>
+            <app-button
+              [btnLabel]="'Login'"
+              [btnType]="'button'"
+              [classes]="'btn-login'"
+              [isDisabled]="false"
+              (clickEvent)="onLogin($event)"
+            />
           </div>
         </div>
       </div>
