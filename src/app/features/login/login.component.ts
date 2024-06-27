@@ -32,12 +32,11 @@ import { InputComponent } from '../../shared/input/input.component';
 })
 export class LoginComponent {
   loginForm: FormGroup;
-  usernameError: string | null = null;
-  passwordError: string | null = null;
+  // usernameError: string | null = null;
+  // passwordError: string | null = null;
   loginError: string | null = null;
   home_route: string = HOME_ROUTE;
   register_route: string = REGISTER_ROUTE;
-  
 
   constructor(
     private validatorService: ValidatorsService,
@@ -60,9 +59,7 @@ export class LoginComponent {
   getFormControl = (formGroup: FormGroup, formControlName: string) => {
     return formGroup.get(formControlName) as FormControl;
   };
-  // onHoldChange(event: Event | boolean): void {
-  //   this.textFieldType = event;
-  // }
+
   onRegister(event: Event): void {
     event.preventDefault();
     this.router.navigate([this.register_route]);
@@ -76,40 +73,30 @@ export class LoginComponent {
     const loginStatus = this.authService.authenticateUser(user);
     if (loginStatus === true) {
       this.router.navigate([this.home_route]);
-      this.usernameError = null;
-      this.passwordError = null;
       this.loginError = null;
     } else {
       this.loginError = 'Incorrect username or password.';
     }
   }
 
-  updateErrorMessages(): void {
-    this.usernameError = null;
-    this.passwordError = null;
-    this.loginError = null;
+  // updateErrorMessages(): void {
+  //   this.usernameError = null;
+  //   this.passwordError = null;
+  //   this.loginError = null;
 
-    const usernameControl = this.loginForm.get('username');
-    const passwordControl = this.loginForm.get('password');
+  //   const usernameControl = this.loginForm.get('username');
+  //   const passwordControl = this.loginForm.get('password');
 
-    if (usernameControl?.touched && usernameControl?.errors) {
-      this.usernameError = this.validatorService.getErrorMessages(
-        usernameControl.errors
-      );
-    }
+  //   if (usernameControl?.touched && usernameControl?.errors) {
+  //     this.usernameError = this.validatorService.getErrorMessages(
+  //       usernameControl.errors
+  //     );
+  //   }
 
-    if (passwordControl?.touched && passwordControl?.errors) {
-      this.passwordError = this.validatorService.getErrorMessages(
-        passwordControl.errors
-      );
-    }
-  }
-
-  onTouched(fieldName: string): void {
-    const control = this.loginForm.get(fieldName);
-    if (control) {
-      control.markAsTouched();
-      this.updateErrorMessages();
-    }
-  }
+  //   if (passwordControl?.touched && passwordControl?.errors) {
+  //     this.passwordError = this.validatorService.getErrorMessages(
+  //       passwordControl.errors
+  //     );
+  //   }
+  // }
 }

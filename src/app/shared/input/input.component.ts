@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import {
   DefaultValueAccessor,
   FormControl,
   ReactiveFormsModule,
 } from '@angular/forms';
 import { ToggleOnHoldDirective } from '../Directives/toggle-on-hold.directive';
+import { ValidatorsService } from '../../core/services/validators.service';
 
 @Component({
   selector: 'app-input',
@@ -20,9 +21,11 @@ export class InputComponent implements OnInit {
   @Input() fieldName!: string;
   @Input() fieldType!: 'text' | 'password';
   @Input() fControl = new FormControl();
-  @Input() errorMsg!: string | null;
-  @Output() blurEvent = new EventEmitter<string>();
+ errorMsg!: string | null;
+
   textFieldType: boolean | Event = false;
+
+  constructor(private validatorService: ValidatorsService) {}
   ngOnInit(): void {
     console.log(this.fControl, 'input');
   }
@@ -30,7 +33,18 @@ export class InputComponent implements OnInit {
     this.textFieldType = event;
     console.log(event);
   }
-  onBlur(): void {
-    this.blurEvent.emit(this.fieldName);
+
+  updateErrorMessages(fControl: FormControl): void {
+    this.errorMsg = null;
+
+    if (fControl?.touched && fControl?.errors) {
+      this.errorMsg = this.validatorService.getErrorMessages(fControl.errors);
+    }
+  }
+  onTouched(fControl: FormControl): void {
+    if (fControl) {
+      fControl.markAsTouched();
+      this.updateErrorMessages(fControl);
+    }
   }
 }

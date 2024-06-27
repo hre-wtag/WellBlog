@@ -11,7 +11,7 @@
           : fieldType
       "
       [formControl]="fControl"
-      (blur)="onBlur()"
+      (blur)="onTouched(fControl)"
       [ngClass]="{
         'border-danger':
           fControl.invalid && (fControl.dirty || fControl.touched)
