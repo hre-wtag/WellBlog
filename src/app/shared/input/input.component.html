@@ -1,10 +1,31 @@
-<input
-  type="text"
-  class="form-control"
-  [formControl]="fControl" name="fieldName"
-  (blur)="onBlur()"
-  [ngClass]="{
-    'border-danger':
-    fControl.invalid && (fControl.dirty || fControl.touched)
-  }"
-/>
+<div class="mb-3">
+  <label class="form-label">{{ fieldlabel }}</label>
+  <div [ngClass]="{ 'input-group': fieldType == 'password' }">
+    <input
+      class="form-control"
+      [type]="
+        fieldName === 'password'
+          ? !textFieldType
+            ? 'password'
+            : 'text'
+          : fieldType
+      "
+      [formControl]="fControl"
+      (blur)="onBlur()"
+      [ngClass]="{
+        'border-danger':
+          fControl.invalid && (fControl.dirty || fControl.touched)
+      }"
+    />
+    @if( fieldName == 'password'){<span
+      class="input-group-text eye-btn"
+      appToggleOnHold
+      (hold)="onHoldChange($event)"
+      ><i class="bi" [ngClass]="!textFieldType ? 'bi-eye' : 'bi-eye-slash'"></i
+    ></span>
+    }
+  </div>
+  @if (!fControl.valid && fControl.touched){
+  <div class="text-danger">{{ errorMsg }}</div>
+  }
+</div>

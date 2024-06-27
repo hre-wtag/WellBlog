@@ -37,7 +37,7 @@ export class LoginComponent {
   loginError: string | null = null;
   home_route: string = HOME_ROUTE;
   register_route: string = REGISTER_ROUTE;
-  textFieldType: boolean | Event = false;
+  
 
   constructor(
     private validatorService: ValidatorsService,
@@ -60,16 +60,14 @@ export class LoginComponent {
   getFormControl = (formGroup: FormGroup, formControlName: string) => {
     return formGroup.get(formControlName) as FormControl;
   };
-  onHoldChange(event: Event | boolean): void {
-    this.textFieldType = event;
-  }
+  // onHoldChange(event: Event | boolean): void {
+  //   this.textFieldType = event;
+  // }
   onRegister(event: Event): void {
     event.preventDefault();
     this.router.navigate([this.register_route]);
   }
   onLogin(event: Event): void {
-    console.log('aise');
-
     event.preventDefault();
     if (this.loginForm.invalid) {
       return;
@@ -108,12 +106,8 @@ export class LoginComponent {
   }
 
   onTouched(fieldName: string): void {
-    console.log(fieldName);
-
     const control = this.loginForm.get(fieldName);
     if (control) {
-      console.log(control);
-
       control.markAsTouched();
       this.updateErrorMessages();
     }

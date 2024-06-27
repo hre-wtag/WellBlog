@@ -11,69 +11,25 @@
           "
         >
           <h3 class="text-center color-primary">Login</h3>
-          <div class="mb-3">
-            <label class="form-label">Username</label>
-            <!-- <input
-              type="text"
-              class="form-control"
-              formControlName="username"
-              (blur)="onTouched('username')"
-              [ngClass]="{
-                'border-danger':
-                  !loginForm.get('username')?.valid &&
-                  loginForm.get('username')?.touched
-              }"
-            /> -->
 
-            <app-input
-              [labelName]="'Username'"
-              [fieldName]="'username'"
-              [fControl]="getFormControl(loginForm, 'username')"
-              (blurEvent)="onTouched($event)"
-              [ngClass]="{
-                'border-danger':
-                  loginForm.get('username')?.invalid &&
-                  (loginForm.get('username')?.dirty ||
-                    loginForm.get('username')?.touched)
-              }"
-            />
-            @if (!loginForm.get('username')?.valid &&
-            loginForm.get('username')?.touched){
-            <div class="text-danger">{{ usernameError }}</div>
-            }
-          </div>
+          <app-input
+            [fieldlabel]="'Username'"
+            [fieldName]="'username'"
+            [fieldType]="'text'"
+            [fControl]="getFormControl(loginForm, 'username')"
+            [errorMsg]="usernameError"
+            (blurEvent)="onTouched($event)"
+          />
 
-          <div class="mb-3">
-            <label class="form-label">Password</label>
-            <div class="input-group mb-3">
-              <input
-                [type]="!textFieldType ? 'password' : 'text'"
-                class="form-control"
-                formControlName="password"
-                (blur)="onTouched('password')"
-                [ngClass]="{
-                  'border-danger':
-                    !loginForm.get('password')?.valid &&
-                    loginForm.get('password')?.touched
-                }"
-              />
-              <span
-                class="input-group-text eye-btn"
-                appToggleOnHold
-                (hold)="onHoldChange($event)"
-                ><i
-                  class="bi"
-                  [ngClass]="!textFieldType ? 'bi-eye' : 'bi-eye-slash'"
-                ></i
-              ></span>
-            </div>
-            @if( !loginForm.get('password')?.valid &&
-            loginForm.get('password')?.touched){
-            <div class="text-danger">
-              {{ passwordError }}
-            </div>
-            }
-          </div>
+          <app-input
+            [fieldlabel]="'Password'"
+            [fieldName]="'password'"
+            [fieldType]="'password'"
+            [fControl]="getFormControl(loginForm, 'password')"
+            [errorMsg]="passwordError"
+            (blurEvent)="onTouched($event)"
+          />
+
           @if(loginError){
           <div class="text-danger mb-3">
             {{ loginError }}
@@ -84,6 +40,7 @@
               [btnLabel]="'Login'"
               [btnType]="'submit'"
               [classes]="'bg-primary'"
+              [isDisabled]="loginForm.invalid"
               (clickEvent)="onLogin($event)"
             />
             <span class="text-muted fs-3 p-1">|</span>
