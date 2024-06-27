@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -32,8 +32,6 @@ import { InputComponent } from '../../shared/input/input.component';
 })
 export class LoginComponent {
   loginForm: FormGroup;
-  // usernameError: string | null = null;
-  // passwordError: string | null = null;
   loginError: string | null = null;
   home_route: string = HOME_ROUTE;
   register_route: string = REGISTER_ROUTE;
@@ -55,6 +53,10 @@ export class LoginComponent {
         this.validatorService.noSpacesValidator(),
       ]),
     });
+  }
+  handleFormValidity(event: Event | boolean): void {
+    console.log(event);
+   this.loginError = null;
   }
   getFormControl = (formGroup: FormGroup, formControlName: string) => {
     return formGroup.get(formControlName) as FormControl;
@@ -78,25 +80,4 @@ export class LoginComponent {
       this.loginError = 'Incorrect username or password.';
     }
   }
-
-  // updateErrorMessages(): void {
-  //   this.usernameError = null;
-  //   this.passwordError = null;
-  //   this.loginError = null;
-
-  //   const usernameControl = this.loginForm.get('username');
-  //   const passwordControl = this.loginForm.get('password');
-
-  //   if (usernameControl?.touched && usernameControl?.errors) {
-  //     this.usernameError = this.validatorService.getErrorMessages(
-  //       usernameControl.errors
-  //     );
-  //   }
-
-  //   if (passwordControl?.touched && passwordControl?.errors) {
-  //     this.passwordError = this.validatorService.getErrorMessages(
-  //       passwordControl.errors
-  //     );
-  //   }
-  // }
 }

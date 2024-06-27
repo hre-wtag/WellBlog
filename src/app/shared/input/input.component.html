@@ -5,13 +5,13 @@
       class="form-control"
       [type]="
         fieldName === 'password'
-          ? !textFieldType
+          ? !showPasswoord
             ? 'password'
             : 'text'
           : fieldType
       "
       [formControl]="fControl"
-      (blur)="onTouched(fControl)"
+      (input)="onTouched(fControl)"
       [ngClass]="{
         'border-danger':
           fControl.invalid && (fControl.dirty || fControl.touched)
@@ -21,11 +21,11 @@
       class="input-group-text eye-btn"
       appToggleOnHold
       (hold)="onHoldChange($event)"
-      ><i class="bi" [ngClass]="!textFieldType ? 'bi-eye' : 'bi-eye-slash'"></i
+      ><i class="bi" [ngClass]="!showPasswoord ? 'bi-eye' : 'bi-eye-slash'"></i
     ></span>
     }
   </div>
-  @if (!fControl.valid && fControl.touched){
+  @if (fControl.invalid && (fControl.dirty || fControl.touched)){
   <div class="text-danger">{{ errorMsg }}</div>
   }
 </div>

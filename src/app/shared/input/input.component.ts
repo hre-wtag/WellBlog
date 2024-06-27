@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import {
   DefaultValueAccessor,
   FormControl,
@@ -21,27 +21,28 @@ export class InputComponent implements OnInit {
   @Input() fieldName!: string;
   @Input() fieldType!: 'text' | 'password';
   @Input() fControl = new FormControl();
- errorMsg!: string | null;
+  @Output() formValidity = new EventEmitter<boolean>();
 
-  textFieldType: boolean | Event = false;
+  errorMsg!: string | null;
+  showPasswoord: boolean | Event = false;
 
   constructor(private validatorService: ValidatorsService) {}
   ngOnInit(): void {
     console.log(this.fControl, 'input');
   }
-  onHoldChange(event: Event | boolean): void {
-    this.textFieldType = event;
-    console.log(event);
+  onHoldChange(event: boolean): void {
+    this.showPasswoord = event;
   }
 
   updateErrorMessages(fControl: FormControl): void {
     this.errorMsg = null;
-
+    this.formValidity.emit(false);
     if (fControl?.touched && fControl?.errors) {
       this.errorMsg = this.validatorService.getErrorMessages(fControl.errors);
     }
   }
   onTouched(fControl: FormControl): void {
+    this.errorMsg = null;
     if (fControl) {
       fControl.markAsTouched();
       this.updateErrorMessages(fControl);
