@@ -76,4 +76,7 @@ export class LoginComponent {
       this.loginError = 'Incorrect username or password.';
     }
   }
+  handlePassMatch(event: Event | boolean): void {
+    console.log(event);
+  }
 }

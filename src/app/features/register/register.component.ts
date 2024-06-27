@@ -14,6 +14,7 @@ import { EMAIL_REGEX, LOGIN_ROUTE } from '../../core/utils/constants';
 import { HeaderComponent } from '../../shared/header/header.component';
 import { ToggleOnHoldDirective } from '../../shared/Directives/toggle-on-hold.directive';
 import { ButtonComponent } from '../../shared/button/button.component';
+import { InputComponent } from '../../shared/input/input.component';
 
 @Component({
   selector: 'app-register',
@@ -25,17 +26,13 @@ import { ButtonComponent } from '../../shared/button/button.component';
     RouterLink,
     ToggleOnHoldDirective,
     ButtonComponent,
+    InputComponent,
   ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss',
 })
 export class RegisterComponent {
   registerForm: FormGroup;
-  firstNameError: string | null = null;
-  lastNameError: string | null = null;
-  emailError: string | null = null;
-  usernameError: string | null = null;
-  passwordError: string | null = null;
   confirmPasswordError: string | null = null;
   login_route: string = LOGIN_ROUTE;
   passwordField: boolean | Event = false;
@@ -105,69 +102,21 @@ export class RegisterComponent {
     }
   }
 
-  onTouched(fieldName: string): void {
-    const control = this.registerForm.get(fieldName);
-    if (control) {
-      control.markAsTouched();
-      this.updateErrorMessages();
-      this.matchPassword();
-    }
-  }
-
-  updateErrorMessages(): void {
-    this.firstNameError = null;
-    this.lastNameError = null;
-    this.emailError = null;
-    this.usernameError = null;
-    this.passwordError = null;
-    this.confirmPasswordError = null;
-
-    const fisrtnameControl = this.registerForm.get('firstname');
-    const lastameControl = this.registerForm.get('lastname');
-    const emailControl = this.registerForm.get('email');
-    const usernameControl = this.registerForm.get('username');
-    const passwordControl = this.registerForm.get('password');
-    const confirmPasswordControl = this.registerForm.get('confirmPassword');
-
-    if (fisrtnameControl?.touched && fisrtnameControl?.errors) {
-      this.firstNameError = this.validatorService.getErrorMessages(
-        fisrtnameControl.errors
-      );
-    }
-    if (lastameControl?.touched && lastameControl?.errors) {
-      this.lastNameError = this.validatorService.getErrorMessages(
-        lastameControl.errors
-      );
-    }
-    if (emailControl?.touched && emailControl?.errors) {
-      this.emailError = this.validatorService.getErrorMessages(
-        emailControl.errors
-      );
-    }
-    if (usernameControl?.touched && usernameControl?.errors) {
-      this.usernameError = this.validatorService.getErrorMessages(
-        usernameControl.errors
-      );
-    }
-
-    if (passwordControl?.touched && passwordControl?.errors) {
-      this.passwordError = this.validatorService.getErrorMessages(
-        passwordControl.errors
-      );
-    }
-    if (confirmPasswordControl?.touched && confirmPasswordControl?.errors) {
-      this.confirmPasswordError = this.validatorService.getErrorMessages(
-        confirmPasswordControl.errors
-      );
-    }
-  }
+  getFormControl = (formGroup: FormGroup, formControlName: string) => {
+    return formGroup.get(formControlName) as FormControl;
+  };
 
   matchPassword(): void {
+    console.log('jbhjhjo');
+    console.log(
+      this.registerForm.get('password')?.value,
+      this.registerForm.get('confirmPassword')?.value
+    );
     if (
       this.registerForm.get('password')?.value !==
       this.registerForm.get('confirmPassword')?.value
     ) {
-      this.confirmPasswordError = 'Password and Confirm Password must match.';
+    } else {
     }
   }
 }

@@ -4,20 +4,19 @@
     <input
       class="form-control"
       [type]="
-        fieldName === 'password'
+        fieldType === 'password'
           ? !showPasswoord
             ? 'password'
             : 'text'
           : fieldType
       "
       [formControl]="fControl"
-      (input)="onTouched(fControl)" (blur)="onTouched(fControl)"
+      (blur)="onTouched(fControl)"
       [ngClass]="{
-        'border-danger':
-          fControl.invalid && (fControl.dirty || fControl.touched)
+        'border-danger': fControl.invalid && fControl.dirty && fControl.touched
       }"
     />
-    @if( fieldName == 'password'){<span
+    @if( fieldType == 'password'){<span
       class="input-group-text eye-btn"
       appToggleOnHold
       (hold)="onHoldChange($event)"

@@ -16,24 +16,21 @@ import { ValidatorsService } from '../../core/services/validators.service';
   templateUrl: './input.component.html',
   styleUrl: './input.component.scss',
 })
-export class InputComponent{
+export class InputComponent {
   @Input() fieldlabel!: string;
   @Input() fieldName!: string;
-  @Input() fieldType!: 'text' | 'password';
+  @Input() fieldType!: 'text' | 'password' | 'email';
   @Input() fControl = new FormControl();
-
   errorMsg!: string | null;
   showPasswoord: boolean | Event = false;
 
   constructor(private validatorService: ValidatorsService) {}
-
   onHoldChange(event: Event | boolean): void {
     this.showPasswoord = event;
   }
 
   updateErrorMessages(fControl: FormControl): void {
     this.errorMsg = null;
-
     if (fControl?.touched && fControl?.errors) {
       this.errorMsg = this.validatorService.getErrorMessages(fControl.errors);
     }
@@ -41,6 +38,7 @@ export class InputComponent{
   onTouched(fControl: FormControl): void {
     if (fControl) {
       fControl.markAsTouched();
+      fControl.markAsDirty();
       this.updateErrorMessages(fControl);
     }
   }

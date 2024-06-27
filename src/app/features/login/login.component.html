@@ -11,21 +11,18 @@
           "
         >
           <h3 class="text-center color-primary">Login</h3>
-
           <app-input
             [fieldlabel]="'Username'"
             [fieldName]="'username'"
             [fieldType]="'text'"
             [fControl]="getFormControl(loginForm, 'username')"
           />
-
           <app-input
             [fieldlabel]="'Password'"
             [fieldName]="'password'"
             [fieldType]="'password'"
             [fControl]="getFormControl(loginForm, 'password')"
           />
-
           @if(loginError){
           <div class="text-danger mb-3">
             {{ loginError }}
