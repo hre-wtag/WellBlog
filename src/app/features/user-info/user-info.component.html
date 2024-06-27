@@ -6,13 +6,16 @@
       >
         <div class="user-photo">
           <img
-            src="/Images/user/3ed0d94be0a9bd3d023f00532889bab152-30-chandler-bing.rsquare.w330.webp"
+            [src]="default_profile_photo"
             class="card-img-top rounded-pill"
             alt="..."
           />
         </div>
         <div class="card-titles p-2">
-          <h5 class="card-title">Chandler Bing</h5>
+          <h5 class="card-title">
+            {{ userInfo.email }} {{ userInfo.firstName }}
+            {{ userInfo.lastName }}
+          </h5>
           <h6 class="card-subtitle mb-1 text-body-secondary">
             Collaborator & Editor
           </h6>
@@ -29,7 +32,7 @@
           understanding of the impact technology has on our lives.
         </p>
       </div>
-      <div class="card-footer bg-transparent border-0  my-4">
+      <div class="card-footer bg-transparent border-0 my-4">
         <a
           href="https://www.facebook.com/chandlerbingssarcasm/"
           class="card-link rounded bg-secondary text-white"

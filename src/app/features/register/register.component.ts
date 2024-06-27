@@ -45,13 +45,13 @@ export class RegisterComponent {
     private router: Router
   ) {
     this.registerForm = new FormGroup({
-      firstname: new FormControl('', [
+      firstName: new FormControl('', [
         Validators.required,
         this.validatorService.noSpacesValidator(),
         Validators.minLength(3),
         Validators.maxLength(15),
       ]),
-      lastname: new FormControl('', [
+      lastName: new FormControl('', [
         Validators.required,
         this.validatorService.noSpacesValidator(),
         Validators.minLength(3),

@@ -9,6 +9,8 @@ export class AuthService {
   constructor() {}
 
   setUserData(user: User): void {
+    console.log(user);
+
     localStorage.setItem('registeredUser', JSON.stringify(user));
   }
   authenticateUser(authUser: AuthUser): boolean {
