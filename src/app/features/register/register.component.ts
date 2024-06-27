@@ -95,9 +95,8 @@ export class RegisterComponent {
   }
   onRegister(event: Event): void {
     event.preventDefault();
-
     if (this.registerForm.valid && this.passMatched) {
-      const user: User = this.registerForm.value;
+      const user: User = { ...this.registerForm.value, joiningDate: Date() };
       this.authService.setUserData(user);
       this.router.navigate([this.login_route]);
     }
