@@ -14,6 +14,7 @@ import { AuthService } from '../../core/services/auth.service';
 import { HeaderComponent } from '../../shared/header/header.component';
 import { ToggleOnHoldDirective } from '../../shared/Directives/toggle-on-hold.directive';
 import { ButtonComponent } from '../../shared/button/button.component';
+import { InputComponent } from '../../shared/input/input.component';
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -24,6 +25,7 @@ import { ButtonComponent } from '../../shared/button/button.component';
     RouterLink,
     ToggleOnHoldDirective,
     ButtonComponent,
+    InputComponent,
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
@@ -55,7 +57,9 @@ export class LoginComponent {
       ]),
     });
   }
-
+  getFormControl = (formGroup: FormGroup, formControlName: string) => {
+    return formGroup.get(formControlName) as FormControl;
+  };
   onHoldChange(event: Event | boolean): void {
     this.textFieldType = event;
   }
@@ -64,6 +68,8 @@ export class LoginComponent {
     this.router.navigate([this.register_route]);
   }
   onLogin(event: Event): void {
+    console.log('aise');
+
     event.preventDefault();
     if (this.loginForm.invalid) {
       return;
@@ -102,8 +108,12 @@ export class LoginComponent {
   }
 
   onTouched(fieldName: string): void {
+    console.log(fieldName);
+
     const control = this.loginForm.get(fieldName);
     if (control) {
+      console.log(control);
+
       control.markAsTouched();
       this.updateErrorMessages();
     }

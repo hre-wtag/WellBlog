@@ -1,0 +1,10 @@
+<input
+  type="text"
+  class="form-control"
+  [formControl]="fControl" name="fieldName"
+  (blur)="onBlur()"
+  [ngClass]="{
+    'border-danger':
+    fControl.invalid && (fControl.dirty || fControl.touched)
+  }"
+/>

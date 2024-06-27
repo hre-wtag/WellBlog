@@ -13,7 +13,7 @@
           <h3 class="text-center color-primary">Login</h3>
           <div class="mb-3">
             <label class="form-label">Username</label>
-            <input
+            <!-- <input
               type="text"
               class="form-control"
               formControlName="username"
@@ -22,6 +22,19 @@
                 'border-danger':
                   !loginForm.get('username')?.valid &&
                   loginForm.get('username')?.touched
+              }"
+            /> -->
+
+            <app-input
+              [labelName]="'Username'"
+              [fieldName]="'username'"
+              [fControl]="getFormControl(loginForm, 'username')"
+              (blurEvent)="onTouched($event)"
+              [ngClass]="{
+                'border-danger':
+                  loginForm.get('username')?.invalid &&
+                  (loginForm.get('username')?.dirty ||
+                    loginForm.get('username')?.touched)
               }"
             />
             @if (!loginForm.get('username')?.valid &&
@@ -71,7 +84,6 @@
               [btnLabel]="'Login'"
               [btnType]="'submit'"
               [classes]="'bg-primary'"
-              [isDisabled]="!loginForm.valid"
               (clickEvent)="onLogin($event)"
             />
             <span class="text-muted fs-3 p-1">|</span>
