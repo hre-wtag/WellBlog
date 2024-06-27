@@ -9,8 +9,6 @@ export class AuthService {
   constructor() {}
 
   setUserData(user: User): void {
-    console.log(user);
-
     localStorage.setItem('registeredUser', JSON.stringify(user));
   }
   authenticateUser(authUser: AuthUser): boolean {
@@ -23,7 +21,6 @@ export class AuthService {
       this.setLoginStatus(true);
       return true;
     }
-
     return false;
   }
 
