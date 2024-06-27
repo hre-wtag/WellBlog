@@ -54,10 +54,6 @@ export class LoginComponent {
       ]),
     });
   }
-  handleFormValidity(event: Event | boolean): void {
-    console.log(event);
-   this.loginError = null;
-  }
   getFormControl = (formGroup: FormGroup, formControlName: string) => {
     return formGroup.get(formControlName) as FormControl;
   };

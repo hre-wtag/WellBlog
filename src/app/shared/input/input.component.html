@@ -25,7 +25,7 @@
     ></span>
     }
   </div>
-  @if (fControl.invalid && (fControl.dirty || fControl.touched)){
+  @if (!fControl.valid && fControl.touched){
   <div class="text-danger">{{ errorMsg }}</div>
   }
 </div>

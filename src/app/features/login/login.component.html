@@ -1,4 +1,5 @@
 @defer () {<app-header />}
+
 <div class="row m-0 p-4">
   <div class="col-12">
     <form [formGroup]="loginForm">
@@ -6,26 +7,26 @@
         <div
           class="col-md-5 border mx-auto p-3 rounded"
           [ngClass]="
-            loginError && loginForm.valid
-              ? 'border-danger bg-danger bg-opacity-10'
-              : ' bg-light'
+            loginError ? 'border-danger bg-danger bg-opacity-10' : ' bg-light'
           "
         >
           <h3 class="text-center color-primary">Login</h3>
+
           <app-input
             [fieldlabel]="'Username'"
             [fieldName]="'username'"
             [fieldType]="'text'"
             [fControl]="getFormControl(loginForm, 'username')"
           />
+
           <app-input
             [fieldlabel]="'Password'"
             [fieldName]="'password'"
             [fieldType]="'password'"
             [fControl]="getFormControl(loginForm, 'password')"
-            (formValidity)="handleFormValidity($event)"
           />
-          @if(loginError && loginForm.valid){
+
+          @if(loginError){
           <div class="text-danger mb-3">
             {{ loginError }}
           </div>
