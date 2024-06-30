@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   TITLE,
   LOGIN_ROUTE,
@@ -7,13 +7,12 @@ import {
 } from '../../core/utils/constants';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
-import { CommonModule } from '@angular/common';
 import { PreviousRouteService } from '../../core/services/previous-route.service';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [RouterLink],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })
@@ -26,12 +25,10 @@ export class HeaderComponent {
   userName: string = '';
   insideRegister: boolean = false;
   insideLogin: boolean = false;
+  private prevRouteService = inject(PreviousRouteService);
+  private router = inject(Router);
+  private authService = inject(AuthService);
 
-  constructor(
-    private authService: AuthService,
-    private router: Router,
-    private prevRouteService: PreviousRouteService
-  ) {}
   ngOnInit(): void {
     this.isLoggedin = this.authService.isLoggedIn();
     if (this.isLoggedin) {

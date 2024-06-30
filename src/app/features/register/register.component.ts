@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -10,7 +10,11 @@ import { ValidatorsService } from '../../core/services/validators.service';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../core/services/auth.service';
 import { Router, RouterLink } from '@angular/router';
-import { EMAIL_REGEX, LOGIN_ROUTE } from '../../core/utils/constants';
+import {
+  EMAIL_REGEX,
+  LOGIN_ROUTE,
+  PASSWORD_REGEX,
+} from '../../core/utils/constants';
 import { HeaderComponent } from '../../shared/header/header.component';
 import { ToggleOnHoldDirective } from '../../shared/Directives/toggle-on-hold.directive';
 import { ButtonComponent } from '../../shared/button/button.component';
@@ -39,11 +43,10 @@ export class RegisterComponent {
   confirmPasswordField: boolean | Event = false;
   activeField: string = '';
   passMatched: boolean = false;
-  constructor(
-    private validatorService: ValidatorsService,
-    private authService: AuthService,
-    private router: Router
-  ) {
+  private validatorService = inject(ValidatorsService);
+  private router = inject(Router);
+  private authService = inject(AuthService);
+  constructor() {
     this.registerForm = new FormGroup({
       firstName: new FormControl('', [
         Validators.required,
@@ -60,7 +63,6 @@ export class RegisterComponent {
       email: new FormControl('', [
         Validators.required,
         this.validatorService.noSpacesValidator(),
-        // this.validatorService.emailValidator(),
         Validators.pattern(EMAIL_REGEX),
       ]),
       username: new FormControl('', [
@@ -73,7 +75,7 @@ export class RegisterComponent {
         Validators.required,
         Validators.minLength(8),
         this.validatorService.noSpacesValidator(),
-        this.validatorService.passwordValidator(),
+        Validators.pattern(PASSWORD_REGEX),
       ]),
       confirmPassword: new FormControl('', Validators.required),
     });

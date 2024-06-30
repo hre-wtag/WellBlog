@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import {
   DefaultValueAccessor,
   FormControl,
@@ -21,13 +21,12 @@ export class InputComponent {
   @Input() fieldName!: string;
   @Input() fieldType!: 'text' | 'password' | 'email';
   @Input() passwordMatched!: boolean;
-
   @Input() fControl = new FormControl();
 
   errorMsg!: string | null;
   showPasswoord: boolean | Event = false;
+  private validatorService = inject(ValidatorsService);
 
-  constructor(private validatorService: ValidatorsService) {}
   onHoldChange(event: Event | boolean): void {
     this.showPasswoord = event;
   }

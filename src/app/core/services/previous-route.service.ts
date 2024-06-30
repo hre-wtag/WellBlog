@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
 import { filter } from 'rxjs';
 
@@ -9,7 +9,8 @@ export class PreviousRouteService {
   currURL: string = '';
   prevURL: string = '';
   tempURl: string = '';
-  constructor(private router: Router) {
+  private router = inject(Router);
+  constructor() {
     this.tempURl = window.location.href.split('4200')[1];
     this.prevURL = localStorage.getItem('prevURL') || this.tempURl;
     this.currURL = localStorage.getItem('currURL') || this.tempURl;
