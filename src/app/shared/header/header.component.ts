@@ -23,8 +23,6 @@ export class HeaderComponent {
   profile_route: string = PROFILE_ROUTE;
   isLoggedin: boolean = false;
   userName: string | undefined = undefined;
-  // insideRegister: boolean = false;
-  // insideLogin: boolean = false;
   currentPage: string = '';
   private prevRouteService = inject(PreviousRouteService);
   private router = inject(Router);
