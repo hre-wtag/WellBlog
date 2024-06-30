@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-
 import { HeaderComponent } from '../../shared/header/header.component';
 import { UserInfoComponent } from './user-info/user-info.component';
 
