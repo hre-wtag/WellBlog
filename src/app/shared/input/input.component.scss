@@ -15,3 +15,11 @@
     border-color: $primary--color !important;
   }
 }
+.banner-image {
+  border: 1px dashed #ccc;
+  height: 17rem;
+  width: 100%;
+  .image-label {
+    cursor: pointer;
+  }
+}

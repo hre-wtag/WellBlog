@@ -1,12 +1,22 @@
 @import "../../../styles.scss";
 
+.btn {
+  height: 2.9rem;
+  width: 8rem;
+}
+
 .btn-auth {
   border-radius: 1.5rem;
-  height: 2.9rem;
   text-align: center;
-  width: 8rem;
 }
 .btn-sub {
   border-color: $primary--color;
   color: $primary--color !important;
+}
+.btn-submit {
+  color: $white--color !important;
+}
+.btn-cancel {
+  
+  border-color: #ccc;
 }

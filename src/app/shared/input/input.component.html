@@ -1,5 +1,6 @@
 <div class="mb-3">
   <label class="form-label">{{ fieldlabel }}</label>
+  @if(fieldType!=='file'){
   <div [ngClass]="{ 'input-group': fieldType == 'password' }">
     <input
       class="form-control form-input"
@@ -32,7 +33,25 @@
     ></span>
     }
   </div>
-  @if (!fControl.valid && fControl.touched){
+  } @else {
+  <div class="banner-image d-flex align-items-center justify-content-center">
+    <input
+      id="fileUpload"
+      class="form-control form-input d-none"
+      [type]="fieldType"
+      [formControl]="fControl"
+      (blur)="onTouched(fControl)"
+      [ngClass]="{
+        'border-danger': fControl.invalid && fControl.dirty && fControl.touched
+      }"
+    />
+    <h5>Drop your image here,</h5>
+    <label class="image-label" for="fileUpload"
+      ><h5 class="color-primary">browse</h5></label
+    >
+  </div>
+
+  } @if (!fControl.valid && fControl.touched){
   <div class="text-danger">{{ errorMsg }}</div>
   }
 </div>
