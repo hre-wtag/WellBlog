@@ -19,7 +19,7 @@ import { ValidatorsService } from '../../core/services/validators.service';
 export class InputComponent {
   @Input() fieldlabel!: string;
   @Input() fieldName!: string;
-  @Input() fieldType!: 'text' | 'password' | 'email';
+  @Input() fieldType!: 'text' | 'password' | 'email' |'file';
   @Input() passwordMatched!: boolean;
   @Input() fControl = new FormControl();
 

@@ -1,1 +1,58 @@
-<div class="container bg-light px-5 py-4 my-4 border"><p>add-blog works!</p></div>
+<div class="container bg-light px-5 py-4 my-4 border">
+  <form [formGroup]="addBlogForm">
+    <div class="row">
+      <div class="col">
+        <app-input
+          [fieldlabel]="'Title'"
+          [fieldName]="'title'"
+          [fieldType]="'text'"
+          [fControl]="getFormControl(addBlogForm, 'title')"
+        />
+      </div>
+      <div class="col">
+        <app-input
+          [fieldlabel]="'Tags'"
+          [fieldName]="'title'"
+          [fieldType]="'text'"
+          [fControl]="getFormControl(addBlogForm, 'title')"
+        />
+      </div>
+      <div class="col-12">
+        <app-input
+          [fieldlabel]="''"
+          [fieldName]="'title'"
+          [fieldType]="'file'"
+          [fControl]="getFormControl(addBlogForm, 'title')"
+        />
+      </div>
+      <div class="col-12 text-center">
+        <span class="form-control bg-light"
+          >Uploaded File: No file Uploaded.</span
+        >
+      </div>
+      <div class="col">
+        <app-input
+          [fieldlabel]="'Blog Body'"
+          [fieldName]="'title'"
+          [fieldType]="'text'"
+          [fControl]="getFormControl(addBlogForm, 'title')"
+        />
+      </div>
+    </div>
+    <div class="d-flex align-items-center justify-content-center">
+      <app-button
+        [btnLabel]="'Submit'"
+        [classes]="'btn-submit btn-info ms-1'"
+        [isDisabled]="false"
+        (clickEvent)="onSubmit($event)"
+      />
+      <app-button
+        [btnLabel]="'Cancel'"
+        [btnType]="'button'"
+        [classes]="'btn-cancel btn-outline-secondary ms-1'"
+        [isDisabled]="false"
+        (clickEvent)="onCancel($event)"
+      />
+    </div>
+  </form>
+</div>
