@@ -23,8 +23,9 @@ export class HeaderComponent {
   profile_route: string = PROFILE_ROUTE;
   isLoggedin: boolean = false;
   userName: string | undefined = undefined;
-  insideRegister: boolean = false;
-  insideLogin: boolean = false;
+  // insideRegister: boolean = false;
+  // insideLogin: boolean = false;
+  currentPage: string = '';
   private prevRouteService = inject(PreviousRouteService);
   private router = inject(Router);
   private authService = inject(AuthService);
@@ -34,12 +35,7 @@ export class HeaderComponent {
     if (this.isLoggedin) {
       this.userName = this.authService.getLoggedInUser()?.username;
     }
-    if (this.router.url === this.register_route.toString()) {
-      this.insideRegister = true;
-    }
-    if (this.router.url === this.login_route.toString()) {
-      this.insideLogin = true;
-    }
+    this.currentPage = this.router.url;
   }
   logout(): void {
     this.authService.removeLoggedInUser();
