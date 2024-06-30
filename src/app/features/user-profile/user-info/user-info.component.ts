@@ -16,6 +16,6 @@ export class UserInfoComponent implements OnInit {
   userInfo!: User;
   constructor(private authService: AuthService) {}
   ngOnInit(): void {
-    this.userInfo = this.authService.getUserData();
+    this.userInfo = this.authService.getLoggedInUser();
   }
 }
