@@ -6,43 +6,40 @@ import { AuthUser } from '../interfaces/authUser';
   providedIn: 'root',
 })
 export class AuthService {
-  setUserData(user: User): void {
+  registerUser(user: User): void {
     localStorage.setItem('registeredUser', JSON.stringify(user));
   }
+
   authenticateUser(authUser: AuthUser): boolean {
-    const user = this.getUserData();
-    if (
-      user &&
-      user.username === authUser.username &&
-      user.password === authUser.password
-    ) {
-      this.setLoginStatus(true);
-      return true;
-    }
-
-    return false;
-  }
-
-  getUserData(): User {
     let user;
     const storedUserData = localStorage.getItem('registeredUser');
     if (storedUserData) {
       user = JSON.parse(storedUserData);
     }
-    return user;
-  }
-  setLoginStatus(status: boolean): void {
-    localStorage.setItem('loginStatus', JSON.stringify(status));
-  }
-  isLoggedIn(): boolean {
-    const statusString = localStorage.getItem('loginStatus');
-    if (statusString) {
-      const status = JSON.parse(statusString);
-      return status;
+    if (
+      user &&
+      user.username === authUser.username &&
+      user.password === authUser.password
+    ) {
+      this.setLoggedInUser(user);
+      return true;
     }
     return false;
   }
-  removeUserAuth(): void {
-    localStorage.removeItem('loginStatus');
+
+  setLoggedInUser(user: User): void {
+    localStorage.setItem('loggedInUser', JSON.stringify(user));
+  }
+  getLoggedInUser(): User | null {
+    const loggedInUserString = localStorage.getItem('loggedInUser');
+    return loggedInUserString ? JSON.parse(loggedInUserString) : null;
+  }
+
+  isLoggedIn(): boolean {
+    const loggedInUserString = localStorage.getItem('loggedInUser');
+    return loggedInUserString ? true : false;
+  }
+  removeLoggedInUser(): void {
+    localStorage.removeItem('loggedInUser');
   }
 }

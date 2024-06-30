@@ -100,7 +100,7 @@ export class RegisterComponent {
 
     if (this.registerForm.valid && this.passMatched) {
       const user: User = this.registerForm.value;
-      this.authService.setUserData(user);
+      this.authService.registerUser(user);
       this.router.navigate([this.login_route]);
     }
   }

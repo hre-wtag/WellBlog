@@ -16,7 +16,7 @@ export class HeaderComponent {
   login_route: string = LOGIN_ROUTE;
   register_route: string = REGISTER_ROUTE;
   isLoggedin: boolean = false;
-  userName: string = '';
+  userName: string | undefined = undefined;
   insideRegister: boolean = false;
   insideLogin: boolean = false;
   private prevRouteService = inject(PreviousRouteService);
@@ -26,7 +26,7 @@ export class HeaderComponent {
   ngOnInit(): void {
     this.isLoggedin = this.authService.isLoggedIn();
     if (this.isLoggedin) {
-      this.userName = this.authService.getUserData().username;
+      this.userName = this.authService.getLoggedInUser()?.username;
     }
     if (this.router.url === this.register_route.toString()) {
       this.insideRegister = true;
@@ -36,7 +36,7 @@ export class HeaderComponent {
     }
   }
   logout(): void {
-    this.authService.removeUserAuth();
+    this.authService.removeLoggedInUser();
     this.router.navigate([this.login_route]);
   }
 }
