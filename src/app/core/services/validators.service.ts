@@ -29,24 +29,47 @@ export class ValidatorsService {
     };
   }
 
+  // getErrorMessages(errors: ValidationErrors): string {
+  //   let errorMessage = '';
+  //   if (errors['noSpaces']) {
+  //     return 'Spaces are not allowed.';
+  //   } else if (errors['required']) {
+  //     errorMessage = 'This field is required.';
+  //   } else if (errors['minlength']) {
+  //     errorMessage = `Minimum length is ${errors['minlength'].requiredLength}.`;
+  //   } else if (errors['maxlength']) {
+  //     errorMessage = `Maximum length is ${errors['maxlength'].requiredLength}.`;
+  //   } else if (errors['pattern']) {
+  //     if (errors['pattern'].requiredPattern === EMAIL_REGEX.toString()) {
+  //       errorMessage = 'Please enter a valid email address.';
+  //     } else {
+  //       errorMessage =
+  //         'Password must contain at least one character, one number and one special character.';
+  //     }
+  //   }
+  //   return errorMessage;
+  // }
   getErrorMessages(errors: ValidationErrors): string {
     let errorMessage = '';
-    if (errors['noSpaces']) {
-      return 'Spaces are not allowed.';
-    } else if (errors['required']) {
-      errorMessage = 'This field is required.';
-    } else if (errors['minlength']) {
-      errorMessage = `Minimum length is ${errors['minlength'].requiredLength}.`;
-    } else if (errors['maxlength']) {
-      errorMessage = `Maximum length is ${errors['maxlength'].requiredLength}.`;
-    } else if (errors['pattern']) {
-      if (errors['pattern'].requiredPattern === EMAIL_REGEX.toString()) {
-        errorMessage = 'Please enter a valid email address.';
-      } else {
-        errorMessage =
-          'Password must contain at least one character, one number and one special character.';
-      }
+    switch (true) {
+      case !!errors['noSpaces']:
+        return 'Spaces are not allowed.';
+      case !!errors['required']:
+        return 'This field is required.';
+      case !!errors['minlength']:
+        return `Minimum length is ${errors['minlength'].requiredLength}.`;
+      case !!errors['maxlength']:
+        return `Maximum length is ${errors['maxlength'].requiredLength}.`;
+      case !!errors['pattern']:
+        if (errors['pattern'].requiredPattern === EMAIL_REGEX.toString()) {
+          errorMessage = 'Please enter a valid email address.';
+        } else {
+          errorMessage =
+            'Password must contain at least one character, one number and one special character.';
+        }
+        return errorMessage;
+      default:
+        return errorMessage;
     }
-    return errorMessage;
   }
 }
