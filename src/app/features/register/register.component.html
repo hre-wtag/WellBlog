@@ -55,15 +55,15 @@
             <app-button
               [btnLabel]="'Register'"
               [btnType]="'submit'"
-              [classes]="'background-primary'"
+              [classes]="'background-primary me-1'"
               [isDisabled]="!registerForm.valid || !passMatched"
               (clickEvent)="onRegister($event)"
             />
-            <span class="text-muted fs-3 p-1">|</span>
+
             <app-button
               [btnLabel]="'Login'"
               [btnType]="'button'"
-              [classes]="'btn-login'"
+              [classes]="'btn-login ms-1'"
               [isDisabled]="false"
               (clickEvent)="onLogin($event)"
             />

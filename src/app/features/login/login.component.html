@@ -4,12 +4,7 @@
   <div class="col-12">
     <form [formGroup]="loginForm">
       <div class="row">
-        <div
-          class="col-md-5 border mx-auto p-3 rounded"
-          [ngClass]="
-            loginError ? 'border-danger bg-danger bg-opacity-10' : ' bg-light'
-          "
-        >
+        <div class="col-md-5 border mx-auto p-3 bg-light rounded">
           <h3 class="text-center color-primary">Login</h3>
           <app-input
             [fieldlabel]="'Username'"
@@ -32,15 +27,15 @@
             <app-button
               [btnLabel]="'Login'"
               [btnType]="'submit'"
-              [classes]="'background-primary'"
+              [classes]="'background-primary me-1'"
               [isDisabled]="loginForm.invalid"
               (clickEvent)="onLogin($event)"
             />
-            <span class="text-muted fs-3 p-1">|</span>
+
             <app-button
               [btnLabel]="'Register'"
               [btnType]="'button'"
-              [classes]="'btn-register'"
+              [classes]="'btn-register ms-1'"
               [isDisabled]="false"
               (clickEvent)="onRegister($event)"
             />
