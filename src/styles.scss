@@ -31,20 +31,3 @@ body {
   text-align: center;
   width: 8rem;
 }
-
-.form-input {
-  &:focus {
-    border-color: $primary--color;
-    box-shadow: none;
-  }
-}
-.eye-btn {
-  cursor: pointer;
-  .eye-btn-icon {
-    color: #686a6c;
-  }
-  &:hover {
-    background-color: #ededff;
-    border-color: $primary--color !important;
-  }
-}
