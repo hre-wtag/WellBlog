@@ -34,13 +34,13 @@ body {
 
 .form-input {
   &:focus {
-    border-color: $primary--color  ;
-    box-shadow: none ;
+    border-color: $primary--color;
+    box-shadow: none;
   }
 }
 .eye-btn {
   cursor: pointer;
-  i {
+  .eye-btn-icon {
     color: #686a6c;
   }
   &:hover {
