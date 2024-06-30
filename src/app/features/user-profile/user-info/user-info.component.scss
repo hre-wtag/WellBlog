@@ -1,9 +1,9 @@
 @import "../../../../../public/styles/variables.scss";
 
 .user-photo {
-  img {
-    width: $profile-photo--width;
-  }
+  border-radius: $profile-photo--radius;
+  height: $profile-photo--height;
+  width: $profile-photo--width;
 }
 .card-titles {
   letter-spacing: 0.05rem;

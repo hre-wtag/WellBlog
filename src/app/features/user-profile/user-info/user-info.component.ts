@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { PROFILE_PHOTO_SRC } from '../../../core/utils/constants';
+import { DEFAULT_PROFILE_PHOTO_SRC } from '../../../core/utils/constants';
 import { User } from '../../../core/interfaces/user';
 import { AuthService } from '../../../core/services/auth.service';
 import { CommonModule } from '@angular/common';
@@ -12,7 +12,7 @@ import { CommonModule } from '@angular/common';
   styleUrl: './user-info.component.scss',
 })
 export class UserInfoComponent implements OnInit {
-  default_profile_photo = PROFILE_PHOTO_SRC;
+  default_profile_photo = DEFAULT_PROFILE_PHOTO_SRC;
   userInfo!: User;
   constructor(private authService: AuthService) {}
   ngOnInit(): void {

@@ -4,11 +4,15 @@
       <div
         class="card-header bg-transparent border-0 d-flex align-items-center justify-content-center text-start"
       >
-        <div class="user-photo">
+        <div>
           <img
-            [src]="default_profile_photo"
-            class="card-img-top rounded-pill"
-            alt="..."
+            class="user-photo"
+            [src]="
+              userInfo.profileImage
+                ? userInfo.profileImage.split('public')[1]
+                : default_profile_photo
+            "
+            [alt]="userInfo.firstName"
           />
         </div>
         <div class="card-titles p-2">
@@ -20,7 +24,7 @@
             Collaborator & Editor
           </h6>
           <h6 class="card-subtitle mb-1 text-body-secondary">
-            Joined on 
+            Joined on
             {{ userInfo.joiningDate | date : "MMMM d, y" }}
           </h6>
         </div>
