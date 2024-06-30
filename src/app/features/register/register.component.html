@@ -55,7 +55,7 @@
             <app-button
               [btnLabel]="'Register'"
               [btnType]="'submit'"
-              [classes]="'background-primary btn-main  me-1'"
+              [classes]="'background-primary btn-auth me-1'"
               [isDisabled]="!registerForm.valid || !passMatched"
               (clickEvent)="onRegister($event)"
             />
@@ -63,7 +63,7 @@
             <app-button
               [btnLabel]="'Login'"
               [btnType]="'button'"
-              [classes]="'btn-sub ms-1'"
+              [classes]="'btn-auth btn-sub ms-1'"
               [isDisabled]="false"
               (clickEvent)="onLogin($event)"
             />

@@ -2,7 +2,7 @@
 .btn {
 }
 
-.btn-main {
+.btn-auth {
   border-radius: 1.5rem;
   height: 2.9rem;
   text-align: center;
@@ -10,9 +10,5 @@
 }
 .btn-sub {
   border-color: $primary--color;
-  border-radius: 1.5rem;
   color: $primary--color !important;
-  height: 2.9rem;
-  text-align: center;
-  width: 8rem;
 }
