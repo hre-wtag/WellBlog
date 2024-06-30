@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { PROFILE_PHOTO_SRC } from '../../core/utils/constants';
-import { AuthService } from '../../core/services/auth.service';
-import { User } from '../../core/interfaces/user';
+import { PROFILE_PHOTO_SRC } from '../../../core/utils/constants';
+import { User } from '../../../core/interfaces/user';
+import { AuthService } from '../../../core/services/auth.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-user-info',
   standalone: true,
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './user-info.component.html',
   styleUrl: './user-info.component.scss',
 })

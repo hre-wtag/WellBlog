@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { UserInfoComponent } from '../user-info/user-info.component';
+
 import { HeaderComponent } from '../../shared/header/header.component';
+import { UserInfoComponent } from './user-info/user-info.component';
 
 @Component({
   selector: 'app-user-profile',
