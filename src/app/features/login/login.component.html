@@ -27,7 +27,7 @@
             <app-button
               [btnLabel]="'Login'"
               [btnType]="'submit'"
-              [classes]="'background-primary me-1'"
+              [classes]="'background-primary btn-auth me-1'"
               [isDisabled]="loginForm.invalid"
               (clickEvent)="onLogin($event)"
             />
@@ -35,7 +35,7 @@
             <app-button
               [btnLabel]="'Register'"
               [btnType]="'button'"
-              [classes]="'btn-register ms-1'"
+              [classes]="'btn-auth btn-sub ms-1'"
               [isDisabled]="false"
               (clickEvent)="onRegister($event)"
             />
