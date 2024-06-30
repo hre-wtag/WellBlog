@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -43,11 +43,10 @@ export class RegisterComponent {
   confirmPasswordField: boolean | Event = false;
   activeField: string = '';
   passMatched: boolean = false;
-  constructor(
-    private validatorService: ValidatorsService,
-    private authService: AuthService,
-    private router: Router
-  ) {
+  private validatorService = inject(ValidatorsService);
+  private router = inject(Router);
+  private authService = inject(AuthService);
+  constructor() {
     this.registerForm = new FormGroup({
       firstname: new FormControl('', [
         Validators.required,

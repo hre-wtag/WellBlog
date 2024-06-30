@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -35,12 +35,10 @@ export class LoginComponent {
   loginError: string | null = null;
   home_route: string = HOME_ROUTE;
   register_route: string = REGISTER_ROUTE;
-
-  constructor(
-    private validatorService: ValidatorsService,
-    private router: Router,
-    private authService: AuthService
-  ) {
+  private validatorService = inject(ValidatorsService);
+  private router = inject(Router);
+  private authService = inject(AuthService);
+  constructor() {
     this.loginForm = new FormGroup({
       username: new FormControl('', [
         Validators.required,

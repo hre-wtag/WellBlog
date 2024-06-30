@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { TITLE, LOGIN_ROUTE, REGISTER_ROUTE } from '../../core/utils/constants';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
@@ -20,12 +20,10 @@ export class HeaderComponent {
   userName: string = '';
   insideRegister: boolean = false;
   insideLogin: boolean = false;
+  private prevRouteService = inject(PreviousRouteService);
+  private router = inject(Router);
+  private authService = inject(AuthService);
 
-  constructor(
-    private authService: AuthService,
-    private router: Router,
-    private prevRouteService: PreviousRouteService
-  ) {}
   ngOnInit(): void {
     this.isLoggedin = this.authService.isLoggedIn();
     if (this.isLoggedin) {
