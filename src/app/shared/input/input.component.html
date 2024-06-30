@@ -25,7 +25,10 @@
       class="input-group-text eye-btn"
       appToggleOnHold
       (hold)="onHoldChange($event)"
-      ><i class="bi" [ngClass]="!showPasswoord ? 'bi-eye' : 'bi-eye-slash'"></i
+      ><i
+        class="eye-btn-icon bi"
+        [ngClass]="!showPasswoord ? 'bi-eye' : 'bi-eye-slash'"
+      ></i
     ></span>
     }
   </div>

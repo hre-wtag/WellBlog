@@ -1,10 +1,9 @@
 @import "../../../../public/styles/variables.scss";
 
-.edit-buttons {
+.edit-button {
   cursor: pointer;
-  i {
     &:hover {
       color: $primary--color;
     }
-  }
+  
 }
