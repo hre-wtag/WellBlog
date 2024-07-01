@@ -20,7 +20,9 @@
             />
             @if (!registerForm.get('firstName')?.valid &&
             registerForm.get('firstName')?.touched){
-            <div class="text-danger">{{ updateErrorMessages("firstName") }}</div>
+            <div class="text-danger">
+              {{ updateErrorMessages("firstName") }}
+            </div>
             }
           </div>
           <div class="mb-3">
@@ -95,7 +97,7 @@
               <span
                 class="input-group-text eye-btn"
                 appToggleOnHold
-                (hold)="onHoldChange($event)"
+                (hold)="onHoldChange($event, 'password')"
                 ><i
                   class="bi"
                   [ngClass]="!showPassword ? 'bi-eye' : 'bi-eye-slash'"
@@ -114,7 +116,7 @@
             <label class="form-label">Confirm Password</label>
             <div class="input-group mb-3">
               <input
-                [type]="showPassword ? 'text' : 'password'"
+                [type]="showConfirmPassword ? 'text' : 'password'"
                 class="form-control form-input"
                 formControlName="confirmPassword"
                 (blur)="onTouched('confirmPassword')"
@@ -128,10 +130,10 @@
               <span
                 class="input-group-text eye-btn"
                 appToggleOnHold
-                (hold)="onHoldChange($event)"
+                (hold)="onHoldChange($event, 'confirmPassword')"
                 ><i
                   class="bi"
-                  [ngClass]="!showPassword ? 'bi-eye' : 'bi-eye-slash'"
+                  [ngClass]="!showConfirmPassword ? 'bi-eye' : 'bi-eye-slash'"
                 ></i
               ></span>
             </div>

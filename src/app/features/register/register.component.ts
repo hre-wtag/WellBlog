@@ -79,9 +79,13 @@ export class RegisterComponent {
     });
   }
 
-  onHoldChange(event: Event | boolean): void {
-    this.showPassword = event;
+  onHoldChange(event: Event | boolean, field: 'password' | 'confirmPassword') {
+  if (field === 'password') {
+    this.showPassword = event as boolean;
+  } else if (field === 'confirmPassword') {
+    this.showConfirmPassword = event as boolean;
   }
+}
   onTouched(fieldName: string): void {
     const control = this.registerForm.get(fieldName);
     if (control) {
