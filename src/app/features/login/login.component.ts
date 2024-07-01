@@ -13,7 +13,6 @@ import { HOME_ROUTE, REGISTER_ROUTE } from '../../core/utils/constants';
 import { AuthService } from '../../core/services/auth.service';
 import { HeaderComponent } from '../../shared/header/header.component';
 import { ToggleOnHoldDirective } from '../../shared/Directives/toggle-on-hold.directive';
-import { ButtonComponent } from '../../shared/button/button.component';
 import { InputComponent } from '../../shared/input/input.component';
 @Component({
   selector: 'app-login',
@@ -24,7 +23,6 @@ import { InputComponent } from '../../shared/input/input.component';
     HeaderComponent,
     RouterLink,
     ToggleOnHoldDirective,
-    ButtonComponent,
     InputComponent,
   ],
   templateUrl: './login.component.html',

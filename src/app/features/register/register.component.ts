@@ -17,7 +17,6 @@ import {
 } from '../../core/utils/constants';
 import { HeaderComponent } from '../../shared/header/header.component';
 import { ToggleOnHoldDirective } from '../../shared/Directives/toggle-on-hold.directive';
-import { ButtonComponent } from '../../shared/button/button.component';
 import { InputComponent } from '../../shared/input/input.component';
 
 @Component({
@@ -29,7 +28,6 @@ import { InputComponent } from '../../shared/input/input.component';
     HeaderComponent,
     RouterLink,
     ToggleOnHoldDirective,
-    ButtonComponent,
     InputComponent,
   ],
   templateUrl: './register.component.html',
