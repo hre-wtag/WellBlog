@@ -6,7 +6,6 @@ import {
   Validators,
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { ValidatorsService } from '../../../core/services/validators.service';
 
 @Component({
   selector: 'app-add-blog',
@@ -19,7 +18,7 @@ export class AddBlogComponent {
   addBlogForm: FormGroup;
   errorMsg: string | null = null;
   uploadedFileName: string | null = null;
-  private validatorService = inject(ValidatorsService);
+  tagList: string[] = ['Technology', 'Poetry', 'Films', 'Fiction', 'World Politics'];
   constructor() {
     this.addBlogForm = new FormGroup({
       title: new FormControl('', [

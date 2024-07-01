@@ -16,14 +16,15 @@
         />
         @if (!addBlogForm.get('title')?.valid &&
         addBlogForm.get('title')?.touched){
-        <div class="text-danger">titel error</div>
+        <div class="text-danger">This field is required.</div>
         }
       </div>
       <div class="col mb-3">
         <label class="form-label">Tags</label>
-        <input
-          type="text"
-          class="form-control form-input"
+        <input type="text" class="form-control form-input" />
+        <select
+          class="form-select form-input"
+          aria-label="Default select example"
           formControlName="tags"
           (blur)="onTouched('tags')"
           [ngClass]="{
@@ -31,7 +32,12 @@
               !addBlogForm.get('tags')?.valid &&
               addBlogForm.get('tags')?.touched
           }"
-        />
+        >
+          <option selected class="d-none">Select at least one tag</option>
+          @for(tag of tagList; track tag){
+          <option [value]="tag">{{ tag }}</option>
+          }
+        </select>
         @if (!addBlogForm.get('tags')?.valid &&
         addBlogForm.get('tags')?.touched){
         <div class="text-danger">tags error</div>
