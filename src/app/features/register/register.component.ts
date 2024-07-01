@@ -17,7 +17,6 @@ import {
 } from '../../core/utils/constants';
 import { HeaderComponent } from '../../shared/header/header.component';
 import { ToggleOnHoldDirective } from '../../shared/Directives/toggle-on-hold.directive';
-import { InputComponent } from '../../shared/input/input.component';
 
 @Component({
   selector: 'app-register',
@@ -28,13 +27,14 @@ import { InputComponent } from '../../shared/input/input.component';
     HeaderComponent,
     RouterLink,
     ToggleOnHoldDirective,
-    InputComponent,
   ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss',
 })
 export class RegisterComponent {
   registerForm: FormGroup;
+  showPassword: boolean | Event = false;
+  showConfirmPassword: boolean | Event = false;
   confirmPasswordError: string | null = null;
   login_route: string = LOGIN_ROUTE;
   passwordField: boolean | Event = false;
@@ -79,14 +79,13 @@ export class RegisterComponent {
     });
   }
 
-  onHoldChange(event: Event | boolean, activeField: string): void {
-    this.activeField = activeField;
-    if (this.activeField === 'password') {
-      this.passwordField = event;
-    } else if (this.activeField === 'confirmPassword') {
-      this.confirmPasswordField = event;
-    } else {
-      this.activeField = '';
+  onHoldChange(event: Event | boolean): void {
+    this.showPassword = event;
+  }
+  onTouched(fieldName: string): void {
+    const control = this.registerForm.get(fieldName);
+    if (control) {
+      control.markAsTouched();
     }
   }
   onLogin(): void {
@@ -103,6 +102,13 @@ export class RegisterComponent {
   getFormControl = (formGroup: FormGroup, formControlName: string) => {
     return formGroup.get(formControlName) as FormControl;
   };
+  updateErrorMessages(fControlName: string): string | null {
+    let fControl = this.registerForm.get(fControlName);
+    if (fControl?.touched && fControl?.errors) {
+      return this.validatorService.getErrorMessages(fControl.errors);
+    }
+    return null;
+  }
 
   matchPassword(): void {
     if (
