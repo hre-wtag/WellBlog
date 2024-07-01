@@ -2,7 +2,7 @@
 
 <div class="row m-0 p-4">
   <div class="col-12">
-    <form [formGroup]="loginForm">
+    <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
       <div class="row">
         <div
           class="col-md-5 border mx-auto p-3 rounded"
@@ -34,7 +34,6 @@
               [btnType]="'submit'"
               [classes]="'background-primary'"
               [isDisabled]="loginForm.invalid"
-              (clickEvent)="onLogin($event)"
             />
             <span class="text-muted fs-3 p-1">|</span>
             <app-button
@@ -42,7 +41,7 @@
               [btnType]="'button'"
               [classes]="'btn-register'"
               [isDisabled]="false"
-              (clickEvent)="onRegister($event)"
+              (clickEvent)="onRegister()"
             />
           </div>
         </div>

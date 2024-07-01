@@ -91,13 +91,10 @@ export class RegisterComponent {
       this.activeField = '';
     }
   }
-  onLogin(event: Event): void {
-    event.preventDefault();
+  onLogin(): void {
     this.router.navigate([this.login_route]);
   }
-  onRegister(event: Event): void {
-    event.preventDefault();
-
+  onRegister(): void {
     if (this.registerForm.valid && this.passMatched) {
       const user: User = this.registerForm.value;
       this.authService.registerUser(user);
