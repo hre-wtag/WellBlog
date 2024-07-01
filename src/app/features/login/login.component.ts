@@ -12,6 +12,8 @@ import { HOME_ROUTE, REGISTER_ROUTE } from '../../core/utils/constants';
 import { AuthService } from '../../core/services/auth.service';
 import { HeaderComponent } from '../../shared/header/header.component';
 import { ToggleOnHoldDirective } from '../../shared/Directives/toggle-on-hold.directive';
+import { ToastrService } from 'ngx-toastr';
+
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -27,12 +29,12 @@ import { ToggleOnHoldDirective } from '../../shared/Directives/toggle-on-hold.di
 })
 export class LoginComponent {
   loginForm: FormGroup;
-  loginError: string | null = null;
   home_route: string = HOME_ROUTE;
   register_route: string = REGISTER_ROUTE;
   showPassword: boolean | Event = false;
   private router = inject(Router);
   private authService = inject(AuthService);
+  private toastr = inject(ToastrService);
   constructor() {
     this.loginForm = new FormGroup({
       username: new FormControl('', Validators.required),
@@ -53,9 +55,8 @@ export class LoginComponent {
     const loginStatus = this.authService.authenticateUser(user);
     if (loginStatus === true) {
       this.router.navigate([this.home_route]);
-      this.loginError = null;
     } else {
-      this.loginError = 'Incorrect username or password.';
+      this.toastr.error('Incorrect username or password.', 'Error!');
     }
   }
 
