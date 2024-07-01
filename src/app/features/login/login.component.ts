@@ -23,7 +23,6 @@ import { InputComponent } from '../../shared/input/input.component';
     HeaderComponent,
     RouterLink,
     ToggleOnHoldDirective,
-    InputComponent,
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
@@ -33,27 +32,18 @@ export class LoginComponent {
   loginError: string | null = null;
   home_route: string = HOME_ROUTE;
   register_route: string = REGISTER_ROUTE;
-  private validatorService = inject(ValidatorsService);
+  showPassword: boolean | Event = false;
   private router = inject(Router);
   private authService = inject(AuthService);
   constructor() {
     this.loginForm = new FormGroup({
-      username: new FormControl('', [
-        Validators.required,
-        this.validatorService.noSpacesValidator(),
-        Validators.minLength(3),
-        Validators.maxLength(15),
-      ]),
-      password: new FormControl('', [
-        Validators.required,
-        this.validatorService.noSpacesValidator(),
-      ]),
+      username: new FormControl('', Validators.required),
+      password: new FormControl('', Validators.required),
     });
   }
-  getFormControl = (formGroup: FormGroup, formControlName: string) => {
-    return formGroup.get(formControlName) as FormControl;
-  };
-
+  onHoldChange(event: Event | boolean): void {
+    this.showPassword = event;
+  }
   onRegister(): void {
     this.router.navigate([this.register_route]);
   }
@@ -68,6 +58,13 @@ export class LoginComponent {
       this.loginError = null;
     } else {
       this.loginError = 'Incorrect username or password.';
+    }
+  }
+
+  onTouched(fieldName: string): void {
+    const control = this.loginForm.get(fieldName);
+    if (control) {
+      control.markAsTouched();
     }
   }
 }
