@@ -56,12 +56,10 @@ export class LoginComponent {
     return formGroup.get(formControlName) as FormControl;
   };
 
-  onRegister(event: Event): void {
-    event.preventDefault();
+  onRegister(): void {
     this.router.navigate([this.register_route]);
   }
-  onLogin(event: Event): void {
-    event.preventDefault();
+  onLogin(): void {
     if (this.loginForm.invalid) {
       return;
     }
