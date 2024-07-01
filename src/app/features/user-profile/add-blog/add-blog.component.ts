@@ -48,20 +48,11 @@ export class AddBlogComponent {
       this.uploadedFileName = imageFile[0].name;
     }
   }
-  // updateErrorMessages(): void {
-  //   // this.errorMsg = null;
-  //   // const usernameControl = this.addBlogForm.get('title');
-  //   // if (usernameControl?.touched && usernameControl?.errors) {
-  //   //   this.errorMsg = this.validatorService.getErrorMessages(
-  //   //     usernameControl.errors
-  //   //   );
-  //   // }
-  // }
+
   onTouched(fieldName: string): void {
-    //   const control = this.addBlogForm.get(fieldName);
-    //   if (control) {
-    //     control.markAsTouched();
-    //     // this.updateErrorMessages();
-    //   }
+    const control = this.addBlogForm.get(fieldName);
+    if (control) {
+      control.markAsTouched();
+    }
   }
 }
