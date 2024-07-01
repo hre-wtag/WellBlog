@@ -7,9 +7,7 @@ import { PreviousRouteService } from './core/services/previous-route.service';
 import { inject } from '@angular/core';
 import { UserProfileComponent } from './features/user-profile/user-profile.component';
 
-let previousUrl: string = '';
-
-const notLoggedInGuard: CanMatchFn = (route, segments) => {
+const notLoggedInGuard: CanMatchFn = () => {
   const router = inject(Router);
   const authService = inject(AuthService);
   const prevRouteService = inject(PreviousRouteService);
@@ -22,7 +20,7 @@ const notLoggedInGuard: CanMatchFn = (route, segments) => {
   return new RedirectCommand(router.parseUrl(previousUrl));
 };
 
-const loggedInGuard: CanMatchFn = (route, segments) => {
+const loggedInGuard: CanMatchFn = () => {
   const router = inject(Router);
   const authService = inject(AuthService);
   const prevRouteService = inject(PreviousRouteService);
