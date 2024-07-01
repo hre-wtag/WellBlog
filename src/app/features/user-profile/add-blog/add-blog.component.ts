@@ -35,4 +35,7 @@ export class AddBlogComponent {
   onCancel(event: Event): void {
     console.log('Cancelled');
   }
+  handleImageFileChange(event: FileList | null): void {
+    console.log(event, 'image');
+  }
 }

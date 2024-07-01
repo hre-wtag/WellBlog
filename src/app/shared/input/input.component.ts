@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, inject } from '@angular/core';
+import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import {
   DefaultValueAccessor,
   FormControl,
@@ -19,10 +19,10 @@ import { ValidatorsService } from '../../core/services/validators.service';
 export class InputComponent {
   @Input() fieldlabel!: string;
   @Input() fieldName!: string;
-  @Input() fieldType!: 'text' | 'password' | 'email' |'file';
+  @Input() fieldType!: 'text' | 'password' | 'email' | 'file';
   @Input() passwordMatched!: boolean;
   @Input() fControl = new FormControl();
-
+  @Output() imageFileChange = new EventEmitter<FileList | null>();
   errorMsg!: string | null;
   showPasswoord: boolean | Event = false;
   private validatorService = inject(ValidatorsService);
@@ -43,5 +43,11 @@ export class InputComponent {
       fControl.markAsDirty();
       this.updateErrorMessages(fControl);
     }
+  }
+
+  onImageChange(event: Event): void {
+    const imageFile = (<HTMLInputElement>event.target)?.files;
+    this.imageFileChange.emit(imageFile);
+    console.log(imageFile, 'image input');
   }
 }

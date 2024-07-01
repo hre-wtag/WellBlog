@@ -38,9 +38,10 @@
     <input
       id="fileUpload"
       class="form-control form-input d-none"
+      accept="image/jpeg,image/jpg,image/png"
       [type]="fieldType"
       [formControl]="fControl"
-      (blur)="onTouched(fControl)"
+      (change)="onImageChange($event)"
       [ngClass]="{
         'border-danger': fControl.invalid && fControl.dirty && fControl.touched
       }"
