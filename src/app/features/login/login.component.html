@@ -24,20 +24,20 @@
           </div>
           }
           <div class="d-flex align-items-center">
-            <app-button
-              [btnLabel]="'Login'"
-              [btnType]="'submit'"
-              [classes]="'background-primary btn-auth me-1'"
-              [isDisabled]="loginForm.invalid"
-            />
-
-            <app-button
-              [btnLabel]="'Register'"
-              [btnType]="'button'"
-              [classes]="'btn-auth btn-sub ms-1'"
-              [isDisabled]="false"
-              (clickEvent)="onRegister()"
-            />
+            <button
+              class="btn background-primary btn-auth me-1"
+              type="submit"
+              [disabled]="loginForm.invalid"
+            >
+              Login
+            </button>
+            <button
+              class="btn btn-auth btn-sub ms-1"
+              type="button"
+              (click)="onRegister()"
+            >
+              Register
+            </button>
           </div>
         </div>
       </div>
