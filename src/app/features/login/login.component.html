@@ -1,43 +1,72 @@
 @defer () {<app-header />}
-
 <div class="row m-0 p-4">
   <div class="col-12">
     <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
       <div class="row">
-        <div class="col-md-5 border mx-auto p-3 bg-light rounded">
+        <div class="col-md-5 border mx-auto p-3 rounded bg-light">
           <h3 class="text-center color-primary">Login</h3>
-          <app-input
-            [fieldlabel]="'Username'"
-            [fieldName]="'username'"
-            [fieldType]="'text'"
-            [fControl]="getFormControl(loginForm, 'username')"
-          />
-          <app-input
-            [fieldlabel]="'Password'"
-            [fieldName]="'password'"
-            [fieldType]="'password'"
-            [fControl]="getFormControl(loginForm, 'password')"
-          />
-          @if(loginError){
-          <div class="text-danger mb-3">
-            {{ loginError }}
+          <div class="mb-3">
+            <label class="form-label">Username</label>
+            <input
+              type="text"
+              class="form-control form-input"
+              formControlName="username"
+              (blur)="onTouched('username')"
+              [ngClass]="{
+                'border-danger':
+                  !loginForm.get('username')?.valid &&
+                  loginForm.get('username')?.touched
+              }"
+            />
+            @if (!loginForm.get('username')?.valid &&
+            loginForm.get('username')?.touched){
+            <div class="text-danger">This field is required.</div>
+            }
           </div>
-          }
+          <div class="mb-3">
+            <label class="form-label">Password</label>
+            <div class="input-group mb-3">
+              <input
+                [type]="showPassword ? 'text' : 'password'"
+                class="form-control form-input"
+                formControlName="password"
+                (blur)="onTouched('password')"
+                [ngClass]="{
+                  'border-danger':
+                    !loginForm.get('password')?.valid &&
+                    loginForm.get('password')?.touched
+                }"
+              />
+              <span
+                class="input-group-text eye-btn"
+                appToggleOnHold
+                (hold)="onHoldChange($event)"
+                ><i
+                  class="bi"
+                  [ngClass]="!showPassword ? 'bi-eye' : 'bi-eye-slash'"
+                ></i
+              ></span>
+            </div>
+            @if( !loginForm.get('password')?.valid &&
+            loginForm.get('password')?.touched){
+            <div class="text-danger">This field is required.</div>
+            }
+          </div>
           <div class="d-flex align-items-center">
-            <app-button
-              [btnLabel]="'Login'"
-              [btnType]="'submit'"
-              [classes]="'background-primary btn-auth me-1'"
-              [isDisabled]="loginForm.invalid"
-            />
-
-            <app-button
-              [btnLabel]="'Register'"
-              [btnType]="'button'"
-              [classes]="'btn-auth btn-sub ms-1'"
-              [isDisabled]="false"
-              (clickEvent)="onRegister()"
-            />
+            <button
+              class="btn background-primary btn-auth me-1"
+              type="submit"
+              [disabled]="loginForm.invalid"
+            >
+              Login
+            </button>
+            <button
+              class="btn btn-auth btn-sub ms-1"
+              type="button"
+              (click)="onRegister()"
+            >
+              Register
+            </button>
           </div>
         </div>
       </div>

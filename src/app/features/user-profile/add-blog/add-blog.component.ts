@@ -1,6 +1,4 @@
 import { Component, inject } from '@angular/core';
-import { InputComponent } from '../../../shared/input/input.component';
-import { ButtonComponent } from '../../../shared/button/button.component';
 import {
   FormControl,
   FormGroup,
@@ -13,7 +11,7 @@ import { ValidatorsService } from '../../../core/services/validators.service';
 @Component({
   selector: 'app-add-blog',
   standalone: true,
-  imports: [CommonModule, InputComponent, ButtonComponent, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './add-blog.component.html',
   styleUrl: './add-blog.component.scss',
 })
