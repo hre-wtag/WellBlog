@@ -1,4 +1,16 @@
-.btn {
-  height: 20px !important;
-  width: 100px !important;
+@import "../../../../styles.scss";
+
+.btn-submit {
+  color: $white--color !important;
+}
+.btn-cancel {
+  border-color: #ccc;
+}
+.banner-image {
+  border: 1px dashed #ccc;
+  height: 17rem;
+  width: 100%;
+  .image-label {
+    cursor: pointer;
+  }
 }
