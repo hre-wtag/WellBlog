@@ -8,8 +8,8 @@
           <img
             class="user-photo"
             [src]="
-              userInfo.profileImage
-                ? userInfo.profileImage.split('public')[1]
+              userInfo.profileImagePath
+                ? userInfo.profileImagePath.split('public')[1]
                 : default_profile_photo
             "
             [alt]="userInfo.firstName"
