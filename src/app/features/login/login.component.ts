@@ -54,6 +54,7 @@ export class LoginComponent {
     const user: AuthUser = this.loginForm.value;
     const loginStatus = this.authService.authenticateUser(user);
     if (loginStatus === true) {
+      this.toastr.clear();
       this.router.navigate([this.home_route]);
     } else {
       this.toastr.error('Incorrect username or password.', 'Error!');
