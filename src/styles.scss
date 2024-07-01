@@ -24,3 +24,11 @@ body {
   background-color: $primary--color !important;
   color: $white--color !important;
 }
+
+// ========= Common ===========
+.form-input {
+  &:focus {
+    border-color: $primary--color;
+    box-shadow: none;
+  }
+}
