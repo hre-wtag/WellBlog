@@ -15,7 +15,6 @@ import {
   LOGIN_ROUTE,
   PASSWORD_REGEX,
 } from '../../core/utils/constants';
-import { HeaderComponent } from '../../shared/header/header.component';
 import { ToggleOnHoldDirective } from '../../shared/Directives/toggle-on-hold.directive';
 
 @Component({
@@ -24,7 +23,6 @@ import { ToggleOnHoldDirective } from '../../shared/Directives/toggle-on-hold.di
   imports: [
     ReactiveFormsModule,
     CommonModule,
-    HeaderComponent,
     RouterLink,
     ToggleOnHoldDirective,
   ],
