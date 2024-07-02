@@ -25,13 +25,11 @@
           @if(!nothingIsChecked){
           <span
             class="dropdown-toggle show form-control form-input"
-            (click)="showDropdown = true"
+            (click)="checkDropdown(true)"
           >
             Select at least one tag </span
           >} @else{
-          <span
-            class="form-control show form-input"
-            (click)="showDropdown = true"
+          <span class="form-control show form-input"
             >@for(selectedTag of tagList; track selectedTag) {
             @if(selectedTag.isChecked){<span
               class="selectedTag position-relative border m-1 p-1"
@@ -45,9 +43,18 @@
               >
                 <i class="bi bi-x-circle-fill text-danger"></i>
               </div> </span
-            >} }</span
+            >} } @if(!showDropdown){
+            <span class="color-primary" (click)="checkDropdown(true)"
+              >click to add more</span
+            >
+            } </span
           >}
-          <ul class="dropdown-menu" [ngClass]="{ show: showDropdown }">
+          <div
+            class="dropdown-menu"
+            tabindex="0"
+            [ngClass]="{ show: showDropdown }"
+            (focusout)="checkDropdown(false)"
+          >
             @for(tag of tagList; track tag; let i= $index){
 
             <div class="form-check-wrapper">
@@ -68,7 +75,7 @@
               </div>
             </div>
             }
-          </ul>
+          </div>
         </div>
 
         @if (!addBlogForm.get('tags')?.valid &&
@@ -141,3 +148,4 @@
     </div>
   </form>
 </div>
+<!-- <div (document:click)="handleClickOutside($event)"></div> -->

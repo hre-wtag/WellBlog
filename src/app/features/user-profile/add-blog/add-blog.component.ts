@@ -75,4 +75,30 @@ export class AddBlogComponent {
     }
     this.nothingIsChecked = this.tagList.some((tag) => tag.isChecked);
   }
+  // onShowDropdown(flag: string): void {
+  //   if (flag !== 'fromCrossTag' && !this.nothingIsChecked) {
+  //     this.showDropdown = !this.showDropdown;
+  //   }
+  // }
+  // handleClickOutside(event: Event) {
+  //   if (this.showDropdown) {
+  //     const dropdownElement = document.querySelector('.dropdown-menu.show');
+  //     console.log(event.target, 'dropdownElement');
+  //     if (
+  //       !dropdownElement ||
+  //       dropdownElement.isEqualNode(event.target as Node)
+  //     ) {
+  //       return;
+  //     } else {
+  //       this.showDropdown = false;
+  //       console.log('hello world');
+  //     }
+  //   }
+  //   return;
+  // }
+
+  checkDropdown(flag:boolean): void {
+    console.log('click dp');
+    this.showDropdown = flag;
+  }
 }
