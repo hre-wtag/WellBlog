@@ -21,6 +21,7 @@ export class AddBlogComponent {
   addBlogForm: FormGroup;
   errorMsg: string | null = null;
   uploadedFileName: string | null = null;
+  showTagListDropdown: boolean = false;
   tagList: Tag[] = [
     { title: 'Technology', isChecked: false },
     { title: 'Poetry', isChecked: false },
@@ -28,7 +29,6 @@ export class AddBlogComponent {
     { title: 'Fiction', isChecked: false },
     { title: 'World Politics', isChecked: false },
   ];
-  selectedTags: Tag[] = [];
   constructor() {
     this.addBlogForm = new FormGroup({
       title: new FormControl('', [
@@ -65,18 +65,13 @@ export class AddBlogComponent {
     }
   }
   onCheckboxClick(title: string, isChecked: boolean): void {
-    if (!isChecked) {
-      this.selectedTags.push({ title, isChecked });
+    const existingTagIndex = this.tagList.findIndex(
+      (tag) => tag.title === title
+    );
+
+    if (existingTagIndex > -1) {
+      this.tagList[existingTagIndex].isChecked = isChecked;
     }
-    console.log(this.selectedTags);
-    for (let sTag of this.selectedTags) {
-      console.log(sTag);
-    }
-  }
-  removeSelectedTag(selectedTag: Tag): void {
-    // const index = this.selectedTags.indexOf(selectedTag);
-    // if (index > -1) {
-    //   this.selectedTags.splice(index, 1);
-    // }
+    console.log(this.tagList);
   }
 }
