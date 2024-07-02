@@ -42,6 +42,9 @@ body {
     border-color: $primary--color;
     box-shadow: none;
   }
+  &:checked{
+    background-color: $primary--color;
+  }
 }
 
 .eye-btn {

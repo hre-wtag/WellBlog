@@ -6,7 +6,10 @@ import {
   Validators,
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-
+export interface Tag {
+  title: string;
+  isChecked: boolean;
+}
 @Component({
   selector: 'app-add-blog',
   standalone: true,
@@ -18,7 +21,14 @@ export class AddBlogComponent {
   addBlogForm: FormGroup;
   errorMsg: string | null = null;
   uploadedFileName: string | null = null;
-  tagList: string[] = ['Technology', 'Poetry', 'Films', 'Fiction', 'World Politics'];
+  tagList: Tag[] = [
+    { title: 'Technology', isChecked: false },
+    { title: 'Poetry', isChecked: false },
+    { title: 'Films', isChecked: false },
+    { title: 'Fiction', isChecked: false },
+    { title: 'World Politics', isChecked: false },
+  ];
+  selectedTags: Tag[] = [];
   constructor() {
     this.addBlogForm = new FormGroup({
       title: new FormControl('', [
@@ -53,5 +63,20 @@ export class AddBlogComponent {
     if (control) {
       control.markAsTouched();
     }
+  }
+  onCheckboxClick(title: string, isChecked: boolean): void {
+    if (!isChecked) {
+      this.selectedTags.push({ title, isChecked });
+    }
+    console.log(this.selectedTags);
+    for (let sTag of this.selectedTags) {
+      console.log(sTag);
+    }
+  }
+  removeSelectedTag(selectedTag: Tag): void {
+    // const index = this.selectedTags.indexOf(selectedTag);
+    // if (index > -1) {
+    //   this.selectedTags.splice(index, 1);
+    // }
   }
 }

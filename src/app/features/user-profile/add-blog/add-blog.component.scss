@@ -14,3 +14,9 @@
     cursor: pointer;
   }
 }
+
+.form-check-wrapper {
+  &:hover {
+    background-color: $secondary--color;
+  }
+}
