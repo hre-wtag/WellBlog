@@ -5,9 +5,17 @@ import {
   REGISTER_ROUTE,
   PROFILE_ROUTE,
 } from '../../core/utils/constants';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import {
+  ActivatedRoute,
+  NavigationEnd,
+  Router,
+  RouterLink,
+  UrlSegment,
+} from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
 import { PreviousRouteService } from '../../core/services/previous-route.service';
+import { filter, map } from 'rxjs';
+import { __values } from 'tslib';
 
 @Component({
   selector: 'app-header',
@@ -33,13 +41,30 @@ export class HeaderComponent {
     if (this.isLoggedin) {
       this.userName = this.authService.getLoggedInUser()?.username;
     }
-    this.currentPage = this.router.url;
-
-    this.activatedRoute.url.subscribe((urlSegments) => {
-      this.currentPage = urlSegments[0].path;
-      console.log(this.currentPage, 'using router url');
-    });
+    this.router.events
+      .pipe(
+        filter((event) => event instanceof NavigationEnd),
+        map(() => this.activatedRoute),
+        map((route: ActivatedRoute) => {
+          let currentRoute = route;
+          while (currentRoute.firstChild) {
+            currentRoute = currentRoute.firstChild;
+          }
+          return currentRoute;
+        })
+      )
+      .subscribe({
+        next: (route: ActivatedRoute) => {
+          console.log('Current route url:', route.url);
+          route.url.subscribe({
+            next: (urlSegment: UrlSegment[]) => {
+              console.log(urlSegment[0].path);
+            },
+          });
+        },
+      });
   }
+
   logout(): void {
     this.authService.removeLoggedInUser();
     this.router.navigate([this.login_route]);
