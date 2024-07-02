@@ -18,5 +18,11 @@
 .form-check-wrapper {
   &:hover {
     background-color: $secondary--color;
+    cursor: pointer;
+  }
+  .form-check,
+  .form-check-label,
+  .form-check-input {
+    cursor: pointer;
   }
 }

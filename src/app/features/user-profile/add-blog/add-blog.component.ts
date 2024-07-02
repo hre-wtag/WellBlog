@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -21,7 +21,8 @@ export class AddBlogComponent {
   addBlogForm: FormGroup;
   errorMsg: string | null = null;
   uploadedFileName: string | null = null;
-  showTagListDropdown: boolean = false;
+  nothingIsChecked: boolean = false;
+  showDropdown: boolean = false;
   tagList: Tag[] = [
     { title: 'Technology', isChecked: false },
     { title: 'Poetry', isChecked: false },
@@ -72,6 +73,6 @@ export class AddBlogComponent {
     if (existingTagIndex > -1) {
       this.tagList[existingTagIndex].isChecked = isChecked;
     }
-    console.log(this.tagList);
+    this.nothingIsChecked = this.tagList.some((tag) => tag.isChecked);
   }
 }
