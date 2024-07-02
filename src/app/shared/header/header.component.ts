@@ -5,7 +5,7 @@ import {
   REGISTER_ROUTE,
   PROFILE_ROUTE,
 } from '../../core/utils/constants';
-import { Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
 import { PreviousRouteService } from '../../core/services/previous-route.service';
 
@@ -27,13 +27,18 @@ export class HeaderComponent {
   private prevRouteService = inject(PreviousRouteService);
   private router = inject(Router);
   private authService = inject(AuthService);
-
+  private activatedRoute = inject(ActivatedRoute);
   ngOnInit(): void {
     this.isLoggedin = this.authService.isLoggedIn();
     if (this.isLoggedin) {
       this.userName = this.authService.getLoggedInUser()?.username;
     }
     this.currentPage = this.router.url;
+
+    this.activatedRoute.url.subscribe((urlSegments) => {
+      this.currentPage = urlSegments[0].path;
+      console.log(this.currentPage, 'using router url');
+    });
   }
   logout(): void {
     this.authService.removeLoggedInUser();
