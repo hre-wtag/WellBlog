@@ -51,9 +51,8 @@
           >}
           <div
             class="dropdown-menu"
-            tabindex="0"
-            [ngClass]="{ show: showDropdown }"
-            (focusout)="checkDropdown(false)"
+            (mouseleave)="checkDropdown(false)"
+            [ngClass]="{ show: showDropdown}"
           >
             @for(tag of tagList; track tag; let i= $index){
 
@@ -148,4 +147,3 @@
     </div>
   </form>
 </div>
-<!-- <div (document:click)="handleClickOutside($event)"></div> -->
