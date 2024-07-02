@@ -26,3 +26,8 @@
     cursor: pointer;
   }
 }
+.dropdown-menu {
+  &:focus {
+    border-color: $primary--color;
+  }
+}
