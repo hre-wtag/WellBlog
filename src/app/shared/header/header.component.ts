@@ -67,7 +67,8 @@ export class HeaderComponent {
       .pipe(
         filter((event) => event instanceof NavigationEnd),
         map(() => this.activatedRoute),
-        map((route) => route.firstChild?.snapshot?.url[0].path),
+        // map((route) => route.firstChild?.snapshot?.url[0].path),
+        map((route) => route.firstChild?.snapshot?.url[0].path ?? ''),
         filter((path) => path !== undefined) // Filter out undefined paths (optional)
       )
       .subscribe({
