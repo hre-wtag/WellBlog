@@ -68,12 +68,15 @@ export class HeaderComponent {
         filter((event) => event instanceof NavigationEnd),
         map(() => this.activatedRoute),
         // map((route) => route.firstChild?.snapshot?.url[0].path),
-        map((route) => route.firstChild?.snapshot?.url[0].path ?? ''),
-        filter((path) => path !== undefined) // Filter out undefined paths (optional)
+        map((route) =>
+          route.firstChild?.snapshot?.url[0]
+            ? route.firstChild?.snapshot?.url[0].path
+            : ''
+        )
       )
       .subscribe({
         next: (path) => {
-          console.log('Current path:', path);
+          console.log('Current path:', path, 'aijbhsipfjb');
         },
       });
   }
