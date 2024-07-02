@@ -41,33 +41,10 @@ export class HeaderComponent {
     if (this.isLoggedin) {
       this.userName = this.authService.getLoggedInUser()?.username;
     }
-    // this.router.events
-    //   .pipe(
-    //     filter((event) => event instanceof NavigationEnd),
-    //     map(() => this.activatedRoute),
-    //     map((route: ActivatedRoute) => {
-    //       let currentRoute = route;
-    //       while (currentRoute.firstChild) {
-    //         currentRoute = currentRoute.firstChild;
-    //       }
-    //       return currentRoute;
-    //     })
-    //   )
-    //   .subscribe({
-    //     next: (route: ActivatedRoute) => {
-    //       console.log('Current route url:', route.url);
-    //       route.url.subscribe({
-    //         next: (urlSegment: UrlSegment[]) => {
-    //           console.log(urlSegment[0].path);
-    //         },
-    //       });
-    //     },
-    //   });
     this.router.events
       .pipe(
         filter((event) => event instanceof NavigationEnd),
         map(() => this.activatedRoute),
-        // map((route) => route.firstChild?.snapshot?.url[0].path),
         map((route) =>
           route.firstChild?.snapshot?.url[0]
             ? route.firstChild?.snapshot?.url[0].path
@@ -76,7 +53,7 @@ export class HeaderComponent {
       )
       .subscribe({
         next: (path) => {
-          console.log('Current path:', path, 'aijbhsipfjb');
+          this.currentPage = path ? '/' + path : '';
         },
       });
   }
