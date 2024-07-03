@@ -40,6 +40,8 @@ export class AuthService {
       if (loggedInUserString) {
         const user = JSON.parse(loggedInUserString);
         this.user$.next(user);
+      } else {
+        this.user$.next(null);
       }
     } catch (error) {
       console.error('Error parsing loggedInUserString:', error);

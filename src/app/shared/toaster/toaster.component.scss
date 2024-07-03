@@ -1,0 +1,12 @@
+@import "../../../styles.scss";
+
+.toaster-card {
+  top: calc($navbar--height + 1rem);
+}
+.toast-btn {
+  font-size: 0.7rem;
+  &:active,
+  &:focus {
+    box-shadow: none;
+  }
+}
