@@ -16,6 +16,7 @@ import { AuthService } from '../../core/services/auth.service';
 import { PreviousRouteService } from '../../core/services/previous-route.service';
 import { filter, map } from 'rxjs';
 import { __values } from 'tslib';
+import { User } from '../../core/interfaces/user';
 
 @Component({
   selector: 'app-header',
@@ -37,10 +38,11 @@ export class HeaderComponent {
   private authService = inject(AuthService);
   private activatedRoute = inject(ActivatedRoute);
   ngOnInit(): void {
-    this.isLoggedin = this.authService.isLoggedIn();
-    if (this.isLoggedin) {
-      this.userName = this.authService.getLoggedInUser()?.username;
-    }
+    this.authService.user$.subscribe((user: User | null) => {
+      console.log(user, 'user');
+      this.isLoggedin = this.authService.isLoggedIn();
+      if (this.isLoggedin) this.userName = user?.username;
+    });
     this.router.events
       .pipe(
         filter((event) => event instanceof NavigationEnd),
