@@ -39,7 +39,6 @@ export class HeaderComponent {
   private activatedRoute = inject(ActivatedRoute);
   ngOnInit(): void {
     this.authService.user$.subscribe((user: User | null) => {
-      console.log(user, 'user');
       this.isLoggedin = this.authService.isLoggedIn();
       if (this.isLoggedin) this.userName = user?.username;
     });
