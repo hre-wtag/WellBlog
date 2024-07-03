@@ -1,15 +1,27 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { IToast } from '../../shared/toaster/toaster.component';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ToasterService {
-  toasterStatus$ = new BehaviorSubject<boolean | null>(null);
+  toasterInfo$ = new BehaviorSubject<IToast | null>(null);
 
-  showToast(flag: boolean): void {
-    this.toasterStatus$.next(flag);
-    console.log(flag, 't s');
+  showToast(toast: IToast): void {
+    this.toasterInfo$.next(toast);
+    console.log(toast, this.toasterInfo$);
   }
-
+  clear(): void {
+    this.toasterInfo$.next(null);
+  }
+  success(title: string, msg: string): void {
+    this.showToast({ type: 'success', title: title, msg: msg });
+  }
+  error(title: string, msg: string): void {
+    this.showToast({ type: 'error', title: title, msg: msg });
+  }
+  warning(title: string, msg: string): void {
+    this.showToast({ type: 'warning', title: title, msg: msg });
+  }
 }

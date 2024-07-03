@@ -2,7 +2,11 @@ import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ToasterService } from '../../core/services/toaster.service';
-
+export interface IToast {
+  title: string;
+  type: 'error' | 'success' | 'warning';
+  msg: string;
+}
 @Component({
   selector: 'app-toaster',
   standalone: true,
@@ -11,23 +15,22 @@ import { ToasterService } from '../../core/services/toaster.service';
   styleUrl: './toaster.component.scss',
 })
 export class ToasterComponent implements OnInit, OnDestroy {
-  // @Input() showsToast!: boolean | null;
   showsToast: boolean | null = null;
-  toastMessage = 'This is a toast';
+  toast: IToast | null = null;
   private toasterSubscription: Subscription | null = null;
   private toasterService = inject(ToasterService);
 
   ngOnInit(): void {
-    this.toasterSubscription = this.toasterService.toasterStatus$.subscribe(
-      (flag) => {
-        this.showsToast = flag;
-        console.log(flag);
+    this.toasterSubscription = this.toasterService.toasterInfo$.subscribe(
+      (t: IToast | null) => {
+        this.toast = t;
+        console.log(t, 't toaster');
       }
     );
   }
 
   closeToast(): void {
-    this.showsToast = false;
+    this.toasterService.toasterInfo$.next(null);
   }
   ngOnDestroy(): void {
     this.closeToast();

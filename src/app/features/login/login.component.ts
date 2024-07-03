@@ -37,7 +37,7 @@ export class LoginComponent implements OnInit {
   private router = inject(Router);
   private authService = inject(AuthService);
   private toastr = inject(ToastrService);
-  private toaster = inject(ToasterService);
+  private toasterService = inject(ToasterService);
   private sub = new Subject<AuthUser>();
   constructor() {
     this.loginForm = new FormGroup({
@@ -50,12 +50,12 @@ export class LoginComponent implements OnInit {
     this.sub.pipe(debounceTime(500)).subscribe((user: AuthUser) => {
       const loginStatus = this.authService.authenticateUser(user);
       if (loginStatus === true) {
-        this.toaster.showToast(false);
+        this.toasterService.clear();
         this.router.navigate([this.home_route]);
       } else {
-        this.toaster.showToast(true);
+        this.toasterService.error('Error!', 'Incorrect username or password!');
         setTimeout(() => {
-          this.toaster.showToast(false);
+          this.toasterService.clear();
         }, 3000);
       }
     });

@@ -2,11 +2,24 @@
 
 .toaster-card {
   top: calc($navbar--height + 1rem);
+  margin-right: 1rem;
 }
+
 .toast-btn {
-  font-size: 0.7rem;
+  cursor: pointer;
   &:active,
   &:focus {
     box-shadow: none;
   }
+}
+
+.error-toast {
+  @extend #{".border-danger-subtle", ".bg-danger"};
+  .toast-title,
+  .toast-btn i,
+  .toast-msg {
+    @extend .text-danger;
+  }
+}
+.warning-toast {
 }

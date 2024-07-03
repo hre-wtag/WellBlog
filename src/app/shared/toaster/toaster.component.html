@@ -1,15 +1,17 @@
-@if(showsToast){
-<div class="toaster-card position-fixed end-0 p-3">
+@if(toast){
+<div
+  class="toaster-card position-fixed end-0 py-2 px-3 border bg-opacity-10 rounded"
+  [ngClass]="{ 'error-toast': toast.type === 'error' ,  'success-toast': toast.type === 'success',
+  'warning-toast': toast.type === 'warning',}"
+>
   <div>
     <div class="toast-header">
-      <strong class="me-auto">Toast</strong>
-      <button
-        type="button"
-        class="toast-btn btn-close"
-        (click)="closeToast()"
-      ></button>
+      <strong class="toast-title me-auto">{{ toast.title }}</strong>
+      <span class="toast-btn fs-4" (click)="closeToast()">
+        <i class="bi bi-x"></i>
+      </span>
     </div>
-    <div class="toast-body">Hello, world! This is a toast message.</div>
+    <div class="toast-msg">{{ toast.msg }}</div>
   </div>
 </div>
 }
