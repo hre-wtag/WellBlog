@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import {
   TITLE,
   LOGIN_ROUTE,
@@ -14,7 +14,7 @@ import {
 } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
 import { PreviousRouteService } from '../../core/services/previous-route.service';
-import { filter, map } from 'rxjs';
+import { Subscription, filter, map } from 'rxjs';
 import { __values } from 'tslib';
 import { User } from '../../core/interfaces/user';
 
@@ -25,7 +25,7 @@ import { User } from '../../core/interfaces/user';
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit, OnDestroy {
   title: string = TITLE;
   login_route: string = LOGIN_ROUTE;
   register_route: string = REGISTER_ROUTE;
@@ -37,11 +37,15 @@ export class HeaderComponent {
   private router = inject(Router);
   private authService = inject(AuthService);
   private activatedRoute = inject(ActivatedRoute);
+  userSubcription: Subscription | null = null;
+
   ngOnInit(): void {
-    this.authService.user$.subscribe((user: User | null) => {
-      this.isLoggedin = this.authService.isLoggedIn();
-      if (this.isLoggedin) this.userName = user?.username;
-    });
+    this.userSubcription = this.authService.user$.subscribe(
+      (user: User | null) => {
+        this.isLoggedin = this.authService.isLoggedIn();
+        if (this.isLoggedin) this.userName = user?.username;
+      }
+    );
     this.router.events
       .pipe(
         filter((event) => event instanceof NavigationEnd),
@@ -62,5 +66,8 @@ export class HeaderComponent {
   logout(): void {
     this.authService.removeLoggedInUser();
     this.router.navigate([this.login_route]);
+  }
+  ngOnDestroy(): void {
+    this.userSubcription?.unsubscribe;
   }
 }
