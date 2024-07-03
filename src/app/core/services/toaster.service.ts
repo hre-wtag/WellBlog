@@ -24,4 +24,7 @@ export class ToasterService {
   warning(title: string, msg: string): void {
     this.showToast({ type: 'warning', title: title, msg: msg });
   }
+  info(title: string, msg: string): void {
+    this.showToast({ type: 'info', title: title, msg: msg });
+  }
 }

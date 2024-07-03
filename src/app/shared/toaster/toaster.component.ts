@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs';
 import { ToasterService } from '../../core/services/toaster.service';
 export interface IToast {
   title: string;
-  type: 'error' | 'success' | 'warning';
+  type: 'error' | 'success' | 'warning' | 'info';
   msg: string;
 }
 @Component({

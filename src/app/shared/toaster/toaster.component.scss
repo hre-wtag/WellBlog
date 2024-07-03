@@ -3,9 +3,18 @@
 .toaster-card {
   top: calc($navbar--height + 1rem);
   margin-right: 1rem;
+  border-left: 0.4rem solid;
+  animation: 0.5s slide-left ease-in-out;
 }
-
-.toast-btn {
+@keyframes slide-left {
+  from {
+    margin-right: -100%;
+  }
+  to {
+    margin-right: 1rem;
+  }
+}
+.toast-btn-close {
   cursor: pointer;
   &:active,
   &:focus {
@@ -14,12 +23,42 @@
 }
 
 .error-toast {
-  @extend #{".border-danger-subtle", ".bg-danger"};
+  @extend #{".border-danger", ".bg-danger"};
   .toast-title,
-  .toast-btn i,
-  .toast-msg {
+  .toast-btn i {
     @extend .text-danger;
+  }
+  .toast-icon i {
+    @extend #{".bi-x-circle-fill", ".text-danger", ".fs-4"};
   }
 }
 .warning-toast {
+  @extend #{".border-warning", ".bg-warning"};
+  .toast-title,
+  .toast-btn i {
+    @extend .text-warning;
+  }
+  .toast-icon i {
+    @extend #{".bi-exclamation-triangle-fill", ".text-warning", ".fs-4"};
+  }
+}
+.info-toast {
+  @extend #{".border-info", ".bg-info"};
+  .toast-title,
+  .toast-btn i {
+    @extend .text-info;
+  }
+  .toast-icon i {
+    @extend #{".bi-info-circle-fill", ".text-info", ".fs-4"};
+  }
+}
+.success-toast {
+  @extend #{".border-success", ".bg-success"};
+  .toast-title,
+  .toast-btn i {
+    @extend .text-success;
+  }
+  .toast-icon i {
+    @extend #{".bi-check-circle-fill", ".text-success", ".fs-4"};
+  }
 }

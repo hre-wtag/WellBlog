@@ -1,17 +1,22 @@
 @if(toast){
 <div
-  class="toaster-card position-fixed end-0 py-2 px-3 border bg-opacity-10 rounded"
-  [ngClass]="{ 'error-toast': toast.type === 'error' ,  'success-toast': toast.type === 'success',
+  class="toaster-card position-fixed p-2 bg-opacity-10 end-0 rounded"
+  [ngClass]="{ 'error-toast': toast.type === 'error' ,  'success-toast': toast.type === 'success','info-toast': toast.type === 'info',
   'warning-toast': toast.type === 'warning',}"
 >
-  <div>
-    <div class="toast-header">
-      <strong class="toast-title me-auto">{{ toast.title }}</strong>
-      <span class="toast-btn fs-4" (click)="closeToast()">
-        <i class="bi bi-x"></i>
-      </span>
+  <div class="d-flex align-items-center">
+    <div class="toast-icon me-2">
+      <i class="bi"></i>
     </div>
-    <div class="toast-msg">{{ toast.msg }}</div>
+    <div>
+      <div class="toast-header">
+        <strong class="toast-title me-auto">{{ toast.title }}</strong>
+        <span class="toast-btn-close text-muted fs-4" (click)="closeToast()">
+          <i class="bi bi-x"></i>
+        </span>
+      </div>
+      <div class="toast-msg text-muted">{{ toast.msg }}</div>
+    </div>
   </div>
 </div>
 }

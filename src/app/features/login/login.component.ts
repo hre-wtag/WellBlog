@@ -55,7 +55,7 @@ export class LoginComponent implements OnInit {
       } else {
         this.toasterService.error('Error!', 'Incorrect username or password!');
         setTimeout(() => {
-          this.toasterService.clear();
+           this.toasterService.clear();
         }, 3000);
       }
     });
