@@ -34,17 +34,21 @@ export class AuthService {
     localStorage.setItem('loggedInUser', JSON.stringify(user));
     this.user$.next(user);
   }
-
-
   isLoggedIn(): boolean {
-    let isLoggedIn = false;
-    this.user$.subscribe((user: User | null) => {
-      isLoggedIn = user !== null;
-    });
-    return isLoggedIn;
+    const loggedInUserString = localStorage.getItem('loggedInUser');
+    try {
+      if (loggedInUserString) {
+        const user = JSON.parse(loggedInUserString);
+        this.user$.next(user);
+      }
+    } catch (error) {
+      console.error('Error parsing loggedInUserString:', error);
+    }
+    return loggedInUserString ? true : false;
   }
+
   removeLoggedInUser(): void {
-    localStorage.removeItem('loggedInUser');
     this.user$.next(null);
+    localStorage.removeItem('loggedInUser');
   }
 }

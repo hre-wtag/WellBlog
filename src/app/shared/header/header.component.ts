@@ -40,10 +40,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
   userSubcription: Subscription | null = null;
 
   ngOnInit(): void {
+    this.isLoggedin = this.authService.isLoggedIn();
     this.userSubcription = this.authService.user$.subscribe(
       (user: User | null) => {
-        this.isLoggedin = this.authService.isLoggedIn();
-        if (this.isLoggedin) this.userName = user?.username;
+        if (user) {
+          this.userName = user?.username;
+        }
       }
     );
     this.router.events
