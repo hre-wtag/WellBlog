@@ -13,9 +13,11 @@ import { CommonModule } from '@angular/common';
 })
 export class UserInfoComponent implements OnInit {
   default_profile_photo: string = DEFAULT_PROFILE_PHOTO_SRC;
-  userInfo!: User;
+  userInfo!: User | null;
   constructor(private authService: AuthService) {}
   ngOnInit(): void {
-    // this.userInfo = this.authService.getLoggedInUser();
+    this.authService.user$.subscribe((user: User | null) => {
+      this.userInfo = user;
+    });
   }
 }
