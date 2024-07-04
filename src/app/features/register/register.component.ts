@@ -14,9 +14,10 @@ import {
   EMAIL_REGEX,
   LOGIN_ROUTE,
   PASSWORD_REGEX,
+  SLASH,
 } from '../../core/utils/constants';
-import { HeaderComponent } from '../../shared/header/header.component';
 import { ToggleOnHoldDirective } from '../../shared/Directives/toggle-on-hold.directive';
+import { ToasterService } from '../../core/services/toaster.service';
 
 @Component({
   selector: 'app-register',
@@ -24,7 +25,6 @@ import { ToggleOnHoldDirective } from '../../shared/Directives/toggle-on-hold.di
   imports: [
     ReactiveFormsModule,
     CommonModule,
-    HeaderComponent,
     RouterLink,
     ToggleOnHoldDirective,
   ],
@@ -36,7 +36,7 @@ export class RegisterComponent {
   showPassword: boolean | Event = false;
   showConfirmPassword: boolean | Event = false;
   confirmPasswordError: string | null = null;
-  login_route: string = LOGIN_ROUTE;
+  login_route: string = SLASH + LOGIN_ROUTE;
   passwordField: boolean | Event = false;
   confirmPasswordField: boolean | Event = false;
   activeField: string = '';
@@ -44,6 +44,7 @@ export class RegisterComponent {
   private validatorService = inject(ValidatorsService);
   private router = inject(Router);
   private authService = inject(AuthService);
+  private toasterService = inject(ToasterService);
   constructor() {
     this.registerForm = new FormGroup({
       firstName: new FormControl('', [
@@ -80,12 +81,12 @@ export class RegisterComponent {
   }
 
   onHoldChange(event: Event | boolean, field: 'password' | 'confirmPassword') {
-  if (field === 'password') {
-    this.showPassword = event as boolean;
-  } else if (field === 'confirmPassword') {
-    this.showConfirmPassword = event as boolean;
+    if (field === 'password') {
+      this.showPassword = event as boolean;
+    } else if (field === 'confirmPassword') {
+      this.showConfirmPassword = event as boolean;
+    }
   }
-}
   onTouched(fieldName: string): void {
     const control = this.registerForm.get(fieldName);
     if (control) {
@@ -100,6 +101,10 @@ export class RegisterComponent {
       const user: User = { ...this.registerForm.value, joiningDate: Date() };
       this.authService.registerUser(user);
       this.router.navigate([this.login_route]);
+      this.toasterService.success('Success!', 'Registration successful!');
+      setTimeout(() => {
+        this.toasterService.clear();
+      }, 4000);
     }
   }
 

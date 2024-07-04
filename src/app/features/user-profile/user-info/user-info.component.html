@@ -1,4 +1,5 @@
 <div class="card container bg-light px-3 py-4 my-2">
+  @if(userInfo){
   <div class="row g-0 text-center">
     <div class="col-lg-6 mx-auto">
       <div
@@ -36,7 +37,7 @@
           {{
             userInfo.about
               ? userInfo.about
-              : 'Meet Chandler Bing, a passionate writer and blogger with a love for technology and travel. Jonathan holds a degree in Computer Science and has spent years working in the tech industry, gaining a deep understanding of the impact technology has on our lives.'
+              : "Meet Chandler Bing, a passionate writer and blogger with a love for technology and travel. Jonathan holds a degree in Computer Science and has spent years working in the tech industry, gaining a deep understanding of the impact technology has on our lives."
           }}
         </p>
       </div>
@@ -61,4 +62,5 @@
       </div>
     </div>
   </div>
+  }
 </div>

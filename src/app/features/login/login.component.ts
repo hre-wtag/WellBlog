@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -8,37 +8,55 @@ import {
 import { AuthUser } from '../../core/interfaces/authUser';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
-import { HOME_ROUTE, REGISTER_ROUTE } from '../../core/utils/constants';
+import { HOME_ROUTE, REGISTER_ROUTE, SLASH } from '../../core/utils/constants';
 import { AuthService } from '../../core/services/auth.service';
-import { HeaderComponent } from '../../shared/header/header.component';
 import { ToggleOnHoldDirective } from '../../shared/Directives/toggle-on-hold.directive';
-import { ToastrService } from 'ngx-toastr';
-
+import { ToasterService } from '../../core/services/toaster.service';
+import { Subject, debounceTime } from 'rxjs';
 @Component({
   selector: 'app-login',
   standalone: true,
   imports: [
     ReactiveFormsModule,
     CommonModule,
-    HeaderComponent,
     RouterLink,
     ToggleOnHoldDirective,
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   loginForm: FormGroup;
-  home_route: string = HOME_ROUTE;
-  register_route: string = REGISTER_ROUTE;
+  home_route: string = SLASH + HOME_ROUTE;
+  register_route: string = SLASH + REGISTER_ROUTE;
   showPassword: boolean | Event = false;
+  loginError: boolean = false;
   private router = inject(Router);
   private authService = inject(AuthService);
-  private toastr = inject(ToastrService);
+  private toasterService = inject(ToasterService);
+  private sub = new Subject<AuthUser>();
   constructor() {
     this.loginForm = new FormGroup({
       username: new FormControl('', Validators.required),
       password: new FormControl('', Validators.required),
+    });
+  }
+
+  ngOnInit(): void {
+    this.sub.pipe(debounceTime(500)).subscribe((user: AuthUser) => {
+      const loginStatus = this.authService.authenticateUser(user);
+      if (loginStatus === true) {
+        this.toasterService.success('success!', 'Login successful.');
+        setTimeout(() => {
+          this.toasterService.clear();
+        }, 3000);
+        this.router.navigate([this.home_route]);
+      } else {
+        this.toasterService.error('Error!', 'Incorrect username or password!');
+        setTimeout(() => {
+          this.toasterService.clear();
+        }, 3000);
+      }
     });
   }
   onHoldChange(event: Event | boolean): void {
@@ -52,13 +70,7 @@ export class LoginComponent {
       return;
     }
     const user: AuthUser = this.loginForm.value;
-    const loginStatus = this.authService.authenticateUser(user);
-    if (loginStatus === true) {
-      this.toastr.clear();
-      this.router.navigate([this.home_route]);
-    } else {
-      this.toastr.error('Incorrect username or password.', 'Error!');
-    }
+    this.sub.next(user);
   }
 
   onTouched(fieldName: string): void {
