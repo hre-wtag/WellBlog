@@ -8,7 +8,7 @@ import {
 import { AuthUser } from '../../core/interfaces/authUser';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
-import { HOME_ROUTE, REGISTER_ROUTE } from '../../core/utils/constants';
+import { HOME_ROUTE, REGISTER_ROUTE, SLASH } from '../../core/utils/constants';
 import { AuthService } from '../../core/services/auth.service';
 import { ToggleOnHoldDirective } from '../../shared/Directives/toggle-on-hold.directive';
 import { ToasterComponent } from '../../shared/toaster/toaster.component';
@@ -29,8 +29,8 @@ import { Subject, debounceTime } from 'rxjs';
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
-  home_route: string = HOME_ROUTE;
-  register_route: string = REGISTER_ROUTE;
+  home_route: string = SLASH + HOME_ROUTE;
+  register_route: string = SLASH + REGISTER_ROUTE;
   showPassword: boolean | Event = false;
   loginError: boolean = false;
   private router = inject(Router);

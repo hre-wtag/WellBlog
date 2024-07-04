@@ -4,6 +4,7 @@ import {
   LOGIN_ROUTE,
   REGISTER_ROUTE,
   PROFILE_ROUTE,
+  SLASH,
 } from '../../core/utils/constants';
 import {
   ActivatedRoute,
@@ -27,9 +28,9 @@ import { User } from '../../core/interfaces/user';
 })
 export class HeaderComponent implements OnInit, OnDestroy {
   title: string = TITLE;
-  login_route: string = LOGIN_ROUTE;
-  register_route: string = REGISTER_ROUTE;
-  profile_route: string = PROFILE_ROUTE;
+  login_route: string = SLASH + LOGIN_ROUTE;
+  register_route: string = SLASH + REGISTER_ROUTE;
+  profile_route: string = SLASH + PROFILE_ROUTE;
   isLoggedin: boolean = false;
   userName: string | undefined = undefined;
   currentPage: string = '';

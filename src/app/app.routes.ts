@@ -6,6 +6,12 @@ import { AuthService } from './core/services/auth.service';
 import { PreviousRouteService } from './core/services/previous-route.service';
 import { inject } from '@angular/core';
 import { UserProfileComponent } from './features/user-profile/user-profile.component';
+import {
+  HOME_ROUTE,
+  LOGIN_ROUTE,
+  PROFILE_ROUTE,
+  REGISTER_ROUTE,
+} from './core/utils/constants';
 
 const notLoggedInGuard: CanMatchFn = () => {
   const router = inject(Router);
@@ -36,25 +42,25 @@ const loggedInGuard: CanMatchFn = () => {
 export const routes: Routes = [
   { path: '', title: 'Home', component: HomeComponent },
   {
-    path: 'login',
+    path: LOGIN_ROUTE,
     title: 'Login',
     component: LoginComponent,
     canMatch: [notLoggedInGuard],
   },
   {
-    path: 'register',
+    path: REGISTER_ROUTE,
     title: 'Register',
     component: RegisterComponent,
     canMatch: [notLoggedInGuard],
   },
   {
-    path: 'me',
+    path: PROFILE_ROUTE,
     title: 'Profile',
     component: UserProfileComponent,
     canMatch: [loggedInGuard],
   },
   {
     path: '**',
-    redirectTo: '/',
+    redirectTo: HOME_ROUTE,
   },
 ];

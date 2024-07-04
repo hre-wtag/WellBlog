@@ -14,6 +14,7 @@ import {
   EMAIL_REGEX,
   LOGIN_ROUTE,
   PASSWORD_REGEX,
+  SLASH,
 } from '../../core/utils/constants';
 import { ToggleOnHoldDirective } from '../../shared/Directives/toggle-on-hold.directive';
 
@@ -34,7 +35,7 @@ export class RegisterComponent {
   showPassword: boolean | Event = false;
   showConfirmPassword: boolean | Event = false;
   confirmPasswordError: string | null = null;
-  login_route: string = LOGIN_ROUTE;
+  login_route: string = SLASH + LOGIN_ROUTE;
   passwordField: boolean | Event = false;
   confirmPasswordField: boolean | Event = false;
   activeField: string = '';
@@ -78,12 +79,12 @@ export class RegisterComponent {
   }
 
   onHoldChange(event: Event | boolean, field: 'password' | 'confirmPassword') {
-  if (field === 'password') {
-    this.showPassword = event as boolean;
-  } else if (field === 'confirmPassword') {
-    this.showConfirmPassword = event as boolean;
+    if (field === 'password') {
+      this.showPassword = event as boolean;
+    } else if (field === 'confirmPassword') {
+      this.showConfirmPassword = event as boolean;
+    }
   }
-}
   onTouched(fieldName: string): void {
     const control = this.registerForm.get(fieldName);
     if (control) {
