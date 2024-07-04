@@ -4,7 +4,7 @@
   top: calc($navbar--height + 1rem);
   margin-right: 1rem;
   border-left: 0.4rem solid;
-  animation: 1s slide-left ease-in-out;
+  animation: .7s slide-left ease-in-out;
   min-width: 14rem;
 }
 @keyframes slide-left {
@@ -25,7 +25,7 @@
 }
 .toaster-card.close-toast {
   margin-right: -100%;
-  animation: 1s slide-right ease-in-out;
+  animation: .7s slide-right ease-in-out;
 }
 .toast-btn-close {
   cursor: pointer;
