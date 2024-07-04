@@ -17,20 +17,28 @@ export interface IToast {
 export class ToasterComponent implements OnInit, OnDestroy {
   showsToast: boolean | null = null;
   toast: IToast | null = null;
+  closeToastVar: boolean | null = null;
   private toasterSubscription: Subscription | null = null;
   private toasterService = inject(ToasterService);
 
   ngOnInit(): void {
     this.toasterSubscription = this.toasterService.toasterInfo$.subscribe(
       (t: IToast | null) => {
-        this.toast = t;
+        if (this.toast === null) {
+          setTimeout(() => {
+            this.toast = { type: 'error', title: 'title', msg: 'msg' };
+          }, 2000);
+        } else {
+          this.toast = t;
+        }
         console.log(t, 't toaster');
       }
     );
   }
 
   closeToast(): void {
-    this.toasterService.toasterInfo$.next(null);
+    // this.toasterService.toasterInfo$.next(null);
+    this.closeToastVar = true;
   }
   ngOnDestroy(): void {
     this.closeToast();
