@@ -11,7 +11,6 @@ import { Router, RouterLink } from '@angular/router';
 import { HOME_ROUTE, REGISTER_ROUTE } from '../../core/utils/constants';
 import { AuthService } from '../../core/services/auth.service';
 import { ToggleOnHoldDirective } from '../../shared/Directives/toggle-on-hold.directive';
-import { ToastrService } from 'ngx-toastr';
 import { ToasterComponent } from '../../shared/toaster/toaster.component';
 import { ToasterService } from '../../core/services/toaster.service';
 import { Subject, debounceTime } from 'rxjs';
@@ -36,7 +35,6 @@ export class LoginComponent implements OnInit {
   loginError: boolean = false;
   private router = inject(Router);
   private authService = inject(AuthService);
-  private toastr = inject(ToastrService);
   private toasterService = inject(ToasterService);
   private sub = new Subject<AuthUser>();
   constructor() {
