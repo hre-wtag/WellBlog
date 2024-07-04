@@ -11,7 +11,6 @@ import { Router, RouterLink } from '@angular/router';
 import { HOME_ROUTE, REGISTER_ROUTE, SLASH } from '../../core/utils/constants';
 import { AuthService } from '../../core/services/auth.service';
 import { ToggleOnHoldDirective } from '../../shared/Directives/toggle-on-hold.directive';
-import { ToasterComponent } from '../../shared/toaster/toaster.component';
 import { ToasterService } from '../../core/services/toaster.service';
 import { Subject, debounceTime } from 'rxjs';
 @Component({
@@ -22,7 +21,6 @@ import { Subject, debounceTime } from 'rxjs';
     CommonModule,
     RouterLink,
     ToggleOnHoldDirective,
-    ToasterComponent,
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
@@ -48,7 +46,10 @@ export class LoginComponent implements OnInit {
     this.sub.pipe(debounceTime(500)).subscribe((user: AuthUser) => {
       const loginStatus = this.authService.authenticateUser(user);
       if (loginStatus === true) {
-        this.toasterService.clear();
+        this.toasterService.success('success!', 'Login successful.');
+        setTimeout(() => {
+          this.toasterService.clear();
+        }, 3000);
         this.router.navigate([this.home_route]);
       } else {
         this.toasterService.error('Error!', 'Incorrect username or password!');
