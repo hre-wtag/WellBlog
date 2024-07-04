@@ -17,6 +17,7 @@ import {
   SLASH,
 } from '../../core/utils/constants';
 import { ToggleOnHoldDirective } from '../../shared/Directives/toggle-on-hold.directive';
+import { ToasterService } from '../../core/services/toaster.service';
 
 @Component({
   selector: 'app-register',
@@ -43,6 +44,7 @@ export class RegisterComponent {
   private validatorService = inject(ValidatorsService);
   private router = inject(Router);
   private authService = inject(AuthService);
+  private toasterService = inject(ToasterService);
   constructor() {
     this.registerForm = new FormGroup({
       firstName: new FormControl('', [
@@ -98,7 +100,11 @@ export class RegisterComponent {
     if (this.registerForm.valid && this.passMatched) {
       const user: User = { ...this.registerForm.value, joiningDate: Date() };
       this.authService.registerUser(user);
-      this.router.navigate([this.login_route]);
+        this.router.navigate([this.login_route]);
+      this.toasterService.success('Success!', 'Registration successful!');
+      setTimeout(() => {
+        this.toasterService.clear();
+      }, 4000);
     }
   }
 
