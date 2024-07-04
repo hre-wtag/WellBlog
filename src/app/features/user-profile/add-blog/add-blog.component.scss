@@ -25,9 +25,16 @@
   .form-check-input {
     cursor: pointer;
   }
+  .form-check-input:checked {
+    border-color: $primary--color;
+  }
 }
 .dropdown-menu {
   &:focus {
     border-color: $primary--color;
   }
+}
+.add-more,
+.cross-btn {
+  cursor: pointer !important;
 }
