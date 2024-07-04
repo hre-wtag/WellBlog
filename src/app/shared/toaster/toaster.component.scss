@@ -4,7 +4,7 @@
   top: calc($navbar--height + 1rem);
   margin-right: 1rem;
   border-left: 0.4rem solid;
-  animation: .7s slide-left ease-in-out;
+  animation: 0.7s slide-left ease-in-out;
   min-width: 14rem;
 }
 @keyframes slide-left {
@@ -25,7 +25,7 @@
 }
 .toaster-card.close-toast {
   margin-right: -100%;
-  animation: .7s slide-right ease-in-out;
+  animation: 0.7s slide-right ease-in-out;
 }
 .toast-btn-close {
   cursor: pointer;
@@ -36,8 +36,8 @@
 }
 
 .error-toast {
-  margin-right: 1rem;
-  @extend #{".border-danger", ".bg-danger"};
+  background-color: $danger--bg;
+  @extend #{".border-danger"};
   .toast-title,
   .toast-btn i {
     @extend .text-danger;
@@ -47,7 +47,8 @@
   }
 }
 .warning-toast {
-  @extend #{".border-warning", ".bg-warning"};
+  background-color: $warning--bg;
+  @extend #{".border-warning"};
   .toast-title,
   .toast-btn i {
     @extend .text-warning;
@@ -57,7 +58,8 @@
   }
 }
 .info-toast {
-  @extend #{".border-info", ".bg-info"};
+  background-color: $info--bg;
+  @extend #{".border-info"};
   .toast-title,
   .toast-btn i {
     @extend .text-info;
@@ -66,8 +68,10 @@
     @extend #{".bi-info-circle-fill", ".text-info", ".fs-4"};
   }
 }
+
 .success-toast {
-  @extend #{".border-success", ".bg-success"};
+  background-color: $success--bg;
+  @extend #{".border-success"};
   .toast-title,
   .toast-btn i {
     @extend .text-success;
