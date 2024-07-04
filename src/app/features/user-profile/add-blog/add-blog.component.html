@@ -36,7 +36,7 @@
             >
               {{ selectedTag.title }}
               <div
-                class="cross-btn position-absolute top-0 start-100 translate-middle "
+                class="cross-btn position-absolute top-0 start-100 translate-middle"
                 (click)="
                   onCheckboxClick(selectedTag.title, !selectedTag.isChecked);
                   checkDropdown(false)
@@ -88,6 +88,8 @@
         <label class="form-label">Banner Image</label>
         <div
           class="banner-image d-flex align-items-center justify-content-center"
+          (drop)="dropHandler($event)"
+          (dragover)="dragOver($event)"
         >
           <input
             class="form-control form-input"
