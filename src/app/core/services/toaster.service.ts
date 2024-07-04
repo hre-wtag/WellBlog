@@ -10,7 +10,6 @@ export class ToasterService {
 
   showToast(toast: IToast): void {
     this.toasterInfo$.next(toast);
-    console.log(toast, this.toasterInfo$);
   }
   clear(): void {
     this.toasterInfo$.next(null);

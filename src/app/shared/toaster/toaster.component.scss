@@ -4,8 +4,8 @@
   top: calc($navbar--height + 1rem);
   margin-right: 1rem;
   border-left: 0.4rem solid;
-  animation: 0.5s slide-left ease-in-out;
-  width: 14rem;
+  animation: 1s slide-left ease-in-out;
+  min-width: 14rem;
 }
 @keyframes slide-left {
   from {

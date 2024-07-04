@@ -24,21 +24,18 @@ export class ToasterComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.toasterSubscription = this.toasterService.toasterInfo$.subscribe(
       (t: IToast | null) => {
-        if (this.toast === null) {
-          setTimeout(() => {
-            this.toast = { type: 'error', title: 'title', msg: 'msg' };
-          }, 2000);
-        } else {
+        if (t !== null) {
           this.toast = t;
+          this.closeToastVar = false;
+        } else {
+          this.closeToastVar = true;
         }
-        console.log(t, 't toaster');
       }
     );
   }
 
   closeToast(): void {
-    // this.toasterService.toasterInfo$.next(null);
-    this.closeToastVar = true;
+    this.toasterService.toasterInfo$.next(null);
   }
   ngOnDestroy(): void {
     this.closeToast();
