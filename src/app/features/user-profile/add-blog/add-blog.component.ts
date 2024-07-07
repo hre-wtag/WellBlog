@@ -39,7 +39,6 @@ export class AddBlogComponent {
         Validators.minLength(3),
         Validators.maxLength(15),
       ]),
-      tags: new FormControl('', Validators.required),
       blogBody: new FormControl('', Validators.required),
     });
   }

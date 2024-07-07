@@ -114,9 +114,9 @@
       </div>
       <div class="col mb-3">
         <label class="form-label">Blog Body</label>
-        <input
+        <textarea
           type="text"
-          class="form-control form-input"
+          class="form-control form-input blog-description"
           formControlName="blogBody"
           (blur)="onTouched('blogBody')"
           [ngClass]="{
@@ -124,7 +124,7 @@
               !addBlogForm.get('blogBody')?.valid &&
               addBlogForm.get('blogBody')?.touched
           }"
-        />
+        ></textarea>
         @if (!addBlogForm.get('blogBody')?.valid &&
         addBlogForm.get('blogBody')?.touched){
         <div class="text-danger">blog Body error</div>
