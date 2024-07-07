@@ -40,7 +40,6 @@ export class AddBlogComponent {
         Validators.maxLength(15),
       ]),
       tags: new FormControl('', Validators.required),
-      fileUpload: new FormControl('', Validators.required),
       blogBody: new FormControl('', Validators.required),
     });
   }
@@ -93,23 +92,28 @@ export class AddBlogComponent {
     console.log(ev);
     if (ev.dataTransfer?.items) {
       const files = Array.from(ev.dataTransfer.items);
-      files.forEach((item, i) => {
+      for (let i = 0; i < files.length; i++) {
+        const item = files[i];
         if (item.kind === 'file') {
           const file = item.getAsFile();
           if (this.validateFileType(file?.type)) {
             console.log(`… file[${i}].name = ${file?.name}`);
             console.log(file);
+            break;
           } else {
-            console.warn('Invalid file type. Only image files allowed.');
             this.toasterService.warning(
               'Invalid!',
-              'Invalid file type. Only image files allowed.'
+              'Only jpeg, jgp, & png images are allowed.'
             );
+            setTimeout(() => {
+              this.toasterService.toasterInfo$.next(null);
+            }, 5000);
           }
         }
-      });
+      }
     }
   }
+
   validateFileType(fileType: string | undefined): boolean | null {
     if (fileType) {
       const allowedTypes: string[] | undefined = [
