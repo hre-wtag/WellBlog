@@ -74,6 +74,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.router.navigate([this.login_route]);
   }
   ngOnDestroy(): void {
-    this.userSubcription?.unsubscribe;
+    this.userSubcription?.unsubscribe();
   }
 }

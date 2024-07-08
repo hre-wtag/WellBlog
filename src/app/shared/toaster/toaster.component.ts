@@ -39,6 +39,6 @@ export class ToasterComponent implements OnInit, OnDestroy {
   }
   ngOnDestroy(): void {
     this.closeToast();
-    this.toasterSubscription?.unsubscribe;
+    this.toasterSubscription?.unsubscribe();
   }
 }
