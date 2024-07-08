@@ -10,6 +10,8 @@ import { ToasterService } from '../../../core/services/toaster.service';
 import { Blog } from '../../../core/interfaces/blog';
 import { BlogService } from '../../../core/services/blog.service';
 import { Subscription } from 'rxjs';
+import { AuthService } from '../../../core/services/auth.service';
+import { DEFAULT_PROFILE_PHOTO_SRC } from '../../../core/utils/constants';
 export interface Tag {
   title: string;
   isChecked: boolean;
@@ -35,9 +37,10 @@ export class AddBlogComponent implements OnInit, OnDestroy {
     { title: 'Fiction', isChecked: false },
     { title: 'World Politics', isChecked: false },
   ];
-  
+
   private toasterService = inject(ToasterService);
   private blogService = inject(BlogService);
+  private authService = inject(AuthService);
   private blogSubcription: Subscription | null = null;
   constructor() {
     this.addBlogForm = new FormGroup({
@@ -63,7 +66,24 @@ export class AddBlogComponent implements OnInit, OnDestroy {
     if (this.addBlogForm.invalid) {
       return;
     }
-    const blog: Blog = { ...this.addBlogForm.value, tags: [], blogImage: '' };
+    const user = this.authService.user$.getValue();
+    console.log(user, 'user');
+
+    let bloggerName;
+    let bloggerImagePath;
+    if (user) {
+      console.log(user, 'user');
+      bloggerName = user.firstName?.concat(' ', user.lastName);
+      bloggerImagePath = user.profileImagePath ?? DEFAULT_PROFILE_PHOTO_SRC;
+    }
+    const blog: Blog = {
+      ...this.addBlogForm.value,
+      tags: [],
+      blogImage: '',
+      postingDate: Date(),
+      bloggerName: bloggerName,
+      bloggerImagePath: bloggerImagePath,
+    };
     const blogTags = this.tagList
       .filter((tag) => tag.isChecked)
       .map((tag) => tag.title);
