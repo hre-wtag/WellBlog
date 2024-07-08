@@ -5,7 +5,7 @@ import { AddBlogComponent } from './add-blog/add-blog.component';
 @Component({
   selector: 'app-user-profile',
   standalone: true,
-  imports: [UserInfoComponent,AddBlogComponent],
+  imports: [UserInfoComponent, AddBlogComponent],
   templateUrl: './user-profile.component.html',
   styleUrl: './user-profile.component.scss',
 })

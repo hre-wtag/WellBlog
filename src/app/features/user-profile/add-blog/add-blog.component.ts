@@ -7,6 +7,7 @@ import {
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ToasterService } from '../../../core/services/toaster.service';
+import { Blog } from '../../../core/interfaces/blog';
 export interface Tag {
   title: string;
   isChecked: boolean;
@@ -21,7 +22,8 @@ export interface Tag {
 export class AddBlogComponent {
   addBlogForm: FormGroup;
   errorMsg: string | null = null;
-  uploadedFileName: string | null = null;
+  uploadedImageName: string | null = null;
+  uploadedImage: File | null = null;
   nothingIsChecked: boolean = false;
   showDropdown: boolean = false;
   tagList: Tag[] = [
@@ -31,6 +33,7 @@ export class AddBlogComponent {
     { title: 'Fiction', isChecked: false },
     { title: 'World Politics', isChecked: false },
   ];
+  blogList: Blog[] = [];
   private toasterService = inject(ToasterService);
   constructor() {
     this.addBlogForm = new FormGroup({
@@ -42,16 +45,48 @@ export class AddBlogComponent {
       blogBody: new FormControl('', Validators.required),
     });
   }
-  getFormControl = (formGroup: FormGroup, formControlName: string) => {
-    return formGroup.get(formControlName) as FormControl;
-  };
+
   onSubmit(): void {
-    console.log('Submitted');
+    if (this.addBlogForm.invalid) {
+      return;
+    }
+    const blog: Blog = { ...this.addBlogForm.value, tags: [], blogImage: '' };
+    const blogTags = this.tagList
+      .filter((tag) => tag.isChecked)
+      .map((tag) => tag.title);
+    if (!blogTags.length) {
+      this.toasterService.warning('Invalid!', 'Select at least one tag.');
+      setTimeout(() => {
+        this.toasterService.toasterInfo$.next(null);
+      }, 4000);
+      return;
+    }
+    if (this.uploadedImage === null) {
+      this.toasterService.warning('Invalid!', 'Upload an Image.');
+      setTimeout(() => {
+        this.toasterService.toasterInfo$.next(null);
+      }, 4000);
+      return;
+    }
+    blog.tags.push(...blogTags);
+    blog.blogImage = this.uploadedImage;
+    this.blogList.push(blog);
+    console.log(this.blogList, 'blogs');
+    this.clearForm();
   }
   onCancel(): void {
-    console.log('Cancelled');
+    this.clearForm();
   }
-
+  clearForm() {
+    this.addBlogForm.reset();
+    for (let i = 0; i < this.tagList.length; i++) {
+      this.tagList[i].isChecked = false;
+    }
+    this.nothingIsChecked = false;
+    this.showDropdown = false;
+    this.uploadedImage = null;
+    this.uploadedImageName = null;
+  }
   onTouched(fieldName: string): void {
     const control = this.addBlogForm.get(fieldName);
     if (control) {
@@ -78,17 +113,14 @@ export class AddBlogComponent {
 
   handleImageFileChange(event: Event): void {
     event.preventDefault();
-    console.log(event, 'event');
-
     const imageFile = (<HTMLInputElement>event.target)?.files;
     if (imageFile) {
-      console.log(imageFile[0], 'image');
-      this.uploadedFileName = imageFile[0].name;
+      this.uploadedImageName = imageFile[0].name;
+      this.uploadedImage = imageFile[0];
     }
   }
   dropHandler(ev: DragEvent) {
     ev.preventDefault();
-    console.log(ev);
     if (ev.dataTransfer?.items) {
       const files = Array.from(ev.dataTransfer.items);
       for (let i = 0; i < files.length; i++) {
@@ -96,8 +128,8 @@ export class AddBlogComponent {
         if (item.kind === 'file') {
           const file = item.getAsFile();
           if (this.validateFileType(file?.type)) {
-            console.log(`… file[${i}].name = ${file?.name}`);
-            console.log(file);
+            this.uploadedImageName = file?.name ? file?.name : null;
+            this.uploadedImage = file;
             break;
           } else {
             this.toasterService.warning(
@@ -125,7 +157,6 @@ export class AddBlogComponent {
     return null;
   }
   dragOver(event: Event) {
-    console.log('click dragOver');
     event.preventDefault();
   }
 }
