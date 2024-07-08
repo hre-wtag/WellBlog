@@ -74,7 +74,7 @@ export class AddBlogComponent implements OnInit, OnDestroy {
     if (user) {
       console.log(user, 'user');
       bloggerName = user.firstName?.concat(' ', user.lastName);
-      bloggerImagePath = user.profileImagePath ?? DEFAULT_PROFILE_PHOTO_SRC;
+      bloggerImagePath = user.profileImagePath;
     }
     const blog: Blog = {
       ...this.addBlogForm.value,
