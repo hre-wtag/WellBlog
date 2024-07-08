@@ -10,8 +10,9 @@
     color: $primary--color;
     height: 2rem;
     text-align: center;
+    max-width: 6rem !important;
   }
-  .blog-footer-img{
+  .blog-footer-img {
     height: 1.7rem;
     width: 1.7rem;
   }
