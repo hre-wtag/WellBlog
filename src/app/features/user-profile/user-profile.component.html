@@ -9,6 +9,12 @@
   @if(clickedAddBlog){
   <app-add-blog />
   }
-  <h3>My published posts</h3>
-  <app-blog-card/>
+  <div class="blogs my-3">
+    <h4 class="mt-4 mb-2">My published posts</h4>
+    <div class="blog-cards row">
+      <div class="col">
+        <app-blog-card />
+      </div>
+    </div>
+  </div>
 </div>

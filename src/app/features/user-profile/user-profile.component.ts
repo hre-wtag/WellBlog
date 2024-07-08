@@ -11,5 +11,5 @@ import { BlogCardComponent } from '../blog-card/blog-card.component';
   styleUrl: './user-profile.component.scss',
 })
 export class UserProfileComponent {
-  clickedAddBlog: boolean = true;
+  clickedAddBlog: boolean = false;
 }

@@ -1,0 +1,19 @@
+@import "../../../styles.scss";
+.blog-card {
+  height: 20.3rem;
+  width: 16.3rem;
+  .blog-card-img {
+    height: 10rem;
+    width: 15rem;
+  }
+  .tag {
+    color: $primary--color;
+    height: 1.7rem;
+    text-align: center;
+    width: 6rem;
+  }
+  .blog-footer-img{
+    height: 1.7rem;
+    width: 1.7rem;
+  }
+}
