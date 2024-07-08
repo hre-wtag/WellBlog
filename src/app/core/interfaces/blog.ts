@@ -5,5 +5,5 @@ export interface Blog {
   description: string;
   postingDate: Date;
   bloggerName: string;
-  BloggerImagePath: string;
+  bloggerImagePath: string;
 }
