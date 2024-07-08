@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -8,6 +8,8 @@ import {
 import { CommonModule } from '@angular/common';
 import { ToasterService } from '../../../core/services/toaster.service';
 import { Blog } from '../../../core/interfaces/blog';
+import { BlogService } from '../../../core/services/blog.service';
+import { Subscription } from 'rxjs';
 export interface Tag {
   title: string;
   isChecked: boolean;
@@ -19,7 +21,7 @@ export interface Tag {
   templateUrl: './add-blog.component.html',
   styleUrl: './add-blog.component.scss',
 })
-export class AddBlogComponent {
+export class AddBlogComponent implements OnInit, OnDestroy {
   addBlogForm: FormGroup;
   errorMsg: string | null = null;
   uploadedImageName: string | null = null;
@@ -33,8 +35,10 @@ export class AddBlogComponent {
     { title: 'Fiction', isChecked: false },
     { title: 'World Politics', isChecked: false },
   ];
-  blogList: Blog[] = [];
+  
   private toasterService = inject(ToasterService);
+  private blogService = inject(BlogService);
+  private blogSubcription: Subscription | null = null;
   constructor() {
     this.addBlogForm = new FormGroup({
       title: new FormControl('', [
@@ -45,7 +49,16 @@ export class AddBlogComponent {
       blogBody: new FormControl('', Validators.required),
     });
   }
-
+  ngOnInit(): void {
+    this.blogSubcription = this.blogService.blogs$.subscribe(
+      (blogs: Blog[] | null) => {
+        console.log(blogs, 'blogs$');
+      }
+    );
+  }
+  ngOnDestroy(): void {
+    this.blogSubcription?.unsubscribe();
+  }
   onSubmit(): void {
     if (this.addBlogForm.invalid) {
       return;
@@ -70,14 +83,17 @@ export class AddBlogComponent {
     }
     blog.tags.push(...blogTags);
     blog.blogImage = this.uploadedImage;
-    this.blogList.push(blog);
-    console.log(this.blogList, 'blogs');
+    this.blogService.blogs$.next([
+      ...(this.blogService.blogs$.getValue() ?? []),
+      blog,
+    ]);
     this.clearForm();
   }
+
   onCancel(): void {
     this.clearForm();
   }
-  clearForm() {
+  clearForm(): void {
     this.addBlogForm.reset();
     for (let i = 0; i < this.tagList.length; i++) {
       this.tagList[i].isChecked = false;

@@ -1,18 +1,17 @@
+@if(blog){
 <div class="card blog-card p-2">
-  <img
-    src="/Images/blogs/Graubuenden-Switzerland-with-view-of-houses-on-green-grassy-hills.png"
-    class="blog-card-img rounded"
-    alt="..."
-  />
+  <img [src]="blog.blogImage" class="blog-card-img rounded" alt="..." />
   <div class="card-body p-2">
-    <div class="blog-tags d-flex">
-      <span class="tag px-2 py-1 bg-light rounded-1">Technology</span>
+    <div class="blog-tags row align-items-center justify-content-start">
+      @for(tag of blog.tags; track $index){
+      <div class="tag col px-2 py-1 bg-light rounded-1 m-2">{{ tag }}</div>
+      }
     </div>
     <h5 class="card-title mt-1 fw-bold">
-      The Impact of Technology on the Workplace: How Technology is Changing
+     {{blog.title}}
     </h5>
-    <div class="blog-footer d-flex  align-items-center justify-content-between">
-        <img
+    <div class="blog-footer d-flex align-items-center justify-content-between">
+      <img
         src="/Images/users/3ed0d94be0a9bd3d023f00532889bab152-30-chandler-bing.rsquare.w330.webp"
         class="blog-footer-img rounded-circle"
         alt="..."
@@ -26,3 +25,4 @@
     </div>
   </div>
 </div>
+}
