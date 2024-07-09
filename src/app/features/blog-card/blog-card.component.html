@@ -4,13 +4,19 @@
   <div class="card-body p-2">
     <div class="blog-tags row align-items-center justify-content-start">
       @for(tag of blog.tags; track $index){
-      <div class="tag col px-2 py-1 bg-light rounded-1 m-2">{{ tag }}</div>
+      <div
+        class="tag col d-flex align-items-center justify-content-center bg-light rounded-1 m-2"
+      >
+        {{ tag }}
+      </div>
       }
     </div>
     <h5 class="card-title mt-1 fw-bold">
       {{ blog.title }}
     </h5>
-    <div class="blog-footer d-flex align-items-center justify-content-between w-75">
+    <div
+      class="blog-footer d-flex align-items-center justify-content-between w-75"
+    >
       <img
         [src]="
           blog.bloggerImagePath
