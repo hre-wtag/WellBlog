@@ -128,7 +128,7 @@
           }"
         ></textarea> -->
         <editor
-          class="form-control form-input blog-description"
+          class="form-control form-input blog-description p-0"
           formControlName="description"
           (blur)="onTouched('description')"
           (input)="removeWhiteSpaces($event)"
@@ -138,7 +138,7 @@
               addBlogForm.get('description')?.touched
           }"
           apiKey="l7s1lsnq5kxvzsj1h8k4va60eeiezwxrprwmoabli6hg8854"
-          [init]="{ plugins: '' }"
+          [init]="init"
         ></editor>
         @if (!addBlogForm.get('description')?.valid &&
         addBlogForm.get('description')?.touched){

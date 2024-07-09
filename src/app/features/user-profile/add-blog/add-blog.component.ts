@@ -11,7 +11,7 @@ import { Blog } from '../../../core/interfaces/blog';
 import { BlogService } from '../../../core/services/blog.service';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../../../core/services/auth.service';
-import { EditorModule } from '@tinymce/tinymce-angular';
+import { EditorComponent, EditorModule } from '@tinymce/tinymce-angular';
 export interface Tag {
   title: string;
   isChecked: boolean;
@@ -19,7 +19,7 @@ export interface Tag {
 @Component({
   selector: 'app-add-blog',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule,EditorModule],
+  imports: [CommonModule, ReactiveFormsModule, EditorModule],
   templateUrl: './add-blog.component.html',
   styleUrl: './add-blog.component.scss',
 })
@@ -37,12 +37,21 @@ export class AddBlogComponent implements OnInit, OnDestroy {
     { title: 'Fiction', isChecked: false },
     { title: 'World Politics', isChecked: false },
   ];
-
+  init: EditorComponent['init'] = {
+    plugins: 'textcolor',
+    selector: 'textarea',
+    toolbar: 'bold italic underline | forecolor backcolor ',
+    statusbar: false,
+    resize: false,
+    menubar: false,
+    inline_styles: true,
+  };
   private toasterService = inject(ToasterService);
   private blogService = inject(BlogService);
   private authService = inject(AuthService);
   private blogSubcription: Subscription | null = null;
   maxBlogId: number = 0;
+
   constructor() {
     this.addBlogForm = new FormGroup({
       title: new FormControl('', [
@@ -69,7 +78,7 @@ export class AddBlogComponent implements OnInit, OnDestroy {
 
   removeWhiteSpaces(event: Event) {
     console.log('asbhijhadjs');
-    
+
     const trimmedValue = (event.target as HTMLInputElement).value.trim();
     (event.target as HTMLInputElement).value = trimmedValue;
   }
