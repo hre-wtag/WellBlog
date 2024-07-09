@@ -49,7 +49,7 @@ export class AddBlogComponent implements OnInit, OnDestroy {
         Validators.minLength(3),
         Validators.maxLength(50),
       ]),
-      blogBody: new FormControl('', Validators.required),
+      description: new FormControl('', Validators.required),
     });
   }
   ngOnInit(): void {

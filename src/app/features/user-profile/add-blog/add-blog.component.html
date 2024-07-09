@@ -118,17 +118,17 @@
         <textarea
           type="text"
           class="form-control form-input blog-description"
-          formControlName="blogBody"
-          (blur)="onTouched('blogBody')"
+          formControlName="description"
+          (blur)="onTouched('description')"
           (input)="removeWhiteSpaces($event)"
           [ngClass]="{
             'border-danger':
-              !addBlogForm.get('blogBody')?.valid &&
-              addBlogForm.get('blogBody')?.touched
+              !addBlogForm.get('description')?.valid &&
+              addBlogForm.get('description')?.touched
           }"
         ></textarea>
-        @if (!addBlogForm.get('blogBody')?.valid &&
-        addBlogForm.get('blogBody')?.touched){
+        @if (!addBlogForm.get('description')?.valid &&
+        addBlogForm.get('description')?.touched){
         <div class="text-danger">blog Body error</div>
         }
       </div>
