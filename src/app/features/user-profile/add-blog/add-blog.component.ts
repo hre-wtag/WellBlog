@@ -157,7 +157,6 @@ export class AddBlogComponent implements OnInit, OnDestroy {
     const imageFile = (<HTMLInputElement>event.target)?.files;
     if (imageFile) {
       this.uploadedImageName = imageFile[0].name;
-      // this.uploadedImage = imageFile[0];
       const reader = new FileReader();
       reader.onload = (e: any) => {
         this.uploadedImage = e.target.result;
@@ -175,7 +174,6 @@ export class AddBlogComponent implements OnInit, OnDestroy {
           const file = item.getAsFile();
           if (this.validateFileType(file?.type)) {
             this.uploadedImageName = file?.name ? file?.name : null;
-            // this.uploadedImage = file;
             const reader = new FileReader();
             reader.onload = (e: any) => {
               this.uploadedImage = e.target.result;
