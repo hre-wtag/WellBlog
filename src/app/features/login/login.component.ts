@@ -46,7 +46,7 @@ export class LoginComponent implements OnInit {
     this.sub.pipe(debounceTime(500)).subscribe((user: AuthUser) => {
       const loginStatus = this.authService.authenticateUser(user);
       if (loginStatus === true) {
-        this.toasterService.success('success!', 'Login successful.');
+        this.toasterService.success('Success!', 'Login successful.');
         setTimeout(() => {
           this.toasterService.clear();
         }, 3000);

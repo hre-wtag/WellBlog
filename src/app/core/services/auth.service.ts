@@ -10,22 +10,52 @@ export class AuthService {
   user$ = new BehaviorSubject<User | null>(null);
 
   registerUser(user: User): void {
-    localStorage.setItem('registeredUser', JSON.stringify(user));
+    const uId = this.getLatestUserID();
+    let userWithID = { ...user, id: uId + 1 };
+    let storedUsers = this.getRegisteredUsers();
+    let usersArray = storedUsers ? [...storedUsers, userWithID] : [userWithID];
+    localStorage.setItem('registeredUsers', JSON.stringify(usersArray));
+  }
+  getRegisteredUsers(): User[] | null {
+    let users: User[];
+    const storedUserData = localStorage.getItem('registeredUsers');
+    if (storedUserData) {
+      users = JSON.parse(storedUserData);
+      console.log(users, 'parsed users');
+      return users;
+    }
+    return null;
+  }
+  getLatestUserID(): number {
+    let storedUsers = this.getRegisteredUsers();
+    console.log(storedUsers, 'storedUsers');
+    if (storedUsers) {
+      storedUsers.sort((a, b) => b.id - a.id);
+      console.log(storedUsers);
+      return storedUsers[0].id;
+    }
+    return 0;
+  }
+  validateUsername(username: string): boolean {
+    let storedUsers = this.getRegisteredUsers();
+
+    return storedUsers?.find((user) => user.username === username)
+      ? true
+      : false;
   }
 
   authenticateUser(authUser: AuthUser): boolean {
-    let user;
-    const storedUserData = localStorage.getItem('registeredUser');
-    if (storedUserData) {
-      user = JSON.parse(storedUserData);
-    }
-    if (
-      user &&
-      user.username === authUser.username &&
-      user.password === authUser.password
-    ) {
-      this.setLoggedInUser(user);
-      return true;
+    let storedUsers = this.getRegisteredUsers();
+    if (storedUsers) {
+      for (let user of storedUsers)
+        if (
+          user &&
+          user.username === authUser.username &&
+          user.password === authUser.password
+        ) {
+          this.setLoggedInUser(user);
+          return true;
+        }
     }
     return false;
   }

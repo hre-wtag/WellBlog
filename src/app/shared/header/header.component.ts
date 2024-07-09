@@ -11,7 +11,6 @@ import {
   NavigationEnd,
   Router,
   RouterLink,
-  UrlSegment,
 } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
 import { PreviousRouteService } from '../../core/services/previous-route.service';

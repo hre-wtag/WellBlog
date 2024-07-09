@@ -35,6 +35,7 @@ export class RegisterComponent {
   registerForm: FormGroup;
   showPassword: boolean | Event = false;
   showConfirmPassword: boolean | Event = false;
+  usernameError: boolean = false;
   confirmPasswordError: string | null = null;
   login_route: string = SLASH + LOGIN_ROUTE;
   passwordField: boolean | Event = false;
@@ -49,13 +50,11 @@ export class RegisterComponent {
     this.registerForm = new FormGroup({
       firstName: new FormControl('', [
         Validators.required,
-        this.validatorService.noSpacesValidator(),
         Validators.minLength(3),
         Validators.maxLength(15),
       ]),
       lastName: new FormControl('', [
         Validators.required,
-        this.validatorService.noSpacesValidator(),
         Validators.minLength(3),
         Validators.maxLength(15),
       ]),
@@ -91,6 +90,11 @@ export class RegisterComponent {
     const control = this.registerForm.get(fieldName);
     if (control) {
       control.markAsTouched();
+    }
+    if (fieldName === 'username') {
+      this.usernameError = this.authService.validateUsername(
+        this.registerForm.get('username')?.value
+      );
     }
   }
   onLogin(): void {
