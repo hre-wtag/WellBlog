@@ -26,12 +26,14 @@
             "assets": [
               {
                 "glob": "**/*",
-                "input": "public"
+                "input": "public, node_modules/tinymce",
+                "output": "/tinymce/"
               }
             ],
             "styles": ["src/styles.scss"],
             "scripts": [
-              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
+              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js",
+              "node_modules/tinymce/tinymce.min.js"
             ]
           },
           "configurations": {

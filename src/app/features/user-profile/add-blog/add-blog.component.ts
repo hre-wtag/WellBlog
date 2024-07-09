@@ -11,6 +11,7 @@ import { Blog } from '../../../core/interfaces/blog';
 import { BlogService } from '../../../core/services/blog.service';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../../../core/services/auth.service';
+import { EditorModule } from '@tinymce/tinymce-angular';
 export interface Tag {
   title: string;
   isChecked: boolean;
@@ -18,7 +19,7 @@ export interface Tag {
 @Component({
   selector: 'app-add-blog',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule,EditorModule],
   templateUrl: './add-blog.component.html',
   styleUrl: './add-blog.component.scss',
 })

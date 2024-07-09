@@ -115,7 +115,7 @@
       </div>
       <div class="col mb-3">
         <label class="form-label">Blog Body</label>
-        <textarea
+        <!-- <textarea
           type="text"
           class="form-control form-input blog-description"
           formControlName="description"
@@ -126,10 +126,23 @@
               !addBlogForm.get('description')?.valid &&
               addBlogForm.get('description')?.touched
           }"
-        ></textarea>
+        ></textarea> -->
+        <editor
+          class="form-control form-input blog-description"
+          formControlName="description"
+          (blur)="onTouched('description')"
+          (input)="removeWhiteSpaces($event)"
+          [ngClass]="{
+            'border-danger':
+              !addBlogForm.get('description')?.valid &&
+              addBlogForm.get('description')?.touched
+          }"
+          apiKey="l7s1lsnq5kxvzsj1h8k4va60eeiezwxrprwmoabli6hg8854"
+          [init]="{ plugins: '' }"
+        ></editor>
         @if (!addBlogForm.get('description')?.valid &&
         addBlogForm.get('description')?.touched){
-        <div class="text-danger">blog Body error</div>
+        <div class="text-danger">This field is required.</div>
         }
       </div>
     </div>
