@@ -9,9 +9,8 @@ import { CommonModule } from '@angular/common';
 import { ToasterService } from '../../../core/services/toaster.service';
 import { Blog } from '../../../core/interfaces/blog';
 import { BlogService } from '../../../core/services/blog.service';
-import { Subscription, filter, map, reduce } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { AuthService } from '../../../core/services/auth.service';
-import { DEFAULT_PROFILE_PHOTO_SRC } from '../../../core/utils/constants';
 export interface Tag {
   title: string;
   isChecked: boolean;
@@ -48,7 +47,7 @@ export class AddBlogComponent implements OnInit, OnDestroy {
       title: new FormControl('', [
         Validators.required,
         Validators.minLength(3),
-        Validators.maxLength(15),
+        Validators.maxLength(50),
       ]),
       blogBody: new FormControl('', Validators.required),
     });
@@ -66,12 +65,19 @@ export class AddBlogComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.blogSubcription?.unsubscribe();
   }
+
+  removeWhiteSpaces(event: Event) {
+    console.log('asbhijhadjs');
+    
+    const trimmedValue = (event.target as HTMLInputElement).value.trim();
+    (event.target as HTMLInputElement).value = trimmedValue;
+  }
+
   onSubmit(): void {
     if (this.addBlogForm.invalid) {
       return;
     }
     const user = this.authService.user$.getValue();
-
     let bloggerName;
     let bloggerImagePath;
     if (user) {
@@ -87,7 +93,7 @@ export class AddBlogComponent implements OnInit, OnDestroy {
       bloggerName: bloggerName,
       bloggerImagePath: bloggerImagePath,
       bloggerId: user?.id,
-      id:this.maxBlogId+1
+      id: this.maxBlogId + 1,
     };
     const blogTags = this.tagList
       .filter((tag) => tag.isChecked)

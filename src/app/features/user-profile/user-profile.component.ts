@@ -27,9 +27,14 @@ export class UserProfileComponent implements OnInit {
   ngOnInit(): void {
     this.blogList$ = this.blogService.blogs$.asObservable().pipe(
       map((blogs: Blog[] | null) => {
+        console.log(blogs);
         if (blogs !== null) {
           this.hasBlogs = true;
-          blogs.sort((a, b) => new Date(b.postingDate).getTime() - new Date(a.postingDate).getTime())
+          blogs.sort(
+            (a, b) =>
+              new Date(b.postingDate).getTime() -
+              new Date(a.postingDate).getTime()
+          );
           return blogs;
         } else {
           this.hasBlogs = false;
