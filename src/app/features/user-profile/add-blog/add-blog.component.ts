@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common';
 import { ToasterService } from '../../../core/services/toaster.service';
 import { Blog } from '../../../core/interfaces/blog';
 import { BlogService } from '../../../core/services/blog.service';
-import { Subscription } from 'rxjs';
+import { Subscription, filter, map, reduce } from 'rxjs';
 import { AuthService } from '../../../core/services/auth.service';
 import { DEFAULT_PROFILE_PHOTO_SRC } from '../../../core/utils/constants';
 export interface Tag {
@@ -42,6 +42,7 @@ export class AddBlogComponent implements OnInit, OnDestroy {
   private blogService = inject(BlogService);
   private authService = inject(AuthService);
   private blogSubcription: Subscription | null = null;
+  maxBlogId: number = 0;
   constructor() {
     this.addBlogForm = new FormGroup({
       title: new FormControl('', [
@@ -55,10 +56,13 @@ export class AddBlogComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.blogSubcription = this.blogService.blogs$.subscribe(
       (blogs: Blog[] | null) => {
-        console.log(blogs, 'blogs$');
+        this.maxBlogId =
+          blogs?.reduce((maxId, blog) => Math.max(maxId, blog?.id || 0), 0) ??
+          0;
       }
     );
   }
+
   ngOnDestroy(): void {
     this.blogSubcription?.unsubscribe();
   }
@@ -67,15 +71,14 @@ export class AddBlogComponent implements OnInit, OnDestroy {
       return;
     }
     const user = this.authService.user$.getValue();
-    console.log(user, 'user');
 
     let bloggerName;
     let bloggerImagePath;
     if (user) {
-      console.log(user, 'user');
       bloggerName = user.firstName?.concat(' ', user.lastName);
       bloggerImagePath = user.profileImagePath;
     }
+    const blogId = this.blogService.blogs$.getValue();
     const blog: Blog = {
       ...this.addBlogForm.value,
       tags: [],
@@ -83,6 +86,8 @@ export class AddBlogComponent implements OnInit, OnDestroy {
       postingDate: Date(),
       bloggerName: bloggerName,
       bloggerImagePath: bloggerImagePath,
+      bloggerId: user?.id,
+      id:this.maxBlogId+1
     };
     const blogTags = this.tagList
       .filter((tag) => tag.isChecked)
