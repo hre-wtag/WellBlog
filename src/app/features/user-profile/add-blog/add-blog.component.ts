@@ -12,6 +12,7 @@ import { BlogService } from '../../../core/services/blog.service';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../../../core/services/auth.service';
 import { EditorComponent, EditorModule } from '@tinymce/tinymce-angular';
+import { TINYMCE_API_KEY } from '../../../../environments/seretKeys';
 
 export interface Tag {
   title: string;
@@ -38,6 +39,7 @@ export class AddBlogComponent implements OnInit, OnDestroy {
     { title: 'Fiction', isChecked: false },
     { title: 'World Politics', isChecked: false },
   ];
+  tinyAPIKey: string = TINYMCE_API_KEY;
   init: EditorComponent['init'] = {
     plugins: 'emoticons link lists advlist preview',
     toolbar:
