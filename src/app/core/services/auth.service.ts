@@ -19,19 +19,12 @@ export class AuthService {
   getRegisteredUsers(): User[] | null {
     let users: User[];
     const storedUserData = localStorage.getItem('registeredUsers');
-    if (storedUserData) {
-      users = JSON.parse(storedUserData);
-      console.log(users, 'parsed users');
-      return users;
-    }
-    return null;
+    return storedUserData ? JSON.parse(storedUserData) : null;
   }
   getLatestUserID(): number {
     let storedUsers = this.getRegisteredUsers();
-    console.log(storedUsers, 'storedUsers');
     if (storedUsers) {
       storedUsers.sort((a, b) => b.id - a.id);
-      console.log(storedUsers);
       return storedUsers[0].id;
     }
     return 0;

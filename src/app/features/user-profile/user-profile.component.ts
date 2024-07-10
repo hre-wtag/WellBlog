@@ -29,7 +29,6 @@ export class UserProfileComponent implements OnInit {
   ngOnInit(): void {
     this.blogList$ = this.blogService.blogs$.asObservable().pipe(
       map((blogs: Blog[] | null) => {
-        console.log(blogs);
         if (blogs) {
           const filteredBlogs = blogs
             .filter(
@@ -41,9 +40,6 @@ export class UserProfileComponent implements OnInit {
                 new Date(a.postingDate).getTime()
             );
           this.hasBlogs = filteredBlogs.length > 0;
-
-          console.log(filteredBlogs, filteredBlogs.length, this.hasBlogs);
-
           return filteredBlogs;
         } else {
           this.hasBlogs = false;
