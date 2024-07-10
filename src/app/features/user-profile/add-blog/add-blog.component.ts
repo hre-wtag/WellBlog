@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -12,6 +12,7 @@ import { BlogService } from '../../../core/services/blog.service';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../../../core/services/auth.service';
 import { EditorComponent, EditorModule } from '@tinymce/tinymce-angular';
+
 export interface Tag {
   title: string;
   isChecked: boolean;
@@ -38,13 +39,16 @@ export class AddBlogComponent implements OnInit, OnDestroy {
     { title: 'World Politics', isChecked: false },
   ];
   init: EditorComponent['init'] = {
-    plugins: 'textcolor',
-    selector: 'textarea',
-    toolbar: 'bold italic underline | forecolor backcolor ',
+    plugins: 'emoticons link lists advlist preview',
+    toolbar:
+      'fontfamily fontsize |  bold italic underline  forecolor backcolor emoticons link |  numlist bullist lists advlist |  indent outdent removeformat preview',
+    advlist_number_styles:
+      'default lower-alpha lower-greek lower-roman upper-alpha upper-roman',
+    advlist_bullet_styles: 'default circle disc square',
     statusbar: false,
     resize: false,
     menubar: false,
-    inline_styles: true,
+    content_css: 'src/styles.scss',
   };
   private toasterService = inject(ToasterService);
   private blogService = inject(BlogService);
@@ -75,7 +79,6 @@ export class AddBlogComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.blogSubcription?.unsubscribe();
   }
-
   removeWhiteSpaces(event: Event) {
     console.log('asbhijhadjs');
 
