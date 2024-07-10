@@ -40,7 +40,7 @@ body {
     border-color: $primary--color;
     box-shadow: none;
   }
-  &:checked{
+  &:checked {
     background-color: $primary--color;
   }
 }
@@ -66,4 +66,19 @@ body {
 .btn {
   height: 2.9rem;
   width: 8rem;
+}
+.blog-description {
+  padding: 10px !important;
+  .tox-tinymce {
+    border: none !important;
+  }
+  .tox .tox-edit-area::before {
+    border: 2px solid $primary--color;
+    border-radius: 1rem;
+    margin-top: 0.25rem;
+    padding: 10px;
+  }
+  .tox-edit-area {
+    border-radius: 0.3rem;
+  }
 }
