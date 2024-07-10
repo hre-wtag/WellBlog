@@ -37,7 +37,9 @@ export class AddBlogComponent implements OnInit, OnDestroy {
     { title: 'Poetry', isChecked: false },
     { title: 'Films', isChecked: false },
     { title: 'Fiction', isChecked: false },
-    { title: 'World Politics', isChecked: false },
+    { title: 'Adventure', isChecked: false },
+    { title: 'Tourism', isChecked: false },
+    { title: 'Nature', isChecked: false },
   ];
   tinyAPIKey: string = TINYMCE_API_KEY;
   init: EditorComponent['init'] = {
@@ -60,11 +62,7 @@ export class AddBlogComponent implements OnInit, OnDestroy {
 
   constructor() {
     this.addBlogForm = new FormGroup({
-      title: new FormControl('', [
-        Validators.required,
-        Validators.minLength(3),
-        Validators.maxLength(50),
-      ]),
+      title: new FormControl('', [Validators.required]),
       description: new FormControl('', Validators.required),
     });
   }
