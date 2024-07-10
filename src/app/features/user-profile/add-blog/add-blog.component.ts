@@ -82,8 +82,6 @@ export class AddBlogComponent implements OnInit, OnDestroy {
     this.blogSubcription?.unsubscribe();
   }
   removeWhiteSpaces(event: Event) {
-    console.log('asbhijhadjs');
-
     const trimmedValue = (event.target as HTMLInputElement).value.trim();
     (event.target as HTMLInputElement).value = trimmedValue;
   }
@@ -99,7 +97,6 @@ export class AddBlogComponent implements OnInit, OnDestroy {
       bloggerName = user.firstName?.concat(' ', user.lastName);
       bloggerImagePath = user.profileImagePath;
     }
-    const blogId = this.blogService.blogs$.getValue();
     const blog: Blog = {
       ...this.addBlogForm.value,
       tags: [],
