@@ -13,6 +13,7 @@ import { Subscription } from 'rxjs';
 import { AuthService } from '../../../core/services/auth.service';
 import { EditorComponent, EditorModule } from '@tinymce/tinymce-angular';
 import { TINYMCE_API_KEY } from '../../../../environments/seretKeys';
+import { HtmlToTextService } from '../../../core/services/html-to-text.service';
 
 export interface Tag {
   title: string;
@@ -53,10 +54,16 @@ export class AddBlogComponent implements OnInit, OnDestroy {
     resize: false,
     menubar: false,
     content_css: 'src/styles.scss',
+    // setup: (editor) => {
+    //   editor.on('change', (e) => {
+    //     console.log(e, 'keydown press detected');
+    //   });
+    // },
   };
   private toasterService = inject(ToasterService);
   private blogService = inject(BlogService);
   private authService = inject(AuthService);
+  private htmlTOTextService = inject(HtmlToTextService);
   private blogSubcription: Subscription | null = null;
   maxBlogId: number = 0;
 
@@ -88,23 +95,7 @@ export class AddBlogComponent implements OnInit, OnDestroy {
     if (this.addBlogForm.invalid) {
       return;
     }
-    const user = this.authService.user$.getValue();
-    let bloggerName;
-    let bloggerImagePath;
-    if (user) {
-      bloggerName = user.firstName?.concat(' ', user.lastName);
-      bloggerImagePath = user.profileImagePath;
-    }
-    const blog: Blog = {
-      ...this.addBlogForm.value,
-      tags: [],
-      blogImage: '',
-      postingDate: Date(),
-      bloggerName: bloggerName,
-      bloggerImagePath: bloggerImagePath,
-      bloggerId: user?.id,
-      id: this.maxBlogId + 1,
-    };
+
     const blogTags = this.tagList
       .filter((tag) => tag.isChecked)
       .map((tag) => tag.title);
@@ -122,6 +113,37 @@ export class AddBlogComponent implements OnInit, OnDestroy {
       }, 4000);
       return;
     }
+
+    const convertedText = this.htmlTOTextService.htmlToText(
+      this.addBlogForm.get('description')?.value
+    );
+
+    console.log(convertedText.trim(), 'trimmed value');
+    if (convertedText.trim() === '') {
+      this.toasterService.warning('Invalid!', 'Must add blog Description.');
+      setTimeout(() => {
+        this.toasterService.toasterInfo$.next(null);
+      }, 4000);
+      return;
+    }
+    const user = this.authService.user$.getValue();
+    let bloggerName;
+    let bloggerImagePath;
+    if (user) {
+      bloggerName = user.firstName?.concat(' ', user.lastName);
+      bloggerImagePath = user.profileImagePath;
+    }
+
+    const blog: Blog = {
+      ...this.addBlogForm.value,
+      tags: [],
+      blogImage: '',
+      postingDate: Date(),
+      bloggerName: bloggerName,
+      bloggerImagePath: bloggerImagePath,
+      bloggerId: user?.id,
+      id: this.maxBlogId + 1,
+    };
     blog.tags.push(...blogTags);
     blog.blogImage = this.uploadedImage;
     this.blogService.blogs$.next([
