@@ -7,11 +7,13 @@ import { PreviousRouteService } from './core/services/previous-route.service';
 import { inject } from '@angular/core';
 import { UserProfileComponent } from './features/user-profile/user-profile.component';
 import {
+  BLOG_ROUTE_WITH_PARAM,
   HOME_ROUTE,
   LOGIN_ROUTE,
   PROFILE_ROUTE,
   REGISTER_ROUTE,
 } from './core/utils/constants';
+import { BlogComponent } from './features/blog/blog.component';
 
 const notLoggedInGuard: CanMatchFn = () => {
   const router = inject(Router);
@@ -58,6 +60,10 @@ export const routes: Routes = [
     title: 'Profile',
     component: UserProfileComponent,
     canMatch: [loggedInGuard],
+  },
+  {
+    path: BLOG_ROUTE_WITH_PARAM,
+    component: BlogComponent,
   },
   {
     path: '**',

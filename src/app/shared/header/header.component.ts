@@ -5,6 +5,7 @@ import {
   REGISTER_ROUTE,
   PROFILE_ROUTE,
   SLASH,
+  BLOG_ROUTE,
 } from '../../core/utils/constants';
 import {
   ActivatedRoute,
@@ -30,6 +31,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   login_route: string = SLASH + LOGIN_ROUTE;
   register_route: string = SLASH + REGISTER_ROUTE;
   profile_route: string = SLASH + PROFILE_ROUTE;
+  blog_route: string = SLASH + BLOG_ROUTE;
   isLoggedin: boolean = false;
   userName: string | undefined = undefined;
   currentPage: string = '';
@@ -38,19 +40,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   private authService = inject(AuthService);
   private activatedRoute = inject(ActivatedRoute);
   userSubcription: Subscription | null = null;
-
-  ngOnInit(): void {
-    this.isLoggedin = this.authService.isLoggedIn();
-    this.userSubcription = this.authService.user$.subscribe(
-      (user: User | null) => {
-        if (user) {
-          this.isLoggedin = true;
-          this.userName = user?.username;
-        } else {
-          this.isLoggedin = false;
-        }
-      }
-    );
+  constructor() {
     this.router.events
       .pipe(
         filter((event) => event instanceof NavigationEnd),
@@ -66,6 +56,19 @@ export class HeaderComponent implements OnInit, OnDestroy {
           this.currentPage = path ? '/' + path : '';
         },
       });
+  }
+  ngOnInit(): void {
+    this.isLoggedin = this.authService.isLoggedIn();
+    this.userSubcription = this.authService.user$.subscribe(
+      (user: User | null) => {
+        if (user) {
+          this.isLoggedin = true;
+          this.userName = user?.username;
+        } else {
+          this.isLoggedin = false;
+        }
+      }
+    );
   }
 
   logout(): void {
