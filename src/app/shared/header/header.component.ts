@@ -16,7 +16,6 @@ import {
 import { AuthService } from '../../core/services/auth.service';
 import { PreviousRouteService } from '../../core/services/previous-route.service';
 import { Subscription, filter, map } from 'rxjs';
-import { __values } from 'tslib';
 import { User } from '../../core/interfaces/user';
 
 @Component({
