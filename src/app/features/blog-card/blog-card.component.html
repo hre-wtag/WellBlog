@@ -1,5 +1,5 @@
 @if(blog){
-<div class="card blog-card p-2">
+<div class="card blog-card p-2" [id]="'blog-'+blog.id">
   <img [src]="blog.blogImage" class="blog-card-img rounded" alt="..." />
   <div class="card-body p-2">
     <div
