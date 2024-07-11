@@ -17,7 +17,6 @@ export class BlogComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
   blog: Blog | null = null;
   ngOnInit(): void {
-    console.log(this.activatedRoute);
     const routeSubscription = this.activatedRoute.paramMap.subscribe({
       next: (paramMap) => {
         const blogID = paramMap.get('id');

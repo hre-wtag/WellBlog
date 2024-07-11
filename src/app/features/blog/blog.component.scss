@@ -1,0 +1,21 @@
+@import "../../../styles.scss";
+
+.blog-container {
+  width: 50rem;
+}
+.blog-image {
+  height: 20rem;
+  width: 49.3rem;
+}
+.blogger-img {
+  height: 1.7rem;
+  width: 1.7rem;
+}
+.blog-tags {
+  flex-wrap: wrap;
+  width: 15rem;
+}
+.tag-btn {
+  background-color: $primary--color;
+  border-color: $primary--color;
+}

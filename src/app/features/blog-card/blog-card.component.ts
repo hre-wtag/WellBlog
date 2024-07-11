@@ -2,7 +2,6 @@ import { Component, Input } from '@angular/core';
 import { Blog } from '../../core/interfaces/blog';
 import {
   BLOG_ROUTE,
-  BLOG_ROUTE_WITH_PARAM,
   DEFAULT_PROFILE_PHOTO_SRC,
   SLASH,
 } from '../../core/utils/constants';
