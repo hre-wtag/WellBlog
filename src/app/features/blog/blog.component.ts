@@ -21,11 +21,6 @@ export class BlogComponent implements OnInit {
     const routeSubscription = this.activatedRoute.paramMap.subscribe({
       next: (paramMap) => {
         const blogID = paramMap.get('id');
-        // this.blogService.blogs$.subscribe((blogs) => {
-        //   this.blog =
-        //     blogs?.find((blog: Blog) => blog.id.toString() === blogID) ?? null;
-        //   console.log(this.blog, 'blog');
-        // });
         const blogSubcription = this.blogService.blogs$
           .pipe(
             map((arr) =>
