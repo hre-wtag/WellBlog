@@ -107,7 +107,7 @@ export class AddBlogComponent implements OnInit, OnDestroy {
       return;
     }
     if (this.uploadedImage === null) {
-      this.toasterService.warning('Invalid!', 'Upload an Image.');
+      this.toasterService.warning('Invalid!', 'Must upload an Image.');
       setTimeout(() => {
         this.toasterService.toasterInfo$.next(null);
       }, 4000);
