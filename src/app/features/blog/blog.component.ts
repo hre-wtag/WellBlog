@@ -5,10 +5,8 @@ import { Blog } from '../../core/interfaces/blog';
 import { map } from 'rxjs';
 import {
   DEFAULT_PROFILE_PHOTO_SRC,
-  HOME_ROUTE,
 } from '../../core/utils/constants';
 import { CommonModule } from '@angular/common';
-import { PreviousRouteService } from '../../core/services/previous-route.service';
 
 @Component({
   selector: 'app-blog',
