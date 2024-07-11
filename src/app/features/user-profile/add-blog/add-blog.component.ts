@@ -54,11 +54,6 @@ export class AddBlogComponent implements OnInit, OnDestroy {
     resize: false,
     menubar: false,
     content_css: 'src/styles.scss',
-    // setup: (editor) => {
-    //   editor.on('change', (e) => {
-    //     console.log(e, 'keydown press detected');
-    //   });
-    // },
   };
   private toasterService = inject(ToasterService);
   private blogService = inject(BlogService);
@@ -117,8 +112,6 @@ export class AddBlogComponent implements OnInit, OnDestroy {
     const convertedText = this.htmlTOTextService.htmlToText(
       this.addBlogForm.get('description')?.value
     );
-
-    console.log(convertedText.trim(), 'trimmed value');
     if (convertedText.trim() === '') {
       this.toasterService.warning('Invalid!', 'Must add blog Description.');
       setTimeout(() => {
