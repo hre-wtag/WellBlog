@@ -5,8 +5,9 @@
     ></span>
     <span class="edit-button ms-2"><i class="bi bi-pencil-square"></i></span>
   </div>
+  @if(!clickedAddBlog){
   <app-user-info />
-  @if(clickedAddBlog){
+  } @if(clickedAddBlog){
   <app-add-blog />
   }
   <div class="blogs my-3">
