@@ -48,4 +48,7 @@ export class UserProfileComponent implements OnInit {
       })
     );
   }
+  handleAddFormSubmitted(formSubmitted: boolean): void {
+    this.clickedAddBlog = formSubmitted;
+  }
 }

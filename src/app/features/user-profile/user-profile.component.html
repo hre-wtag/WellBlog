@@ -8,7 +8,7 @@
   @if(!clickedAddBlog){
   <app-user-info />
   } @if(clickedAddBlog){
-  <app-add-blog />
+  <app-add-blog (formSubmitted)="handleAddFormSubmitted($event)"/>
   }
   <div class="blogs my-3">
     <h4 class="mt-4 mb-2">My published posts</h4>
