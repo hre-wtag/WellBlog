@@ -1,4 +1,11 @@
-import { Component, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  OnDestroy,
+  OnInit,
+  Output,
+  inject,
+} from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -55,12 +62,14 @@ export class AddBlogComponent implements OnInit, OnDestroy {
     menubar: false,
     content_css: 'src/styles.scss',
   };
+  maxBlogId: number = 0;
+
+  @Output() formSubmitted = new EventEmitter<boolean>();
   private toasterService = inject(ToasterService);
   private blogService = inject(BlogService);
   private authService = inject(AuthService);
   private htmlTOTextService = inject(HtmlToTextService);
   private blogSubcription: Subscription | null = null;
-  maxBlogId: number = 0;
 
   constructor() {
     this.addBlogForm = new FormGroup({
@@ -143,6 +152,7 @@ export class AddBlogComponent implements OnInit, OnDestroy {
       ...(this.blogService.blogs$.getValue() ?? []),
       blog,
     ]);
+    this.formSubmitted.emit(false);
     this.clearForm();
   }
 
@@ -158,12 +168,6 @@ export class AddBlogComponent implements OnInit, OnDestroy {
     this.showDropdown = false;
     this.uploadedImage = null;
     this.uploadedImageName = null;
-  }
-  onTouched(fieldName: string): void {
-    const control = this.addBlogForm.get(fieldName);
-    if (control) {
-      control.markAsTouched();
-    }
   }
   onCheckboxClick(title: string, isChecked: boolean): void {
     const existingTagIndex = this.tagList.findIndex(
@@ -195,7 +199,7 @@ export class AddBlogComponent implements OnInit, OnDestroy {
       reader.readAsDataURL(imageFile[0]);
     }
   }
-  dropHandler(ev: DragEvent) {
+  dropHandler(ev: DragEvent): void {
     ev.preventDefault();
     if (ev.dataTransfer?.items) {
       const files = Array.from(ev.dataTransfer.items);

@@ -5,9 +5,10 @@
     ></span>
     <span class="edit-button ms-2"><i class="bi bi-pencil-square"></i></span>
   </div>
+  @if(!clickedAddBlog){
   <app-user-info />
-  @if(clickedAddBlog){
-  <app-add-blog />
+  } @if(clickedAddBlog){
+  <app-add-blog (formSubmitted)="handleAddFormSubmitted($event)"/>
   }
   <div class="blogs my-3">
     <h4 class="mt-4 mb-2">My published posts</h4>

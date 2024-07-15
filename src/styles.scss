@@ -68,14 +68,14 @@ body {
   width: 8rem;
 }
 .blog-description {
-  padding: 10px !important;
+  padding: 1.6rem !important;
   .tox-tinymce {
     border: none !important;
   }
   .tox .tox-edit-area::before {
-    border: 2px solid $primary--color;
+    border: 0.125rem solid $primary--color;
     border-radius: 1rem;
-    padding: 10px;
+    padding: 1.6rem;
   }
   .tox-edit-area {
     border-radius: 0.3rem;

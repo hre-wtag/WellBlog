@@ -63,7 +63,7 @@
               type="text"
               class="form-control form-input"
               formControlName="username"
-              (blur)="checkUsername('username')"
+              (blur)="checkUsername()"
               [ngClass]="{
                 'border-danger':
                   (!registerForm.get('username')?.valid &&
