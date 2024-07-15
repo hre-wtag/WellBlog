@@ -87,12 +87,7 @@ export class RegisterComponent {
       this.showConfirmPassword = event as boolean;
     }
   }
-  onTouched(fieldName: string): void {
-    const control = this.registerForm.get(fieldName);
-    if (control) {
-      control.markAsTouched();
-    }
-  }
+
   onLogin(): void {
     this.router.navigate([this.login_route]);
   }

@@ -10,7 +10,6 @@
               type="text"
               class="form-control form-input"
               formControlName="username"
-              (blur)="onTouched('username')"
               [ngClass]="{
                 'border-danger':
                   !loginForm.get('username')?.valid &&
@@ -29,7 +28,6 @@
                 [type]="showPassword ? 'text' : 'password'"
                 class="form-control form-input"
                 formControlName="password"
-                (blur)="onTouched('password')"
                 [ngClass]="{
                   'border-danger':
                     !loginForm.get('password')?.valid &&
@@ -72,4 +70,3 @@
     </form>
   </div>
 </div>
-
