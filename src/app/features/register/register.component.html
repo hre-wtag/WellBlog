@@ -10,7 +10,6 @@
               type="text"
               class="form-control form-input"
               formControlName="firstName"
-              (blur)="onTouched('firstName')"
               [ngClass]="{
                 'border-danger':
                   !registerForm.get('firstName')?.valid &&
@@ -30,7 +29,6 @@
               type="text"
               class="form-control form-input"
               formControlName="lastName"
-              (blur)="onTouched('lastName')"
               [ngClass]="{
                 'border-danger':
                   !registerForm.get('lastName')?.valid &&
@@ -48,7 +46,6 @@
               type="email"
               class="form-control form-input"
               formControlName="email"
-              (blur)="onTouched('email')"
               [ngClass]="{
                 'border-danger':
                   !registerForm.get('email')?.valid &&
@@ -66,7 +63,7 @@
               type="text"
               class="form-control form-input"
               formControlName="username"
-              (blur)="onTouched('username')"
+              (blur)="checkUsername()"
               [ngClass]="{
                 'border-danger':
                   (!registerForm.get('username')?.valid &&
@@ -91,7 +88,6 @@
                 [type]="showPassword ? 'text' : 'password'"
                 class="form-control form-input"
                 formControlName="password"
-                (blur)="onTouched('password')"
                 (input)="matchPassword()"
                 [ngClass]="{
                   'border-danger':
@@ -124,7 +120,6 @@
                 [type]="showConfirmPassword ? 'text' : 'password'"
                 class="form-control form-input"
                 formControlName="confirmPassword"
-                (blur)="onTouched('confirmPassword')"
                 (input)="matchPassword()"
                 [ngClass]="{
                   'border-danger':

@@ -73,10 +73,5 @@ export class LoginComponent implements OnInit {
     this.sub.next(user);
   }
 
-  onTouched(fieldName: string): void {
-    const control = this.loginForm.get(fieldName);
-    if (control) {
-      control.markAsTouched();
-    }
-  }
+
 }
