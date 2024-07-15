@@ -86,11 +86,8 @@ export class RegisterComponent {
       this.showConfirmPassword = event as boolean;
     }
   }
-  onTouched(fieldName: string): void {
-    const control = this.registerForm.get(fieldName);
-    if (control) {
-      control.markAsTouched();
-    }
+  checkUsername(fieldName: string): void {
+ 
     if (fieldName === 'username') {
       this.usernameError = this.authService.validateUsername(
         this.registerForm.get('username')?.value
