@@ -159,12 +159,6 @@ export class AddBlogComponent implements OnInit, OnDestroy {
     this.uploadedImage = null;
     this.uploadedImageName = null;
   }
-  onTouched(fieldName: string): void {
-    const control = this.addBlogForm.get(fieldName);
-    if (control) {
-      control.markAsTouched();
-    }
-  }
   onCheckboxClick(title: string, isChecked: boolean): void {
     const existingTagIndex = this.tagList.findIndex(
       (tag) => tag.title === title
@@ -195,7 +189,7 @@ export class AddBlogComponent implements OnInit, OnDestroy {
       reader.readAsDataURL(imageFile[0]);
     }
   }
-  dropHandler(ev: DragEvent) {
+  dropHandler(ev: DragEvent):void {
     ev.preventDefault();
     if (ev.dataTransfer?.items) {
       const files = Array.from(ev.dataTransfer.items);

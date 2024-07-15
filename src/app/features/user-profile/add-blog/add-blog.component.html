@@ -7,7 +7,6 @@
           type="text"
           class="form-control form-input"
           formControlName="title"
-          (blur)="onTouched('title')"
           (input)="removeWhiteSpaces($event)"
           [ngClass]="{
             'border-danger':
@@ -118,7 +117,6 @@
         <editor
           class="form-control form-input blog-description p-0"
           formControlName="description"
-          (blur)="onTouched('description')"
           (input)="removeWhiteSpaces($event)"
           [ngClass]="{
             'border-danger':
