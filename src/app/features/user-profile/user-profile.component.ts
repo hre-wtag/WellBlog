@@ -7,6 +7,7 @@ import { BlogService } from '../../core/services/blog.service';
 import { Blog } from '../../core/interfaces/blog';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../core/services/auth.service';
+import { EditUserComponent } from './edit-user/edit-user.component';
 
 @Component({
   selector: 'app-user-profile',
@@ -16,12 +17,14 @@ import { AuthService } from '../../core/services/auth.service';
     AddBlogComponent,
     BlogCardComponent,
     CommonModule,
+    EditUserComponent,
   ],
   templateUrl: './user-profile.component.html',
   styleUrl: './user-profile.component.scss',
 })
 export class UserProfileComponent implements OnInit {
-  clickedAddBlog: boolean = false;
+  clickedBTN: string | null = null;
+  clickedEditProfile: boolean = false;
   blogService = inject(BlogService);
   authService = inject(AuthService);
   blogList$: Observable<Blog[]> | null = null;
@@ -48,7 +51,12 @@ export class UserProfileComponent implements OnInit {
       })
     );
   }
-  handleAddFormSubmitted(formSubmitted: boolean): void {
-    this.clickedAddBlog = formSubmitted;
+
+  clickedHeaderBTN(btn: string): void {
+    this.clickedBTN = btn;
+    console.log(this.clickedBTN, 'this.clickedBTN');
+  }
+  handleAddFormSubmitted(formSubmitted: string | null): void {
+    this.clickedBTN = formSubmitted;
   }
 }

@@ -34,6 +34,8 @@ export interface Tag {
   styleUrl: './add-blog.component.scss',
 })
 export class AddBlogComponent implements OnInit, OnDestroy {
+  @Output() formSubmitted = new EventEmitter<string | null>();
+
   addBlogForm: FormGroup;
   errorMsg: string | null = null;
   uploadedImageName: string | null = null;
@@ -63,8 +65,6 @@ export class AddBlogComponent implements OnInit, OnDestroy {
     content_css: 'src/styles.scss',
   };
   maxBlogId: number = 0;
-
-  @Output() formSubmitted = new EventEmitter<boolean>();
   private toasterService = inject(ToasterService);
   private blogService = inject(BlogService);
   private authService = inject(AuthService);
@@ -152,11 +152,12 @@ export class AddBlogComponent implements OnInit, OnDestroy {
       ...(this.blogService.blogs$.getValue() ?? []),
       blog,
     ]);
-    this.formSubmitted.emit(false);
+    this.formSubmitted.emit(null);
     this.clearForm();
   }
 
   onCancel(): void {
+    this.formSubmitted.emit(null);
     this.clearForm();
   }
   clearForm(): void {

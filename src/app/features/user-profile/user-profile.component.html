@@ -1,14 +1,18 @@
 <div class="container mt-4">
   <div class="d-flex align-items-center justify-content-end my-3">
-    <span class="edit-button me-2" (click)="clickedAddBlog = !clickedAddBlog"
+    <span class="edit-button me-2" (click)="clickedHeaderBTN('add-blog')"
       ><i class="bi bi-plus-circle-fill"></i
     ></span>
-    <span class="edit-button ms-2"><i class="bi bi-pencil-square"></i></span>
+    <span class="edit-button ms-2" (click)="clickedHeaderBTN('edit-profile')"
+      ><i class="bi bi-pencil-square"></i
+    ></span>
   </div>
-  @if(!clickedAddBlog){
+  @if(clickedBTN !=='add-blog' && clickedBTN!=='edit-profile'){
   <app-user-info />
-  } @if(clickedAddBlog){
-  <app-add-blog (formSubmitted)="handleAddFormSubmitted($event)"/>
+  } @if(clickedBTN==='edit-profile'){
+  <app-edit-user (formSubmitted)="handleAddFormSubmitted($event)" />
+  } @if(clickedBTN==='add-blog'){
+  <app-add-blog (formSubmitted)="handleAddFormSubmitted($event)" />
   }
   <div class="blogs my-3">
     <h4 class="mt-4 mb-2">My published posts</h4>
