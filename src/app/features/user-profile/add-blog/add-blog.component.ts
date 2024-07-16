@@ -21,6 +21,7 @@ import { AuthService } from '../../../core/services/auth.service';
 import { EditorComponent, EditorModule } from '@tinymce/tinymce-angular';
 import { TINYMCE_API_KEY } from '../../../../environments/seretKeys';
 import { HtmlToTextService } from '../../../core/services/html-to-text.service';
+import { SharedService } from '../../../core/services/shared.service';
 
 export interface Tag {
   title: string;
@@ -69,6 +70,8 @@ export class AddBlogComponent implements OnInit, OnDestroy {
   private blogService = inject(BlogService);
   private authService = inject(AuthService);
   private htmlTOTextService = inject(HtmlToTextService);
+  private sharedService = inject(SharedService);
+
   private blogSubcription: Subscription | null = null;
 
   constructor() {
@@ -200,47 +203,20 @@ export class AddBlogComponent implements OnInit, OnDestroy {
       reader.readAsDataURL(imageFile[0]);
     }
   }
+
   dropHandler(ev: DragEvent): void {
     ev.preventDefault();
-    if (ev.dataTransfer?.items) {
-      const files = Array.from(ev.dataTransfer.items);
-      for (let i = 0; i < files.length; i++) {
-        const item = files[i];
-        if (item.kind === 'file') {
-          const file = item.getAsFile();
-          if (this.validateFileType(file?.type)) {
-            this.uploadedImageName = file?.name ? file?.name : null;
-            const reader = new FileReader();
-            reader.onload = (e: any) => {
-              this.uploadedImage = e.target.result;
-            };
-            reader.readAsDataURL(file as Blob);
-            break;
-          } else {
-            this.toasterService.warning(
-              'Invalid!',
-              'Only jpeg, jgp, & png images are allowed.'
-            );
-            setTimeout(() => {
-              this.toasterService.toasterInfo$.next(null);
-            }, 5000);
-          }
-        }
-      }
+    const imageFile = this.sharedService.imageDropHandler(ev);
+    if (imageFile) {
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.uploadedImageName = imageFile.name ?? null;
+        this.uploadedImage = e.target.result;
+      };
+      reader.readAsDataURL(imageFile as Blob);
     }
   }
 
-  validateFileType(fileType: string | undefined): boolean | null {
-    if (fileType) {
-      const allowedTypes: string[] | undefined = [
-        'image/jpeg',
-        'image/jpg',
-        'image/png',
-      ];
-      return allowedTypes.includes(fileType);
-    }
-    return null;
-  }
   dragOver(event: Event) {
     event.preventDefault();
   }
