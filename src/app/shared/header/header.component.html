@@ -55,6 +55,9 @@
           ><span
             class="color-primary"
             style="cursor: pointer"
+            appTooltip
+            tooltipText="Profile"
+            tooltipPlacement="bottom"
             [routerLink]="profile_route"
           >
             {{ userName }}</span
@@ -65,7 +68,12 @@
           style="cursor: pointer"
           aria-current="page"
           (click)="logout()"
-          ><i class="bi bi-box-arrow-in-left"></i
+          ><i
+            class="bi bi-box-arrow-in-left"
+            appTooltip
+            tooltipText="Logout"
+            tooltipPlacement="top"
+          ></i
         ></a>
       </li>
       }
