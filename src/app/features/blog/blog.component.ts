@@ -3,10 +3,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { BlogService } from '../../core/services/blog.service';
 import { Blog } from '../../core/interfaces/blog';
 import { map } from 'rxjs';
-import {
-  DEFAULT_PROFILE_PHOTO_SRC,
-} from '../../core/utils/constants';
+import { DEFAULT_PROFILE_PHOTO_SRC } from '../../core/utils/constants';
 import { CommonModule } from '@angular/common';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-blog',
@@ -20,6 +19,7 @@ export class BlogComponent implements OnInit {
   private blogService = inject(BlogService);
   private destroyRef = inject(DestroyRef);
   private router = inject(Router);
+  private titleService = inject(Title);
   blog: Blog | null = null;
   default_profile_photo: string = DEFAULT_PROFILE_PHOTO_SRC;
   ngOnInit(): void {
@@ -36,6 +36,8 @@ export class BlogComponent implements OnInit {
             this.blog = blogs?.[0] ?? null;
             if (this.blog === null) {
               this.router.navigate(['']);
+            } else {
+              this.titleService.setTitle(this.blog.title);
             }
           });
         this.destroyRef.onDestroy(() => blogSubcription.unsubscribe());
