@@ -23,7 +23,6 @@ export class TooltipDirective {
 
   @HostListener('mouseenter')
   onMouseEnter(): void {
-    console.log(this.tooltipText, 'mouseEnter');
     if (this.tooltipComponentRef) return;
 
     this.tooltipComponentRef =
@@ -35,7 +34,6 @@ export class TooltipDirective {
 
   @HostListener('mouseleave')
   onMouseLeave(): void {
-    console.log(this.tooltipText, 'mouseleave');
     this.destroyTooltip();
   }
 
@@ -44,8 +42,6 @@ export class TooltipDirective {
 
     const { left, right, bottom } =
       this.elementRef.nativeElement.getBoundingClientRect();
-    console.log(left, right, bottom);
-
     this.tooltipComponentRef.instance.left = (right - left) / 2 + left;
     this.tooltipComponentRef.instance.top = bottom;
   }
