@@ -1,9 +1,9 @@
 <div class="container bg-light px-5 py-4 my-4 border rounded">
   <form [formGroup]="editUserForm" (ngSubmit)="onSubmit()">
     <div class="row">
-      <div class="col mb-3">
+      <div class="col-6 mb-3">
         <div class="row">
-          <div class="col mb-3">
+          <div class="col- mb-3">
             <label class="form-label">First Name</label>
             <input
               type="text"
@@ -21,7 +21,7 @@
             <div class="text-danger">This field is required.</div>
             }
           </div>
-          <div class="col mb-3">
+          <div class="col-12 mb-3">
             <label class="form-label">Last Name</label>
             <input
               type="text"
@@ -39,53 +39,86 @@
             <div class="text-danger">This field is required.</div>
             }
           </div>
+          <div class="col-12 mb-3">
+            <label class="form-label">Subtitle</label>
+            <input
+              type="text"
+              class="form-control form-input"
+              formControlName="subtitle"
+              (input)="removeWhiteSpaces($event)"
+              [ngClass]="{
+                'border-danger':
+                  !editUserForm.get('subtitle')?.valid &&
+                  editUserForm.get('subtitle')?.touched
+              }"
+            />
+            @if (!editUserForm.get('subtitle')?.valid &&
+            editUserForm.get('subtitle')?.touched){
+            <div class="text-danger">This field is required.</div>
+            }
+          </div>
+          <div class="col mb-3">
+            <label class="form-label">About</label>
+            <textarea
+              type="text"
+              class="form-control form-input"
+              formControlName="about"
+              (input)="removeWhiteSpaces($event)"
+              [ngClass]="{
+                'border-danger':
+                  !editUserForm.get('about')?.valid &&
+                  editUserForm.get('about')?.touched
+              }"
+            ></textarea>
+            @if (!editUserForm.get('description')?.valid &&
+            editUserForm.get('description')?.touched){
+            <div class="text-danger">This field is required.</div>
+            }
+          </div>
         </div>
       </div>
-      <div class="col-12 mb-3">
-        <label class="form-label">Banner Image</label>
-        <div
-          class="banner-image d-flex align-items-center justify-content-center"
-          (drop)="dropHandler($event)"
-          (dragover)="dragOver($event)"
-        >
-          <input
-            class="form-control form-input"
-            id="fileUpload"
-            class="form-control form-input d-none"
-            accept="image/jpeg,image/jpg,image/png"
-            type="file"
-            (change)="handleImageFileChange($event)"
-          />
-          <h5>Drop your image here,</h5>
-          <label class="image-label" for="fileUpload"
-            ><h5 class="color-primary">browse</h5></label
-          >
+      <div class="col-6 mb-3">
+        <div class="row">
+          <div class="col-12">
+            <label class="form-label">Profile Image</label>
+            <div
+              class="profile-image d-flex align-items-center justify-content-center"
+              (drop)="dropHandler($event)"
+              (dragover)="dragOver($event)"
+            >
+              <input
+                class="form-control form-input"
+                id="fileUpload"
+                class="form-control form-input d-none"
+                accept="image/jpeg,image/jpg,image/png"
+                type="file"
+                (change)="handleImageFileChange($event)"
+              />
+              <h5>Drop your image here,</h5>
+              <label class="image-label" for="fileUpload"
+                ><h5 class="color-primary">browse</h5></label
+              >
+            </div>
+          </div>
+          <div class="col-12 my-3">
+            <div class="row align-items-center">
+              <div class="col-11">
+                <span class="form-control text-center text-muted"
+                  >Uploaded File:{{
+                    uploadedImageName ? uploadedImageName : "No file Uploaded."
+                  }}
+                </span>
+              </div>
+              <div class="col-1">
+                <img
+                  [src]="default_profile_photo"
+                  class="profile-img-preview rounded-circle me-2"
+                  alt="profile-image-"
+                />
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-      <div class="col-12 text-center mb-3">
-        <span class="form-control bg-light text-muted"
-          >Uploaded File:{{
-            uploadedImageName ? uploadedImageName : "No file Uploaded."
-          }}
-        </span>
-      </div>
-      <div class="col mb-3">
-        <label class="form-label">About</label>
-        <textarea
-          type="text"
-          class="form-control form-input"
-          formControlName="title"
-          (input)="removeWhiteSpaces($event)"
-          [ngClass]="{
-            'border-danger':
-              !editUserForm.get('name')?.valid &&
-              editUserForm.get('name')?.touched
-          }"
-        ></textarea>
-        @if (!editUserForm.get('description')?.valid &&
-        editUserForm.get('description')?.touched){
-        <div class="text-danger">This field is required.</div>
-        }
       </div>
     </div>
 

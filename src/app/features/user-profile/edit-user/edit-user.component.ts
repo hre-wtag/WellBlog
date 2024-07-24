@@ -7,6 +7,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { SharedService } from '../../../core/services/shared.service';
+import { DEFAULT_PROFILE_PHOTO_SRC } from '../../../core/utils/constants';
 
 @Component({
   selector: 'app-edit-user',
@@ -21,11 +22,12 @@ export class EditUserComponent {
   private sharedService = inject(SharedService);
   uploadedImageName: string | null = null;
   uploadedImage: File | null = null;
-
+  default_profile_photo: string = DEFAULT_PROFILE_PHOTO_SRC;
   constructor() {
     this.editUserForm = new FormGroup({
       firstName: new FormControl('', [Validators.required]),
       lastName: new FormControl('', [Validators.required]),
+      subtitle: new FormControl('', [Validators.required]),
       about: new FormControl('', Validators.required),
     });
   }
