@@ -10,7 +10,6 @@ import { SharedService } from '../../../core/services/shared.service';
 import { DEFAULT_PROFILE_PHOTO_SRC } from '../../../core/utils/constants';
 import { User } from '../../../core/interfaces/user';
 import { AuthService } from '../../../core/services/auth.service';
-import { ToasterComponent } from '../../../shared/toaster/toaster.component';
 import { ToasterService } from '../../../core/services/toaster.service';
 
 @Component({
