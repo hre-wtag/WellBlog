@@ -136,7 +136,7 @@ export class AddBlogComponent implements OnInit, OnDestroy {
     let bloggerImagePath;
     if (user) {
       bloggerName = user.firstName?.concat(' ', user.lastName);
-      bloggerImagePath = user.profileImagePath;
+      bloggerImagePath = user.profileImage;
     }
 
     const blog: Blog = {
