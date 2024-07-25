@@ -52,6 +52,7 @@ export class AddBlogComponent implements OnInit, OnDestroy {
     { title: 'Tourism', isChecked: false },
     { title: 'Nature', isChecked: false },
   ];
+  selectedTags: string[] = [];
   tinyAPIKey: string = TINYMCE_API_KEY;
   init: EditorComponent['init'] = {
     plugins: 'emoticons link lists advlist preview',
@@ -177,7 +178,6 @@ export class AddBlogComponent implements OnInit, OnDestroy {
     const existingTagIndex = this.tagList.findIndex(
       (tag) => tag.title === title
     );
-
     if (existingTagIndex > -1) {
       this.tagList[existingTagIndex].isChecked = isChecked;
     }
@@ -185,6 +185,12 @@ export class AddBlogComponent implements OnInit, OnDestroy {
     if (!this.nothingIsChecked) {
       this.checkDropdown(false);
     }
+    if (isChecked) this.selectedTags.push(title);
+    else {
+      this.selectedTags = this.selectedTags.filter((item) => item != title);
+    }
+
+    console.log(this.selectedTags);
   }
 
   checkDropdown(flag: boolean): void {

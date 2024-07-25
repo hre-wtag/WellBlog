@@ -48,8 +48,10 @@ body {
 
 .form-input {
   border-radius: 0.25rem;
-  height: 3rem;
-  width: 29.5rem;
+  &:not([type="checkbox"]) {
+    height: 3rem;
+    width: 29.5rem;
+  }
   &:focus {
     border-color: $primary--color;
     box-shadow: none;

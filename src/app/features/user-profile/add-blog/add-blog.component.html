@@ -1,13 +1,15 @@
-<div class="container bg-light px-5 py-4 my-4 border rounded">
+<div
+  class="add-blog-container container bg-light px-5 py-4 my-4 border rounded"
+>
   <form [formGroup]="addBlogForm" (ngSubmit)="onSubmit()">
-    <div class="row">
+    <div class="row g-0">
       <div class="col mb-3">
         <label class="form-label">Title</label>
         <input
           type="text"
           class="form-control form-input"
           formControlName="title"
-          (input)="removeWhiteSpaces($event)"
+          (blur)="removeWhiteSpaces($event)"
           [ngClass]="{
             'border-danger':
               !addBlogForm.get('title')?.valid &&
@@ -21,7 +23,7 @@
       </div>
       <div class="col mb-3">
         <label class="form-label">Tags</label>
-        <div class="dropdown">
+        <div class="dropdown d-flex">
           @if(!nothingIsChecked){
           <span
             class="dropdown-toggle form-control form-input select-tag"
@@ -30,21 +32,24 @@
             Select at least one tag </span
           >} @else{
           <span class="form-control form-input"
-            >@for(selectedTag of tagList; track selectedTag) {
-            @if(selectedTag.isChecked){<span
-              class="selectedTag position-relative border m-1 p-1"
-            >
-              {{ selectedTag.title }}
+            >@for(selectedTag of selectedTags.slice(0, 4);; track selectedTag ;
+            ) {
+            <span class="selectedTag position-relative border m-1 p-1">
+              {{ selectedTag }}
               <div
                 class="cross-btn position-absolute top-0 start-100 translate-middle"
                 (click)="
-                  onCheckboxClick(selectedTag.title, !selectedTag.isChecked);
-                  checkDropdown(false)
+                  onCheckboxClick(selectedTag, false); checkDropdown(false)
                 "
               >
                 <i class="bi bi-x-circle-fill text-danger"></i>
               </div> </span
-            >} } @if(!showDropdown){
+            >} @if(selectedTags.length>4){
+            <span class="add-more color-primary" (click)="checkDropdown(true)"
+              >show more...&nbsp;
+            </span>
+            } @if(!showDropdown && tagList.length!==selectedTags.length &&
+            selectedTags.length<=4){
             <span class="add-more color-primary" (click)="checkDropdown(true)"
               >click to add more</span
             >
@@ -117,13 +122,13 @@
         <editor
           class="form-control form-input blog-description p-0"
           formControlName="description"
-          (input)="removeWhiteSpaces($event)"
           [ngClass]="{
             'border-danger':
               !addBlogForm.get('description')?.valid &&
               addBlogForm.get('description')?.touched
           }"
-          [init]="init"[apiKey]="tinyAPIKey"
+          [init]="init"
+          [apiKey]="tinyAPIKey"
         ></editor>
         @if (!addBlogForm.get('description')?.valid &&
         addBlogForm.get('description')?.touched){

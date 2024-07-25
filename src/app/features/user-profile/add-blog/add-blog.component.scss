@@ -1,9 +1,19 @@
 @import "../../../../styles.scss";
 
+.add-blog-container {
+  height: 84.313rem;
+  width: 76.063rem;
+  border: 1px solid rebeccapurple !important;
+}
+.form-input {
+  &:not([type="checkbox"]) {
+    width: 29.938rem;
+  }
+}
 .banner-image {
   border: 0.063rem dashed #ccc;
   height: 17rem;
-  width: 100%;
+  width: 62.938rem;
   .image-label {
     cursor: pointer;
   }
