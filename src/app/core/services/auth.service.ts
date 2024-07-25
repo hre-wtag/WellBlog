@@ -14,10 +14,12 @@ export class AuthService {
     let userWithID = { ...user, id: uId + 1 };
     let storedUsers = this.getRegisteredUsers();
     let usersArray = storedUsers ? [...storedUsers, userWithID] : [userWithID];
+    this.setRegisteredUsers(usersArray);
+  }
+  setRegisteredUsers(usersArray: User[]): void {
     localStorage.setItem('registeredUsers', JSON.stringify(usersArray));
   }
   getRegisteredUsers(): User[] | null {
-    let users: User[];
     const storedUserData = localStorage.getItem('registeredUsers');
     return storedUserData ? JSON.parse(storedUserData) : null;
   }
@@ -75,5 +77,17 @@ export class AuthService {
   removeLoggedInUser(): void {
     this.user$.next(null);
     localStorage.removeItem('loggedInUser');
+  }
+
+  updateUser(user: User): boolean {
+    let storedUsers = this.getRegisteredUsers();
+    let oldUser = storedUsers?.find((user) => user.id === user.id);
+    if (oldUser) {
+      Object.assign(oldUser, user);
+      this.setRegisteredUsers(storedUsers as User[]);
+      this.setLoggedInUser(user);
+      return true;
+    }
+    return false;
   }
 }

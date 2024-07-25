@@ -10,6 +10,8 @@ import { SharedService } from '../../../core/services/shared.service';
 import { DEFAULT_PROFILE_PHOTO_SRC } from '../../../core/utils/constants';
 import { User } from '../../../core/interfaces/user';
 import { AuthService } from '../../../core/services/auth.service';
+import { ToasterComponent } from '../../../shared/toaster/toaster.component';
+import { ToasterService } from '../../../core/services/toaster.service';
 
 @Component({
   selector: 'app-edit-user',
@@ -24,6 +26,7 @@ export class EditUserComponent implements OnInit {
   userInfo: User | null = null;
   private sharedService = inject(SharedService);
   private authService = inject(AuthService);
+  private toasterService = inject(ToasterService);
   uploadedImageName: string | null = null;
   uploadedImage: File | null = null;
   default_profile_photo: string = DEFAULT_PROFILE_PHOTO_SRC;
@@ -40,6 +43,7 @@ export class EditUserComponent implements OnInit {
     this.authService.user$.subscribe((user: User | null) => {
       this.userInfo = user ?? null;
       console.log(this.userInfo);
+      this.uploadedImage = this.userInfo?.profileImage ?? null;
       this.editUserForm.patchValue({
         firstName: this.userInfo?.firstName,
         lastName: this.userInfo?.lastName,
@@ -95,6 +99,14 @@ export class EditUserComponent implements OnInit {
       profileImage: this.uploadedImage,
     };
     console.log(updatedUser);
+    let isUpdated = this.authService.updateUser(updatedUser as User);
+    if (isUpdated) {
+      this.toasterService.success('Success!', 'User update successful.');
+      setTimeout(() => {
+        this.toasterService.clear();
+      }, 3000);
+      this.onCancel();
+    }
   }
   onCancel(): void {
     this.formSubmitted.emit(null);

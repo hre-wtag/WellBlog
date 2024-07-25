@@ -6,9 +6,7 @@
       <div class="col-6 mb-3">
         <div class="row">
           <div class="col- mb-3">
-            <label class="form-label"
-              >First Name</label
-            >
+            <label class="form-label">First Name</label>
             <input
               type="text"
               class="form-control form-input"
@@ -110,7 +108,11 @@
                 class="form-control uploaded-file-name text-center text-muted"
               >
                 Uploaded File: :{{
-                  uploadedImageName ? uploadedImageName : "No file Uploaded."
+                  uploadedImageName
+                    ? uploadedImageName.length > 30
+                      ? uploadedImageName.substring(0, 30) + "..."
+                      : uploadedImageName
+                    : "No file Uploaded."
                 }}
               </div>
               <div>
