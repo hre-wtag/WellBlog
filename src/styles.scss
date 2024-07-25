@@ -35,16 +35,6 @@ body {
   color: $primary--color !important;
 }
 
-.form-input {
-  &:focus {
-    border-color: $primary--color;
-    box-shadow: none;
-  }
-  &:checked {
-    background-color: $primary--color;
-  }
-}
-
 .eye-btn {
   cursor: pointer;
   .eye-btn-icon {
@@ -56,16 +46,21 @@ body {
   }
 }
 
-// ========= Common ===========
 .form-input {
+  border-radius: 0.25rem;
+  height: 3rem;
+  width: 29.5rem;
   &:focus {
     border-color: $primary--color;
     box-shadow: none;
   }
+  &:checked {
+    background-color: $primary--color;
+  }
 }
 .btn {
-  height: 2.9rem;
-  width: 8rem;
+  height: 3rem;
+  width: 9.031rem;
 }
 .blog-description {
   padding: 1.6rem !important;
@@ -80,4 +75,13 @@ body {
   .tox-edit-area {
     border-radius: 0.3rem;
   }
+}
+
+.btn-submit {
+  color: $white--color !important;
+}
+.btn-cancel,
+.btn-cancel:hover {
+  background-color: $white--color;
+  border-color: #ccc;
 }
