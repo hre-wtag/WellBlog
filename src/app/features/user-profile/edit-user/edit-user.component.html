@@ -6,12 +6,14 @@
       <div class="col-6 mb-3">
         <div class="row">
           <div class="col- mb-3">
-            <label class="form-label">First Name</label>
+            <label class="form-label"
+              >First Name</label
+            >
             <input
               type="text"
               class="form-control form-input"
               formControlName="firstName"
-              (input)="removeWhiteSpaces($event)"
+              (blur)="removeWhiteSpaces($event)"
               [ngClass]="{
                 'border-danger':
                   !editUserForm.get('firstName')?.valid &&
@@ -29,7 +31,7 @@
               type="text"
               class="form-control form-input"
               formControlName="lastName"
-              (input)="removeWhiteSpaces($event)"
+              (blur)="removeWhiteSpaces($event)"
               [ngClass]="{
                 'border-danger':
                   !editUserForm.get('lastName')?.valid &&
@@ -47,7 +49,7 @@
               type="text"
               class="form-control form-input"
               formControlName="subtitle"
-              (input)="removeWhiteSpaces($event)"
+              (blur)="removeWhiteSpaces($event)"
               [ngClass]="{
                 'border-danger':
                   !editUserForm.get('subtitle')?.valid &&
@@ -65,7 +67,7 @@
               type="text"
               class="form-control form-input about-input"
               formControlName="about"
-              (input)="removeWhiteSpaces($event)"
+              (blur)="removeWhiteSpaces($event)"
               [ngClass]="{
                 'border-danger':
                   !editUserForm.get('about')?.valid &&
@@ -140,11 +142,7 @@
       >
         Submit
       </button>
-      <button
-        class="btn btn-cancel ms-1"
-        type="button"
-        (click)="onCancel()"
-      >
+      <button class="btn btn-cancel ms-1" type="button" (click)="onCancel()">
         Cancel
       </button>
     </div>
