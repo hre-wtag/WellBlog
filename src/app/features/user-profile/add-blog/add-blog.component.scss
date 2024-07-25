@@ -1,11 +1,5 @@
 @import "../../../../styles.scss";
 
-.btn-submit {
-  color: $white--color !important;
-}
-.btn-cancel {
-  border-color: #ccc;
-}
 .banner-image {
   border: 0.063rem dashed #ccc;
   height: 17rem;
@@ -40,4 +34,3 @@
 .cross-btn {
   cursor: pointer !important;
 }
-

@@ -27,8 +27,8 @@ export class EditUserComponent {
     this.editUserForm = new FormGroup({
       firstName: new FormControl('', [Validators.required]),
       lastName: new FormControl('', [Validators.required]),
-      subtitle: new FormControl('', [Validators.required]),
-      about: new FormControl('', Validators.required),
+      subtitle: new FormControl(''),
+      about: new FormControl(''),
     });
   }
   removeWhiteSpaces(event: Event) {

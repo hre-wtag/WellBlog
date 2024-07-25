@@ -1,7 +1,23 @@
+.edit-user-container {
+  height: 39.188rem;
+  width: 76.063rem;
+}
+.about-input {
+  height: 9.375rem;
+}
+
+.uploaded-file-name {
+  border-radius: 0.25rem;
+  height: 3rem;
+  width: 26.313rem;
+}
+.image-prev-container {
+  width: 29.875rem;
+}
 .profile-image {
   border: 0.063rem dashed #ccc;
   height: 17rem;
-  width: 100%;
+  width: 29.875rem;
   .image-label {
     cursor: pointer;
   }
