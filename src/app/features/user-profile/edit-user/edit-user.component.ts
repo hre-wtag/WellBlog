@@ -1,5 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, OnInit, Output, inject } from '@angular/core';
+import {
+  Component,
+  DestroyRef,
+  EventEmitter,
+  OnInit,
+  Output,
+  inject,
+} from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -26,6 +33,7 @@ export class EditUserComponent implements OnInit {
   private sharedService = inject(SharedService);
   private authService = inject(AuthService);
   private toasterService = inject(ToasterService);
+  private destroyRef = inject(DestroyRef);
   uploadedImageName: string | null = null;
   uploadedImage: File | null = null;
   default_profile_photo: string = DEFAULT_PROFILE_PHOTO_SRC;
@@ -39,17 +47,20 @@ export class EditUserComponent implements OnInit {
     });
   }
   ngOnInit(): void {
-    this.authService.user$.subscribe((user: User | null) => {
-      this.userInfo = user ?? null;
-      console.log(this.userInfo);
-      this.uploadedImage = this.userInfo?.profileImage ?? null;
-      this.editUserForm.patchValue({
-        firstName: this.userInfo?.firstName,
-        lastName: this.userInfo?.lastName,
-        subtitle: this.userInfo?.subtitle,
-        about: this.userInfo?.about,
-      });
-    });
+    const userSubcription = this.authService.user$.subscribe(
+      (user: User | null) => {
+        this.userInfo = user ?? null;
+        console.log(this.userInfo);
+        this.uploadedImage = this.userInfo?.profileImage ?? null;
+        this.editUserForm.patchValue({
+          firstName: this.userInfo?.firstName,
+          lastName: this.userInfo?.lastName,
+          subtitle: this.userInfo?.subtitle,
+          about: this.userInfo?.about,
+        });
+      }
+    );
+    this.destroyRef.onDestroy(() => userSubcription.unsubscribe());
   }
   removeWhiteSpaces(event: Event) {
     const trimmedValue = (event.target as HTMLInputElement).value.trim();
