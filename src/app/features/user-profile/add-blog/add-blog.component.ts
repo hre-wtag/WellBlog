@@ -61,6 +61,7 @@ export class AddBlogComponent implements OnInit, OnDestroy {
     advlist_number_styles:
       'default lower-alpha lower-greek lower-roman upper-alpha upper-roman',
     advlist_bullet_styles: 'default circle disc square',
+    height:600,
     statusbar: false,
     resize: false,
     menubar: false,
