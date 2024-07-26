@@ -1,4 +1,4 @@
-<div class="container mt-4">
+<div class="profile-container container mt-4 p-0">
   <div class="d-flex align-items-center justify-content-end my-3">
     <span class="edit-button me-2" (click)="clickedHeaderBTN('add-blog')"
       ><i class="bi bi-plus-circle-fill"></i
@@ -8,7 +8,9 @@
     ></span>
   </div>
   @if(clickedBTN !=='add-blog' && clickedBTN!=='edit-profile'){
-  <app-user-info />
+  <div class="user-info-container">
+    <app-user-info />
+  </div>
   } @if(clickedBTN==='edit-profile'){
   <app-edit-user (formSubmitted)="handleAddFormSubmitted($event)" />
   } @if(clickedBTN==='add-blog'){
@@ -16,22 +18,20 @@
   }
   <div class="blogs my-3">
     <h4 class="mt-4 mb-2">My published posts</h4>
-    <div
-      class="blog-cards row g-0 justify-content-start row-cols-xl-4 row-cols-lg-3 row-cols-md-2 row-cols-sm-1"
-    >
+    <div class="blog-cards d-flex flex-wrap">
       @for(blog of blogList$ | async ;track $index){
-      <div class="col d-flex justify-content-start my-3">
+      <div class="mb-3" [ngClass]="{ 'margin-end': ($index + 1) % 3 !== 0 }">
         <app-blog-card [blog]="blog" />
       </div>
+
       }
     </div>
     @if(!hasBlogs){
     <div
-      class="col p-2 bg-opacity-10 bg-danger border border-danger border-opacity-25 rounded"
+      class="my-4 p-2 bg-opacity-10 bg-danger border border-danger border-opacity-25 rounded"
     >
       <h6 class="text-danger">You have not posted anything yet.</h6>
     </div>
-    <app-blog-card />
     }
   </div>
 </div>
