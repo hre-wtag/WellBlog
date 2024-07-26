@@ -87,3 +87,11 @@ body {
   background-color: $white--color;
   border-color: #ccc;
 }
+.btn-delete {
+  i {
+    color: #aaaec8;
+  }
+  i:hover {
+    color: #dc3545;
+  }
+}
