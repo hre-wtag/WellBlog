@@ -1,28 +1,29 @@
 @if(blog){
 <div class="container d-flex justify-content-center my-4">
   <div class="blog-container d-flex flex-column px-1">
-    <div class="tag-list">
+    <div class="tag-list d-flex">
       @for(tag of blog.tags; track $index){
-      <button type="button" class="btn btn-primary m-1 tag-btn">
+      <button
+        type="button"
+        class="tag-btn btn btn-primary d-flex align-items-center justify-content-center m-1 rounded-1"
+      >
         {{ tag }}</button
       >}
     </div>
 
-    <h3>
+    <h1>
       {{ blog.title }}
-    </h3>
-    <div class="d-flex align-items-center justify-content-start">
-      <img
-        [src]="
-          blog.bloggerImage
-            ? blog.bloggerImage
-            : default_profile_photo
-        "
-        class="blogger-img rounded-circle me-2"
-        [alt]="blog.bloggerName"
-      />
-      <div class="card-text mx-2">
-        <small class="text-body-secondary">{{ blog.bloggerName }}</small>
+    </h1>
+    <div class="d-flex align-items-center mt-3">
+      <div class="d-flex align-items-center">
+        <img
+          [src]="blog.bloggerImage ? blog.bloggerImage : default_profile_photo"
+          class="blogger-img rounded-circle me-2"
+          [alt]="blog.bloggerName"
+        />
+        <div class="card-text mx-2">
+          <small class="text-body-secondary">{{ blog.bloggerName }}</small>
+        </div>
       </div>
       <div class="card-text ms-2">
         <small class="text-body-secondary">{{
@@ -30,14 +31,18 @@
         }}</small>
       </div>
     </div>
-    <div class="blog-body">
-      <img
-        class="blog-image border rounded-3 my-2 mx-auto"
-        [src]="blog.blogImage"
-        [alt]="blog.title"
-      />
-
-      <div class="blog-description" [innerHTML]="blog.description"></div>
+    <div class="blog-body mt-3">
+      <div class="text-center">
+        <img
+          class="blog-image border rounded-3 my-2"
+          [src]="blog.blogImage"
+          [alt]="blog.title"
+        />
+      </div>
+      <div
+        class="blog-description mt-5 mb-3 p-0"
+        [innerHTML]="blog.description"
+      ></div>
     </div>
   </div>
 </div>

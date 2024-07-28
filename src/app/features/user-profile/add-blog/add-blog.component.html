@@ -18,8 +18,11 @@
         />
         @if (!addBlogForm.get('title')?.valid &&
         addBlogForm.get('title')?.touched){
+        @if(addBlogForm.get('title')?.errors?.['maxlength']){
+        <div class="text-danger">Title cannot exceed 250 characters.</div>
+        } @else {
         <div class="text-danger">This field is required.</div>
-        }
+        } }
       </div>
       <div class="ms-4">
         <label class="form-label">Tags</label>

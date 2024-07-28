@@ -1,4 +1,5 @@
 <div class="profile-container container mt-4 p-0">
+<div class="profile-container container mt-4 p-0">
   <div class="d-flex align-items-center justify-content-end my-3">
     <span class="edit-button me-2" (click)="clickedHeaderBTN('add-blog')"
       ><i class="bi bi-plus-circle-fill"></i
@@ -23,7 +24,6 @@
       <div class="mb-3" [ngClass]="{ 'margin-end': ($index + 1) % 3 !== 0 }">
         <app-blog-card [blog]="blog" />
       </div>
-
       }
     </div>
     @if(!hasBlogs){
