@@ -73,7 +73,10 @@ export class AddBlogComponent implements OnInit, OnDestroy {
 
   constructor() {
     this.addBlogForm = new FormGroup({
-      title: new FormControl('', [Validators.required]),
+      title: new FormControl('', [
+        Validators.required,
+        Validators.maxLength(250),
+      ]),
       description: new FormControl('', Validators.required),
     });
   }
