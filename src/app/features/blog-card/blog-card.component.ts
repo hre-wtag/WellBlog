@@ -19,4 +19,7 @@ export class BlogCardComponent {
   @Input() blog!: Blog;
   default_profile_photo: string = DEFAULT_PROFILE_PHOTO_SRC;
   blog_route = SLASH + BLOG_ROUTE;
+  onDelete(id: number): void {
+    console.log(id);
+  }
 }
