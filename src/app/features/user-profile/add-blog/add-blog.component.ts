@@ -44,7 +44,7 @@ export class AddBlogComponent implements OnInit, OnDestroy {
   nothingIsChecked: boolean = false;
   showDropdown: boolean = false;
   tagList: Tag[] = [
-    { title: 'Technology', isChecked: false },
+    { title: 'Technology fdfadsasASDASASASDDSAADSDSADSAS', isChecked: false },
     { title: 'Poetry', isChecked: false },
     { title: 'Films', isChecked: false },
     { title: 'Fiction', isChecked: false },

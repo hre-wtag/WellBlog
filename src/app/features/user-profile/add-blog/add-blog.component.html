@@ -35,10 +35,14 @@
             Select at least one tag </span
           >} @else{
           <span class="form-control form-input d-flex align-items-center"
-            >@for(selectedTag of selectedTags.slice(0, 4); track selectedTag ;
-            ) {
+            >@for(selectedTag of selectedTags.slice(0, 4); track selectedTag ; )
+            {
             <span class="selected-tag position-relative border m-1 p-1">
-              {{ selectedTag }}
+              {{
+                selectedTag.length > 10
+                  ? selectedTag.substring(0, 10) + "..."
+                  : selectedTag
+              }}
               <div
                 class="cross-btn position-absolute top-0 start-100 translate-middle"
                 (click)="
@@ -65,7 +69,7 @@
           >
             @for(tag of tagList; track tag; let i= $index){
 
-            <div class="form-check-wrapper">
+            <div class="blog-tags form-check-wrapper">
               <div
                 class="form-check ms-2"
                 (click)="onCheckboxClick(tag.title, !tag.isChecked)"
@@ -77,8 +81,12 @@
                   [id]="'tagCheckbox' + i"
                   [checked]="tag.isChecked"
                 />
-                <label class="form-check-label my-1">
-                  {{ tag.title }}
+                <label
+                  class="form-check-label my-1"
+                >
+                  {{ tag.title.length > 15
+                    ? tag.title.substring(0, 15) + "..."
+                    : tag.title }}
                 </label>
               </div>
             </div>
