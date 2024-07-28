@@ -73,6 +73,7 @@
               <div
                 class="form-check ms-2"
                 (click)="onCheckboxClick(tag.title, !tag.isChecked)"
+                (dblclick)="onCheckboxDoubleClick(tag.title, !tag.isChecked)"
               >
                 <input
                   class="form-check-input form-input"
@@ -81,12 +82,12 @@
                   [id]="'tagCheckbox' + i"
                   [checked]="tag.isChecked"
                 />
-                <label
-                  class="form-check-label my-1"
-                >
-                  {{ tag.title.length > 15
-                    ? tag.title.substring(0, 15) + "..."
-                    : tag.title }}
+                <label class="form-check-label my-1">
+                  {{
+                    tag.title.length > 15
+                      ? tag.title.substring(0, 15) + "..."
+                      : tag.title
+                  }}
                 </label>
               </div>
             </div>
