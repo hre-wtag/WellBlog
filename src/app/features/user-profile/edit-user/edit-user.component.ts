@@ -50,7 +50,6 @@ export class EditUserComponent implements OnInit {
     const userSubcription = this.authService.user$.subscribe(
       (user: User | null) => {
         this.userInfo = user ?? null;
-        console.log(this.userInfo);
         this.uploadedImage = this.userInfo?.profileImage ?? null;
         this.editUserForm.patchValue({
           firstName: this.userInfo?.firstName,
@@ -108,7 +107,6 @@ export class EditUserComponent implements OnInit {
       about: this.editUserForm.get('about')!.value ?? null,
       profileImage: this.uploadedImage,
     };
-    console.log(updatedUser);
     let isUpdated = this.authService.updateUser(updatedUser as User);
     if (isUpdated) {
       this.toasterService.success('Success!', 'User update successful.');

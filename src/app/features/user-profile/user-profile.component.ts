@@ -54,7 +54,6 @@ export class UserProfileComponent implements OnInit {
 
   clickedHeaderBTN(btn: string): void {
     this.clickedBTN = btn;
-    console.log(this.clickedBTN, 'this.clickedBTN');
   }
   handleAddFormSubmitted(formSubmitted: string | null): void {
     this.clickedBTN = formSubmitted;

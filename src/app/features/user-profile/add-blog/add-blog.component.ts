@@ -193,8 +193,6 @@ export class AddBlogComponent implements OnInit, OnDestroy {
     else {
       this.selectedTags = this.selectedTags.filter((item) => item != title);
     }
-
-    console.log(this.selectedTags);
   }
 
   checkDropdown(flag: boolean): void {
