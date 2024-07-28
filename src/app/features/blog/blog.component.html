@@ -14,14 +14,10 @@
     <h1>
       {{ blog.title }}
     </h1>
-    <div class="d-flex align-items-center justify-content-start">
-      <div class="d-flex align-items-center justify-content-start">
+    <div class="d-flex align-items-center mt-2">
+      <div class="d-flex align-items-center">
         <img
-          [src]="
-            blog.bloggerImagePath
-              ? blog.bloggerImagePath.split('public')[1]
-              : default_profile_photo
-          "
+          [src]="blog.bloggerImage ? blog.bloggerImage : default_profile_photo"
           class="blogger-img rounded-circle me-2"
           [alt]="blog.bloggerName"
         />
@@ -36,12 +32,13 @@
       </div>
     </div>
     <div class="blog-body mt-3">
-      <img
-        class="blog-image border rounded-3 my-2 mx-auto"
-        [src]="blog.blogImage"
-        [alt]="blog.title"
-      />
-
+      <div class="text-center">
+        <img
+          class="blog-image border rounded-3 my-2"
+          [src]="blog.blogImage"
+          [alt]="blog.title"
+        />
+      </div>
       <div
         class="blog-description mt-5 mb-3 p-0"
         [innerHTML]="blog.description"
