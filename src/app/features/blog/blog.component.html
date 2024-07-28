@@ -7,7 +7,10 @@
         type="button"
         class="tag-btn btn btn-primary d-flex align-items-center justify-content-center m-1 rounded-1"
       >
-        {{ tag }}</button
+        @if(tag.length > 10){
+        <span appTooltip [tooltipText]="tag">
+          {{ tag.length > 10 ? tag.substring(0, 10) + "..." : tag }}</span
+        >} @else { {{ tag }}}</button
       >}
     </div>
 

@@ -11,4 +11,8 @@ export class TooltipComponent {
   @Input() text = '';
   @Input() left = 0;
   @Input() top = 0;
+  ngOnInit(){
+    console.log(this.text);
+    
+  }
 }
