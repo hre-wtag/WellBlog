@@ -7,6 +7,7 @@ import { BlogService } from '../../core/services/blog.service';
 import { Blog } from '../../core/interfaces/blog';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../core/services/auth.service';
+import { TooltipDirective } from '../../shared/Directives/tooltip.directive';
 
 @Component({
   selector: 'app-user-profile',
@@ -15,7 +16,7 @@ import { AuthService } from '../../core/services/auth.service';
     UserInfoComponent,
     AddBlogComponent,
     BlogCardComponent,
-    CommonModule,
+    CommonModule,TooltipDirective
   ],
   templateUrl: './user-profile.component.html',
   styleUrl: './user-profile.component.scss',

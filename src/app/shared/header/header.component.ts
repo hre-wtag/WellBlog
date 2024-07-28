@@ -17,11 +17,12 @@ import { AuthService } from '../../core/services/auth.service';
 import { PreviousRouteService } from '../../core/services/previous-route.service';
 import { Subscription, filter, map } from 'rxjs';
 import { User } from '../../core/interfaces/user';
+import { TooltipDirective } from '../Directives/tooltip.directive';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink, TooltipDirective],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })
