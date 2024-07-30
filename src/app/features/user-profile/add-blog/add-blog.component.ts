@@ -74,13 +74,11 @@ export class AddBlogComponent implements OnInit, OnDestroy {
       editor.setContent('This is the initial text');
     },
   };
-  maxBlogId: number = 0;
   private toasterService = inject(ToasterService);
   private blogService = inject(BlogService);
   private authService = inject(AuthService);
   private htmlTOTextService = inject(HtmlToTextService);
   private sharedService = inject(SharedService);
-
   private blogSubcription: Subscription | null = null;
 
   constructor() {
@@ -98,13 +96,6 @@ export class AddBlogComponent implements OnInit, OnDestroy {
       console.log(this.blog, 'blog');
       this.setBlogValues(this.blog);
     } else {
-      this.blogSubcription = this.blogService.blogs$.subscribe(
-        (blogs: Blog[] | null) => {
-          this.maxBlogId =
-            blogs?.reduce((maxId, blog) => Math.max(maxId, blog?.id || 0), 0) ??
-            0;
-        }
-      );
     }
   }
   setBlogValues(blog: Blog): void {
@@ -145,13 +136,6 @@ export class AddBlogComponent implements OnInit, OnDestroy {
       }, 4000);
       return;
     }
-    if (this.uploadedImage === null) {
-      this.toasterService.warning('Invalid!', 'Must upload an Image.');
-      setTimeout(() => {
-        this.toasterService.toasterInfo$.next(null);
-      }, 4000);
-      return;
-    }
 
     const convertedText = this.htmlTOTextService.htmlToText(
       this.blogForm.get('description')?.value
@@ -163,34 +147,58 @@ export class AddBlogComponent implements OnInit, OnDestroy {
       }, 4000);
       return;
     }
+    if (!this.isEditing) {
+      if (this.uploadedImage === null) {
+        this.toasterService.warning('Invalid!', 'Must upload an Image.');
+        setTimeout(() => {
+          this.toasterService.toasterInfo$.next(null);
+        }, 4000);
+        return;
+      }
+      this.addBlog(blogTags);
+    } else {
+      this.editBLog(blogTags);
+    }
+    this.formSubmitted.emit(null);
+    this.clearForm();
+  }
+  editBLog(blogTags: string[]): void {}
+  addBlog(blogTags: string[]): void {
     const user = this.authService.user$.getValue();
     let bloggerName;
-    let bloggerImagePath;
+    let bloggerImage;
     if (user) {
       bloggerName = user.firstName?.concat(' ', user.lastName);
-      bloggerImagePath = user.profileImage;
+      bloggerImage = user.profileImage;
     }
-
+    let maxBlogId;
+    this.blogSubcription = this.blogService.blogs$.subscribe(
+      (blogs: Blog[] | null) => {
+        maxBlogId = blogs?.reduce(
+          (maxId, blog) => Math.max(maxId, blog?.id || 0),
+          0
+        );
+      }
+    );
     const blog: Blog = {
       ...this.blogForm.value,
       tags: [],
       blogImage: '',
       postingDate: Date(),
       bloggerName: bloggerName,
-      bloggerImagePath: bloggerImagePath,
+      bloggerImage: bloggerImage,
       bloggerId: user?.id,
-      id: this.maxBlogId + 1,
+      id: maxBlogId ? maxBlogId + 1 : 1,
     };
     blog.tags.push(...blogTags);
-    blog.blogImage = this.uploadedImage;
+    if (this.uploadedImage != null) {
+      blog.blogImage = this.uploadedImage;
+    }
     this.blogService.blogs$.next([
       ...(this.blogService.blogs$.getValue() ?? []),
       blog,
     ]);
-    this.formSubmitted.emit(null);
-    this.clearForm();
   }
-
   onCancel(): void {
     this.formSubmitted.emit(null);
     this.clearForm();
