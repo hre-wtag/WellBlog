@@ -11,17 +11,17 @@
   margin-top: 0.313rem;
   transform: translateX(-50%);
   z-index: 1;
-  &::after {
-    content: "";
-    width: 0;
-    height: 0;
-    border-left: 0.313rem solid transparent;
-    border-right: 0.313rem solid transparent;
-    border-bottom: 0.313rem solid $primary--color;
-    position: absolute;
-    left: calc(50% - 0.313rem);
-    top: -0.313rem;
-  }
+  // &::after {
+  //   content: "";
+  //   width: 0;
+  //   height: 0;
+  //   border-left: 0.313rem solid transparent;
+  //   border-right: 0.313rem solid transparent;
+  //   border-bottom: 0.313rem solid $primary--color;
+  //   position: absolute;
+  //   left: calc(50% - 0.313rem);
+  //   top: -0.313rem;
+  // }
 }
 .tooltip-content {
   word-wrap: break-word;
