@@ -59,5 +59,6 @@ export class BlogComponent implements OnInit {
   }
   handleAddFormSubmitted(formSubmitted: string | null): void {
     this.clickedBTN = formSubmitted;
+
   }
 }
