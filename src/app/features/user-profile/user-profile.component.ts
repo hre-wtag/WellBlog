@@ -25,7 +25,7 @@ import { TooltipDirective } from '../../shared/Directives/tooltip.directive';
 })
 export class UserProfileComponent implements OnInit {
   clickedBTN: string | null = null;
-  clickedEditProfile: boolean = false;
+  // clickedEditProfile: boolean = false;
   blogService = inject(BlogService);
   authService = inject(AuthService);
   blogList$: Observable<Blog[]> | null = null;
