@@ -7,11 +7,12 @@ import { DEFAULT_PROFILE_PHOTO_SRC } from '../../core/utils/constants';
 import { CommonModule } from '@angular/common';
 import { Title } from '@angular/platform-browser';
 import { TooltipDirective } from '../../shared/Directives/tooltip.directive';
+import { AddBlogComponent } from '../user-profile/add-blog/add-blog.component';
 
 @Component({
   selector: 'app-blog',
   standalone: true,
-  imports: [CommonModule, TooltipDirective],
+  imports: [CommonModule, TooltipDirective,AddBlogComponent],
   templateUrl: './blog.component.html',
   styleUrl: './blog.component.scss',
 })
@@ -24,6 +25,7 @@ export class BlogComponent implements OnInit {
   blog: Blog | null = null;
   default_profile_photo: string = DEFAULT_PROFILE_PHOTO_SRC;
   isMyBlog: boolean = false;
+  clickedBTN: string | null = null;
   ngOnInit(): void {
     const routeSubscription = this.activatedRoute.paramMap.subscribe({
       next: (paramMap) => {
@@ -68,5 +70,11 @@ export class BlogComponent implements OnInit {
       },
     });
     this.destroyRef.onDestroy(() => routeSubscription.unsubscribe());
+  }
+  clickedHeaderBTN(btn: string): void {
+    this.clickedBTN = btn;
+  }
+  handleAddFormSubmitted(formSubmitted: string | null): void {
+    this.clickedBTN = formSubmitted;
   }
 }

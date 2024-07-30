@@ -1,5 +1,5 @@
-@if(blog){
 <div class="container d-flex justify-content-center my-4">
+  @if(blog && !clickedBTN){
   <div class="blog-container d-flex flex-column px-1">
     <div class="d-flex justify-content-between align-items-center">
       <div class="tag-list d-flex">
@@ -16,7 +16,11 @@
       </div>
       @if(isMyBlog){
       <div>
-        <span class="edit-button ms-2" appTooltip tooltipText="Edit"
+        <span
+          class="edit-button ms-2"
+          appTooltip
+          tooltipText="Edit"
+          (click)="clickedHeaderBTN('edit-blog')"
           ><i class="bi bi-pencil-square"></i
         ></span>
       </div>
@@ -56,5 +60,7 @@
       ></div>
     </div>
   </div>
+  } @if(clickedBTN==='edit-blog'){
+  <app-add-blog (formSubmitted)="handleAddFormSubmitted($event)" />
+  }
 </div>
-}
