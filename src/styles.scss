@@ -95,3 +95,9 @@ body {
     color: #dc3545;
   }
 }
+.edit-button {
+  cursor: pointer;
+  &:hover {
+    color: $primary--color;
+  }
+}
