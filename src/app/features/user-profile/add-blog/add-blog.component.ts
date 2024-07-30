@@ -36,7 +36,7 @@ export interface Tag {
   styleUrl: './add-blog.component.scss',
 })
 export class AddBlogComponent implements OnInit, OnDestroy {
-  @Input() blog!: Blog;
+  @Input() editedBlog!: Blog;
   @Output() formSubmitted = new EventEmitter<string | null>();
 
   blogForm: FormGroup;
@@ -91,21 +91,18 @@ export class AddBlogComponent implements OnInit, OnDestroy {
     });
   }
   ngOnInit(): void {
-    if (this.blog) {
+    if (this.editedBlog) {
       this.isEditing = true;
-      console.log(this.blog, 'blog');
-      this.setBlogValues(this.blog);
-    } else {
+      this.setBlogValues(this.editedBlog);
     }
   }
   setBlogValues(blog: Blog): void {
     this.blogForm.patchValue({
-      title: this.blog.title,
+      title: blog.title,
       description: blog.description,
     });
     this.selectedTags = blog.tags;
     this.hasTag = true;
-    console.log(this.selectedTags);
     this.selectedTags.forEach((tag: string) => {
       const foundTag = this.tagList.find((t) => t.title === tag);
       if (foundTag) {
@@ -162,7 +159,25 @@ export class AddBlogComponent implements OnInit, OnDestroy {
     this.formSubmitted.emit(null);
     this.clearForm();
   }
-  editBLog(blogTags: string[]): void {}
+  editBLog(blogTags: string[]): void {
+    const blog: Blog = {
+      ...this.blogForm.value,
+      tags: [],
+      blogImage: '',
+      bloggerId: this.editedBlog.bloggerId,
+      bloggerImage: this.editedBlog.bloggerImage,
+      bloggerName: this.editedBlog.bloggerName,
+      id: this.editedBlog.id,
+      postingDate: this.editedBlog.postingDate,
+    };
+    blog.tags.push(...blogTags);
+    blog.blogImage =
+      this.uploadedImage != null
+        ? this.uploadedImage
+        : this.editedBlog.blogImage;
+    this.blogService.updateBlog(blog);
+  }
+
   addBlog(blogTags: string[]): void {
     const user = this.authService.user$.getValue();
     let bloggerName;

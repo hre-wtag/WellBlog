@@ -141,8 +141,8 @@
         </div>
         <img
           class="blog-image border ms-3"
-          [src]="uploadedImage? uploadedImage: blog.blogImage"
-          [alt]="blog.title"
+          [src]="uploadedImage ? uploadedImage : editedBlog.blogImage"
+          [alt]="editedBlog.title"
         />
       </div>
       }
