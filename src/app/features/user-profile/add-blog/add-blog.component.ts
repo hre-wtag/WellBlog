@@ -43,6 +43,7 @@ export class AddBlogComponent implements OnInit, OnDestroy {
   uploadedImage: File | null = null;
   nothingIsChecked: boolean = false;
   showDropdown: boolean = false;
+  isSingleClick: boolean = true;
   tagList: Tag[] = [
     { title: 'Technology fdfadsasASDASASASDDSAADSDSADSAS', isChecked: false },
     { title: 'Poetry', isChecked: false },
@@ -179,11 +180,19 @@ export class AddBlogComponent implements OnInit, OnDestroy {
     this.uploadedImageName = null;
   }
   onCheckboxDoubleClick(title: string, isChecked: boolean): void {
-    this.onCheckboxClick(title, isChecked);
-    console.log('dbl click');
+    this.changeTagFlag(title, isChecked);
+    this.isSingleClick = false;
+    this.showDropdown = false;
   }
   onCheckboxClick(title: string, isChecked: boolean): void {
-    console.log('singe click');
+    this.isSingleClick = true;
+    setTimeout(() => {
+      if (this.isSingleClick) {
+        this.changeTagFlag(title, isChecked);
+      }
+    }, 300);
+  }
+  changeTagFlag(title: string, isChecked: boolean): void {
     const existingTagIndex = this.tagList.findIndex(
       (tag) => tag.title === title
     );
@@ -199,7 +208,6 @@ export class AddBlogComponent implements OnInit, OnDestroy {
       this.selectedTags = this.selectedTags.filter((item) => item != title);
     }
   }
-
   checkDropdown(flag: boolean): void {
     this.showDropdown = flag;
   }
