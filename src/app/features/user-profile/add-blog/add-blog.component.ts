@@ -1,6 +1,7 @@
 import {
   Component,
   EventEmitter,
+  Input,
   OnDestroy,
   OnInit,
   Output,
@@ -35,15 +36,17 @@ export interface Tag {
   styleUrl: './add-blog.component.scss',
 })
 export class AddBlogComponent implements OnInit, OnDestroy {
+  @Input() blog!: Blog;
   @Output() formSubmitted = new EventEmitter<string | null>();
 
-  addBlogForm: FormGroup;
+  blogForm: FormGroup;
   errorMsg: string | null = null;
   uploadedImageName: string | null = null;
   uploadedImage: File | null = null;
-  nothingIsChecked: boolean = false;
+  hasTag: boolean = false;
   showDropdown: boolean = false;
   isSingleClick: boolean = true;
+  isEditing: boolean = false;
   tagList: Tag[] = [
     { title: 'Technology fdfadsasASDASASASDDSAADSDSADSAS', isChecked: false },
     { title: 'Poetry', isChecked: false },
@@ -67,6 +70,9 @@ export class AddBlogComponent implements OnInit, OnDestroy {
     resize: false,
     menubar: false,
     content_css: 'src/styles.scss',
+    setup: (editor) => {
+      editor.setContent('This is the initial text');
+    },
   };
   maxBlogId: number = 0;
   private toasterService = inject(ToasterService);
@@ -78,7 +84,7 @@ export class AddBlogComponent implements OnInit, OnDestroy {
   private blogSubcription: Subscription | null = null;
 
   constructor() {
-    this.addBlogForm = new FormGroup({
+    this.blogForm = new FormGroup({
       title: new FormControl('', [
         Validators.required,
         Validators.maxLength(250),
@@ -87,15 +93,35 @@ export class AddBlogComponent implements OnInit, OnDestroy {
     });
   }
   ngOnInit(): void {
-    this.blogSubcription = this.blogService.blogs$.subscribe(
-      (blogs: Blog[] | null) => {
-        this.maxBlogId =
-          blogs?.reduce((maxId, blog) => Math.max(maxId, blog?.id || 0), 0) ??
-          0;
-      }
-    );
+    if (this.blog) {
+      this.isEditing = true;
+      console.log(this.blog, 'blog');
+      this.setBlogValues(this.blog);
+    } else {
+      this.blogSubcription = this.blogService.blogs$.subscribe(
+        (blogs: Blog[] | null) => {
+          this.maxBlogId =
+            blogs?.reduce((maxId, blog) => Math.max(maxId, blog?.id || 0), 0) ??
+            0;
+        }
+      );
+    }
   }
-
+  setBlogValues(blog: Blog): void {
+    this.blogForm.patchValue({
+      title: this.blog.title,
+      description: blog.description,
+    });
+    this.selectedTags = blog.tags;
+    this.hasTag = true;
+    console.log(this.selectedTags);
+    this.selectedTags.forEach((tag: string) => {
+      const foundTag = this.tagList.find((t) => t.title === tag);
+      if (foundTag) {
+        foundTag.isChecked = true;
+      }
+    });
+  }
   ngOnDestroy(): void {
     this.blogSubcription?.unsubscribe();
   }
@@ -105,7 +131,7 @@ export class AddBlogComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(): void {
-    if (this.addBlogForm.invalid) {
+    if (this.blogForm.invalid) {
       return;
     }
 
@@ -128,7 +154,7 @@ export class AddBlogComponent implements OnInit, OnDestroy {
     }
 
     const convertedText = this.htmlTOTextService.htmlToText(
-      this.addBlogForm.get('description')?.value
+      this.blogForm.get('description')?.value
     );
     if (convertedText.trim() === '') {
       this.toasterService.warning('Invalid!', 'Must add blog Description.');
@@ -146,7 +172,7 @@ export class AddBlogComponent implements OnInit, OnDestroy {
     }
 
     const blog: Blog = {
-      ...this.addBlogForm.value,
+      ...this.blogForm.value,
       tags: [],
       blogImage: '',
       postingDate: Date(),
@@ -170,11 +196,11 @@ export class AddBlogComponent implements OnInit, OnDestroy {
     this.clearForm();
   }
   clearForm(): void {
-    this.addBlogForm.reset();
+    this.blogForm.reset();
     for (let i = 0; i < this.tagList.length; i++) {
       this.tagList[i].isChecked = false;
     }
-    this.nothingIsChecked = false;
+    this.hasTag = false;
     this.showDropdown = false;
     this.uploadedImage = null;
     this.uploadedImageName = null;
@@ -199,8 +225,8 @@ export class AddBlogComponent implements OnInit, OnDestroy {
     if (existingTagIndex > -1) {
       this.tagList[existingTagIndex].isChecked = isChecked;
     }
-    this.nothingIsChecked = this.tagList.some((tag) => tag.isChecked);
-    if (!this.nothingIsChecked) {
+    this.hasTag = this.tagList.some((tag) => tag.isChecked);
+    if (!this.hasTag) {
       this.checkDropdown(false);
     }
     if (isChecked) this.selectedTags.push(title);

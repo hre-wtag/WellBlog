@@ -1,7 +1,7 @@
 <div
   class="add-blog-container container bg-light border rounded d-grid justify-content-center"
 >
-  <form class="my-5" [formGroup]="addBlogForm" (ngSubmit)="onSubmit()">
+  <form class="my-5" [formGroup]="blogForm" (ngSubmit)="onSubmit()">
     <div class="d-flex align-items-center justify-content-center mb-5">
       <div class="me-4">
         <label class="form-label">Title</label>
@@ -12,13 +12,11 @@
           (blur)="removeWhiteSpaces($event)"
           [ngClass]="{
             'border-danger':
-              !addBlogForm.get('title')?.valid &&
-              addBlogForm.get('title')?.touched
+              !blogForm.get('title')?.valid && blogForm.get('title')?.touched
           }"
         />
-        @if (!addBlogForm.get('title')?.valid &&
-        addBlogForm.get('title')?.touched){
-        @if(addBlogForm.get('title')?.errors?.['maxlength']){
+        @if (!blogForm.get('title')?.valid && blogForm.get('title')?.touched){
+        @if(blogForm.get('title')?.errors?.['maxlength']){
         <div class="text-danger">Title cannot exceed 250 characters.</div>
         } @else {
         <div class="text-danger">This field is required.</div>
@@ -27,14 +25,14 @@
       <div class="ms-4">
         <label class="form-label">Tags</label>
         <div class="dropdown d-flex">
-          @if(!nothingIsChecked){
+          @if(!hasTag){
           <span
             class="dropdown-toggle form-control form-input select-tag d-flex align-items-center"
             (click)="checkDropdown(!showDropdown)"
           >
             Select at least one tag </span
           >} @else{
-          <span class="form-control form-input d-flex align-items-center"
+          <span class="form-control form-input d-flex align-items-center p-0"
             >@for(selectedTag of selectedTags.slice(0, 4); track selectedTag ; )
             {
             <span class="selected-tag position-relative border m-1 p-1">
@@ -95,14 +93,14 @@
           </div>
         </div>
 
-        @if (!addBlogForm.get('tags')?.valid &&
-        addBlogForm.get('tags')?.touched){
+        @if (!blogForm.get('tags')?.valid && blogForm.get('tags')?.touched){
         <div class="text-danger">tags error</div>
         }
       </div>
     </div>
     <div class="d-grid justify-content-center my-5">
       <label class="form-label">Banner Image</label>
+      @if(!isEditing){
       <div
         class="banner-image d-flex align-items-center justify-content-center"
         (drop)="dropHandler($event)"
@@ -121,6 +119,33 @@
           ><h5 class="color-primary">browse</h5></label
         >
       </div>
+      } @else{
+      <div class="editing-image d-flex align-items-center">
+        <div
+          class="banner-image d-flex align-items-center justify-content-center"
+          (drop)="dropHandler($event)"
+          (dragover)="dragOver($event)"
+        >
+          <input
+            class="form-control form-input"
+            id="fileUpload"
+            class="form-control form-input d-none"
+            accept="image/jpeg,image/jpg,image/png"
+            type="file"
+            (change)="handleImageFileChange($event)"
+          />
+          <h5>Drop your image here, or &nbsp;</h5>
+          <label class="image-label" for="fileUpload"
+            ><h5 class="color-primary">browse</h5></label
+          >
+        </div>
+        <img
+          class="blog-image border ms-3"
+          [src]="uploadedImage? uploadedImage: blog.blogImage"
+          [alt]="blog.title"
+        />
+      </div>
+      }
     </div>
     <div class="text-center my-5">
       <span
@@ -137,14 +162,14 @@
         formControlName="description"
         [ngClass]="{
           'border-danger':
-            !addBlogForm.get('description')?.valid &&
-            addBlogForm.get('description')?.touched
+            !blogForm.get('description')?.valid &&
+            blogForm.get('description')?.touched
         }"
         [init]="init"
         [apiKey]="tinyAPIKey"
       ></editor>
-      @if (!addBlogForm.get('description')?.valid &&
-      addBlogForm.get('description')?.touched){
+      @if (!blogForm.get('description')?.valid &&
+      blogForm.get('description')?.touched){
       <div class="text-danger">This field is required.</div>
       }
     </div>
@@ -153,7 +178,7 @@
       <button
         class="btn btn-submit me-1"
         type="submit"
-        [disabled]="addBlogForm.invalid"
+        [disabled]="blogForm.invalid"
       >
         Submit
       </button>

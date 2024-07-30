@@ -1,7 +1,6 @@
 @import "../../../../styles.scss";
 
 .add-blog-container {
-  height: 84.313rem;
   width: 76.063rem;
 }
 .form-input {
@@ -57,4 +56,15 @@
 }
 .btn-submit {
   background-color: #49a4cb !important;
+}
+.blog-image {
+   max-height: 19rem;
+   min-width: 35rem;
+}
+.editing-image {
+  height: 20rem;
+  width: 62.938rem;
+  .banner-image {
+   height: 19rem;
+  }
 }
