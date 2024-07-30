@@ -1,19 +1,25 @@
 @if(blog){
 <div class="container d-flex justify-content-center my-4">
   <div class="blog-container d-flex flex-column px-1">
-    <div class="tag-list d-flex">
-      @for(tag of blog.tags; track $index){
-      <button
-        type="button"
-        class="tag-btn btn btn-primary d-flex align-items-center justify-content-center m-1 rounded-1"
-      >
-        @if(tag.length > 10){
-        <span appTooltip [tooltipText]="tag">
-          {{ tag.length > 10 ? tag.substring(0, 10) + "..." : tag }}</span
-        >} @else { {{ tag }}}</button
-      >}
+    <div class="d-flex justify-content-between align-items-center">
+      <div class="tag-list d-flex">
+        @for(tag of blog.tags; track $index){
+        <button
+          type="button"
+          class="tag-btn btn btn-primary d-flex align-items-center justify-content-center m-1 rounded-1"
+        >
+          @if(tag.length > 10){
+          <span appTooltip [tooltipText]="tag">
+            {{ tag.length > 10 ? tag.substring(0, 10) + "..." : tag }}</span
+          >} @else { {{ tag }}}</button
+        >}
+      </div>
+      <div>
+        <span class="edit-button ms-2" appTooltip tooltipText="Edit"
+          ><i class="bi bi-pencil-square"></i
+        ></span>
+      </div>
     </div>
-
     <h1>
       {{ blog.title }}
     </h1>
