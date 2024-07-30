@@ -14,11 +14,13 @@
           >} @else { {{ tag }}}</button
         >}
       </div>
+      @if(isMyBlog){
       <div>
         <span class="edit-button ms-2" appTooltip tooltipText="Edit"
           ><i class="bi bi-pencil-square"></i
         ></span>
       </div>
+      }
     </div>
     <h1>
       {{ blog.title }}
