@@ -8,6 +8,7 @@ import { Blog } from '../../core/interfaces/blog';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../core/services/auth.service';
 import { EditUserComponent } from './edit-user/edit-user.component';
+import { TooltipDirective } from '../../shared/Directives/tooltip.directive';
 
 @Component({
   selector: 'app-user-profile',
@@ -17,7 +18,7 @@ import { EditUserComponent } from './edit-user/edit-user.component';
     AddBlogComponent,
     BlogCardComponent,
     CommonModule,
-    EditUserComponent,
+    EditUserComponent,TooltipDirective
   ],
   templateUrl: './user-profile.component.html',
   styleUrl: './user-profile.component.scss',
