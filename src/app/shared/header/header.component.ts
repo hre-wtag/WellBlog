@@ -32,6 +32,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   register_route: string = SLASH + REGISTER_ROUTE;
   profile_route: string = SLASH + PROFILE_ROUTE;
   isLoggedin: boolean = false;
+  showTooltip: boolean = false;
   userName: string | undefined = undefined;
   currentPage: string = '';
   private prevRouteService = inject(PreviousRouteService);

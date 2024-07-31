@@ -57,6 +57,9 @@
             style="cursor: pointer"
             appTooltip
             tooltipText="Profile"
+            [showTooltip]="showTooltip"
+            (mouseenter)="showTooltip = true"
+            (mouseleave)="showTooltip = false"
             [routerLink]="profile_route"
           >
             {{ userName }}</span

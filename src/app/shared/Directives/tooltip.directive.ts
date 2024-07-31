@@ -2,7 +2,6 @@ import {
   ComponentRef,
   Directive,
   ElementRef,
-  HostListener,
   Input,
   ViewContainerRef,
 } from '@angular/core';
@@ -20,11 +19,17 @@ export class TooltipDirective {
     private elementRef: ElementRef,
     private viewContainerRef: ViewContainerRef
   ) {}
-
-  @HostListener('mouseenter')
-  onMouseEnter(): void {
+  @Input() showTooltip: boolean = false;
+  ngOnChanges() {
+    console.log(this.showTooltip);
+    if (this.showTooltip) {
+      this.createTooltip();
+    } else {
+      this.destroyTooltip();
+    }
+  }
+  createTooltip(): void {
     if (this.tooltipComponentRef) return;
-
     this.tooltipComponentRef =
       this.viewContainerRef.createComponent(TooltipComponent);
     this.tooltipComponentRef.instance.text = this.tooltipText;
@@ -32,21 +37,15 @@ export class TooltipDirective {
     this.tooltipComponentRef.hostView.detectChanges();
   }
 
-  @HostListener('mouseleave')
-  onMouseLeave(): void {
-    this.destroyTooltip();
-  }
-
-  private setTooltipPosition() {
+  private setTooltipPosition(): void {
     if (!this.tooltipComponentRef) return;
-
     const { left, right, bottom } =
       this.elementRef.nativeElement.getBoundingClientRect();
-    this.tooltipComponentRef.instance.left = (right - left - 5) / 2 + left ; 
-    this.tooltipComponentRef.instance.top = bottom + 3;
+    this.tooltipComponentRef.instance.left = (right - left) / 2 + left;
+    this.tooltipComponentRef.instance.top = bottom ;
   }
 
-  private destroyTooltip() {
+  private destroyTooltip(): void {
     if (this.tooltipComponentRef) {
       this.tooltipComponentRef.destroy();
       this.tooltipComponentRef = null;
