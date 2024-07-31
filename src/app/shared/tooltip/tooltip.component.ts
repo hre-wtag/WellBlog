@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 
 @Component({
   selector: 'app-tooltip',
@@ -7,8 +7,12 @@ import { Component, Input } from '@angular/core';
   templateUrl: './tooltip.component.html',
   styleUrl: './tooltip.component.scss',
 })
-export class TooltipComponent {
+export class TooltipComponent implements OnChanges {
   @Input() text = '';
-  @Input() left = 0;
-  @Input() top = 0;
+  @Input() left!: number;
+  @Input() top!: number;
+  @Output() heightChange = new EventEmitter<number>();
+  ngOnChanges() {
+    console.log(this.text, this.left, this.top, 'tooltip');
+  }
 }

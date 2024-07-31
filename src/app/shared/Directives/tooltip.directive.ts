@@ -12,16 +12,19 @@ import { TooltipComponent } from '../tooltip/tooltip.component';
   standalone: true,
 })
 export class TooltipDirective {
-  @Input() tooltipText = '';
+  @Input() tooltipText!: string;
+  @Input() showTooltip!: boolean;
+  @Input() tooltipPosition!: 'top' | 'right' | 'bottom' | 'left';
+
   private tooltipComponentRef: ComponentRef<TooltipComponent> | null = null;
 
   constructor(
     private elementRef: ElementRef,
     private viewContainerRef: ViewContainerRef
   ) {}
-  @Input() showTooltip: boolean = false;
+
   ngOnChanges() {
-    console.log(this.showTooltip);
+    console.log(this.showTooltip, this.tooltipPosition);
     if (this.showTooltip) {
       this.createTooltip();
     } else {
@@ -42,10 +45,10 @@ export class TooltipDirective {
     const { left, right, bottom } =
       this.elementRef.nativeElement.getBoundingClientRect();
     this.tooltipComponentRef.instance.left = (right - left) / 2 + left;
-    this.tooltipComponentRef.instance.top = bottom ;
+    this.tooltipComponentRef.instance.top = bottom;
   }
 
-  private destroyTooltip(): void {
+  destroyTooltip(): void {
     if (this.tooltipComponentRef) {
       this.tooltipComponentRef.destroy();
       this.tooltipComponentRef = null;
