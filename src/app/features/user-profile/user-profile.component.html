@@ -1,16 +1,32 @@
 <div class="container mt-4">
   <div class="d-flex align-items-center justify-content-end my-3">
     <span class="edit-button me-2" (click)="clickedAddBlog = !clickedAddBlog"
-      ><i class="bi bi-plus-circle-fill"     appTooltip
-      tooltipText="Add Blog"></i
+      ><i
+        class="bi bi-plus-circle-fill"
+        appTooltip
+        tooltipText="Add Blog"
+        [showTooltip]="showTooltip"
+        (mouseenter)="showTooltip = true"
+        (mouseleave)="showTooltip = false"
+        tooltipPosition="bottom"
+      ></i
     ></span>
-    <span class="edit-button ms-2"><i class="bi bi-pencil-square"     appTooltip
-      tooltipText="Edit Profile"></i></span>
+    <span class="edit-button ms-2"
+      ><i
+        class="bi bi-pencil-square"
+        appTooltip
+        tooltipText="Edit Profile"
+        [showTooltip]="showTooltip"
+        (mouseenter)="showTooltip = !showTooltip"
+        (mouseleave)="showTooltip = false"
+        tooltipPosition="top"
+      ></i
+    ></span>
   </div>
   @if(!clickedAddBlog){
   <app-user-info />
   } @if(clickedAddBlog){
-  <app-add-blog (formSubmitted)="handleAddFormSubmitted($event)"/>
+  <app-add-blog (formSubmitted)="handleAddFormSubmitted($event)" />
   }
   <div class="blogs my-3">
     <h4 class="mt-4 mb-2">My published posts</h4>

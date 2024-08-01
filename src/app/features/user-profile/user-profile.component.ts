@@ -16,7 +16,8 @@ import { TooltipDirective } from '../../shared/Directives/tooltip.directive';
     UserInfoComponent,
     AddBlogComponent,
     BlogCardComponent,
-    CommonModule,TooltipDirective
+    CommonModule,
+    TooltipDirective,
   ],
   templateUrl: './user-profile.component.html',
   styleUrl: './user-profile.component.scss',
@@ -27,6 +28,8 @@ export class UserProfileComponent implements OnInit {
   authService = inject(AuthService);
   blogList$: Observable<Blog[]> | null = null;
   hasBlogs: boolean = false;
+  showTooltip: boolean = false;
+  
   ngOnInit(): void {
     this.blogList$ = this.blogService.blogs$.asObservable().pipe(
       map((blogs: Blog[] | null) => {
@@ -52,4 +55,5 @@ export class UserProfileComponent implements OnInit {
   handleAddFormSubmitted(formSubmitted: boolean): void {
     this.clickedAddBlog = formSubmitted;
   }
+
 }

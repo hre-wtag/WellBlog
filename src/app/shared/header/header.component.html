@@ -75,6 +75,10 @@
             class="bi bi-box-arrow-in-left"
             appTooltip
             tooltipText="Logout"
+            [showTooltip]="showTooltip"
+            (mouseenter)="showTooltip = true"
+            (mouseleave)="showTooltip = false"
+            tooltipPosition="left"
           ></i
         ></a>
       </li>

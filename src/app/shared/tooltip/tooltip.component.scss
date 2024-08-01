@@ -10,6 +10,18 @@
   font-size: 0.813rem;
   pointer-events: none;
   max-width: 7rem;
+  z-index: 1;
+}
+.tooltip-content {
+  word-wrap: break-word;
+  white-space: normal;
+  text-align: center;
+  max-width: 100%;
+}
+
+.ct-left {
+}
+.ct-bottom {
   &::after {
     content: "";
     width: 0;
@@ -22,9 +34,7 @@
     top: -0.313rem;
   }
 }
-.tooltip-content {
-  word-wrap: break-word;
-  white-space: normal;
-  text-align: center;
-  max-width: 100%;
+.ct-right {
+}
+.ct-top {
 }

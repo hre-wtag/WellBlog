@@ -14,6 +14,7 @@ import { TooltipComponent } from '../tooltip/tooltip.component';
 export class TooltipDirective {
   @Input() tooltipText!: string;
   @Input() showTooltip!: boolean;
+  @Input() id!: string;
   @Input() tooltipPosition!: 'top' | 'right' | 'bottom' | 'left';
   offset: number = 0;
   private tooltipComponentRef: ComponentRef<TooltipComponent> | null = null;
@@ -36,6 +37,7 @@ export class TooltipDirective {
     this.tooltipComponentRef =
       this.viewContainerRef.createComponent(TooltipComponent);
     this.tooltipComponentRef.instance.text = this.tooltipText;
+    this.tooltipComponentRef.instance.position = this.tooltipPosition;
 
     this.tooltipComponentRef.instance.elementSize.subscribe((size) => {
       this.setTooltipPosition(size);
@@ -49,16 +51,8 @@ export class TooltipDirective {
     if (!this.tooltipComponentRef) return;
     const targetRect = this.elementRef.nativeElement.getBoundingClientRect();
     const tooltipElement = this.tooltipComponentRef?.location.nativeElement;
-    const tooltipSize = tooltipElement.getBoundingClientRect();
     const tooltipRect = size;
-    const scrollPos =
-      window.scrollY ||
-      document.documentElement.scrollTop ||
-      document.body.scrollTop ||
-      0;
-
     let top, left;
-
     if (this.tooltipPosition === 'top') {
       top = targetRect.top - tooltipRect.height - this.offset;
       left = targetRect.left + (targetRect.width - tooltipRect.width) / 2;
@@ -80,7 +74,7 @@ export class TooltipDirective {
     }
     this.tooltipComponentRef.instance.left = left;
     this.tooltipComponentRef.instance.top = top;
-    console.log(targetRect, tooltipRect);
+    console.log(left, top);
   }
   destroyTooltip(): void {
     if (this.tooltipComponentRef) {
@@ -88,5 +82,15 @@ export class TooltipDirective {
       this.tooltipComponentRef = null;
     }
   }
-}
+  showTooltipById(id: string) {
+    if (this.id === id) {
+      this.showTooltip = true;
+    }
+  }
 
+  hideTooltipById(id: string) {
+    if (this.id === id) {
+      this.showTooltip = false;
+    }
+  }
+}
