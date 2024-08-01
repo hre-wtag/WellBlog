@@ -2,7 +2,7 @@
 <div
   class="card blog-card p-2 d-flex flex-column align-items-center justify-content-center"
   [id]="'blog-' + blog.id"
-  [routerLink]="blog_route + '/' + blog.id"
+  [routerLink]="getRouterLink"
 >
   <img [src]="blog.blogImage" class="blog-card-img rounded" alt="..." />
   <div
@@ -12,7 +12,7 @@
       <div class="blog-tags d-flex align-items-end">
         @for(tag of blog.tags.slice(0, 4); track $index){
         <div
-          class="tag d-inline-block text-truncate bg-light rounded-1 px-2 py-1"
+          class="tag d-inline-block text-truncate bg-light rounded-1 m-1 px-2 py-1"
         >
           {{ tag }}
         </div>
