@@ -14,7 +14,7 @@ import { TooltipComponent } from '../tooltip/tooltip.component';
 export class TooltipDirective {
   @Input() tooltipText!: string;
   @Input() tooltipPosition!: 'top' | 'right' | 'bottom' | 'left';
-  offset: number = 5;
+  offset: number = 7;
   private tooltipComponentRef: ComponentRef<TooltipComponent> | null = null;
 
   constructor(
