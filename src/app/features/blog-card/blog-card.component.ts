@@ -22,4 +22,7 @@ export class BlogCardComponent {
   onDelete(id: number): void {
     console.log(id);
   }
+  get getRouterLink() {
+    return `${this.blog_route}/${this.blog.id}`;
+  }
 }

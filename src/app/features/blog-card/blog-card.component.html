@@ -1,60 +1,60 @@
 @if(blog){
+<div
+  class="card blog-card p-2 d-flex flex-column align-items-center justify-content-center"
+  [id]="'blog-' + blog.id"
+  [routerLink]="getRouterLink"
+>
+  <img [src]="blog.blogImage" class="blog-card-img rounded" alt="..." />
   <div
-    class="card blog-card p-2 d-flex flex-column align-items-center justify-content-center"
-    [id]="'blog-' + blog.id"
-    [routerLink]="blog_route + '/' + blog.id"
+    class="card-body-container d-grid align-items-center justify-content-center p-0 mt-2"
   >
-    <img [src]="blog.blogImage" class="blog-card-img rounded" alt="..." />
-    <div
-      class="card-body-container d-grid align-items-center justify-content-center p-0 mt-2"
-    >
-      <div class="blog-header">
-        <div class="blog-tags d-flex align-items-end">
-          @for(tag of blog.tags.slice(0, 4); track $index){
-          <div
-            class="tag d-inline-block text-truncate bg-light rounded-1 m-1 px-2 py-1"
-          >
-            {{ tag }}
-          </div>
-          }@if(blog.tags.length>4){
-          <span class="text-muted mb-1"><small> more...</small></span
-          >}
-        </div>
-        <h4 class="card-title m-1 fw-bold">
-          {{
-            blog.title.length > 75
-              ? blog.title.substring(0, 75) + "..."
-              : blog.title
-          }}
-        </h4>
-      </div>
-      <div class="d-flex align-items-center">
-        <div class="blog-footer d-flex align-items-center">
-          <div class="footer-left d-flex align-items-center">
-            <img
-              [src]="
-                blog.bloggerImage ? blog.bloggerImage : default_profile_photo
-              "
-              class="blog-footer-img rounded-circle me-3"
-              [alt]="blog.bloggerName"
-            />
-            <div class="card-text">
-              <small class="text-body-secondary">{{ blog.bloggerName }} </small>
-            </div>
-          </div>
-          <div class="card-text">
-            <small class="text-body-secondary">{{
-              blog.postingDate | date : "MMMM d, yy"
-            }}</small>
-          </div>
-        </div>
+    <div class="blog-header">
+      <div class="blog-tags d-flex align-items-end">
+        @for(tag of blog.tags.slice(0, 4); track $index){
         <div
-          class="btn-delete d-flex ms-auto"
-          (click)="onDelete(blog.id); $event.stopPropagation()"
+          class="tag d-inline-block text-truncate bg-light rounded-1 m-1 px-2 py-1"
         >
-          <i class="bi bi-trash3 fs-4"></i>
+          {{ tag }}
         </div>
+        }@if(blog.tags.length>4){
+        <span class="text-muted mb-1"><small> more...</small></span
+        >}
+      </div>
+      <h4 class="card-title m-1 fw-bold">
+        {{
+          blog.title.length > 75
+            ? blog.title.substring(0, 75) + "..."
+            : blog.title
+        }}
+      </h4>
+    </div>
+    <div class="d-flex align-items-center">
+      <div class="blog-footer d-flex align-items-center">
+        <div class="footer-left d-flex align-items-center">
+          <img
+            [src]="
+              blog.bloggerImage ? blog.bloggerImage : default_profile_photo
+            "
+            class="blog-footer-img rounded-circle me-3"
+            [alt]="blog.bloggerName"
+          />
+          <div class="card-text">
+            <small class="text-body-secondary">{{ blog.bloggerName }} </small>
+          </div>
+        </div>
+        <div class="card-text">
+          <small class="text-body-secondary">{{
+            blog.postingDate | date : "MMMM d, yy"
+          }}</small>
+        </div>
+      </div>
+      <div
+        class="btn-delete d-flex ms-auto"
+        (click)="onDelete(blog.id); $event.stopPropagation()"
+      >
+        <i class="bi bi-trash3 fs-4"></i>
       </div>
     </div>
   </div>
-  }
+</div>
+}
