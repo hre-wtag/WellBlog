@@ -13,25 +13,37 @@ import { TooltipComponent } from '../tooltip/tooltip.component';
 })
 export class TooltipDirective {
   @Input() tooltipText!: string;
-  @Input() showTooltip!: boolean;
-  @Input() id!: string;
   @Input() tooltipPosition!: 'top' | 'right' | 'bottom' | 'left';
-  offset: number = 0;
+  offset: number = 5;
   private tooltipComponentRef: ComponentRef<TooltipComponent> | null = null;
 
   constructor(
     private elementRef: ElementRef,
     private viewContainerRef: ViewContainerRef
   ) {}
-
-  ngOnChanges() {
-    console.log(this.showTooltip, this.tooltipPosition);
-    if (this.showTooltip) {
-      this.createTooltip();
-    } else {
-      this.destroyTooltip();
-    }
+  ngOnInit() {
+    this.elementRef.nativeElement.addEventListener(
+      'mouseenter',
+      this.showTooltip.bind(this)
+    );
+    this.elementRef.nativeElement.addEventListener(
+      'mouseleave',
+      this.hideTooltip.bind(this)
+    );
   }
+
+  ngOnDestroy() {
+    this.destroyTooltip();
+  }
+
+  private showTooltip() {
+    this.createTooltip();
+  }
+
+  private hideTooltip() {
+    this.destroyTooltip();
+  }
+
   createTooltip(): void {
     if (this.tooltipComponentRef) return;
     this.tooltipComponentRef =
@@ -81,16 +93,13 @@ export class TooltipDirective {
       this.tooltipComponentRef.destroy();
       this.tooltipComponentRef = null;
     }
-  }
-  showTooltipById(id: string) {
-    if (this.id === id) {
-      this.showTooltip = true;
-    }
-  }
-
-  hideTooltipById(id: string) {
-    if (this.id === id) {
-      this.showTooltip = false;
-    }
+    this.elementRef.nativeElement.removeEventListener(
+      'mouseenter',
+      this.showTooltip.bind(this)
+    );
+    this.elementRef.nativeElement.removeEventListener(
+      'mouseleave',
+      this.hideTooltip.bind(this)
+    );
   }
 }

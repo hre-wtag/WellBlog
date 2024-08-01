@@ -11,6 +11,13 @@
   pointer-events: none;
   max-width: 7rem;
   z-index: 1;
+
+  &::after {
+    content: "";
+    width: 0;
+    height: 0;
+    position: absolute;
+  }
 }
 .tooltip-content {
   word-wrap: break-word;
@@ -20,21 +27,38 @@
 }
 
 .ct-left {
+  &::after {
+    border-top: 0.313rem solid transparent;
+    border-bottom: 0.313rem solid transparent;
+    border-left: 0.313rem solid $primary--color;
+    left: 100%;
+    bottom: calc(50% - 0.313rem);
+  }
 }
 .ct-bottom {
   &::after {
-    content: "";
-    width: 0;
-    height: 0;
     border-left: 0.313rem solid transparent;
     border-right: 0.313rem solid transparent;
     border-bottom: 0.313rem solid $primary--color;
-    position: absolute;
     left: calc(50% - 0.313rem);
     top: -0.313rem;
   }
 }
 .ct-right {
+  &::after {
+    border-top: 0.313rem solid transparent;
+    border-bottom: 0.313rem solid transparent;
+    border-right: 0.313rem solid $primary--color;
+    left: -0.313rem;
+    bottom: calc(50% - 0.313rem);
+  }
 }
 .ct-top {
+  &::after {
+    border-left: 0.313rem solid transparent;
+    border-right: 0.313rem solid transparent;
+    border-top: 0.313rem solid $primary--color;
+    left: calc(50% - 0.313rem);
+    top: 100%;
+  }
 }

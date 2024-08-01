@@ -3,7 +3,12 @@
   class="custom-tooltip"
   [style.left]="left + 'px'"
   [style.top]="top + 'px'"
-  [ngClass]="{ 'ct-bottom': position == 'bottom' }"
+  [ngClass]="{
+    'ct-bottom': position == 'bottom',
+    'ct-top': position == 'top',
+    'ct-left': position == 'left',
+    'ct-right': position == 'right'
+  }"
 >
   <div class="tooltip-content">
     {{ text }}
