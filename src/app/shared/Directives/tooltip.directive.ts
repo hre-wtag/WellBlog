@@ -2,6 +2,7 @@ import {
   ComponentRef,
   Directive,
   ElementRef,
+  inject,
   Input,
   ViewContainerRef,
 } from '@angular/core';
@@ -15,12 +16,10 @@ export class TooltipDirective {
   @Input() tooltipText!: string;
   @Input() tooltipPosition!: 'top' | 'right' | 'bottom' | 'left';
   offset: number = 7;
-  private tooltipComponentRef: ComponentRef<TooltipComponent> | null = null;
 
-  constructor(
-    private elementRef: ElementRef,
-    private viewContainerRef: ViewContainerRef
-  ) {}
+  private tooltipComponentRef: ComponentRef<TooltipComponent> | null = null;
+  private elementRef = inject(ElementRef);
+  private viewContainerRef = inject(ViewContainerRef);
   ngOnInit() {
     this.elementRef.nativeElement.addEventListener(
       'mouseenter',
@@ -66,7 +65,7 @@ export class TooltipDirective {
     const tooltipRect = size;
     let top, left;
     const scrollPos =
-      window.pageYOffset ||
+      window.scrollY ||
       document.documentElement.scrollTop ||
       document.body.scrollTop ||
       0;
@@ -89,9 +88,8 @@ export class TooltipDirective {
       top = targetRect.top + (targetRect.height - tooltipRect.height) / 2;
       left = targetRect.right + this.offset;
     }
-    this.tooltipComponentRef.instance.left = left;
-    this.tooltipComponentRef.instance.top = top + scrollPos;
-    console.log(left, top);
+    this.tooltipComponentRef.instance.left = left / 16;
+    this.tooltipComponentRef.instance.top = (top + scrollPos) / 16;
   }
   destroyTooltip(): void {
     if (this.tooltipComponentRef) {

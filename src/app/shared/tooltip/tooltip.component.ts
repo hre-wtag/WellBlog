@@ -28,6 +28,5 @@ export class TooltipComponent implements AfterViewInit {
     const width = this.tooltipRef.nativeElement.offsetWidth;
     const height = this.tooltipRef.nativeElement.offsetHeight;
     this.elementSize.emit({ width, height });
-    console.log(this.text, this.left, this.top, this.position, 'tooltip');
   }
 }
