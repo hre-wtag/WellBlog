@@ -17,7 +17,7 @@ import {
   styleUrl: './tooltip.component.scss',
 })
 export class TooltipComponent implements AfterViewInit {
-  @Input() text = '';
+  @Input() text: string = '';
   @Input() left!: number;
   @Input() top!: number;
   @Input() position!: string;

@@ -29,14 +29,15 @@ export class UserProfileComponent implements OnInit {
   blogList$: Observable<Blog[]> | null = null;
   hasBlogs: boolean = false;
   showTooltip: boolean = false;
-  
+
   ngOnInit(): void {
     this.blogList$ = this.blogService.blogs$.asObservable().pipe(
       map((blogs: Blog[] | null) => {
         if (blogs) {
           const filteredBlogs = blogs
             .filter(
-              (blog) => blog.bloggerId === this.authService.user$.getValue()?.id
+              (blog: Blog) =>
+                blog.bloggerId === this.authService.user$.getValue()?.id
             )
             .sort(
               (a, b) =>
@@ -55,5 +56,4 @@ export class UserProfileComponent implements OnInit {
   handleAddFormSubmitted(formSubmitted: boolean): void {
     this.clickedAddBlog = formSubmitted;
   }
-
 }
