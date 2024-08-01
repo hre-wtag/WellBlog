@@ -2,7 +2,7 @@ import {
   ComponentRef,
   Directive,
   ElementRef,
-  HostListener,
+  inject,
   Input,
   ViewContainerRef,
 } from '@angular/core';
@@ -13,40 +13,96 @@ import { TooltipComponent } from '../tooltip/tooltip.component';
   standalone: true,
 })
 export class TooltipDirective {
-  @Input() tooltipText = '';
+  @Input() tooltipText!: string;
+  @Input() tooltipPosition!: 'top' | 'right' | 'bottom' | 'left';
+  offset: number = 7;
+
   private tooltipComponentRef: ComponentRef<TooltipComponent> | null = null;
-
-  constructor(
-    private elementRef: ElementRef,
-    private viewContainerRef: ViewContainerRef
-  ) {}
-
-  @HostListener('mouseenter')
-  onMouseEnter(): void {
-    if (this.tooltipComponentRef) return;
-
-    this.tooltipComponentRef =
-      this.viewContainerRef.createComponent(TooltipComponent);
-    this.tooltipComponentRef.instance.text = this.tooltipText;
-    this.setTooltipPosition();
-    this.tooltipComponentRef.hostView.detectChanges();
+  private elementRef = inject(ElementRef);
+  private viewContainerRef = inject(ViewContainerRef);
+  ngOnInit() {
+    this.elementRef.nativeElement.addEventListener(
+      'mouseenter',
+      this.showTooltip.bind(this)
+    );
+    this.elementRef.nativeElement.addEventListener(
+      'mouseleave',
+      this.hideTooltip.bind(this)
+    );
   }
 
-  @HostListener('mouseleave')
-  onMouseLeave(): void {
+  ngOnDestroy() {
     this.destroyTooltip();
   }
 
-  private setTooltipPosition() {
-    if (!this.tooltipComponentRef) return;
-    const { left, right, bottom } =
-      this.elementRef.nativeElement.getBoundingClientRect();
-    this.tooltipComponentRef.instance.left = (right - left) / 2 + left;
-    this.tooltipComponentRef.instance.top = bottom-2;
+  private showTooltip() {
+    this.createTooltip();
   }
 
-  private destroyTooltip() {
-    this.tooltipComponentRef?.destroy();
-    this.tooltipComponentRef = null;
+  private hideTooltip() {
+    this.destroyTooltip();
+  }
+
+  createTooltip(): void {
+    if (this.tooltipComponentRef) return;
+    this.tooltipComponentRef =
+      this.viewContainerRef.createComponent(TooltipComponent);
+    this.tooltipComponentRef.instance.text = this.tooltipText;
+    this.tooltipComponentRef.instance.position = this.tooltipPosition;
+
+    this.tooltipComponentRef.instance.elementSize.subscribe((size) => {
+      this.setTooltipPosition(size);
+    });
+
+    this.tooltipComponentRef.changeDetectorRef.detectChanges();
+    this.tooltipComponentRef.hostView.detectChanges();
+  }
+
+  setTooltipPosition(size: { width: number; height: number }) {
+    if (!this.tooltipComponentRef) return;
+    const targetRect = this.elementRef.nativeElement.getBoundingClientRect();
+    const tooltipElement = this.tooltipComponentRef?.location.nativeElement;
+    const tooltipRect = size;
+    let top, left;
+    const scrollPos =
+      window.scrollY ||
+      document.documentElement.scrollTop ||
+      document.body.scrollTop ||
+      0;
+    if (this.tooltipPosition === 'top') {
+      top = targetRect.top - tooltipRect.height - this.offset;
+      left = targetRect.left + (targetRect.width - tooltipRect.width) / 2;
+    }
+
+    if (this.tooltipPosition === 'bottom') {
+      top = targetRect.bottom + this.offset;
+      left = targetRect.left + (targetRect.width - tooltipRect.width) / 2;
+    }
+
+    if (this.tooltipPosition === 'left') {
+      top = targetRect.top + (targetRect.height - tooltipRect.height) / 2;
+      left = targetRect.left - tooltipRect.width - this.offset;
+    }
+
+    if (this.tooltipPosition === 'right') {
+      top = targetRect.top + (targetRect.height - tooltipRect.height) / 2;
+      left = targetRect.right + this.offset;
+    }
+    this.tooltipComponentRef.instance.left = left / 16;
+    this.tooltipComponentRef.instance.top = (top + scrollPos) / 16;
+  }
+  destroyTooltip(): void {
+    if (this.tooltipComponentRef) {
+      this.tooltipComponentRef.destroy();
+      this.tooltipComponentRef = null;
+    }
+    this.elementRef.nativeElement.removeEventListener(
+      'mouseenter',
+      this.showTooltip.bind(this)
+    );
+    this.elementRef.nativeElement.removeEventListener(
+      'mouseleave',
+      this.hideTooltip.bind(this)
+    );
   }
 }

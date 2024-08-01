@@ -33,6 +33,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   profile_route: string = SLASH + PROFILE_ROUTE;
   blog_route: string = SLASH + BLOG_ROUTE;
   isLoggedin: boolean = false;
+  showTooltip: boolean = false;
   userName: string | undefined = undefined;
   currentPage: string = '';
   private prevRouteService = inject(PreviousRouteService);
