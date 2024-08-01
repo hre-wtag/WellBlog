@@ -65,6 +65,11 @@ export class TooltipDirective {
     const tooltipElement = this.tooltipComponentRef?.location.nativeElement;
     const tooltipRect = size;
     let top, left;
+    const scrollPos =
+      window.pageYOffset ||
+      document.documentElement.scrollTop ||
+      document.body.scrollTop ||
+      0;
     if (this.tooltipPosition === 'top') {
       top = targetRect.top - tooltipRect.height - this.offset;
       left = targetRect.left + (targetRect.width - tooltipRect.width) / 2;
@@ -85,7 +90,7 @@ export class TooltipDirective {
       left = targetRect.right + this.offset;
     }
     this.tooltipComponentRef.instance.left = left;
-    this.tooltipComponentRef.instance.top = top;
+    this.tooltipComponentRef.instance.top = top + scrollPos;
     console.log(left, top);
   }
   destroyTooltip(): void {
