@@ -1,10 +1,8 @@
 @if(blog){
-<div class="card blog-card p-2" [id]="'blog-'+blog.id">
+<div class="card blog-card p-2" [id]="'blog-' + blog.id">
   <img [src]="blog.blogImage" class="blog-card-img rounded" alt="..." />
   <div class="card-body p-2">
-    <div
-      class="blog-tags d-flex align-items-center"
-    >
+    <div class="blog-tags d-flex align-items-center">
       @for(tag of blog.tags; track $index){
       <div
         class="tag d-flex align-items-center justify-content-center bg-light rounded-1 m-1 px-2 py-1"
@@ -16,7 +14,7 @@
     <h5 class="card-title mt-1 fw-bold">
       {{
         blog.title.length > 30
-          ? blog.title.substring(0, 30) + "..."
+          ? (blog.title | slice : 0 : 30) + "..."
           : blog.title
       }}
     </h5>
