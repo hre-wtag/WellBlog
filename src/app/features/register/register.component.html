@@ -4,171 +4,177 @@
       <div class="row">
         <div class="col-md-5 mx-auto border p-3 bg-light rounded">
           <h3 class="text-center color-primary">Register</h3>
-          <div class="mb-3">
-            <label class="form-label">First Name</label>
-            <input
-              type="text"
-              class="form-control form-input"
-              formControlName="firstName"
-              [ngClass]="{
-                'border-danger':
-                  !registerForm.get('firstName')?.valid &&
-                  registerForm.get('firstName')?.touched
-              }"
-            />
-            @if (!registerForm.get('firstName')?.valid &&
-            registerForm.get('firstName')?.touched){
-            <div class="text-danger">
-              {{ updateErrorMessages("firstName") }}
-            </div>
-            }
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Last Name</label>
-            <input
-              type="text"
-              class="form-control form-input"
-              formControlName="lastName"
-              [ngClass]="{
-                'border-danger':
-                  !registerForm.get('lastName')?.valid &&
-                  registerForm.get('lastName')?.touched
-              }"
-            />
-            @if (!registerForm.get('lastName')?.valid &&
-            registerForm.get('lastName')?.touched){
-            <div class="text-danger">{{ updateErrorMessages("lastName") }}</div>
-            }
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Email</label>
-            <input
-              type="email"
-              class="form-control form-input"
-              formControlName="email"
-              [ngClass]="{
-                'border-danger':
-                  !registerForm.get('email')?.valid &&
-                  registerForm.get('email')?.touched
-              }"
-            />
-            @if (!registerForm.get('email')?.valid &&
-            registerForm.get('email')?.touched){
-            <div class="text-danger">{{ updateErrorMessages("email") }}</div>
-            }
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Username</label>
-            <input
-              type="text"
-              class="form-control form-input"
-              formControlName="username"
-              (blur)="checkUsername()"
-              [ngClass]="{
-                'border-danger':
-                  (!registerForm.get('username')?.valid &&
-                    registerForm.get('username')?.touched) ||
-                  usernameError
-              }"
-            />
-            @if (!registerForm.get('username')?.valid &&
-            registerForm.get('username')?.touched){
-            <div class="text-danger">{{ updateErrorMessages("username") }}</div>
-            } @if(registerForm.get('username')?.valid &&
-            registerForm.get('username')?.touched && usernameError){
-            <div class="text-danger">
-              This username is taken. Please try another
-            </div>
-            }
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Password</label>
-            <div class="input-group mb-3">
+          <div class="d-grid justify-content-center">
+            <div class="mb-3">
+              <label class="form-label">First Name</label>
               <input
-                [type]="showPassword ? 'text' : 'password'"
+                type="text"
                 class="form-control form-input"
-                formControlName="password"
-                (input)="matchPassword()"
+                formControlName="firstName"
                 [ngClass]="{
                   'border-danger':
-                    !registerForm.get('password')?.valid &&
-                    registerForm.get('password')?.touched
+                    !registerForm.get('firstName')?.valid &&
+                    registerForm.get('firstName')?.touched
                 }"
               />
-              <span
-                class="input-group-text eye-btn"
-                appToggleOnHold
-                (hold)="onHoldChange($event, 'password')"
-                ><i
-                  class="bi"
-                  [ngClass]="!showPassword ? 'bi-eye' : 'bi-eye-slash'"
-                ></i
-              ></span>
+              @if (!registerForm.get('firstName')?.valid &&
+              registerForm.get('firstName')?.touched){
+              <div class="text-danger">
+                {{ updateErrorMessages("firstName") }}
+              </div>
+              }
             </div>
-            @if( !registerForm.get('password')?.valid &&
-            registerForm.get('password')?.touched){
-            <div class="text-danger">
-              {{ updateErrorMessages("password") }}
+            <div class="mb-3">
+              <label class="form-label">Last Name</label>
+              <input
+                type="text"
+                class="form-control form-input"
+                formControlName="lastName"
+                [ngClass]="{
+                  'border-danger':
+                    !registerForm.get('lastName')?.valid &&
+                    registerForm.get('lastName')?.touched
+                }"
+              />
+              @if (!registerForm.get('lastName')?.valid &&
+              registerForm.get('lastName')?.touched){
+              <div class="text-danger">
+                {{ updateErrorMessages("lastName") }}
+              </div>
+              }
             </div>
-            }
-          </div>
+            <div class="mb-3">
+              <label class="form-label">Email</label>
+              <input
+                type="email"
+                class="form-control form-input"
+                formControlName="email"
+                [ngClass]="{
+                  'border-danger':
+                    !registerForm.get('email')?.valid &&
+                    registerForm.get('email')?.touched
+                }"
+              />
+              @if (!registerForm.get('email')?.valid &&
+              registerForm.get('email')?.touched){
+              <div class="text-danger">{{ updateErrorMessages("email") }}</div>
+              }
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Username</label>
+              <input
+                type="text"
+                class="form-control form-input"
+                formControlName="username"
+                (blur)="checkUsername()"
+                [ngClass]="{
+                  'border-danger':
+                    (!registerForm.get('username')?.valid &&
+                      registerForm.get('username')?.touched) ||
+                    usernameError
+                }"
+              />
+              @if (!registerForm.get('username')?.valid &&
+              registerForm.get('username')?.touched){
+              <div class="text-danger">
+                {{ updateErrorMessages("username") }}
+              </div>
+              } @if(registerForm.get('username')?.valid &&
+              registerForm.get('username')?.touched && usernameError){
+              <div class="text-danger">
+                This username is taken. Please try another
+              </div>
+              }
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Password</label>
+              <div class="input-group form-input mb-3">
+                <input
+                  [type]="showPassword ? 'text' : 'password'"
+                  class="form-control"
+                  formControlName="password"
+                  (input)="matchPassword()"
+                  [ngClass]="{
+                    'border-danger':
+                      !registerForm.get('password')?.valid &&
+                      registerForm.get('password')?.touched
+                  }"
+                />
+                <span
+                  class="input-group-text eye-btn"
+                  appToggleOnHold
+                  (hold)="onHoldChange($event, 'password')"
+                  ><i
+                    class="bi"
+                    [ngClass]="!showPassword ? 'bi-eye' : 'bi-eye-slash'"
+                  ></i
+                ></span>
+              </div>
+              @if( !registerForm.get('password')?.valid &&
+              registerForm.get('password')?.touched){
+              <div class="text-danger">
+                {{ updateErrorMessages("password") }}
+              </div>
+              }
+            </div>
 
-          <div class="mb-3">
-            <label class="form-label">Confirm Password</label>
-            <div class="input-group mb-3">
-              <input
-                [type]="showConfirmPassword ? 'text' : 'password'"
-                class="form-control form-input"
-                formControlName="confirmPassword"
-                (input)="matchPassword()"
-                [ngClass]="{
-                  'border-danger':
-                    !registerForm.get('confirmPassword')?.valid &&
-                    registerForm.get('confirmPassword')?.touched
-                }"
-              />
-              <span
-                class="input-group-text eye-btn"
-                appToggleOnHold
-                (hold)="onHoldChange($event, 'confirmPassword')"
-                ><i
-                  class="bi"
-                  [ngClass]="!showConfirmPassword ? 'bi-eye' : 'bi-eye-slash'"
-                ></i
-              ></span>
+            <div class="mb-3">
+              <label class="form-label">Confirm Password</label>
+              <div class="input-group form-input mb-3">
+                <input
+                  [type]="showConfirmPassword ? 'text' : 'password'"
+                  class="form-control"
+                  formControlName="confirmPassword"
+                  (input)="matchPassword()"
+                  [ngClass]="{
+                    'border-danger':
+                      !registerForm.get('confirmPassword')?.valid &&
+                      registerForm.get('confirmPassword')?.touched
+                  }"
+                />
+                <span
+                  class="input-group-text eye-btn"
+                  appToggleOnHold
+                  (hold)="onHoldChange($event, 'confirmPassword')"
+                  ><i
+                    class="bi"
+                    [ngClass]="!showConfirmPassword ? 'bi-eye' : 'bi-eye-slash'"
+                  ></i
+                ></span>
+              </div>
+              @if( !registerForm.get('confirmPassword')?.valid &&
+              registerForm.get('confirmPassword')?.touched){
+              <div class="text-danger">
+                {{ updateErrorMessages("confirmPassword") }}
+              </div>
+              }
             </div>
-            @if( !registerForm.get('confirmPassword')?.valid &&
-            registerForm.get('confirmPassword')?.touched){
-            <div class="text-danger">
-              {{ updateErrorMessages("confirmPassword") }}
+            @if( confirmPasswordError &&
+            registerForm.get('confirmPassword')?.touched &&
+            registerForm.get('confirmPassword')?.valid &&
+            registerForm.get('confirmPassword')?.dirty &&
+            registerForm.get('password')?.touched &&
+            registerForm.get('password')?.dirty ){
+            <div class="text-danger mb-3">
+              {{ confirmPasswordError }}
             </div>
             }
-          </div>
-          @if( confirmPasswordError &&
-          registerForm.get('confirmPassword')?.touched &&
-          registerForm.get('confirmPassword')?.valid &&
-          registerForm.get('confirmPassword')?.dirty &&
-          registerForm.get('password')?.touched &&
-          registerForm.get('password')?.dirty ){
-          <div class="text-danger mb-3">
-            {{ confirmPasswordError }}
-          </div>
-          }
-          <div class="d-flex align-items-center">
-            <button
-              class="btn background-primary btn-auth me-1"
-              type="submit"
-              [disabled]="registerForm.invalid || !passMatched"
-            >
-              Register
-            </button>
-            <button
-              class="btn btn-auth btn-sub ms-1"
-              type="button"
-              (click)="onLogin()"
-            >
-              Login
-            </button>
+            <div class="d-flex align-items-center">
+              <button
+                class="btn background-primary btn-auth me-1"
+                type="submit"
+                [disabled]="registerForm.invalid || !passMatched"
+              >
+                Register
+              </button>
+              <button
+                class="btn btn-auth btn-sub ms-1"
+                type="button"
+                (click)="onLogin()"
+              >
+                Login
+              </button>
+            </div>
           </div>
         </div>
       </div>
