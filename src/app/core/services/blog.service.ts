@@ -7,5 +7,4 @@ import { Blog } from '../interfaces/blog';
 })
 export class BlogService {
 blogs$=new BehaviorSubject<Blog[]|null>(null);
-  constructor() { }
 }

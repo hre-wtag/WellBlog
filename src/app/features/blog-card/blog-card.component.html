@@ -2,7 +2,7 @@
 <div
   class="card blog-card p-2 d-flex flex-column align-items-center justify-content-center"
   [id]="'blog-' + blog.id"
-  [routerLink]="getRouterLink"
+  [routerLink]="blog_route + '/' + this.blog.id"
 >
   <img [src]="blog.blogImage" class="blog-card-img rounded" alt="..." />
   <div
@@ -22,8 +22,8 @@
       </div>
       <h4 class="card-title m-1 fw-bold">
         {{
-          blog.title.length > 75
-            ? blog.title.substring(0, 75) + "..."
+          blog.title.length > 30
+            ? (blog.title | slice : 0 : 30) + "..."
             : blog.title
         }}
       </h4>
