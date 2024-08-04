@@ -59,6 +59,15 @@ export class LoginComponent implements OnInit {
       }
     });
   }
+  isFieldValid(fieldname: string): boolean {
+    if (
+      !this.loginForm.get(fieldname)?.valid &&
+      this.loginForm.get(fieldname)?.touched
+    ) {
+      return true;
+    }
+    return false;
+  }
   onHoldChange(event: Event | boolean): void {
     this.showPassword = event;
   }

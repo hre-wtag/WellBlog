@@ -102,7 +102,15 @@ export class RegisterComponent {
       }, 4000);
     }
   }
-
+  isFieldValid(fieldname: string): boolean {
+    if (
+      !this.registerForm.get(fieldname)?.valid &&
+      this.registerForm.get(fieldname)?.touched
+    ) {
+      return true;
+    }
+    return false;
+  }
   getFormControl = (formGroup: FormGroup, formControlName: string) => {
     return formGroup.get(formControlName) as FormControl;
   };
