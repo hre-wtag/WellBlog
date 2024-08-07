@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, DestroyRef, OnInit, inject } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -35,6 +35,7 @@ export class LoginComponent implements OnInit {
   private authService = inject(AuthService);
   private toasterService = inject(ToasterService);
   private sub = new Subject<AuthUser>();
+  private destroyRef = inject(DestroyRef);
   constructor() {
     this.loginForm = new FormGroup({
       username: new FormControl('', Validators.required),
@@ -43,21 +44,27 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.sub.pipe(debounceTime(500)).subscribe((user: AuthUser) => {
-      const loginStatus = this.authService.authenticateUser(user);
-      if (loginStatus === true) {
-        this.toasterService.success('success!', 'Login successful.');
-        setTimeout(() => {
-          this.toasterService.clear();
-        }, 3000);
-        this.router.navigate([this.home_route]);
-      } else {
-        this.toasterService.error('Error!', 'Incorrect username or password!');
-        setTimeout(() => {
-          this.toasterService.clear();
-        }, 3000);
-      }
-    });
+    const userSubcription = this.sub
+      .pipe(debounceTime(500))
+      .subscribe((user: AuthUser) => {
+        const loginStatus = this.authService.authenticateUser(user);
+        if (loginStatus === true) {
+          this.toasterService.success('success!', 'Login successful.');
+          setTimeout(() => {
+            this.toasterService.clear();
+          }, 3000);
+          this.router.navigate([this.home_route]);
+        } else {
+          this.toasterService.error(
+            'Error!',
+            'Incorrect username or password!'
+          );
+          setTimeout(() => {
+            this.toasterService.clear();
+          }, 3000);
+        }
+      });
+    this.destroyRef.onDestroy(() => userSubcription.unsubscribe());
   }
   isFieldValid(fieldname: string): boolean {
     if (
