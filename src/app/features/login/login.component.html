@@ -12,13 +12,10 @@
                 class="form-control form-input"
                 formControlName="username"
                 [ngClass]="{
-                  'border-danger':
-                    !loginForm.get('username')?.valid &&
-                    loginForm.get('username')?.touched
+                  'border-danger': isFieldValid('username')
                 }"
               />
-              @if (!loginForm.get('username')?.valid &&
-              loginForm.get('username')?.touched){
+              @if (isFieldValid('username')){
               <div class="text-danger">This field is required.</div>
               }
             </div>
@@ -30,9 +27,7 @@
                   class="form-control"
                   formControlName="password"
                   [ngClass]="{
-                    'border-danger':
-                      !loginForm.get('password')?.valid &&
-                      loginForm.get('password')?.touched
+                    'border-danger': isFieldValid('password')
                   }"
                 />
                 <span
@@ -45,12 +40,10 @@
                   ></i
                 ></span>
               </div>
-              @if( !loginForm.get('password')?.valid &&
-              loginForm.get('password')?.touched){
+              @if( isFieldValid('password')){
               <div class="text-danger">This field is required.</div>
               }
             </div>
-
             <div class="d-flex align-items-center">
               <button
                 class="btn background-primary btn-auth me-1"
