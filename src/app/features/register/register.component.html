@@ -11,13 +11,10 @@
               class="form-control form-input"
               formControlName="firstName"
               [ngClass]="{
-                'border-danger':
-                  !registerForm.get('firstName')?.valid &&
-                  registerForm.get('firstName')?.touched
+                'border-danger': isFieldValid('firstName')
               }"
             />
-            @if (!registerForm.get('firstName')?.valid &&
-            registerForm.get('firstName')?.touched){
+            @if (isFieldValid('firstName')){
             <div class="text-danger">
               {{ updateErrorMessages("firstName") }}
             </div>
@@ -30,13 +27,10 @@
               class="form-control form-input"
               formControlName="lastName"
               [ngClass]="{
-                'border-danger':
-                  !registerForm.get('lastName')?.valid &&
-                  registerForm.get('lastName')?.touched
+                'border-danger': isFieldValid('lastName')
               }"
             />
-            @if (!registerForm.get('lastName')?.valid &&
-            registerForm.get('lastName')?.touched){
+            @if (isFieldValid('lastName')){
             <div class="text-danger">{{ updateErrorMessages("lastName") }}</div>
             }
           </div>
@@ -47,13 +41,10 @@
               class="form-control form-input"
               formControlName="email"
               [ngClass]="{
-                'border-danger':
-                  !registerForm.get('email')?.valid &&
-                  registerForm.get('email')?.touched
+                'border-danger': isFieldValid('email')
               }"
             />
-            @if (!registerForm.get('email')?.valid &&
-            registerForm.get('email')?.touched){
+            @if (isFieldValid('email')){
             <div class="text-danger">{{ updateErrorMessages("email") }}</div>
             }
           </div>
@@ -65,14 +56,10 @@
               formControlName="username"
               (blur)="checkUsername()"
               [ngClass]="{
-                'border-danger':
-                  (!registerForm.get('username')?.valid &&
-                    registerForm.get('username')?.touched) ||
-                  usernameError
+                'border-danger': isFieldValid('username')
               }"
             />
-            @if (!registerForm.get('username')?.valid &&
-            registerForm.get('username')?.touched){
+            @if (isFieldValid('username')){
             <div class="text-danger">{{ updateErrorMessages("username") }}</div>
             } @if(registerForm.get('username')?.valid &&
             registerForm.get('username')?.touched && usernameError){
@@ -90,9 +77,7 @@
                 formControlName="password"
                 (input)="matchPassword()"
                 [ngClass]="{
-                  'border-danger':
-                    !registerForm.get('password')?.valid &&
-                    registerForm.get('password')?.touched
+                  'border-danger': isFieldValid('password')
                 }"
               />
               <span
@@ -105,8 +90,7 @@
                 ></i
               ></span>
             </div>
-            @if( !registerForm.get('password')?.valid &&
-            registerForm.get('password')?.touched){
+            @if(isFieldValid('password')){
             <div class="text-danger">
               {{ updateErrorMessages("password") }}
             </div>
@@ -122,9 +106,7 @@
                 formControlName="confirmPassword"
                 (input)="matchPassword()"
                 [ngClass]="{
-                  'border-danger':
-                    !registerForm.get('confirmPassword')?.valid &&
-                    registerForm.get('confirmPassword')?.touched
+                  'border-danger': isFieldValid('confirmPassword')
                 }"
               />
               <span
@@ -137,8 +119,7 @@
                 ></i
               ></span>
             </div>
-            @if( !registerForm.get('confirmPassword')?.valid &&
-            registerForm.get('confirmPassword')?.touched){
+            @if( isFieldValid('confirmPassword')){
             <div class="text-danger">
               {{ updateErrorMessages("confirmPassword") }}
             </div>
