@@ -36,6 +36,7 @@ export class BlogService {
       )
       .subscribe((updatedBlogs) => {
         this.blogs$.next(updatedBlogs);
+        this.saveBlogsToLocalStorage(updatedBlogs);
       });
   }
   private saveBlogsToLocalStorage(blogs: Blog[]): void {
@@ -61,9 +62,9 @@ export class BlogService {
         map((blogs) => [...(blogs ?? []), newBlog]),
         take(1) // Ensures observable completes after emitting updatedBlogs
       )
-      .subscribe((updatedBlogs) => {
-        this.blogs$.next(updatedBlogs);
-        this.saveBlogsToLocalStorage(updatedBlogs);
+      .subscribe((blogs) => {
+        this.blogs$.next(blogs);
+        this.saveBlogsToLocalStorage(blogs);
       });
   }
 }
