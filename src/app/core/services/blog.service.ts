@@ -11,7 +11,9 @@ export class BlogService {
   blogs$ = new BehaviorSubject<Blog[] | null>(null);
 
   private authService = inject(AuthService);
-
+  constructor() {
+    this.blogs$.next(this.loadBlogsFromLocalStorage() || []);
+  }
   isMyBlog(bloggerId: number): boolean {
     let isMyBlog = false;
     const userSub = this.authService.user$.subscribe((user: User | null) => {
@@ -34,6 +36,34 @@ export class BlogService {
       )
       .subscribe((updatedBlogs) => {
         this.blogs$.next(updatedBlogs);
+      });
+  }
+  private saveBlogsToLocalStorage(blogs: Blog[]): void {
+    localStorage.setItem('blogs', JSON.stringify(blogs));
+  }
+
+  private loadBlogsFromLocalStorage(): Blog[] | null {
+    const blogsJson = localStorage.getItem('blogs');
+    if (blogsJson) {
+      try {
+        return JSON.parse(blogsJson);
+      } catch (e) {
+        console.error('Error parsing blogs from local storage', e);
+        return null;
+      }
+    }
+    return null;
+  }
+  addBlog(newBlog: Blog): void {
+    this.blogs$
+      .pipe(
+        filter((blogs) => blogs !== null),
+        map((blogs) => [...(blogs ?? []), newBlog]),
+        take(1) // Ensures observable completes after emitting updatedBlogs
+      )
+      .subscribe((updatedBlogs) => {
+        this.blogs$.next(updatedBlogs);
+        this.saveBlogsToLocalStorage(updatedBlogs);
       });
   }
 }

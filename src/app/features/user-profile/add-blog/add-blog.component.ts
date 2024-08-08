@@ -209,10 +209,7 @@ export class AddBlogComponent implements OnInit, OnDestroy {
     if (this.uploadedImage != null) {
       blog.blogImage = this.uploadedImage;
     }
-    this.blogService.blogs$.next([
-      ...(this.blogService.blogs$.getValue() ?? []),
-      blog,
-    ]);
+    this.blogService.addBlog(blog);
   }
   onCancel(): void {
     this.formSubmitted.emit(null);
