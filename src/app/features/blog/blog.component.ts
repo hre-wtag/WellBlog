@@ -1,4 +1,11 @@
-import { Component, DestroyRef, OnInit, inject } from '@angular/core';
+import {
+  Component,
+  DestroyRef,
+  ElementRef,
+  OnInit,
+  ViewChild,
+  inject,
+} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BlogService } from '../../core/services/blog.service';
 import { Blog } from '../../core/interfaces/blog';
@@ -8,6 +15,7 @@ import { CommonModule } from '@angular/common';
 import { Title } from '@angular/platform-browser';
 import { TooltipDirective } from '../../shared/Directives/tooltip.directive';
 import { AddBlogComponent } from '../user-profile/add-blog/add-blog.component';
+import DOMPurify from 'dompurify';
 
 @Component({
   selector: 'app-blog',
@@ -17,6 +25,7 @@ import { AddBlogComponent } from '../user-profile/add-blog/add-blog.component';
   styleUrl: './blog.component.scss',
 })
 export class BlogComponent implements OnInit {
+  @ViewChild('blogDescription') blogDescription!: ElementRef;
   private activatedRoute = inject(ActivatedRoute);
   private blogService = inject(BlogService);
   private destroyRef = inject(DestroyRef);
@@ -28,6 +37,12 @@ export class BlogComponent implements OnInit {
   clickedBTN: string | null = null;
   ngOnInit(): void {
     this.loadBlog();
+  }
+  ngAfterViewInit(): void {
+    if (this.blog) {
+      const sanitizedDescription = DOMPurify.sanitize(this.blog.description);
+      this.blogDescription.nativeElement.innerHTML = sanitizedDescription;
+    }
   }
   loadBlog(): void {
     const routeSubscription = this.activatedRoute.paramMap.subscribe({
@@ -45,7 +60,6 @@ export class BlogComponent implements OnInit {
               this.router.navigate(['']);
             } else {
               this.titleService.setTitle(this.blog.title);
-              console.log(this.blog);
               this.isMyBlog = this.blogService.isMyBlog(this.blog?.bloggerId);
             }
           });
@@ -59,6 +73,5 @@ export class BlogComponent implements OnInit {
   }
   handleAddFormSubmitted(formSubmitted: string | null): void {
     this.clickedBTN = formSubmitted;
-
   }
 }

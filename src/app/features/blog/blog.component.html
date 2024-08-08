@@ -54,10 +54,8 @@
           [alt]="blog.title"
         />
       </div>
-      <div
-        class="blog-description mt-5 mb-3 p-0"
-        [innerHTML]="blog.description"
-      ></div>
+
+      <div #blogDescription class="blog-description mt-5 mb-3 p-0"></div>
     </div>
   </div>
   } @if(clickedBTN==='edit-blog'){
