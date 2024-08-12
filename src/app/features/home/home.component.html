@@ -19,7 +19,7 @@
               @for(tag of heroBlog.tags; track $index){
               <button
                 type="button"
-                class="tag-btn btn btn-primary d-flex align-items-center justify-content-center m-1 rounded-1"
+                class="tag-btn btn btn-primary d-flex align-items-center justify-content-center m-1 rounded-1"(click)="handleSelectedTag(tag)"
               >
                 @if(tag.length > 10){
                 <span appTooltip [tooltipText]="tag">

@@ -42,7 +42,7 @@ export class HomeComponent implements OnInit {
     this.destroyRef.onDestroy(() => userSubcription.unsubscribe());
   }
 
-  groupBlogs(blogs: Blog[] | null): Blog[][] {
+  groupBlogs(blogs: Blog[] | null | undefined): Blog[][] {
     const groupedBlogs: Blog[][] = [];
     if (blogs) {
       for (let i = 0; i < blogs.length; i += 3) {
@@ -52,14 +52,11 @@ export class HomeComponent implements OnInit {
     return groupedBlogs;
   }
   handleSelectedTag(tag: string): void {
-    console.log(tag);
-    
     this.blogService.blogs$
-      .pipe(filter((blogs) => blogs!.some((blog) => blog.tags.includes(tag))))
-      .subscribe((blogs) => {
-        this.blogGroups = this.groupBlogs(blogs) ?? null;
-      });
-      console.log(this.blogGroups);
-      
+      .pipe(
+        map((blogs) => blogs?.filter((blog) => blog.tags.includes(tag))),
+        map((filteredBlogs) => this.groupBlogs(filteredBlogs))
+      )
+      .subscribe((groupedBlogs) => (this.blogGroups = groupedBlogs));
   }
 }
