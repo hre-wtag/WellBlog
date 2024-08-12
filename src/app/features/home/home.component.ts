@@ -1,6 +1,6 @@
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { BlogService } from '../../core/services/blog.service';
-import { bufferCount, map, Observable } from 'rxjs';
+import { bufferCount, filter, map, Observable } from 'rxjs';
 import { Blog } from '../../core/interfaces/blog';
 import { BlogCardComponent } from '../blog-card/blog-card.component';
 import { CommonModule } from '@angular/common';
@@ -50,5 +50,16 @@ export class HomeComponent implements OnInit {
       }
     }
     return groupedBlogs;
+  }
+  handleSelectedTag(tag: string): void {
+    console.log(tag);
+    
+    this.blogService.blogs$
+      .pipe(filter((blogs) => blogs!.some((blog) => blog.tags.includes(tag))))
+      .subscribe((blogs) => {
+        this.blogGroups = this.groupBlogs(blogs) ?? null;
+      });
+      console.log(this.blogGroups);
+      
   }
 }

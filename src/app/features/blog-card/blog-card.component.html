@@ -13,6 +13,7 @@
         @for(tag of blog.tags.slice(0, 4); track $index){
         <div
           class="tag d-inline-block text-truncate bg-light rounded-1 m-1 px-2 py-1"
+          (click)="onFilterTag(tag); $event.stopPropagation()"
         >
           {{ tag }}
         </div>

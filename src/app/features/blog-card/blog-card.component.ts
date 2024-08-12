@@ -1,4 +1,11 @@
-import { Component, inject, Input, OnChanges } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  inject,
+  Input,
+  OnChanges,
+  Output,
+} from '@angular/core';
 import { Blog } from '../../core/interfaces/blog';
 import {
   BLOG_ROUTE,
@@ -18,6 +25,7 @@ import { Router, RouterLink } from '@angular/router';
 })
 export class BlogCardComponent implements OnChanges {
   @Input() blog!: Blog;
+  @Output() selectedFilterTag = new EventEmitter<string>();
   default_profile_photo: string = DEFAULT_PROFILE_PHOTO_SRC;
   blog_route: string = SLASH + BLOG_ROUTE;
   showDeleteBtn: boolean = false;
@@ -28,5 +36,8 @@ export class BlogCardComponent implements OnChanges {
   }
   onDelete(id: number): void {
     console.log(id);
+  }
+  onFilterTag(tag: string): void {
+    this.selectedFilterTag.emit(tag);
   }
 }

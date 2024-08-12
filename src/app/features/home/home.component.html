@@ -73,6 +73,7 @@
       @for(blog of blogs ;track $index){
       <app-blog-card
         [blog]="blog"
+        (selectedFilterTag)="handleSelectedTag($event)"
         [ngClass]="{ 'margin-end': ($index + 1) % 3 !== 0 }"
       />
       }
