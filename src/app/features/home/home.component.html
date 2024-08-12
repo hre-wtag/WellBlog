@@ -1,11 +1,12 @@
 <div class="container home_container d-grid my-5 p-0">
+  @if(heroBlog){
   <div class="hero-blog-container">
-    @if(heroBlog){
     <img
       class="hero-blog-image img-fluid"
       [src]="heroBlog.blogImage"
       [alt]="heroBlog.title"
     />
+    <div class="overlay-hero-blog-image"></div>
     <div
       class="blog-details border card-img-overlay d-flex flex-column justify-content-between"
     >
@@ -55,9 +56,8 @@
         </div>
       </div>
     </div>
-    }
   </div>
-
+  }
   <h4 class="mt-4 mb-2">Latest Posts</h4>
   <div class="blog-cards">
     @for(blogs of blogGroups ;track $index){
