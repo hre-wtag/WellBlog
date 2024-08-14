@@ -23,17 +23,17 @@ export class BlogService {
   updateBlog(updatedBlog: Blog): void {
     this.blogs$
       .pipe(
-        filter((blogs) => blogs !== null),
-        filter((blogs) => blogs!.some((blog) => blog.id === updatedBlog.id)),
+        take(1),
         map((blogs) =>
-          blogs!.map((blog) =>
+          blogs?.map((blog) =>
             blog.id === updatedBlog.id ? updatedBlog : blog
           )
-        ),
-        take(1) // Ensures observable completes after emitting updatedBlogs
+        )
       )
       .subscribe((updatedBlogs) => {
-        this.blogs$.next(updatedBlogs);
+        if (updatedBlogs) {
+          this.blogs$.next(updatedBlogs);
+        }
       });
   }
 }
