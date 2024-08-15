@@ -14,6 +14,7 @@ export class BlogService {
   constructor() {
     this.blogs$.next(this.loadBlogsFromLocalStorage() || []);
   }
+
   isMyBlog(bloggerId: number): boolean {
     let isMyBlog = false;
     const userSub = this.authService.user$.subscribe((user: User | null) => {
@@ -22,21 +23,22 @@ export class BlogService {
     userSub.unsubscribe();
     return isMyBlog;
   }
+
   updateBlog(updatedBlog: Blog): void {
     this.blogs$
       .pipe(
-        filter((blogs) => blogs !== null),
-        filter((blogs) => blogs!.some((blog) => blog.id === updatedBlog.id)),
+        take(1),
         map((blogs) =>
-          blogs!.map((blog) =>
+          blogs?.map((blog) =>
             blog.id === updatedBlog.id ? updatedBlog : blog
           )
-        ),
-        take(1) // Ensures observable completes after emitting updatedBlogs
+        )
       )
       .subscribe((updatedBlogs) => {
-        this.blogs$.next(updatedBlogs);
-        this.saveBlogsToLocalStorage(updatedBlogs);
+        if (updatedBlogs) {
+          this.blogs$.next(updatedBlogs);
+          this.saveBlogsToLocalStorage(updatedBlogs);
+        }
       });
   }
   private saveBlogsToLocalStorage(blogs: Blog[]): void {
@@ -55,6 +57,7 @@ export class BlogService {
     }
     return null;
   }
+
   addBlog(newBlog: Blog): void {
     this.blogs$
       .pipe(
