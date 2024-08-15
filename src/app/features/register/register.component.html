@@ -4,7 +4,7 @@
       <div class="row">
         <div class="col-md-5 mx-auto border p-3 bg-light rounded">
           <h3 class="text-center color-primary">Register</h3>
-          <div class="d-grid justify-content-center">
+          <div class="d-grid  justify-content-center">
             <div class="mb-3">
               <label class="form-label">First Name</label>
               <input
@@ -41,7 +41,7 @@
               <label class="form-label">Email</label>
               <input
                 type="email"
-                class="form-control"
+                class="form-control form-input"
                 formControlName="email"
                 [ngClass]="{
                   'border-danger': isFieldValid('email')
@@ -78,7 +78,7 @@
               <div class="input-group form-input mb-3">
                 <input
                   [type]="showPassword ? 'text' : 'password'"
-                  class="form-control"
+                  class="form-control pass-field"
                   formControlName="password"
                   (input)="matchPassword()"
                   [ngClass]="{
@@ -96,7 +96,7 @@
                 ></span>
               </div>
               @if(isFieldValid('password')){
-              <div class="text-danger">
+              <div class="pass-error text-danger text-break">
                 {{ updateErrorMessages("password") }}
               </div>
               }
@@ -107,7 +107,7 @@
               <div class="input-group form-input mb-3">
                 <input
                   [type]="showConfirmPassword ? 'text' : 'password'"
-                  class="form-control"
+                  class="form-control pass-field"
                   formControlName="confirmPassword"
                   (input)="matchPassword()"
                   [ngClass]="{
@@ -125,7 +125,7 @@
                 ></span>
               </div>
               @if( isFieldValid('confirmPassword')){
-              <div class="text-danger">
+              <div class=" text-danger">
                 {{ updateErrorMessages("confirmPassword") }}
               </div>
               }
