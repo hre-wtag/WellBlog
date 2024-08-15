@@ -52,7 +52,8 @@ body {
     height: 3rem;
     width: 29.5rem;
   }
-  &:focus {
+  &:focus,
+  .pass-field:focus {
     border-color: $primary--color;
     box-shadow: none;
   }
