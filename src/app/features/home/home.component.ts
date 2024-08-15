@@ -8,6 +8,7 @@ import { TooltipDirective } from '../../shared/Directives/tooltip.directive';
 import { DEFAULT_PROFILE_PHOTO_SRC } from '../../core/utils/constants';
 import { AuthService } from '../../core/services/auth.service';
 import { User } from '../../core/interfaces/user';
+import { SharedService } from '../../core/services/shared.service';
 
 @Component({
   selector: 'app-home',
@@ -23,6 +24,7 @@ export class HomeComponent implements OnInit {
   default_profile_photo: string = DEFAULT_PROFILE_PHOTO_SRC;
   private destroyRef = inject(DestroyRef);
   private authService = inject(AuthService);
+  private sharedService = inject(SharedService);
   isLoggedin: boolean = false;
   ngOnInit(): void {
     this.blogService.blogs$.subscribe((blogs) => {
@@ -40,6 +42,9 @@ export class HomeComponent implements OnInit {
       }
     );
     this.destroyRef.onDestroy(() => userSubcription.unsubscribe());
+    this.sharedService.searchedText.subscribe((text) => {
+      this.handleSearch(text);
+    });
   }
 
   groupBlogs(blogs: Blog[] | null | undefined): Blog[][] {
@@ -55,6 +60,14 @@ export class HomeComponent implements OnInit {
     this.blogService.blogs$
       .pipe(
         map((blogs) => blogs?.filter((blog) => blog.tags.includes(tag))),
+        map((filteredBlogs) => this.groupBlogs(filteredBlogs))
+      )
+      .subscribe((groupedBlogs) => (this.blogGroups = groupedBlogs));
+  }
+  handleSearch(str: string): void {
+    this.blogService.blogs$
+      .pipe(
+        map((blogs) => blogs?.filter((blog) => blog.title.includes(str))),
         map((filteredBlogs) => this.groupBlogs(filteredBlogs))
       )
       .subscribe((groupedBlogs) => (this.blogGroups = groupedBlogs));

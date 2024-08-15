@@ -1,12 +1,12 @@
 import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { TITLE } from './core/utils/constants';
-import { HeaderComponent } from './shared/header/header.component';
+import { NavbarComponent } from './shared/navbar/navbar.component';
 import { ToasterComponent } from './shared/toaster/toaster.component';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, HeaderComponent, ToasterComponent],
+  imports: [RouterOutlet, NavbarComponent, ToasterComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })

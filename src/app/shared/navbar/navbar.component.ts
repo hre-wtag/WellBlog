@@ -18,15 +18,17 @@ import { PreviousRouteService } from '../../core/services/previous-route.service
 import { Subscription, filter, map } from 'rxjs';
 import { User } from '../../core/interfaces/user';
 import { TooltipDirective } from '../Directives/tooltip.directive';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { SharedService } from '../../core/services/shared.service';
 
 @Component({
-  selector: 'app-header',
+  selector: 'app-navbar',
   standalone: true,
-  imports: [RouterLink, TooltipDirective],
-  templateUrl: './header.component.html',
-  styleUrl: './header.component.scss',
+  imports: [RouterLink, TooltipDirective, ReactiveFormsModule],
+  templateUrl: './navbar.component.html',
+  styleUrl: './navbar.component.scss',
 })
-export class HeaderComponent implements OnInit, OnDestroy {
+export class NavbarComponent implements OnInit, OnDestroy {
   title: string = TITLE;
   login_route: string = SLASH + LOGIN_ROUTE;
   register_route: string = SLASH + REGISTER_ROUTE;
@@ -40,7 +42,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
   private router = inject(Router);
   private authService = inject(AuthService);
   private activatedRoute = inject(ActivatedRoute);
+  private sharedService = inject(SharedService);
   userSubcription: Subscription | null = null;
+  searchForm: FormGroup;
   constructor() {
     this.router.events
       .pipe(
@@ -57,6 +61,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
           this.currentPage = path ? '/' + path : '';
         },
       });
+    this.searchForm = new FormGroup({
+      searchField: new FormControl(''),
+    });
   }
   ngOnInit(): void {
     this.isLoggedin = this.authService.isLoggedIn();
@@ -78,5 +85,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
   ngOnDestroy(): void {
     this.userSubcription?.unsubscribe();
+  }
+  searchBlog(): void {
+    const str = this.searchForm.get('searchField')?.value.trim();
+    this.sharedService.blogSearch(str);
   }
 }

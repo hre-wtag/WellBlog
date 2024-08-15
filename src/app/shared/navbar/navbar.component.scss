@@ -1,0 +1,21 @@
+@import "../../../styles.scss";
+.navbar-container {
+  height: $navbar--height;
+  width: 76.25rem;
+}
+.search-container {
+  height: 2.75rem;
+  width: 22.438rem;
+}
+.search-field {
+  height: 2.25rem;
+  &:focus {
+    border: none;
+    box-shadow: none;
+  }
+}
+.search-btn{
+    &:focus{
+        border: none;
+    }
+}

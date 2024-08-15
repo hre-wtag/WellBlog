@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core';
+import { EventEmitter, Injectable, Output, inject } from '@angular/core';
 import { ToasterService } from './toaster.service';
 
 @Injectable({
@@ -6,7 +6,7 @@ import { ToasterService } from './toaster.service';
 })
 export class SharedService {
   private toasterService = inject(ToasterService);
-
+  @Output() searchedText = new EventEmitter<string>();
   imageDropHandler(ev: DragEvent): File | null {
     if (ev.dataTransfer?.items) {
       const files = Array.from(ev.dataTransfer.items);
@@ -37,5 +37,8 @@ export class SharedService {
       return allowedTypes.includes(fileType);
     }
     return null;
+  }
+  blogSearch(str: string): void {
+    this.searchedText.emit(str);
   }
 }
