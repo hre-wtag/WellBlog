@@ -24,7 +24,8 @@ export class BlogService {
     return isMyBlog;
   }
 
-  updateBlog(updatedBlog: Blog): void {
+  updateBlog(updatedBlog: Blog): boolean {
+    let isUpdated = false;
     this.blogs$
       .pipe(
         take(1),
@@ -34,12 +35,19 @@ export class BlogService {
           )
         )
       )
-      .subscribe((updatedBlogs) => {
-        if (updatedBlogs) {
-          this.blogs$.next(updatedBlogs);
-          this.saveBlogsToLocalStorage(updatedBlogs);
-        }
+      .subscribe({
+        next: (updatedBlogs) => {
+          if (updatedBlogs) {
+            this.blogs$.next(updatedBlogs);
+            this.saveBlogsToLocalStorage(updatedBlogs);
+            isUpdated = true;
+          }
+        },
+        error: () => {
+          isUpdated = false;
+        },
       });
+    return isUpdated;
   }
   private saveBlogsToLocalStorage(blogs: Blog[]): void {
     localStorage.setItem('blogs', JSON.stringify(blogs));
@@ -57,32 +65,46 @@ export class BlogService {
     }
     return null;
   }
-
-  addBlog(newBlog: Blog): void {
+  addBlog(newBlog: Blog): boolean {
+    let isAdded = false;
     this.blogs$
       .pipe(
         filter((blogs) => blogs !== null),
         map((blogs) => [...(blogs ?? []), newBlog]),
         take(1) // Ensures observable completes after emitting updatedBlogs
       )
-      .subscribe((blogs) => {
-        this.blogs$.next(blogs);
-        this.saveBlogsToLocalStorage(blogs);
+      .subscribe({
+        next: (blogs) => {
+          this.blogs$.next(blogs);
+          this.saveBlogsToLocalStorage(blogs);
+          isAdded = true;
+        },
+        error: () => {
+          isAdded = false;
+        },
       });
+    return isAdded;
   }
-  deleteBlog(id: number): void {
+
+  deleteBlog(id: number): boolean {
+    let isDeleted = false;
     this.blogs$
       .pipe(
         take(1),
-        map(
-          (blogs) => blogs?.filter((blog) => blog.id !== id)
-        )
+        map((blogs) => blogs?.filter((blog) => blog.id !== id)) // Filter out the blog to be deleted
       )
-      .subscribe((updatedBlogs) => {
-        if (updatedBlogs) {
-          this.blogs$.next(updatedBlogs);
-          this.saveBlogsToLocalStorage(updatedBlogs);
-        }
+      .subscribe({
+        next: (updatedBlogs) => {
+          if (updatedBlogs) {
+            this.blogs$.next(updatedBlogs);
+            this.saveBlogsToLocalStorage(updatedBlogs);
+            isDeleted = true;
+          }
+        },
+        error: () => {
+          isDeleted = false;
+        },
       });
+    return isDeleted;
   }
 }
