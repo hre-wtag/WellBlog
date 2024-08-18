@@ -26,6 +26,9 @@ export class HomeComponent implements OnInit {
   private authService = inject(AuthService);
   private sharedService = inject(SharedService);
   isLoggedin: boolean = false;
+  isSearched: boolean = false;
+  hasBlogs: boolean = false;
+
   ngOnInit(): void {
     this.blogService.blogs$.subscribe((blogs) => {
       this.blogGroups = this.groupBlogs(blogs) ?? null;
@@ -54,6 +57,7 @@ export class HomeComponent implements OnInit {
         groupedBlogs.push(blogs.slice(i, i + 3));
       }
     }
+    this.hasBlogs = groupedBlogs.length > 0;
     return groupedBlogs;
   }
   handleSelectedTag(tag: string): void {
@@ -65,6 +69,9 @@ export class HomeComponent implements OnInit {
       .subscribe((groupedBlogs) => (this.blogGroups = groupedBlogs));
   }
   handleSearch(str: string): void {
+    this.isSearched = str !== undefined && str !== '';
+    console.log(this.isSearched, 'sssss');
+
     this.blogService.blogs$
       .pipe(
         map((blogs) => blogs?.filter((blog) => blog.title.includes(str))),
