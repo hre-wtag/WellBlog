@@ -19,7 +19,8 @@
         <span
           class="edit-button ms-2"
           appTooltip
-          tooltipText="Edit"
+          tooltipText="Edit Blog"
+          tooltipPosition="bottom"
           (click)="clickedHeaderBTN('edit-blog')"
           ><i class="bi bi-pencil-square"></i
         ></span>
@@ -55,7 +56,10 @@
         />
       </div>
 
-      <div #blogDescription class="blog-description text-break mt-5 mb-3 p-0"></div>
+      <div
+        #blogDescription
+        class="blog-description text-break mt-5 mb-3 p-0"
+      ></div>
     </div>
   </div>
   } @if(clickedBTN==='edit-blog'){
