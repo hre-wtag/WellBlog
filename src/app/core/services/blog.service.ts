@@ -70,4 +70,19 @@ export class BlogService {
         this.saveBlogsToLocalStorage(blogs);
       });
   }
+  deleteBlog(id: number): void {
+    this.blogs$
+      .pipe(
+        take(1),
+        map(
+          (blogs) => blogs?.filter((blog) => blog.id !== id)
+        )
+      )
+      .subscribe((updatedBlogs) => {
+        if (updatedBlogs) {
+          this.blogs$.next(updatedBlogs);
+          this.saveBlogsToLocalStorage(updatedBlogs);
+        }
+      });
+  }
 }
