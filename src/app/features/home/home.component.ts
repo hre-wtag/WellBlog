@@ -31,9 +31,19 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.blogService.blogs$.subscribe((blogs) => {
-      this.blogGroups = this.groupBlogs(blogs) ?? null;
+      this.blogGroups =
+        this.groupBlogs(
+          blogs?.sort(
+            (a, b) =>
+              new Date(b.postingDate).getTime() -
+              new Date(a.postingDate).getTime()
+          )
+        ) ?? null;
     });
-    this.heroBlog = this.blogGroups ? this.blogGroups[0][0] : null;
+    const lastBlogGroup = this.blogGroups?.[this.blogGroups.length - 1];
+    this.heroBlog = lastBlogGroup
+      ? lastBlogGroup[lastBlogGroup.length - 1]
+      : null;
     console.log(this.blogGroups, 'blogs');
     const userSubcription = this.authService.user$.subscribe(
       (user: User | null) => {
