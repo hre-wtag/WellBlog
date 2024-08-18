@@ -15,6 +15,7 @@ import {
 } from '../../core/utils/constants';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
+import { BlogService } from '../../core/services/blog.service';
 
 @Component({
   selector: 'app-blog-card',
@@ -31,11 +32,12 @@ export class BlogCardComponent implements OnChanges {
   showDeleteBtn: boolean = false;
   profile_route: string = SLASH + PROFILE_ROUTE;
   private router = inject(Router);
+  private blogService = inject(BlogService);
   ngOnChanges(): void {
     this.showDeleteBtn = this.router.url === this.profile_route ? true : false;
   }
   onDelete(id: number): void {
-    console.log(id);
+    this.blogService.deleteBlog(id);
   }
   onFilterTag(tag: string): void {
     this.selectedFilterTag.emit(tag);
