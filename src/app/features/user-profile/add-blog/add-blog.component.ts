@@ -175,7 +175,18 @@ export class AddBlogComponent implements OnInit, OnDestroy {
       this.uploadedImage != null
         ? this.uploadedImage
         : this.editedBlog.blogImage;
-    this.blogService.updateBlog(blog);
+    const blogUpdated = this.blogService.updateBlog(blog);
+    if (blogUpdated) {
+      this.toasterService.success('Success!', 'The blog is updated.');
+      setTimeout(() => {
+        this.toasterService.toasterInfo$.next(null);
+      }, 4000);
+    } else {
+      this.toasterService.error('Error!', 'Unable to update the blog.');
+      setTimeout(() => {
+        this.toasterService.toasterInfo$.next(null);
+      }, 4000);
+    }
   }
 
   addBlog(blogTags: string[]): void {
@@ -209,7 +220,18 @@ export class AddBlogComponent implements OnInit, OnDestroy {
     if (this.uploadedImage != null) {
       blog.blogImage = this.uploadedImage;
     }
-    this.blogService.addBlog(blog);
+    const blogAdded = this.blogService.addBlog(blog);
+    if (blogAdded) {
+      this.toasterService.success('Success!', 'The blog is added.');
+      setTimeout(() => {
+        this.toasterService.toasterInfo$.next(null);
+      }, 4000);
+    } else {
+      this.toasterService.error('Error!', 'Unable to add the blog.');
+      setTimeout(() => {
+        this.toasterService.toasterInfo$.next(null);
+      }, 4000);
+    }
   }
   onCancel(): void {
     this.formSubmitted.emit(null);
