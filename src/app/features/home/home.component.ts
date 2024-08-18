@@ -19,6 +19,7 @@ import { SharedService } from '../../core/services/shared.service';
 })
 export class HomeComponent implements OnInit {
   private blogService = inject(BlogService);
+  blogList: Blog[] | null = null;
   blogGroups: Blog[][] | null = null;
   heroBlog: Blog | null = null;
   default_profile_photo: string = DEFAULT_PROFILE_PHOTO_SRC;
@@ -28,23 +29,17 @@ export class HomeComponent implements OnInit {
   isLoggedin: boolean = false;
   isSearched: boolean = false;
   hasBlogs: boolean = false;
+  itemsLoaded: number = 6;
+  isPaginated: boolean | undefined = false;
 
   ngOnInit(): void {
     this.blogService.blogs$.subscribe((blogs) => {
-      this.blogGroups =
-        this.groupBlogs(
-          blogs?.sort(
-            (a, b) =>
-              new Date(b.postingDate).getTime() -
-              new Date(a.postingDate).getTime()
-          )
-        ) ?? null;
+      this.blogList = blogs;
     });
-    const lastBlogGroup = this.blogGroups?.[this.blogGroups.length - 1];
-    this.heroBlog = lastBlogGroup
-      ? lastBlogGroup[lastBlogGroup.length - 1]
-      : null;
-    console.log(this.blogGroups, 'blogs');
+    if ((this.blogList?.length ?? 0) > 0) {
+      this.heroBlog = this.blogList?.[(this.blogList?.length ?? 0) - 1] ?? null;
+    }
+    this.loadBlogs();
     const userSubcription = this.authService.user$.subscribe(
       (user: User | null) => {
         if (user) {
@@ -59,17 +54,35 @@ export class HomeComponent implements OnInit {
       this.handleSearch(text);
     });
   }
+  loadBlogs(): void {
+    this.isPaginated = (this.blogList?.length ?? 0) > this.itemsLoaded;
+    this.blogGroups =
+      this.groupBlogs(
+        this.blogList?.sort(
+          (a, b) =>
+            new Date(b.postingDate).getTime() -
+            new Date(a.postingDate).getTime()
+        )
+      ) ?? null;
+  }
 
   groupBlogs(blogs: Blog[] | null | undefined): Blog[][] {
     const groupedBlogs: Blog[][] = [];
     if (blogs) {
-      for (let i = 0; i < blogs.length; i += 3) {
+      for (let i = 0; i < Math.min(this.itemsLoaded, blogs.length); i += 3) {
         groupedBlogs.push(blogs.slice(i, i + 3));
       }
     }
+    console.log(groupedBlogs);
     this.hasBlogs = groupedBlogs.length > 0;
     return groupedBlogs;
   }
+
+  loadMore() {
+    this.itemsLoaded += 3;
+    this.loadBlogs();
+  }
+
   handleSelectedTag(tag: string): void {
     this.blogService.blogs$
       .pipe(
@@ -78,6 +91,7 @@ export class HomeComponent implements OnInit {
       )
       .subscribe((groupedBlogs) => (this.blogGroups = groupedBlogs));
   }
+
   handleSearch(str: string): void {
     this.isSearched = str !== undefined && str !== '';
     console.log(this.isSearched, 'sssss');
