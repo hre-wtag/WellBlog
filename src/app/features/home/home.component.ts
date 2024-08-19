@@ -28,7 +28,8 @@ export class HomeComponent implements OnInit {
   isLoggedin: boolean = false;
   isFiltered: boolean = false;
   filteredTag: string = '';
-  headerTitle: string = 'Latest Posts';
+  baseHeaderTitle: string = 'Latest Posts';
+  headerTitle: string = this.baseHeaderTitle;
 
   isSearched: boolean = false;
   hasBlogs: boolean = false;
@@ -82,11 +83,13 @@ export class HomeComponent implements OnInit {
     this.isFiltered = false;
     this.ngOnInit();
     this.filteredTag = '';
-    this.headerTitle = 'Latest Posts';
+    this.headerTitle = this.baseHeaderTitle;
   }
   handleSearch(str: string): void {
     this.isSearched = str !== undefined && str !== '';
-    console.log(this.isSearched, 'sssss');
+    this.headerTitle = this.isSearched
+      ? 'Searched Blogs'
+      : this.baseHeaderTitle;
 
     this.blogService.blogs$
       .pipe(
