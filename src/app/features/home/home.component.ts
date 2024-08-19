@@ -24,10 +24,13 @@ export class HomeComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
   private authService = inject(AuthService);
   isLoggedin: boolean = false;
+
   ngOnInit(): void {
-    this.blogService.blogs$.subscribe((blogs) => {
+    const blogSubcription = this.blogService.blogs$.subscribe((blogs) => {
       this.blogGroups = this.groupBlogs(blogs) ?? null;
     });
+    this.destroyRef.onDestroy(() => blogSubcription.unsubscribe());
+
     this.heroBlog = this.blogGroups ? this.blogGroups[0][0] : null;
     console.log(this.blogGroups, 'blogs');
     const userSubcription = this.authService.user$.subscribe(

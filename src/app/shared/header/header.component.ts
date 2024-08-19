@@ -41,6 +41,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   private authService = inject(AuthService);
   private activatedRoute = inject(ActivatedRoute);
   userSubcription: Subscription | null = null;
+  
   constructor() {
     this.router.events
       .pipe(

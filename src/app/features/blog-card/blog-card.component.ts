@@ -27,9 +27,11 @@ export class BlogCardComponent implements OnChanges {
   private router = inject(Router);
   private blogService = inject(BlogService);
   private toasterService = inject(ToasterService);
+
   ngOnChanges(): void {
     this.showDeleteBtn = this.router.url === this.profile_route ? true : false;
   }
+
   onDelete(id: number): void {
     const blogDeleted = this.blogService.deleteBlog(id);
     if (blogDeleted) {

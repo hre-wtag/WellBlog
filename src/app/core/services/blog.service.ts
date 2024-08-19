@@ -49,6 +49,7 @@ export class BlogService {
       });
     return isUpdated;
   }
+
   private saveBlogsToLocalStorage(blogs: Blog[]): void {
     localStorage.setItem('blogs', JSON.stringify(blogs));
   }
@@ -65,6 +66,7 @@ export class BlogService {
     }
     return null;
   }
+  
   addBlog(newBlog: Blog): boolean {
     let isAdded = false;
     this.blogs$
