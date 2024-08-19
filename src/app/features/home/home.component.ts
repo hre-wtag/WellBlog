@@ -26,6 +26,8 @@ export class HomeComponent implements OnInit {
   isLoggedin: boolean = false;
   isFiltered: boolean = false;
   filteredTag: string = '';
+  headerTitle: string = 'Latest Posts';
+
   ngOnInit(): void {
     const blogSubcription = this.blogService.blogs$.subscribe((blogs) => {
       this.blogGroups = this.groupBlogs(blogs) ?? null;
@@ -58,6 +60,7 @@ export class HomeComponent implements OnInit {
   handleSelectedTag(tag: string): void {
     this.filteredTag = tag;
     this.isFiltered = true;
+    this.headerTitle = 'Filtered Blogs';
     this.blogService.blogs$
       .pipe(
         map((blogs) => blogs?.filter((blog) => blog.tags.includes(tag))),
@@ -70,5 +73,6 @@ export class HomeComponent implements OnInit {
     this.isFiltered = false;
     this.ngOnInit();
     this.filteredTag = '';
+    this.headerTitle = 'Latest Posts';
   }
 }
