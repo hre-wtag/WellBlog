@@ -27,6 +27,7 @@ import { ToasterService } from '../../core/services/toaster.service';
 })
 export class BlogCardComponent implements OnChanges {
   @Input() blog!: Blog;
+  @Input() filteredTag: string = 'Nature';
   @Output() selectedFilterTag = new EventEmitter<string>();
   default_profile_photo: string = DEFAULT_PROFILE_PHOTO_SRC;
   blog_route: string = SLASH + BLOG_ROUTE;

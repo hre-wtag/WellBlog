@@ -25,7 +25,7 @@ export class HomeComponent implements OnInit {
   private authService = inject(AuthService);
   isLoggedin: boolean = false;
   isFiltered: boolean = false;
-
+  filteredTag: string = '';
   ngOnInit(): void {
     const blogSubcription = this.blogService.blogs$.subscribe((blogs) => {
       this.blogGroups = this.groupBlogs(blogs) ?? null;
@@ -33,7 +33,6 @@ export class HomeComponent implements OnInit {
     this.destroyRef.onDestroy(() => blogSubcription.unsubscribe());
 
     this.heroBlog = this.blogGroups ? this.blogGroups[0][0] : null;
-    console.log(this.blogGroups, 'blogs');
     const userSubcription = this.authService.user$.subscribe(
       (user: User | null) => {
         if (user) {
@@ -57,6 +56,7 @@ export class HomeComponent implements OnInit {
   }
 
   handleSelectedTag(tag: string): void {
+    this.filteredTag = tag;
     this.isFiltered = true;
     this.blogService.blogs$
       .pipe(
@@ -69,5 +69,6 @@ export class HomeComponent implements OnInit {
   clearFilter(): void {
     this.isFiltered = false;
     this.ngOnInit();
+    this.filteredTag = '';
   }
 }
