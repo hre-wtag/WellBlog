@@ -1,6 +1,6 @@
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { BlogService } from '../../core/services/blog.service';
-import { bufferCount, filter, map, Observable } from 'rxjs';
+import { map } from 'rxjs';
 import { Blog } from '../../core/interfaces/blog';
 import { BlogCardComponent } from '../blog-card/blog-card.component';
 import { CommonModule } from '@angular/common';
@@ -24,6 +24,7 @@ export class HomeComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
   private authService = inject(AuthService);
   isLoggedin: boolean = false;
+  isFiltered: boolean = false;
 
   ngOnInit(): void {
     const blogSubcription = this.blogService.blogs$.subscribe((blogs) => {
@@ -54,12 +55,19 @@ export class HomeComponent implements OnInit {
     }
     return groupedBlogs;
   }
+
   handleSelectedTag(tag: string): void {
+    this.isFiltered = true;
     this.blogService.blogs$
       .pipe(
         map((blogs) => blogs?.filter((blog) => blog.tags.includes(tag))),
         map((filteredBlogs) => this.groupBlogs(filteredBlogs))
       )
       .subscribe((groupedBlogs) => (this.blogGroups = groupedBlogs));
+  }
+
+  clearFilter(): void {
+    this.isFiltered = false;
+    this.ngOnInit();
   }
 }
