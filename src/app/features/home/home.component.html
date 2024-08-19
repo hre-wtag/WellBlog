@@ -1,7 +1,7 @@
-<div class="container home_container d-grid my-5 p-0">
+<div class="container home_container d-grid p-0">
   @if(heroBlog && !isFiltered){
   <div
-    class="hero-blog-container mb-3"
+    class="hero-blog-container my-5 mb-3"
     [ngClass]="{ 'loggedin-hero-blog-container': isLoggedin }"
   >
     <img
@@ -70,9 +70,9 @@
   </div>
   }
   <div
-    class="blog-list-container d-flex justify-content-between align-items-center mt-5 mb-2"
+    class="blog-list-container d-flex justify-content-between align-items-center mt-3 mb-2"
   >
-    <h4 >{{headerTitle}}</h4>
+    <h4>{{ headerTitle }}</h4>
     @if(isFiltered){
     <span class="clear-filter-btn position-relative" (click)="clearFilter()">
       <i class="bi bi-funnel fs-4"></i>
