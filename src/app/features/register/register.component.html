@@ -4,7 +4,7 @@
       <div class="row">
         <div class="col-md-5 mx-auto border p-3 bg-light rounded">
           <h3 class="text-center color-primary">Register</h3>
-          <div class="d-grid  justify-content-center">
+          <div class="d-grid justify-content-center">
             <div class="mb-3">
               <label class="form-label">First Name</label>
               <input
@@ -111,7 +111,13 @@
                   formControlName="confirmPassword"
                   (input)="matchPassword()"
                   [ngClass]="{
-                    'border-danger': isFieldValid('confirmPassword')
+                    'border-danger':
+                      confirmPasswordError &&
+                      registerForm.get('confirmPassword')?.touched &&
+                      registerForm.get('confirmPassword')?.valid &&
+                      registerForm.get('confirmPassword')?.dirty &&
+                      registerForm.get('password')?.touched &&
+                      registerForm.get('password')?.dirty
                   }"
                 />
                 <span
@@ -125,7 +131,7 @@
                 ></span>
               </div>
               @if( isFieldValid('confirmPassword')){
-              <div class=" text-danger">
+              <div class="text-danger">
                 {{ updateErrorMessages("confirmPassword") }}
               </div>
               }
