@@ -73,8 +73,9 @@ export class HomeComponent implements OnInit {
     this.headerTitle = 'Filtered Blogs';
     this.blogService.blogs$
       .pipe(
-        map((blogs) => blogs?.filter((blog) => blog.tags.includes(tag))),
-        map((filteredBlogs) => this.groupBlogs(filteredBlogs))
+        map((blogs) =>
+          this.groupBlogs(blogs?.filter((blog) => blog.tags.includes(tag)))
+        )
       )
       .subscribe((groupedBlogs) => (this.blogGroups = groupedBlogs));
   }
