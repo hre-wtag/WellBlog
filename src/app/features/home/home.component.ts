@@ -34,7 +34,8 @@ export class HomeComponent implements OnInit {
 
   isSearched: boolean = false;
   hasBlogs: boolean = false;
-  itemsLoaded: number = 6;
+  initialItemsToLoad = 6;
+  itemsLoaded: number = this.initialItemsToLoad;
   isPaginated: boolean | undefined = false;
 
   ngOnInit(): void {
@@ -80,11 +81,9 @@ export class HomeComponent implements OnInit {
         groupedBlogs.push(blogs.slice(i, i + 3));
       }
     }
-    console.log(groupedBlogs);
     this.hasBlogs = groupedBlogs.length > 0;
     return groupedBlogs;
   }
-
 
   loadMore() {
     this.itemsLoaded += 3;
@@ -105,7 +104,8 @@ export class HomeComponent implements OnInit {
 
   clearFilter(): void {
     this.isFiltered = false;
-    this.ngOnInit();
+    this.itemsLoaded = this.initialItemsToLoad;
+    this.loadBlogs();
     this.filteredTag = '';
     this.headerTitle = this.baseHeaderTitle;
   }

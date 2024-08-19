@@ -99,7 +99,7 @@
 
     }
   </div>
-  @if(isPaginated){
+  @if(isPaginated && !isFiltered && !isSearched){
   <button class="btn btn-secondary" type="button" (click)="loadMore()">
     Show more</button
   >} } @else {
