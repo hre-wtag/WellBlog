@@ -50,14 +50,18 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     const blogSubcription = this.blogService.blogs$.subscribe((blogs) => {
       this.blogList = blogs;
+      console.log(this.blogList);
+      
       this.emptyBlogList = this.blogList?.length === 0;
     });
     this.destroyRef.onDestroy(() => blogSubcription.unsubscribe());
 
+    this.loadBlogs();
     if ((this.blogList?.length ?? 0) > 0) {
       this.heroBlog = this.blogList?.[(this.blogList?.length ?? 0) - 1] ?? null;
+
+      console.log(this.heroBlog);
     }
-    this.loadBlogs();
     const userSubcription = this.authService.user$.subscribe(
       (user: User | null) => {
         if (user) {
