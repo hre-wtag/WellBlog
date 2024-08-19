@@ -1,4 +1,8 @@
-import { Component, OnInit, inject } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  inject,
+} from '@angular/core';
 import { UserInfoComponent } from './user-info/user-info.component';
 import { AddBlogComponent } from './add-blog/add-blog.component';
 import { BlogCardComponent } from '../blog-card/blog-card.component';
@@ -9,6 +13,7 @@ import { CommonModule } from '@angular/common';
 import { AuthService } from '../../core/services/auth.service';
 import { EditUserComponent } from './edit-user/edit-user.component';
 import { TooltipDirective } from '../../shared/Directives/tooltip.directive';
+import { SharedService } from '../../core/services/shared.service';
 
 @Component({
   selector: 'app-user-profile',
@@ -28,6 +33,7 @@ export class UserProfileComponent implements OnInit {
   clickedBTN: string | null = null;
   blogService = inject(BlogService);
   authService = inject(AuthService);
+  private sharedService = inject(SharedService);
   blogList$: Observable<Blog[]> | null = null;
   hasBlogs: boolean = false;
   showTooltip: boolean = false;
@@ -54,8 +60,8 @@ export class UserProfileComponent implements OnInit {
         }
       })
     );
+    this.clickedHeaderBTN(this.sharedService.clickedAddblog);
   }
-
   clickedHeaderBTN(btn: string): void {
     this.clickedBTN = btn;
   }

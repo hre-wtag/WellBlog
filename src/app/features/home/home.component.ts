@@ -5,10 +5,16 @@ import { Blog } from '../../core/interfaces/blog';
 import { BlogCardComponent } from '../blog-card/blog-card.component';
 import { CommonModule } from '@angular/common';
 import { TooltipDirective } from '../../shared/Directives/tooltip.directive';
-import { DEFAULT_PROFILE_PHOTO_SRC } from '../../core/utils/constants';
+import {
+  DEFAULT_PROFILE_PHOTO_SRC,
+  LOGIN_ROUTE,
+  PROFILE_ROUTE,
+  SLASH,
+} from '../../core/utils/constants';
 import { AuthService } from '../../core/services/auth.service';
 import { User } from '../../core/interfaces/user';
 import { SharedService } from '../../core/services/shared.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -26,21 +32,25 @@ export class HomeComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
   private authService = inject(AuthService);
   private sharedService = inject(SharedService);
+  private router = inject(Router);
   isLoggedin: boolean = false;
   isFiltered: boolean = false;
   filteredTag: string = '';
   baseHeaderTitle: string = 'Latest Posts';
   headerTitle: string = this.baseHeaderTitle;
-
   isSearched: boolean = false;
   hasBlogs: boolean = false;
+  emptyBlogList: boolean = false;
   initialItemsToLoad = 6;
   itemsLoaded: number = this.initialItemsToLoad;
   isPaginated: boolean | undefined = false;
+  loginRoute: string = SLASH + LOGIN_ROUTE;
+  profileRoute: string = SLASH + PROFILE_ROUTE;
 
   ngOnInit(): void {
     const blogSubcription = this.blogService.blogs$.subscribe((blogs) => {
       this.blogList = blogs;
+      this.emptyBlogList = this.blogList?.length === 0;
     });
     this.destroyRef.onDestroy(() => blogSubcription.unsubscribe());
 
@@ -125,5 +135,13 @@ export class HomeComponent implements OnInit {
         map((filteredBlogs) => this.groupBlogs(filteredBlogs))
       )
       .subscribe((groupedBlogs) => (this.blogGroups = groupedBlogs));
+  }
+  addBlog(): void {
+    if (this.isLoggedin) {
+      this.router.navigate([this.profileRoute]);
+      this.sharedService.onClickingAddBlog('add-blog');
+    } else {
+      this.router.navigate([this.loginRoute]);
+    }
   }
 }

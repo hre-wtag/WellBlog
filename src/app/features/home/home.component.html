@@ -29,14 +29,16 @@
             >
               @if(tag.length > 10){
               <span appTooltip [tooltipText]="tag">
-                {{ tag.length > 10 ? tag.substring(0, 10) + "..." : tag }}</span
+                {{
+                  tag.length > 10 ? (tag | slice : 0 : 10) + "..." : tag
+                }}</span
               >} @else { {{ tag }}}</button
             >}
           </div>
-          <h4 class="card-title m-1 mt-3 fw-bold">
+          <h4 class="card-title m-1 mt-3 fw-bold"  appTooltip [tooltipText]="heroBlog.title">
             {{
-              heroBlog.title.length > 150
-                ? (heroBlog.title | slice : 0 : 150) + "..."
+              heroBlog.title.length > 100
+                ? (heroBlog.title | slice : 0 : 100) + "..."
                 : heroBlog.title
             }}
           </h4>
@@ -108,5 +110,12 @@
   >
     <h2 class="text-danger">No blogs found.</h2>
   </div>
-  }
+  @if(emptyBlogList){
+  <button
+    class="btn btn-outline-primary background-primary mx-auto"
+    type="button"
+    (click)="addBlog()"
+  >
+    Add Blog</button
+  >} }
 </div>

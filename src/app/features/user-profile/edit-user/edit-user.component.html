@@ -107,10 +107,10 @@
               <div
                 class="form-control uploaded-file-name text-center text-muted"
               >
-                Uploaded File: :{{
+                Uploaded File:{{
                   uploadedImageName
                     ? uploadedImageName.length > 30
-                      ? uploadedImageName.substring(0, 30) + "..."
+                      ? (uploadedImageName | slice : 0 : 30) + "..."
                       : uploadedImageName
                     : "No file Uploaded."
                 }}
