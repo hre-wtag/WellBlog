@@ -74,6 +74,7 @@ export class AddBlogComponent implements OnInit, OnDestroy {
       editor.setContent('This is the initial text');
     },
   };
+
   private toasterService = inject(ToasterService);
   private blogService = inject(BlogService);
   private authService = inject(AuthService);
@@ -90,12 +91,14 @@ export class AddBlogComponent implements OnInit, OnDestroy {
       description: new FormControl('', Validators.required),
     });
   }
+
   ngOnInit(): void {
     if (this.editedBlog) {
       this.isEditing = true;
       this.setBlogValues(this.editedBlog);
     }
   }
+
   setBlogValues(blog: Blog): void {
     this.blogForm.patchValue({
       title: blog.title,
@@ -110,9 +113,7 @@ export class AddBlogComponent implements OnInit, OnDestroy {
       }
     });
   }
-  ngOnDestroy(): void {
-    this.blogSubcription?.unsubscribe();
-  }
+
   removeWhiteSpaces(event: Event) {
     const trimmedValue = (event.target as HTMLInputElement).value.trim();
     (event.target as HTMLInputElement).value = trimmedValue;
@@ -159,6 +160,7 @@ export class AddBlogComponent implements OnInit, OnDestroy {
     this.formSubmitted.emit(null);
     this.clearForm();
   }
+
   editBLog(blogTags: string[]): void {
     const blog: Blog = {
       ...this.blogForm.value,
@@ -175,7 +177,18 @@ export class AddBlogComponent implements OnInit, OnDestroy {
       this.uploadedImage != null
         ? this.uploadedImage
         : this.editedBlog.blogImage;
-    this.blogService.updateBlog(blog);
+    const blogUpdated = this.blogService.updateBlog(blog);
+    if (blogUpdated) {
+      this.toasterService.success('Success!', 'The blog is updated.');
+      setTimeout(() => {
+        this.toasterService.toasterInfo$.next(null);
+      }, 4000);
+    } else {
+      this.toasterService.error('Error!', 'Unable to update the blog.');
+      setTimeout(() => {
+        this.toasterService.toasterInfo$.next(null);
+      }, 4000);
+    }
   }
 
   addBlog(blogTags: string[]): void {
@@ -209,12 +222,25 @@ export class AddBlogComponent implements OnInit, OnDestroy {
     if (this.uploadedImage != null) {
       blog.blogImage = this.uploadedImage;
     }
-    this.blogService.addBlog(blog);
+    const blogAdded = this.blogService.addBlog(blog);
+    if (blogAdded) {
+      this.toasterService.success('Success!', 'The blog is added.');
+      setTimeout(() => {
+        this.toasterService.toasterInfo$.next(null);
+      }, 4000);
+    } else {
+      this.toasterService.error('Error!', 'Unable to add the blog.');
+      setTimeout(() => {
+        this.toasterService.toasterInfo$.next(null);
+      }, 4000);
+    }
   }
+
   onCancel(): void {
     this.formSubmitted.emit(null);
     this.clearForm();
   }
+
   clearForm(): void {
     this.blogForm.reset();
     for (let i = 0; i < this.tagList.length; i++) {
@@ -225,11 +251,17 @@ export class AddBlogComponent implements OnInit, OnDestroy {
     this.uploadedImage = null;
     this.uploadedImageName = null;
   }
+
+  ngOnDestroy(): void {
+    this.blogSubcription?.unsubscribe();
+  }
+
   onCheckboxDoubleClick(title: string, isChecked: boolean): void {
     this.changeTagFlag(title, isChecked);
     this.isSingleClick = false;
     this.showDropdown = false;
   }
+
   onCheckboxClick(title: string, isChecked: boolean): void {
     this.isSingleClick = true;
     setTimeout(() => {
@@ -238,6 +270,7 @@ export class AddBlogComponent implements OnInit, OnDestroy {
       }
     }, 300);
   }
+
   changeTagFlag(title: string, isChecked: boolean): void {
     const existingTagIndex = this.tagList.findIndex(
       (tag) => tag.title === title
@@ -254,6 +287,7 @@ export class AddBlogComponent implements OnInit, OnDestroy {
       this.selectedTags = this.selectedTags.filter((item) => item != title);
     }
   }
+
   checkDropdown(flag: boolean): void {
     this.showDropdown = flag;
   }

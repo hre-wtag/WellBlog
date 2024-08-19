@@ -36,6 +36,7 @@ export class LoginComponent implements OnInit {
   private toasterService = inject(ToasterService);
   private sub = new Subject<AuthUser>();
   private destroyRef = inject(DestroyRef);
+
   constructor() {
     this.loginForm = new FormGroup({
       username: new FormControl('', Validators.required),
@@ -66,6 +67,7 @@ export class LoginComponent implements OnInit {
       });
     this.destroyRef.onDestroy(() => userSubcription.unsubscribe());
   }
+
   isFieldValid(fieldname: string): boolean {
     if (
       !this.loginForm.get(fieldname)?.valid &&
@@ -75,12 +77,15 @@ export class LoginComponent implements OnInit {
     }
     return false;
   }
+
   onHoldChange(event: Event | boolean): void {
     this.showPassword = event;
   }
+
   onRegister(): void {
     this.router.navigate([this.register_route]);
   }
+
   onLogin(): void {
     if (this.loginForm.invalid) {
       return;

@@ -16,6 +16,7 @@ import {
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { BlogService } from '../../core/services/blog.service';
+import { ToasterService } from '../../core/services/toaster.service';
 
 @Component({
   selector: 'app-blog-card',
@@ -33,11 +34,25 @@ export class BlogCardComponent implements OnChanges {
   profile_route: string = SLASH + PROFILE_ROUTE;
   private router = inject(Router);
   private blogService = inject(BlogService);
+  private toasterService = inject(ToasterService);
+
   ngOnChanges(): void {
     this.showDeleteBtn = this.router.url === this.profile_route ? true : false;
   }
+
   onDelete(id: number): void {
-    this.blogService.deleteBlog(id);
+    const blogDeleted = this.blogService.deleteBlog(id);
+    if (blogDeleted) {
+      this.toasterService.success('Success!', 'The blog is Deleted.');
+      setTimeout(() => {
+        this.toasterService.toasterInfo$.next(null);
+      }, 4000);
+    } else {
+      this.toasterService.error('Error!', 'Unable to delete the blog.');
+      setTimeout(() => {
+        this.toasterService.toasterInfo$.next(null);
+      }, 4000);
+    }
   }
   onFilterTag(tag: string): void {
     this.selectedFilterTag.emit(tag);
