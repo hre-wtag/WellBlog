@@ -1,4 +1,4 @@
-<div class="container home_container d-grid  p-0">
+<div class="container home_container d-grid mb-3 p-0">
   @if(heroBlog && !isFiltered && ! isSearched){
   <div
     class="hero-blog-container my-5 mb-3"
@@ -35,7 +35,11 @@
               >} @else { {{ tag }}}</button
             >}
           </div>
-          <h4 class="card-title m-1 mt-3 fw-bold"  appTooltip [tooltipText]="heroBlog.title">
+          <h4
+            class="card-title m-1 mt-3 fw-bold"
+            appTooltip
+            [tooltipText]="heroBlog.title"
+          >
             {{
               heroBlog.title.length > 95
                 ? (heroBlog.title | slice : 0 : 95) + "..."
@@ -102,7 +106,7 @@
     }
   </div>
   @if(isPaginated && !isFiltered && !isSearched){
-  <button class="btn btn-secondary" type="button" (click)="loadMore()">
+  <button class="btn btn-outline-secondary mx-auto" type="button" (click)="loadMore()">
     Show more</button
   >} } @else {
   <div
