@@ -1,6 +1,6 @@
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { BlogService } from '../../core/services/blog.service';
-import { bufferCount, filter, map, Observable } from 'rxjs';
+import { map } from 'rxjs';
 import { Blog } from '../../core/interfaces/blog';
 import { BlogCardComponent } from '../blog-card/blog-card.component';
 import { CommonModule } from '@angular/common';
@@ -27,15 +27,22 @@ export class HomeComponent implements OnInit {
   private authService = inject(AuthService);
   private sharedService = inject(SharedService);
   isLoggedin: boolean = false;
+  isFiltered: boolean = false;
+  filteredTag: string = '';
+  baseHeaderTitle: string = 'Latest Posts';
+  headerTitle: string = this.baseHeaderTitle;
+
   isSearched: boolean = false;
   hasBlogs: boolean = false;
   itemsLoaded: number = 6;
   isPaginated: boolean | undefined = false;
 
   ngOnInit(): void {
-    this.blogService.blogs$.subscribe((blogs) => {
+    const blogSubcription = this.blogService.blogs$.subscribe((blogs) => {
       this.blogList = blogs;
     });
+    this.destroyRef.onDestroy(() => blogSubcription.unsubscribe());
+
     if ((this.blogList?.length ?? 0) > 0) {
       this.heroBlog = this.blogList?.[(this.blogList?.length ?? 0) - 1] ?? null;
     }
@@ -78,12 +85,16 @@ export class HomeComponent implements OnInit {
     return groupedBlogs;
   }
 
+
   loadMore() {
     this.itemsLoaded += 3;
     this.loadBlogs();
   }
 
   handleSelectedTag(tag: string): void {
+    this.filteredTag = tag;
+    this.isFiltered = true;
+    this.headerTitle = 'Filtered Blogs';
     this.blogService.blogs$
       .pipe(
         map((blogs) => blogs?.filter((blog) => blog.tags.includes(tag))),
@@ -92,13 +103,25 @@ export class HomeComponent implements OnInit {
       .subscribe((groupedBlogs) => (this.blogGroups = groupedBlogs));
   }
 
+  clearFilter(): void {
+    this.isFiltered = false;
+    this.ngOnInit();
+    this.filteredTag = '';
+    this.headerTitle = this.baseHeaderTitle;
+  }
   handleSearch(str: string): void {
     this.isSearched = str !== undefined && str !== '';
-    console.log(this.isSearched, 'sssss');
+    this.headerTitle = this.isSearched
+      ? 'Searched Blogs'
+      : this.baseHeaderTitle;
 
     this.blogService.blogs$
       .pipe(
-        map((blogs) => blogs?.filter((blog) => blog.title.includes(str))),
+        map((blogs) =>
+          blogs?.filter((blog) =>
+            blog.title.toLowerCase().includes(str.toLowerCase())
+          )
+        ),
         map((filteredBlogs) => this.groupBlogs(filteredBlogs))
       )
       .subscribe((groupedBlogs) => (this.blogGroups = groupedBlogs));

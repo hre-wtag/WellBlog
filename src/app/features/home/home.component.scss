@@ -70,3 +70,11 @@
     height: 37.5rem;
   }
 }
+.clear-filter-btn {
+  cursor: pointer;
+  i {
+    color: $primary--color;
+    font-size: 1rem;
+  }
+}
+

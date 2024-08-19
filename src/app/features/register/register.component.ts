@@ -46,6 +46,7 @@ export class RegisterComponent {
   private router = inject(Router);
   private authService = inject(AuthService);
   private toasterService = inject(ToasterService);
+
   constructor() {
     this.registerForm = new FormGroup({
       firstName: new FormControl('', [
@@ -86,14 +87,17 @@ export class RegisterComponent {
       this.showConfirmPassword = event as boolean;
     }
   }
+
   checkUsername(): void {
-      this.usernameError = this.authService.validateUsername(
-        this.registerForm.get('username')?.value
-      );
+    this.usernameError = this.authService.validateUsername(
+      this.registerForm.get('username')?.value
+    );
   }
+
   onLogin(): void {
     this.router.navigate([this.login_route]);
   }
+
   onRegister(): void {
     if (this.registerForm.valid && this.passMatched) {
       const user: User = { ...this.registerForm.value, joiningDate: Date() };
@@ -105,6 +109,7 @@ export class RegisterComponent {
       }, 4000);
     }
   }
+
   isFieldValid(fieldname: string): boolean {
     if (
       !this.registerForm.get(fieldname)?.valid &&
@@ -114,9 +119,11 @@ export class RegisterComponent {
     }
     return false;
   }
+
   getFormControl = (formGroup: FormGroup, formControlName: string) => {
     return formGroup.get(formControlName) as FormControl;
   };
+
   updateErrorMessages(fControlName: string): string | null {
     let fControl = this.registerForm.get(fControlName);
     if (fControl?.touched && fControl?.errors) {

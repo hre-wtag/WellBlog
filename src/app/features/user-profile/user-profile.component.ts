@@ -18,7 +18,8 @@ import { TooltipDirective } from '../../shared/Directives/tooltip.directive';
     AddBlogComponent,
     BlogCardComponent,
     CommonModule,
-    EditUserComponent,TooltipDirective
+    EditUserComponent,
+    TooltipDirective,
   ],
   templateUrl: './user-profile.component.html',
   styleUrl: './user-profile.component.scss',
@@ -58,6 +59,7 @@ export class UserProfileComponent implements OnInit {
   clickedHeaderBTN(btn: string): void {
     this.clickedBTN = btn;
   }
+
   handleAddFormSubmitted(formSubmitted: string | null): void {
     this.clickedBTN = formSubmitted;
   }
