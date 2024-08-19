@@ -28,6 +28,7 @@ import { ToasterService } from '../../../core/services/toaster.service';
 })
 export class EditUserComponent implements OnInit {
   @Output() formSubmitted = new EventEmitter<string | null>();
+
   editUserForm: FormGroup;
   userInfo: User | null = null;
   private sharedService = inject(SharedService);
@@ -46,6 +47,7 @@ export class EditUserComponent implements OnInit {
       about: new FormControl(''),
     });
   }
+
   ngOnInit(): void {
     const userSubcription = this.authService.user$.subscribe(
       (user: User | null) => {
@@ -61,10 +63,12 @@ export class EditUserComponent implements OnInit {
     );
     this.destroyRef.onDestroy(() => userSubcription.unsubscribe());
   }
+  
   removeWhiteSpaces(event: Event) {
     const trimmedValue = (event.target as HTMLInputElement).value.trim();
     (event.target as HTMLInputElement).value = trimmedValue;
   }
+
   handleImageFileChange(event: Event): void {
     event.preventDefault();
     const imageFile = (<HTMLInputElement>event.target)?.files;
@@ -94,6 +98,7 @@ export class EditUserComponent implements OnInit {
   dragOver(event: Event) {
     event.preventDefault();
   }
+
   onSubmit(): void {
     if (this.editUserForm.invalid) {
       return;
@@ -116,10 +121,12 @@ export class EditUserComponent implements OnInit {
       this.onCancel();
     }
   }
+
   onCancel(): void {
     this.formSubmitted.emit(null);
     this.clearForm();
   }
+
   clearForm(): void {
     this.editUserForm.reset();
     this.uploadedImage = null;

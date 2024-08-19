@@ -26,6 +26,7 @@ import DOMPurify from 'dompurify';
 })
 export class BlogComponent implements OnInit {
   @ViewChild('blogDescription') blogDescription!: ElementRef;
+
   private activatedRoute = inject(ActivatedRoute);
   private blogService = inject(BlogService);
   private destroyRef = inject(DestroyRef);
@@ -35,15 +36,18 @@ export class BlogComponent implements OnInit {
   default_profile_photo: string = DEFAULT_PROFILE_PHOTO_SRC;
   isMyBlog: boolean = false;
   clickedBTN: string | null = null;
+
   ngOnInit(): void {
     this.loadBlog();
   }
+
   ngAfterViewInit(): void {
     if (this.blog) {
       const sanitizedDescription = DOMPurify.sanitize(this.blog.description);
       this.blogDescription.nativeElement.innerHTML = sanitizedDescription;
     }
   }
+
   loadBlog(): void {
     const routeSubscription = this.activatedRoute.paramMap.subscribe({
       next: (paramMap) => {
@@ -68,9 +72,11 @@ export class BlogComponent implements OnInit {
     });
     this.destroyRef.onDestroy(() => routeSubscription.unsubscribe());
   }
+
   clickedHeaderBTN(btn: string): void {
     this.clickedBTN = btn;
   }
+
   handleAddFormSubmitted(formSubmitted: string | null): void {
     this.clickedBTN = formSubmitted;
   }

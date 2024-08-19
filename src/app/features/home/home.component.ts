@@ -1,6 +1,6 @@
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { BlogService } from '../../core/services/blog.service';
-import { bufferCount, filter, map, Observable } from 'rxjs';
+import { map } from 'rxjs';
 import { Blog } from '../../core/interfaces/blog';
 import { BlogCardComponent } from '../blog-card/blog-card.component';
 import { CommonModule } from '@angular/common';
@@ -26,15 +26,20 @@ export class HomeComponent implements OnInit {
   private authService = inject(AuthService);
   private sharedService = inject(SharedService);
   isLoggedin: boolean = false;
+  isFiltered: boolean = false;
+  filteredTag: string = '';
+  headerTitle: string = 'Latest Posts';
+
   isSearched: boolean = false;
   hasBlogs: boolean = false;
 
   ngOnInit(): void {
-    this.blogService.blogs$.subscribe((blogs) => {
+    const blogSubcription = this.blogService.blogs$.subscribe((blogs) => {
       this.blogGroups = this.groupBlogs(blogs) ?? null;
     });
+    this.destroyRef.onDestroy(() => blogSubcription.unsubscribe());
+
     this.heroBlog = this.blogGroups ? this.blogGroups[0][0] : null;
-    console.log(this.blogGroups, 'blogs');
     const userSubcription = this.authService.user$.subscribe(
       (user: User | null) => {
         if (user) {
@@ -60,13 +65,24 @@ export class HomeComponent implements OnInit {
     this.hasBlogs = groupedBlogs.length > 0;
     return groupedBlogs;
   }
+
   handleSelectedTag(tag: string): void {
+    this.filteredTag = tag;
+    this.isFiltered = true;
+    this.headerTitle = 'Filtered Blogs';
     this.blogService.blogs$
       .pipe(
         map((blogs) => blogs?.filter((blog) => blog.tags.includes(tag))),
         map((filteredBlogs) => this.groupBlogs(filteredBlogs))
       )
       .subscribe((groupedBlogs) => (this.blogGroups = groupedBlogs));
+  }
+
+  clearFilter(): void {
+    this.isFiltered = false;
+    this.ngOnInit();
+    this.filteredTag = '';
+    this.headerTitle = 'Latest Posts';
   }
   handleSearch(str: string): void {
     this.isSearched = str !== undefined && str !== '';
