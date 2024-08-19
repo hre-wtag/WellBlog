@@ -93,7 +93,11 @@ export class HomeComponent implements OnInit {
 
     this.blogService.blogs$
       .pipe(
-        map((blogs) => blogs?.filter((blog) => blog.title.includes(str))),
+        map((blogs) =>
+          blogs?.filter((blog) =>
+            blog.title.toLowerCase().includes(str.toLowerCase())
+          )
+        ),
         map((filteredBlogs) => this.groupBlogs(filteredBlogs))
       )
       .subscribe((groupedBlogs) => (this.blogGroups = groupedBlogs));
