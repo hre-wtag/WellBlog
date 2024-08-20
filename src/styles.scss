@@ -1,10 +1,9 @@
+@import "../public/styles/variables.scss";
 @import "bootstrap/scss/bootstrap";
 @import "bootstrap-icons/font/bootstrap-icons.scss";
-@import "../public/styles/variables.scss";
 
 // global css
-*,
-*::after,
+* *::after,
 *::before {
   box-sizing: border-box;
   margin: 0;
@@ -17,12 +16,12 @@ body {
 }
 
 .color-primary {
-  color: $primary--color;
+  color: $indigo;
 }
 
 .background-primary {
-  background-color: $primary--color !important;
-  color: $white--color !important;
+  background-color: $indigo !important;
+  color: $white !important;
 }
 
 .btn {
@@ -34,7 +33,7 @@ body {
 
 .form-input {
   &:focus {
-    border-color: $primary--color;
+    border-color: $indigo;
     box-shadow: none;
   }
 }
@@ -45,6 +44,6 @@ body {
   }
   &:hover {
     background-color: #ededff;
-    border-color: $primary--color !important;
+    border-color: $indigo !important;
   }
 }
