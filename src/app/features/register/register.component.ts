@@ -127,7 +127,14 @@ export class RegisterComponent {
     }
   }
 
-  changePasswordFlag(flag: boolean): void {
-    this.showPassword = flag;
+  changePasswordFlag(
+    flag: boolean,
+    field: 'password' | 'confirmPassword'
+  ): void {
+    if (field === 'password') {
+      this.showPassword = flag;
+    } else if (field === 'confirmPassword') {
+      this.showConfirmPassword = flag;
+    }
   }
 }

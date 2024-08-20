@@ -76,9 +76,9 @@
               />
               <span
                 class="input-group-text eye-btn"
-                (mousedown)="changePasswordFlag(true)"
-                (mouseleave)="changePasswordFlag(false)"
-                (mouseup)="changePasswordFlag(false)"
+                (mousedown)="changePasswordFlag(true, 'password')"
+                (mouseleave)="changePasswordFlag(false, 'password')"
+                (mouseup)="changePasswordFlag(false, 'password')"
                 ><i
                   class="bi"
                   [ngClass]="!showPassword ? 'bi-eye' : 'bi-eye-slash'"
@@ -100,9 +100,16 @@
                 class="form-control form-input"
                 formControlName="confirmPassword"
                 (input)="matchPassword()"
-                [ngClass]="{
-                  'border-danger': isFieldValid('confirmPassword')
-                }"
+                [ngClass]="
+                  confirmPasswordError &&
+                  registerForm.get('confirmPassword')?.touched &&
+                  registerForm.get('confirmPassword')?.valid &&
+                  registerForm.get('confirmPassword')?.dirty &&
+                  registerForm.get('password')?.touched &&
+                  registerForm.get('password')?.dirty
+                    ? 'border-danger'
+                    : ''
+                "
               />
               <span
                 class="input-group-text eye-btn"
@@ -116,9 +123,9 @@
                     ? 'border-danger'
                     : ''
                 "
-                (mousedown)="changePasswordFlag(true)"
-                (mouseleave)="changePasswordFlag(false)"
-                (mouseup)="changePasswordFlag(false)"
+                (mousedown)="changePasswordFlag(true, 'confirmPassword')"
+                (mouseleave)="changePasswordFlag(false, 'confirmPassword')"
+                (mouseup)="changePasswordFlag(false, 'confirmPassword')"
                 ><i
                   class="bi"
                   [ngClass]="!showConfirmPassword ? 'bi-eye' : 'bi-eye-slash'"
