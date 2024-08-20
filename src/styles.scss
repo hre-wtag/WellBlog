@@ -1,8 +1,7 @@
-@import "../public/styles/variables.scss";
 @import "bootstrap/scss/bootstrap";
 @import "bootstrap-icons/font/bootstrap-icons.scss";
+@import "../public/styles/variables.scss";
 
-// global css
 * *::after,
 *::before {
   box-sizing: border-box;
@@ -13,37 +12,4 @@
 
 body {
   font: 100% $font-stack;
-}
-
-.color-primary {
-  color: $indigo;
-}
-
-.background-primary {
-  background-color: $indigo !important;
-  color: $white !important;
-}
-
-.btn {
-  border-radius: 1.5rem;
-  height: 2.9rem;
-  text-align: center;
-  width: 8rem;
-}
-
-.form-input {
-  &:focus {
-    border-color: $indigo;
-    box-shadow: none;
-  }
-}
-.eye-btn {
-  cursor: pointer;
-  .eye-btn-icon {
-    color: #686a6c;
-  }
-  &:hover {
-    background-color: #ededff;
-    border-color: $indigo !important;
-  }
 }
