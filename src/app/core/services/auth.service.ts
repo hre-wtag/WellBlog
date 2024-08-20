@@ -11,7 +11,7 @@ export class AuthService {
   }
 
   authenticateUser(authUser: AuthUser): boolean {
-    let user;
+    let user:User|null=null;
     const storedUserData = localStorage.getItem('registeredUser');
     if (storedUserData) {
       user = JSON.parse(storedUserData);
@@ -30,6 +30,7 @@ export class AuthService {
   setLoggedInUser(user: User): void {
     localStorage.setItem('loggedInUser', JSON.stringify(user));
   }
+
   getLoggedInUser(): User | null {
     const loggedInUserString = localStorage.getItem('loggedInUser');
     return loggedInUserString ? JSON.parse(loggedInUserString) : null;
@@ -39,6 +40,7 @@ export class AuthService {
     const loggedInUserString = localStorage.getItem('loggedInUser');
     return loggedInUserString ? true : false;
   }
+
   removeLoggedInUser(): void {
     localStorage.removeItem('loggedInUser');
   }

@@ -10,5 +10,5 @@ import { TITLE } from './core/utils/constants';
   styleUrl: './app.component.scss',
 })
 export class AppComponent {
-  title:string = TITLE;
+  title: string = TITLE;
 }
