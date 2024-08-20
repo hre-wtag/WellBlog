@@ -24,13 +24,10 @@ export class InputComponent {
   @Input() fControl = new FormControl();
 
   errorMsg!: string | null;
-  showPasswoord: boolean | Event = false;
+  showPassword: boolean = false;
   private validatorService = inject(ValidatorsService);
 
-  onHoldChange(event: Event | boolean): void {
-    this.showPasswoord = event;
-  }
-
+ 
   updateErrorMessages(fControl: FormControl): void {
     this.errorMsg = null;
     if (fControl?.touched && fControl?.errors) {
@@ -43,5 +40,8 @@ export class InputComponent {
       fControl.markAsDirty();
       this.updateErrorMessages(fControl);
     }
+  }
+  changePasswordFlag(flag: boolean): void {
+    this.showPassword = flag;
   }
 }
