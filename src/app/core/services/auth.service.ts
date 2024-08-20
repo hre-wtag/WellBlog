@@ -14,7 +14,7 @@ export class AuthService {
   }
 
   authenticateUser(authUser: AuthUser): boolean {
-    let user;
+    let user:User|null=null;
     const storedUserData = localStorage.getItem('registeredUser');
     if (storedUserData) {
       user = JSON.parse(storedUserData);

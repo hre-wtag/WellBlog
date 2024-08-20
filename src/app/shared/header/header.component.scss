@@ -1,4 +1,9 @@
-@import"../../../styles.scss";
-.navbar{
-    height: $navbar--height ;
+@import "../../../styles.scss";
+
+.navbar-container .color-primary {
+  color: $indigo;
+}
+
+.navbar-container .navbar {
+  height: $--height-navbar;
 }

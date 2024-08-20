@@ -1,27 +1,24 @@
-import { Directive, EventEmitter, HostListener, Output } from '@angular/core';
+import {
+  Directive,
+  EventEmitter,
+  Input,
+  OnChanges,
+  Output,
+} from '@angular/core';
 
 @Directive({
   selector: '[appToggleOnHold]',
   standalone: true,
 })
-export class ToggleOnHoldDirective {
-  private isHolding: boolean = false;
+export class ToggleOnHoldDirective implements OnChanges {
+  @Input() flag!: string | 'showPassowrd' | 'hidePassword';
   @Output() hold = new EventEmitter<boolean>();
 
-  @HostListener('mousedown')
-  @HostListener('touchstart')
-  onMouseDown() {
-    this.isHolding = true;
-    if (this.isHolding) {
+  ngOnChanges(): void {
+    if (this.flag === 'showPassowrd') {
       this.hold.emit(true);
+    } else {
+      this.hold.emit(false);
     }
-  }
-
-  @HostListener('mouseup')
-  @HostListener('mouseleave')
-  @HostListener('touchend')
-  onMouseUp() {
-    this.isHolding = false;
-    this.hold.emit(false);
   }
 }

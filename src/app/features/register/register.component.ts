@@ -26,7 +26,7 @@ import { ToasterService } from '../../core/services/toaster.service';
     ReactiveFormsModule,
     CommonModule,
     RouterLink,
-    ToggleOnHoldDirective,
+    ToggleOnHoldDirective
   ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss',

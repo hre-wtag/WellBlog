@@ -1,7 +1,18 @@
+// ====== Fonts ======
 $font-stack: Roboto;
-$primary--color: #5957d6;
-$white--color: #fff;
-$profile-photo--width: 4rem;
-$profile-photo--height: 4rem;
-$profile-photo--radius: 50%;
-$navbar--height: 4rem;
+
+// ====== Colors ======
+$indigo: #5957d6;
+$white: #fff;
+
+// ====== Sizes ======
+
+// ----- navbar -----
+$--height-navbar: 4rem;
+
+// ----- profile photo -----
+$--width-rofile-photo: 4rem;
+$--height-profile-photo: 4rem;
+$--radius-profile-photo: 50%;
+
+
