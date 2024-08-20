@@ -76,8 +76,9 @@
               />
               <span
                 class="input-group-text eye-btn"
-                appToggleOnHold
-                (hold)="onHoldChange($event, 'password')"
+                (mousedown)="changePasswordFlag(true)"
+                (mouseleave)="changePasswordFlag(false)"
+                (mouseup)="changePasswordFlag(false)"
                 ><i
                   class="bi"
                   [ngClass]="!showPassword ? 'bi-eye' : 'bi-eye-slash'"
@@ -105,8 +106,19 @@
               />
               <span
                 class="input-group-text eye-btn"
-                appToggleOnHold
-                (hold)="onHoldChange($event, 'confirmPassword')"
+                [ngClass]="
+                  confirmPasswordError &&
+                  registerForm.get('confirmPassword')?.touched &&
+                  registerForm.get('confirmPassword')?.valid &&
+                  registerForm.get('confirmPassword')?.dirty &&
+                  registerForm.get('password')?.touched &&
+                  registerForm.get('password')?.dirty
+                    ? 'border-danger'
+                    : ''
+                "
+                (mousedown)="changePasswordFlag(true)"
+                (mouseleave)="changePasswordFlag(false)"
+                (mouseup)="changePasswordFlag(false)"
                 ><i
                   class="bi"
                   [ngClass]="!showConfirmPassword ? 'bi-eye' : 'bi-eye-slash'"
@@ -131,14 +143,14 @@
           }
           <div class="d-flex align-items-center">
             <button
-              class="btn background-primary btn-auth me-1"
+              class="btn btn-register me-1"
               type="submit"
               [disabled]="registerForm.invalid || !passMatched"
             >
               Register
             </button>
             <button
-              class="btn btn-auth btn-sub ms-1"
+              class="btn btn-login ms-1"
               type="button"
               (click)="onLogin()"
             >

@@ -1,9 +1,13 @@
-@import "../../../styles.scss";
+@import "../../../../public/styles/variables.scss";
+@import "../../../../public/styles/mixins.scss";
 
 .navbar-container .color-primary {
-  color: $indigo;
+  @include color-primary;
 }
 
 .navbar-container .navbar {
   height: $--height-navbar;
+}
+.username-span {
+  cursor: pointer;
 }

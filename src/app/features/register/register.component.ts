@@ -26,7 +26,7 @@ import { ToasterService } from '../../core/services/toaster.service';
     ReactiveFormsModule,
     CommonModule,
     RouterLink,
-    ToggleOnHoldDirective
+    ToggleOnHoldDirective,
   ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss',
@@ -80,14 +80,6 @@ export class RegisterComponent {
     });
   }
 
-  onHoldChange(event: Event | boolean, field: 'password' | 'confirmPassword') {
-    if (field === 'password') {
-      this.showPassword = event as boolean;
-    } else if (field === 'confirmPassword') {
-      this.showConfirmPassword = event as boolean;
-    }
-  }
-
   onLogin(): void {
     this.router.navigate([this.login_route]);
   }
@@ -133,5 +125,9 @@ export class RegisterComponent {
       this.passMatched = true;
       this.confirmPasswordError = null;
     }
+  }
+
+  changePasswordFlag(flag: boolean): void {
+    this.showPassword = flag;
   }
 }
