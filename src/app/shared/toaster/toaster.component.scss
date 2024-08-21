@@ -9,6 +9,7 @@
   animation: 0.7s slide-left ease-in-out;
   width: 20rem;
 }
+
 @keyframes slide-left {
   from {
     margin-right: -100%;
@@ -17,6 +18,7 @@
     margin-right: 1rem;
   }
 }
+
 @keyframes slide-right {
   from {
     margin-right: 1rem;
@@ -25,6 +27,7 @@
     margin-right: -100%;
   }
 }
+
 .toaster-card.close-toast {
   margin-right: -100%;
   animation: 0.7s slide-right ease-in-out;
@@ -48,6 +51,7 @@
     @extend #{".bi-x-circle-fill", ".text-danger", ".fs-4"};
   }
 }
+
 .warning-toast {
   background-color: $warning--bg;
   @extend #{".border-warning"};
@@ -59,6 +63,7 @@
     @extend #{".bi-exclamation-triangle-fill", ".text-warning", ".fs-4"};
   }
 }
+
 .info-toast {
   background-color: $info--bg;
   @extend #{".border-info"};
