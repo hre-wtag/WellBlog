@@ -22,7 +22,7 @@ export class TooltipDirective implements OnInit {
   private elementRef = inject(ElementRef);
   private viewContainerRef = inject(ViewContainerRef);
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.elementRef.nativeElement.addEventListener(
       'mouseenter',
       this.showTooltip.bind(this)
@@ -33,15 +33,15 @@ export class TooltipDirective implements OnInit {
     );
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.destroyTooltip();
   }
 
-  private showTooltip() {
+  private showTooltip(): void {
     this.createTooltip();
   }
 
-  private hideTooltip() {
+  private hideTooltip(): void {
     this.destroyTooltip();
   }
 
@@ -60,7 +60,7 @@ export class TooltipDirective implements OnInit {
     this.tooltipComponentRef.hostView.detectChanges();
   }
 
-  setTooltipPosition(size: { width: number; height: number }) {
+  setTooltipPosition(size: { width: number; height: number }): void {
     if (!this.tooltipComponentRef) return;
     const targetRect = this.elementRef.nativeElement.getBoundingClientRect();
     const tooltipElement = this.tooltipComponentRef?.location.nativeElement;
@@ -93,7 +93,7 @@ export class TooltipDirective implements OnInit {
     this.tooltipComponentRef.instance.left = left / 16;
     this.tooltipComponentRef.instance.top = (top + scrollPos) / 16;
   }
-  
+
   destroyTooltip(): void {
     if (this.tooltipComponentRef) {
       this.tooltipComponentRef.destroy();
