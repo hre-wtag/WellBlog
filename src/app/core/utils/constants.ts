@@ -11,3 +11,5 @@ export const DEFAULT_PROFILE_PHOTO_SRC: string =
 export const DEFAULT_USER_INFO: string = '';
 export const BLOG_ROUTE: string = 'blog';
 export const BLOG_ROUTE_WITH_PARAM: string = 'blog/:id';
+export const START_JOURNY_IMAGE_SRC: string =
+  '/Images/undraw_work_chat_re_qes4.svg';
