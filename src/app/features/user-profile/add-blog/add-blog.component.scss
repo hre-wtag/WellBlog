@@ -1,5 +1,4 @@
-@import "../../../../styles.scss";
-
+@import "../../../../../public/styles/variables.scss";
 .add-blog-container {
   width: 76.063rem;
 }
@@ -58,13 +57,13 @@
   background-color: #49a4cb !important;
 }
 .blog-image {
-   max-height: 19rem;
-   min-width: 35rem;
+  max-height: 19rem;
+  min-width: 35rem;
 }
 .editing-image {
   height: 20rem;
   width: 62.938rem;
   .banner-image {
-   height: 19rem;
+    height: 19rem;
   }
 }
