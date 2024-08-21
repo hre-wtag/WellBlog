@@ -25,29 +25,31 @@ import { Router } from '@angular/router';
   styleUrl: './home.component.scss',
 })
 export class HomeComponent implements OnInit {
-  private blogService = inject(BlogService);
   blogList: Blog[] | null = null;
   blogGroups: Blog[][] | null = null;
   heroBlog: Blog | null = null;
+  isLoggedin: boolean = false;
+  isFiltered: boolean = false;
+  isSearched: boolean = false;
+  hasBlogs: boolean = false;
+  emptyBlogList: boolean = false;
+  isPaginated: boolean | undefined = false;
+  filteredTag: string = '';
+  baseHeaderTitle: string = 'Latest Posts';
+  headerTitle: string = this.baseHeaderTitle;
+  welcomeBTNText: string = 'Join Now';
+  registerRoute: string = SLASH + REGISTER_ROUTE;
+  profileRoute: string = SLASH + PROFILE_ROUTE;
   default_profile_photo: string = DEFAULT_PROFILE_PHOTO_SRC;
+  start_journey_image: string = START_JOURNY_IMAGE_SRC;
+  initialItemsToLoad: number = 6;
+  itemsLoaded: number = this.initialItemsToLoad;
+  private blogService = inject(BlogService);
   private destroyRef = inject(DestroyRef);
   private authService = inject(AuthService);
   private sharedService = inject(SharedService);
   private router = inject(Router);
-  isLoggedin: boolean = false;
-  isFiltered: boolean = false;
-  filteredTag: string = '';
-  baseHeaderTitle: string = 'Latest Posts';
-  headerTitle: string = this.baseHeaderTitle;
-  isSearched: boolean = false;
-  hasBlogs: boolean = false;
-  emptyBlogList: boolean = false;
-  initialItemsToLoad = 6;
-  itemsLoaded: number = this.initialItemsToLoad;
-  isPaginated: boolean | undefined = false;
-  registerRoute: string = SLASH + REGISTER_ROUTE;
-  profileRoute: string = SLASH + PROFILE_ROUTE;
-  start_journey_image: string = START_JOURNY_IMAGE_SRC;
+
   ngOnInit(): void {
     const blogSubcription = this.blogService.blogs$.subscribe((blogs) => {
       this.blogList = blogs;
@@ -67,6 +69,7 @@ export class HomeComponent implements OnInit {
       (user: User | null) => {
         if (user) {
           this.isLoggedin = true;
+          this.welcomeBTNText="Add Blogs"
         } else {
           this.isLoggedin = false;
         }
@@ -77,6 +80,7 @@ export class HomeComponent implements OnInit {
       this.handleSearch(text);
     });
   }
+
   loadBlogs(): void {
     this.isPaginated = (this.blogList?.length ?? 0) > this.itemsLoaded;
     this.blogGroups =
@@ -142,6 +146,7 @@ export class HomeComponent implements OnInit {
       )
       .subscribe((groupedBlogs) => (this.blogGroups = groupedBlogs));
   }
+
   addBlog(): void {
     if (this.isLoggedin) {
       this.router.navigate([this.profileRoute]);

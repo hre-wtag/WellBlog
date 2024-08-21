@@ -116,7 +116,9 @@
   <div class="container mt-5 py-5 text-center">
     <div class="row align-items-center justify-content-around">
       <img class="welcome-image col-6 rounded" [src]="start_journey_image" />
-      <div class="welcome-text py-5 col-5 bg-opacity-10 border-opacity-25 rounded">
+      <div
+        class="welcome-text py-5 col-5 bg-opacity-10 border-opacity-25 rounded"
+      >
         <h3 class="my-2">
           Be part of a vibrant community where ideas thrive. Explore, learn, and
           share your thoughts.
@@ -131,6 +133,6 @@
     type="button"
     (click)="addBlog()"
   >
-    Join Now</button
+    {{ welcomeBTNText }}</button
   >} }
 </div>
