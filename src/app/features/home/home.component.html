@@ -36,13 +36,13 @@
             >}
           </div>
           <h4
-            class="card-title m-1 mt-3 fw-bold"
+            class="card-title m-1 mt-3 fw-bold text-break"
             appTooltip
             [tooltipText]="heroBlog.title"
           >
             {{
-              heroBlog.title.length > 95
-                ? (heroBlog.title | slice : 0 : 95) + "..."
+              heroBlog.title.length > 90
+                ? (heroBlog.title | slice : 0 : 90) + "..."
                 : heroBlog.title
             }}
           </h4>
