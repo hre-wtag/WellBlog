@@ -7,9 +7,10 @@ import { CommonModule } from '@angular/common';
 import { TooltipDirective } from '../../shared/Directives/tooltip.directive';
 import {
   DEFAULT_PROFILE_PHOTO_SRC,
-  LOGIN_ROUTE,
   PROFILE_ROUTE,
+  REGISTER_ROUTE,
   SLASH,
+  START_JOURNY_IMAGE_SRC,
 } from '../../core/utils/constants';
 import { AuthService } from '../../core/services/auth.service';
 import { User } from '../../core/interfaces/user';
@@ -44,14 +45,14 @@ export class HomeComponent implements OnInit {
   initialItemsToLoad = 6;
   itemsLoaded: number = this.initialItemsToLoad;
   isPaginated: boolean | undefined = false;
-  loginRoute: string = SLASH + LOGIN_ROUTE;
+  registerRoute: string = SLASH + REGISTER_ROUTE;
   profileRoute: string = SLASH + PROFILE_ROUTE;
-
+  start_journey_image: string = START_JOURNY_IMAGE_SRC;
   ngOnInit(): void {
     const blogSubcription = this.blogService.blogs$.subscribe((blogs) => {
       this.blogList = blogs;
       console.log(this.blogList);
-      
+
       this.emptyBlogList = this.blogList?.length === 0;
     });
     this.destroyRef.onDestroy(() => blogSubcription.unsubscribe());
@@ -146,7 +147,7 @@ export class HomeComponent implements OnInit {
       this.router.navigate([this.profileRoute]);
       this.sharedService.onClickingAddBlog('add-blog');
     } else {
-      this.router.navigate([this.loginRoute]);
+      this.router.navigate([this.registerRoute]);
     }
   }
 }

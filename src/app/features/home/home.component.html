@@ -106,13 +106,24 @@
     }
   </div>
   @if(isPaginated && !isFiltered && !isSearched){
-  <button class="btn btn-outline-secondary mx-auto" type="button" (click)="loadMore()">
+  <button
+    class="btn btn-outline-secondary mx-auto"
+    type="button"
+    (click)="loadMore()"
+  >
     Show more</button
   >} } @else {
-  <div
-    class="my-4 p-2 bg-opacity-10 bg-danger border border-danger border-opacity-25 rounded"
-  >
-    <h2 class="text-danger">No blogs found.</h2>
+  <div class="container mt-5 py-5 text-center">
+    <div class="row align-items-center justify-content-around">
+      <img class="welcome-image col-6 rounded" [src]="start_journey_image" />
+      <div class="welcome-text py-5 col-5 bg-opacity-10 border-opacity-25 rounded">
+        <h3 class="my-2">
+          Be part of a vibrant community where ideas thrive. Explore, learn, and
+          share your thoughts.
+        </h3>
+        <h1 class="my-3">Start your journey here!</h1>
+      </div>
+    </div>
   </div>
   @if(emptyBlogList){
   <button
@@ -120,6 +131,6 @@
     type="button"
     (click)="addBlog()"
   >
-    Add Blog</button
+    Join Now</button
   >} }
 </div>

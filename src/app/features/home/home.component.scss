@@ -1,4 +1,4 @@
-@import "../../../styles.scss";
+@import "../../../../public/styles/variables.scss";
 .home_container {
   width: 76rem;
   .hero-blog-container {
@@ -83,4 +83,15 @@
     color: $primary--color;
     font-size: 1rem;
   }
+}
+.welcome-text {
+  background-color: #f2f2ff;
+  border: 0.063rem solid $primary--color;
+  box-shadow: #393973a3 0px 5px 15px;
+  color: #3f3f7c;
+  font-style: italic;
+}
+.welcome-image {
+  border: 0.063rem solid $primary--color;
+  box-shadow: #393973a3 0px 5px 15px;
 }
