@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   Component,
   DestroyRef,
   ElementRef,
@@ -24,7 +25,7 @@ import DOMPurify from 'dompurify';
   templateUrl: './blog.component.html',
   styleUrl: './blog.component.scss',
 })
-export class BlogComponent implements OnInit {
+export class BlogComponent implements OnInit, AfterViewInit {
   @ViewChild('blogDescription') blogDescription!: ElementRef;
 
   private activatedRoute = inject(ActivatedRoute);
@@ -42,12 +43,15 @@ export class BlogComponent implements OnInit {
   }
 
   ngAfterViewInit(): void {
+    this.loadDescription();
+  }
+
+  loadDescription(): void {
     if (this.blog) {
       const sanitizedDescription = DOMPurify.sanitize(this.blog.description);
       this.blogDescription.nativeElement.innerHTML = sanitizedDescription;
     }
   }
-
   loadBlog(): void {
     const routeSubscription = this.activatedRoute.paramMap.subscribe({
       next: (paramMap) => {
@@ -79,5 +83,11 @@ export class BlogComponent implements OnInit {
 
   handleAddFormSubmitted(formSubmitted: string | null): void {
     this.clickedBTN = formSubmitted;
+    if (this.blog) {
+      setTimeout(() => {
+        this.loadDescription();
+      }, 50);
+    }
   }
+
 }
