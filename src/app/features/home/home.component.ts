@@ -51,25 +51,23 @@ export class HomeComponent implements OnInit {
   private router = inject(Router);
 
   ngOnInit(): void {
-    const blogSubcription = this.blogService.blogs$.subscribe((blogs) => {
-      this.blogList = blogs;
-      console.log(this.blogList);
-
-      this.emptyBlogList = this.blogList?.length === 0;
-    });
+    const blogSubcription = this.blogService.blogs$.subscribe(
+      (blogs: Blog[] | null) => {
+        this.blogList = blogs;
+        this.emptyBlogList = this.blogList?.length === 0;
+      }
+    );
     this.destroyRef.onDestroy(() => blogSubcription.unsubscribe());
 
     this.loadBlogs();
     if ((this.blogList?.length ?? 0) > 0) {
       this.heroBlog = this.blogList?.[(this.blogList?.length ?? 0) - 1] ?? null;
-
-      console.log(this.heroBlog);
     }
     const userSubcription = this.authService.user$.subscribe(
       (user: User | null) => {
         if (user) {
           this.isLoggedin = true;
-          this.welcomeBTNText="Add Blogs"
+          this.welcomeBTNText = 'Add Blogs';
         } else {
           this.isLoggedin = false;
         }
@@ -104,7 +102,7 @@ export class HomeComponent implements OnInit {
     return groupedBlogs;
   }
 
-  loadMore() {
+  loadMore(): void {
     this.itemsLoaded += 3;
     this.loadBlogs();
   }
@@ -137,8 +135,8 @@ export class HomeComponent implements OnInit {
 
     this.blogService.blogs$
       .pipe(
-        map((blogs) =>
-          blogs?.filter((blog) =>
+        map((blogs: Blog[] | null) =>
+          blogs?.filter((blog: Blog) =>
             blog.title.toLowerCase().includes(str.toLowerCase())
           )
         ),

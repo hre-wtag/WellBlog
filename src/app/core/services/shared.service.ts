@@ -5,9 +5,9 @@ import { ToasterService } from './toaster.service';
   providedIn: 'root',
 })
 export class SharedService {
-  private toasterService = inject(ToasterService);
   @Output() searchedText = new EventEmitter<string>();
   clickedAddblog: string = '';
+  private toasterService = inject(ToasterService);
 
   imageDropHandler(ev: DragEvent): File | null {
     if (ev.dataTransfer?.items) {
@@ -45,7 +45,5 @@ export class SharedService {
   }
   onClickingAddBlog(str: string): void {
     this.clickedAddblog = str;
-    console.log(this.clickedAddblog,'dasasdadsads');
-    
   }
 }
