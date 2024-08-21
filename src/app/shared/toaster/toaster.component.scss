@@ -1,4 +1,7 @@
 @import "../../../../public/styles/variables.scss";
+@import "../../../../node_modules/bootstrap/scss/bootstrap";
+@import "bootstrap-icons/font/bootstrap-icons.scss";
+
 .toaster-card {
   top: calc($navbar--height + 1rem);
   margin-right: 1rem;
@@ -34,3 +37,48 @@
   }
 }
 
+.error-toast {
+  background-color: $danger--bg;
+  @extend #{".border-danger"};
+  .toast-title,
+  .toast-btn i {
+    @extend .text-danger;
+  }
+  .toast-icon i {
+    @extend #{".bi-x-circle-fill", ".text-danger", ".fs-4"};
+  }
+}
+.warning-toast {
+  background-color: $warning--bg;
+  @extend #{".border-warning"};
+  .toast-title,
+  .toast-btn i {
+    @extend .text-warning;
+  }
+  .toast-icon i {
+    @extend #{".bi-exclamation-triangle-fill", ".text-warning", ".fs-4"};
+  }
+}
+.info-toast {
+  background-color: $info--bg;
+  @extend #{".border-info"};
+  .toast-title,
+  .toast-btn i {
+    @extend .text-info;
+  }
+  .toast-icon i {
+    @extend #{".bi-info-circle-fill", ".text-info", ".fs-4"};
+  }
+}
+
+.success-toast {
+  background-color: $success--bg;
+  @extend #{".border-success"};
+  .toast-title,
+  .toast-btn i {
+    @extend .text-success;
+  }
+  .toast-icon i {
+    @extend #{".bi-check-circle-fill", ".text-success", ".fs-4"};
+  }
+}
