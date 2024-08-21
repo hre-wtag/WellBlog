@@ -86,11 +86,16 @@
 }
 .welcome-text {
   background-color: #f2f2ff;
-  border: 0.063rem solid $primary--color;
-  box-shadow: #393973a3 0px 5px 15px;
+  border: 0.063rem solid #5d5da1a3;
+  box-shadow: #393973a3 0 313rem 0.938rem;
   color: #3f3f7c;
   font-style: italic;
 }
 .welcome-image {
-  box-shadow: #393973a3 0px 5px 15px;
+  border: 0.063rem solid #5d5da1a3;
+  box-shadow: #393973a3 0 0.313rem 0.938rem;
+}
+.btn.welcome-btn {
+  border-color: $primary--color;
+  box-shadow: #393973a3 0 0.313rem 0.625rem;
 }
