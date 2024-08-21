@@ -140,7 +140,7 @@ export class HomeComponent implements OnInit {
             blog.title.toLowerCase().includes(str.toLowerCase())
           )
         ),
-        map((filteredBlogs) => this.groupBlogs(filteredBlogs))
+        map((filteredBlogs: Blog[] | undefined) => this.groupBlogs(filteredBlogs))
       )
       .subscribe((groupedBlogs) => (this.blogGroups = groupedBlogs));
   }
