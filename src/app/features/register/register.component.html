@@ -59,11 +59,11 @@
                 formControlName="username"
                 (blur)="checkUsername()"
                 [ngClass]="{
-                  'border-danger': isFieldValid('username')
+                  'border-danger': isFieldValid('username') || usernameError
                 }"
               />
               @if (isFieldValid('username')){
-              <div class="text-danger">
+              <div class="text-danger text-break">
                 {{ updateErrorMessages("username") }}
               </div>
               } @if(registerForm.get('username')?.valid &&
@@ -112,12 +112,13 @@
                   (input)="matchPassword()"
                   [ngClass]="{
                     'border-danger':
-                      confirmPasswordError &&
-                      registerForm.get('confirmPassword')?.touched &&
-                      registerForm.get('confirmPassword')?.valid &&
-                      registerForm.get('confirmPassword')?.dirty &&
-                      registerForm.get('password')?.touched &&
-                      registerForm.get('password')?.dirty
+                      isFieldValid('confirmPassword') ||
+                      (confirmPasswordError &&
+                        registerForm.get('confirmPassword')?.touched &&
+                        registerForm.get('confirmPassword')?.valid &&
+                        registerForm.get('confirmPassword')?.dirty &&
+                        registerForm.get('password')?.touched &&
+                        registerForm.get('password')?.dirty)
                   }"
                 />
                 <span

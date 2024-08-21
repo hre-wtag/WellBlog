@@ -15,6 +15,7 @@ import {
   LOGIN_ROUTE,
   PASSWORD_REGEX,
   SLASH,
+  USERNAME_REGEX,
 } from '../../core/utils/constants';
 import { ToggleOnHoldDirective } from '../../shared/Directives/toggle-on-hold.directive';
 import { ToasterService } from '../../core/services/toaster.service';
@@ -67,6 +68,7 @@ export class RegisterComponent {
       username: new FormControl('', [
         Validators.required,
         this.validatorService.noSpacesValidator(),
+        Validators.pattern(USERNAME_REGEX),
         Validators.minLength(3),
         Validators.maxLength(15),
       ]),
