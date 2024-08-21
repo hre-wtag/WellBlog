@@ -39,10 +39,9 @@
     border-color: $primary--color;
   }
 }
-.dropdown-menu {
-  &:focus {
-    border-color: $primary--color;
-  }
+.dropdown-menu-container {
+  margin-top:   3rem;
+
 }
 .add-more,
 .cross-btn {
