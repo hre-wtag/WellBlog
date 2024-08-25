@@ -1,20 +1,30 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { User } from '../interfaces/user';
 import { AuthUser } from '../interfaces/authUser';
 import { BehaviorSubject } from 'rxjs';
+import { SupabaseService } from './supabase.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   user$ = new BehaviorSubject<User | null>(null);
-
+  private supabaseService = inject(SupabaseService);
   registerUser(user: User): void {
-    const uId = this.getLatestUserID();
-    let userWithID = { ...user, id: uId + 1 };
-    let storedUsers = this.getRegisteredUsers();
-    let usersArray = storedUsers ? [...storedUsers, userWithID] : [userWithID];
-    this.setRegisteredUsers(usersArray);
+    // const uId = this.getLatestUserID();
+    // let userWithID = { ...user, id: uId + 1 };
+    // let storedUsers = this.getRegisteredUsers();
+    // let usersArray = storedUsers ? [...storedUsers, userWithID] : [userWithID];
+    // this.setRegisteredUsers(usersArray);
+
+    console.log(user, 'reg user');
+    this.supabaseService.register(
+      user.firstName,
+      user.lastName,
+      user.email,
+      user.password,
+      user.username
+    );
   }
 
   setRegisteredUsers(usersArray: User[]): void {
