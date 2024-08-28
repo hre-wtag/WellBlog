@@ -54,8 +54,8 @@ export class EditUserComponent implements OnInit {
         this.userInfo = user ?? null;
         this.uploadedImage = this.userInfo?.profileImage ?? null;
         this.editUserForm.patchValue({
-          firstName: this.userInfo?.firstName,
-          lastName: this.userInfo?.lastName,
+          firstName: this.userInfo?.firstname,
+          lastName: this.userInfo?.lastname,
           subtitle: this.userInfo?.subtitle,
           about: this.userInfo?.about,
         });
