@@ -41,8 +41,8 @@ export class EditUserComponent implements OnInit {
 
   constructor() {
     this.editUserForm = new FormGroup({
-      firstName: new FormControl('', [Validators.required]),
-      lastName: new FormControl('', [Validators.required]),
+      firstname: new FormControl('', [Validators.required]),
+      lastname: new FormControl('', [Validators.required]),
       subtitle: new FormControl(''),
       about: new FormControl(''),
     });
@@ -52,10 +52,10 @@ export class EditUserComponent implements OnInit {
     const userSubcription = this.authService.user$.subscribe(
       (user: User | null) => {
         this.userInfo = user ?? null;
-        this.uploadedImage = this.userInfo?.profileImage ?? null;
+        this.uploadedImage = this.userInfo?.profileimage ?? null;
         this.editUserForm.patchValue({
-          firstName: this.userInfo?.firstname,
-          lastName: this.userInfo?.lastname,
+          firstname: this.userInfo?.firstname,
+          lastname: this.userInfo?.lastname,
           subtitle: this.userInfo?.subtitle,
           about: this.userInfo?.about,
         });
@@ -63,7 +63,7 @@ export class EditUserComponent implements OnInit {
     );
     this.destroyRef.onDestroy(() => userSubcription.unsubscribe());
   }
-  
+
   removeWhiteSpaces(event: Event) {
     const trimmedValue = (event.target as HTMLInputElement).value.trim();
     (event.target as HTMLInputElement).value = trimmedValue;
@@ -106,20 +106,29 @@ export class EditUserComponent implements OnInit {
 
     const updatedUser = {
       ...this.userInfo,
-      firstName: this.editUserForm.get('firstName')!.value,
-      lastName: this.editUserForm.get('lastName')!.value,
+      firstname: this.editUserForm.get('firstname')!.value,
+      lastname: this.editUserForm.get('lastname')!.value,
       subtitle: this.editUserForm.get('subtitle')!.value ?? null,
       about: this.editUserForm.get('about')!.value ?? null,
-      profileImage: this.uploadedImage,
+      profileimage: this.uploadedImage,
     };
-    let isUpdated = this.authService.updateUser(updatedUser as User);
-    if (isUpdated) {
-      this.toasterService.success('Success!', 'User update successful.');
-      setTimeout(() => {
-        this.toasterService.clear();
-      }, 3000);
-      this.onCancel();
-    }
+    let isUpdated = this.authService.updateUser(updatedUser as User).subscribe({
+      next: (isUpdated: boolean) => {
+        if (isUpdated) {
+          this.toasterService.success('Success!', 'User update successful.');
+          setTimeout(() => {
+            this.toasterService.clear();
+          }, 3000);
+          this.onCancel();
+        }
+      },
+      error: () => {
+        this.toasterService.error('Error!', 'User update unsuccessfu!');
+        setTimeout(() => {
+          this.toasterService.clear();
+        }, 3000);
+      },
+    });
   }
 
   onCancel(): void {

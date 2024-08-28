@@ -50,12 +50,12 @@ export class RegisterComponent {
 
   constructor() {
     this.registerForm = new FormGroup({
-      firstName: new FormControl('', [
+      firstname: new FormControl('', [
         Validators.required,
         Validators.minLength(3),
         Validators.maxLength(15),
       ]),
-      lastName: new FormControl('', [
+      lastname: new FormControl('', [
         Validators.required,
         Validators.minLength(3),
         Validators.maxLength(15),
@@ -104,7 +104,7 @@ export class RegisterComponent {
 
   onRegister(): void {
     if (this.registerForm.valid && this.passMatched) {
-      const user: User = { ...this.registerForm.value, joiningDate: Date() };
+      const user: User = { ...this.registerForm.value, joiningdate: Date() };
       this.authService.registerUser(user);
       this.router.navigate([this.login_route]);
       this.toasterService.success('Success!', 'Registration successful!');

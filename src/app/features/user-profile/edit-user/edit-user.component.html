@@ -10,16 +10,16 @@
             <input
               type="text"
               class="form-control form-input"
-              formControlName="firstName"
+              formControlName="firstname"
               (blur)="removeWhiteSpaces($event)"
               [ngClass]="{
                 'border-danger':
-                  !editUserForm.get('firstName')?.valid &&
-                  editUserForm.get('firstName')?.touched
+                  !editUserForm.get('firstname')?.valid &&
+                  editUserForm.get('firstname')?.touched
               }"
             />
-            @if (!editUserForm.get('firstName')?.valid &&
-            editUserForm.get('firstName')?.touched){
+            @if (!editUserForm.get('firstname')?.valid &&
+            editUserForm.get('firstname')?.touched){
             <div class="text-danger">This field is required.</div>
             }
           </div>
@@ -28,16 +28,16 @@
             <input
               type="text"
               class="form-control form-input"
-              formControlName="lastName"
+              formControlName="lastname"
               (blur)="removeWhiteSpaces($event)"
               [ngClass]="{
                 'border-danger':
-                  !editUserForm.get('lastName')?.valid &&
-                  editUserForm.get('lastName')?.touched
+                  !editUserForm.get('lastname')?.valid &&
+                  editUserForm.get('lastname')?.touched
               }"
             />
-            @if (!editUserForm.get('lastName')?.valid &&
-            editUserForm.get('lastName')?.touched){
+            @if (!editUserForm.get('lastname')?.valid &&
+            editUserForm.get('lastname')?.touched){
             <div class="text-danger">This field is required.</div>
             }
           </div>

@@ -5,8 +5,8 @@ export interface User extends AuthUser {
   firstname: string;
   lastname: string;
   email: string;
-  joiningDate: Date;
-  profileImage?: File;
+  joiningdate: Date;
+  profileimage?: File;
   subtitle?: string;
   about?: string;
 }

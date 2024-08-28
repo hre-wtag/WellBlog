@@ -26,7 +26,7 @@ export class AuthService {
           console.log('Username Exists:', data);
         },
         error: (error) => {
-          console.error('Error inserting data:', error);
+          console.error('Error checking username:', error);
           throw error;
         },
       });
@@ -37,7 +37,6 @@ export class AuthService {
       next: (data) => {
         console.log('Data inserted successfully:', data);
         this.usernameExist.set(data);
-        console.log(this.usernameExist(),'signal inside service');
       },
       error: (error) => {
         console.error('Error inserting data:', error.message);
@@ -91,14 +90,24 @@ export class AuthService {
     localStorage.removeItem('loggedInUser');
   }
 
-  updateUser(user: User): boolean {
-    // let oldUser = storedUsers?.find((user) => user.id === user.id);
-    // if (oldUser) {
-    //   Object.assign(oldUser, user);
+  updateUser(user: User): Observable<boolean> {
+    return this.supabaseService.updateUser(user).pipe(
+      map((response) => {
+        if (!response) {
+          console.error('Error updating user:', response);
+          return false;
+        }
 
-    //   this.setLoggedInUser(user);
-    //   return true;
-    // }
-    return false;
+        const updatedUser = response;
+        console.log('User Updated:', updatedUser);
+        this.setLoggedInUser(updatedUser);
+        this.user$.next(updatedUser);
+        return true;
+      }),
+      catchError((error: Error) => {
+        console.error('Error during login:', error.message);
+        return throwError(() => false);
+      })
+    );
   }
 }

@@ -196,7 +196,7 @@ export class AddBlogComponent implements OnInit, OnDestroy {
     let bloggerImage;
     if (user) {
       bloggerName = user.firstname?.concat(' ', user.lastname);
-      bloggerImage = user.profileImage;
+      bloggerImage = user.profileimage;
     }
     let maxBlogId;
     this.blogSubcription = this.blogService.blogs$.subscribe(

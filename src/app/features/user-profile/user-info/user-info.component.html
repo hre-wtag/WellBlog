@@ -9,8 +9,8 @@
           <img
             class="user-photo"
             [src]="
-              userInfo.profileImage
-                ? userInfo.profileImage
+              userInfo.profileimage
+                ? userInfo.profileimage
                 : default_profile_photo
             "
             [alt]="userInfo.firstname"
@@ -28,7 +28,7 @@
           </h6>
           <h6 class="card-subtitle mb-1 text-body-secondary">
             Joined on
-            {{ userInfo.joiningDate | date : "MMMM d, y" }}
+            {{ userInfo.joiningdate | date : "MMMM d, y" }}
           </h6>
         </div>
       </div>

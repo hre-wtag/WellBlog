@@ -21,83 +21,24 @@ export class SupabaseService {
     );
   }
 
-  // register(
-  //   firstName: string,
-  //   lastName: string,
-  //   email: string,
-  //   password: string,
-  //   username: string,
-  //   joiningDate: Date
-  // ): Observable<AuthResponse> {
-  //   const promise = this.supabase.auth.signUp({
-  //     email: email,
-  //     password: password,
-  //     options: {
-  //       data: {
-  //         firstName: firstName,
-  //         lastName: lastName,
-  //         joiningDate: joiningDate,
-  //         username: username,
-  //       },
-  //     },
-  //   });
-  //   return from(promise);
-  // }
-
-  // async register(
-  //   firstName: string,
-  //   lastName: string,
-  //   email: string,
-  //   password: string,
-  //   username: string
-  // ): Promise<void> {
-  //   console.log(email);
-
-  //   return from(
-  //     this.supabase
-  //       .from('user')
-  //       .insert({
-  //         firstname: firstName,
-  //         lastname: lastName,
-  //         username: username,
-  //         password: password,
-  //         email: email,
-  //       })
-  //       .select()
-  //   )
-  //     .pipe(
-  //       map(({ data, error }) => {
-  //         if (error) {
-  //           throw error;
-  //         }
-  //         console.log('Data inserted successfully:', data);
-  //       }),
-  //       catchError((error) => {
-  //         console.error('Error inserting data:', error);
-  //         throw error;
-  //       })
-  //     )
-  //     .toPromise();
-  // }
-
   register(
-    firstName: string,
-    lastName: string,
+    firstname: string,
+    lastname: string,
     email: string,
     password: string,
     username: string
-  ): Observable<User[]> {
+  ): Observable<User> {
     return from(
       this.supabase
         .from('user')
         .insert({
-          firstname: firstName,
-          lastname: lastName,
+          firstname: firstname,
+          lastname: lastname,
           username: username,
           password: password,
           email: email,
         })
-        .select()
+        .single()
     ).pipe(
       map((response) => {
         if (response.error) {
@@ -143,10 +84,31 @@ export class SupabaseService {
         if (response.error) {
           throw new Error(response.error.message);
         }
-        return response.data ? true : false; 
+        return response.data ? true : false;
       }),
       catchError(() => {
         return of(false);
+      })
+    );
+  }
+
+  updateUser(user: User): Observable<User> {
+    return from(
+      this.supabase
+        .from('user')
+        .update(user)
+        .match({ id: user.id })
+        .select()
+        .single()
+    ).pipe(
+      map((response) => {
+        if (response.error) {
+          throw new Error(response.error.message);
+        }
+        return response.data;
+      }),
+      catchError((error) => {
+        throw error;
       })
     );
   }
