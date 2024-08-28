@@ -4,7 +4,7 @@
   [id]="'blog-' + blog.id"
   [routerLink]="blog_route + '/' + this.blog.id"
 >
-  <img [src]="blog.blogImage" class="blog-card-img rounded" alt="..." />
+  <img [src]="blog.blogimage" class="blog-card-img rounded" alt="..." />
   <div
     class="card-body-container d-grid align-items-center justify-content-center p-0 mt-2"
   >
@@ -35,18 +35,18 @@
         <div class="footer-left d-flex align-items-center">
           <img
             [src]="
-              blog.bloggerImage ? blog.bloggerImage : default_profile_photo
+              blog.bloggerimage ? blog.bloggerimage : default_profile_photo
             "
             class="blog-footer-img rounded-circle me-3"
-            [alt]="blog.bloggerName"
+            [alt]="blog.bloggername"
           />
           <div class="card-text">
-            <small class="text-body-secondary">{{ blog.bloggerName }} </small>
+            <small class="text-body-secondary">{{ blog.bloggername }} </small>
           </div>
         </div>
         <div class="card-text">
           <small class="text-body-secondary">{{
-            blog.postingDate | date : "MMMM d, yy"
+            blog.postingdate | date : "MMMM d, yy"
           }}</small>
         </div>
       </div>

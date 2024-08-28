@@ -85,8 +85,8 @@ export class HomeComponent implements OnInit {
       this.groupBlogs(
         this.blogList?.sort(
           (a, b) =>
-            new Date(b.postingDate).getTime() -
-            new Date(a.postingDate).getTime()
+            new Date(b.postingdate).getTime() -
+            new Date(a.postingdate).getTime()
         )
       ) ?? null;
   }

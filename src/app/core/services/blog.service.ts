@@ -15,10 +15,10 @@ export class BlogService {
     this.blogs$.next(this.loadBlogsFromLocalStorage() || []);
   }
 
-  isMyBlog(bloggerId: number): boolean {
+  isMyBlog(bloggerid: number): boolean {
     let isMyBlog = false;
     const userSub = this.authService.user$.subscribe((user: User | null) => {
-      isMyBlog = user?.id === bloggerId;
+      isMyBlog = user?.id === bloggerid;
     });
     userSub.unsubscribe();
     return isMyBlog;

@@ -164,18 +164,18 @@ export class AddBlogComponent implements OnInit, OnDestroy {
     const blog: Blog = {
       ...this.blogForm.value,
       tags: [],
-      blogImage: '',
-      bloggerId: this.editedBlog.bloggerId,
-      bloggerImage: this.editedBlog.bloggerImage,
-      bloggerName: this.editedBlog.bloggerName,
+      blogimage: '',
+      bloggerid: this.editedBlog.bloggerid,
+      bloggerimage: this.editedBlog.bloggerimage,
+      bloggername: this.editedBlog.bloggername,
       id: this.editedBlog.id,
-      postingDate: this.editedBlog.postingDate,
+      postingdate: this.editedBlog.postingdate,
     };
     blog.tags.push(...blogTags);
-    blog.blogImage =
+    blog.blogimage =
       this.uploadedImage != null
         ? this.uploadedImage
-        : this.editedBlog.blogImage;
+        : this.editedBlog.blogimage;
     const blogUpdated = this.blogService.updateBlog(blog);
     if (blogUpdated) {
       this.toasterService.success('Success!', 'The blog is updated.');
@@ -192,11 +192,11 @@ export class AddBlogComponent implements OnInit, OnDestroy {
 
   addBlog(blogTags: string[]): void {
     const user = this.authService.user$.getValue();
-    let bloggerName;
-    let bloggerImage;
+    let bloggername;
+    let bloggerimage;
     if (user) {
-      bloggerName = user.firstname?.concat(' ', user.lastname);
-      bloggerImage = user.profileimage;
+      bloggername = user.firstname?.concat(' ', user.lastname);
+      bloggerimage = user.profileimage;
     }
     let maxBlogId;
     this.blogSubcription = this.blogService.blogs$.subscribe(
@@ -210,16 +210,16 @@ export class AddBlogComponent implements OnInit, OnDestroy {
     const blog: Blog = {
       ...this.blogForm.value,
       tags: [],
-      blogImage: '',
-      postingDate: Date(),
-      bloggerName: bloggerName,
-      bloggerImage: bloggerImage,
-      bloggerId: user?.id,
+      blogimage: '',
+      postingdate: Date(),
+      bloggername: bloggername,
+      bloggerimage: bloggerimage,
+      bloggerid: user?.id,
       id: maxBlogId ? maxBlogId + 1 : 1,
     };
     blog.tags.push(...blogTags);
     if (this.uploadedImage != null) {
-      blog.blogImage = this.uploadedImage;
+      blog.blogimage = this.uploadedImage;
     }
     const blogAdded = this.blogService.addBlog(blog);
     if (blogAdded) {

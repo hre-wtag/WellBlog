@@ -68,7 +68,7 @@ export class BlogComponent implements OnInit, AfterViewInit {
               this.router.navigate(['']);
             } else {
               this.titleService.setTitle(this.blog.title);
-              this.isMyBlog = this.blogService.isMyBlog(this.blog?.bloggerId);
+              this.isMyBlog = this.blogService.isMyBlog(this.blog?.bloggerid);
             }
           });
         this.destroyRef.onDestroy(() => blogSubcription.unsubscribe());
