@@ -5,7 +5,7 @@ import {
   SupabaseClient,
 } from '@supabase/supabase-js';
 import { environment } from '../../../environments/seretKeys';
-import { catchError, from, map, Observable, tap } from 'rxjs';
+import { catchError, from, map, Observable, of } from 'rxjs';
 import { User } from '../interfaces/user';
 
 @Injectable({
@@ -87,7 +87,7 @@ export class SupabaseService {
     password: string,
     username: string
   ): Observable<User[]> {
-   return from(
+    return from(
       this.supabase
         .from('user')
         .insert({
@@ -127,6 +127,26 @@ export class SupabaseService {
       }),
       catchError((error) => {
         throw error;
+      })
+    );
+  }
+
+  checkUsername(username: string): Observable<boolean> {
+    return from(
+      this.supabase
+        .from('user')
+        .select('username')
+        .eq('username', username)
+        .single()
+    ).pipe(
+      map((response) => {
+        if (response.error) {
+          throw new Error(response.error.message);
+        }
+        return response.data ? true : false; 
+      }),
+      catchError(() => {
+        return of(false);
       })
     );
   }

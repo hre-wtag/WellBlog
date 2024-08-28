@@ -1,4 +1,4 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { User } from '../interfaces/user';
 import { AuthUser } from '../interfaces/authUser';
 import { BehaviorSubject, catchError, map, Observable, throwError } from 'rxjs';
@@ -10,6 +10,8 @@ import { SupabaseService } from './supabase.service';
 export class AuthService {
   user$ = new BehaviorSubject<User | null>(null);
   private supabaseService = inject(SupabaseService);
+  usernameExist = signal(false);
+
   registerUser(user: User): void {
     this.supabaseService
       .register(
@@ -21,22 +23,28 @@ export class AuthService {
       )
       .subscribe({
         next: (data) => {
-          console.log('Data inserted successfully:', data);
+          console.log('Username Exists:', data);
         },
         error: (error) => {
-          console.error('Error inserting data:', error.message);
+          console.error('Error inserting data:', error);
           throw error;
         },
       });
   }
 
-  validateUsername(username: string): boolean {
-    // return storedUsers?.find((user) => user.username === username)
-    //   ? true
-    //   : false;
-    return false;
+  validateUsername(username: string): void {
+    this.supabaseService.checkUsername(username).subscribe({
+      next: (data) => {
+        console.log('Data inserted successfully:', data);
+        this.usernameExist.set(data);
+        console.log(this.usernameExist(),'signal inside service');
+      },
+      error: (error) => {
+        console.error('Error inserting data:', error.message);
+        throw error;
+      },
+    });
   }
-
   authenticateUser(authUser: AuthUser): Observable<boolean> {
     return this.supabaseService
       .login(authUser.username, authUser.password)

@@ -57,7 +57,7 @@
                 type="text"
                 class="form-control form-input"
                 formControlName="username"
-                (blur)="checkUsername()"
+                (input)="checkUsername()"
                 [ngClass]="{
                   'border-danger': isFieldValid('username') || usernameError
                 }"
