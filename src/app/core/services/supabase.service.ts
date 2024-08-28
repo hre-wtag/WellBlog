@@ -1,13 +1,12 @@
-import { inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import {
-  AuthResponse,
   AuthSession,
   createClient,
   SupabaseClient,
-  User,
 } from '@supabase/supabase-js';
 import { environment } from '../../../environments/seretKeys';
-import { from, Observable } from 'rxjs';
+import { catchError, from, map, Observable, tap } from 'rxjs';
+import { User } from '../interfaces/user';
 
 @Injectable({
   providedIn: 'root',
@@ -20,14 +19,6 @@ export class SupabaseService {
       environment.supabaseUrl,
       environment.supabaseKey
     );
-    this.supabase.auth.onAuthStateChange((event, session) => {
-      console.log(event, 'event');
-      console.log(session, 'session');
-
-      if (event === 'SIGNED_IN') {
-      } else {
-      }
-    });
   }
 
   // register(
@@ -52,29 +43,91 @@ export class SupabaseService {
   //   });
   //   return from(promise);
   // }
+
+  // async register(
+  //   firstName: string,
+  //   lastName: string,
+  //   email: string,
+  //   password: string,
+  //   username: string
+  // ): Promise<void> {
+  //   console.log(email);
+
+  //   return from(
+  //     this.supabase
+  //       .from('user')
+  //       .insert({
+  //         firstname: firstName,
+  //         lastname: lastName,
+  //         username: username,
+  //         password: password,
+  //         email: email,
+  //       })
+  //       .select()
+  //   )
+  //     .pipe(
+  //       map(({ data, error }) => {
+  //         if (error) {
+  //           throw error;
+  //         }
+  //         console.log('Data inserted successfully:', data);
+  //       }),
+  //       catchError((error) => {
+  //         console.error('Error inserting data:', error);
+  //         throw error;
+  //       })
+  //     )
+  //     .toPromise();
+  // }
+
   register(
     firstName: string,
     lastName: string,
     email: string,
     password: string,
-    username: string,
-  ): void {
-    console.log(email);
-
-    this.supabase.from('user').insert({
-      firstName: firstName,
-      lastName: lastName,
-      username: username,
-      password: password,
-      email: email
-    }).select();
+    username: string
+  ): Observable<User[]> {
+   return from(
+      this.supabase
+        .from('user')
+        .insert({
+          firstname: firstName,
+          lastname: lastName,
+          username: username,
+          password: password,
+          email: email,
+        })
+        .select()
+    ).pipe(
+      map((response) => {
+        if (response.error) {
+          throw new Error(response.error.message);
+        }
+        return response.data;
+      }),
+      catchError((error) => {
+        throw error;
+      })
+    );
   }
-  // login(username:string,password:string):Observable<AuthResponse> {
-  //   const promise = this.supabase.auth.signInWithPassword({
-  //     username: username,
-  //     password: password,
 
-  //   });
-  //   return from(promise);
-  // }
+  login(username: string, password: string): Observable<User> {
+    return from(
+      this.supabase
+        .from('user')
+        .select('*')
+        .match({ username, password })
+        .single()
+    ).pipe(
+      map((response) => {
+        if (response.error) {
+          throw new Error(response.error.message);
+        }
+        return response.data;
+      }),
+      catchError((error) => {
+        throw error;
+      })
+    );
+  }
 }
