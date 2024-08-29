@@ -211,7 +211,6 @@ export class AddBlogComponent implements OnInit, OnDestroy {
       ...this.blogForm.value,
       tags: [],
       blogimage: '',
-      postingdate: Date(),
       bloggername: bloggername,
       bloggerimage: bloggerimage,
       bloggerid: user?.id,

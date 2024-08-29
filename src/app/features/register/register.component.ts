@@ -104,7 +104,7 @@ export class RegisterComponent {
 
   onRegister(): void {
     if (this.registerForm.valid && this.passMatched) {
-      const user: User = { ...this.registerForm.value, joiningdate: Date() };
+      const user: User = { ...this.registerForm.value };
       this.authService.registerUser(user);
       this.router.navigate([this.login_route]);
       this.toasterService.success('Success!', 'Registration successful!');

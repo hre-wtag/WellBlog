@@ -13,23 +13,15 @@ export class AuthService {
   usernameExist = signal(false);
 
   registerUser(user: User): void {
-    this.supabaseService
-      .register(
-        user.firstname,
-        user.lastname,
-        user.email,
-        user.password,
-        user.username
-      )
-      .subscribe({
-        next: (data) => {
-          console.log('Username Exists:', data);
-        },
-        error: (error) => {
-          console.error('Error checking username:', error);
-          throw error;
-        },
-      });
+    this.supabaseService.register(user).subscribe({
+      next: (data) => {
+        console.log('Username Exists:', data);
+      },
+      error: (error) => {
+        console.error('Error checking username:', error);
+        throw error;
+      },
+    });
   }
 
   validateUsername(username: string): void {

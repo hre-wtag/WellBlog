@@ -73,7 +73,7 @@ export class BlogService {
       .pipe(
         filter((blogs) => blogs !== null),
         map((blogs) => [...(blogs ?? []), newBlog]),
-        take(1) // Ensures observable completes after emitting updatedBlogs
+        take(1)
       )
       .subscribe({
         next: (blogs) => {

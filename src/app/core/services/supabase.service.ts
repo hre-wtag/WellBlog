@@ -1,19 +1,19 @@
 import { Injectable } from '@angular/core';
-import {
-  AuthSession,
-  createClient,
-  SupabaseClient,
-} from '@supabase/supabase-js';
+import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { environment } from '../../../environments/seretKeys';
-import { catchError, from, map, Observable, of } from 'rxjs';
+import { catchError, first, from, map, Observable, of } from 'rxjs';
 import { User } from '../interfaces/user';
+import { Blog } from '../interfaces/blog';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SupabaseService {
   private supabase: SupabaseClient;
-  _session: AuthSession | null = null;
+
+  USER_TABELE: string = 'user';
+  BLOG_TABELE: string = 'blog';
+
   constructor() {
     this.supabase = createClient(
       environment.supabaseUrl,
@@ -21,22 +21,16 @@ export class SupabaseService {
     );
   }
 
-  register(
-    firstname: string,
-    lastname: string,
-    email: string,
-    password: string,
-    username: string
-  ): Observable<User> {
+  register(user: User): Observable<User> {
     return from(
       this.supabase
-        .from('user')
+        .from(this.USER_TABELE)
         .insert({
-          firstname: firstname,
-          lastname: lastname,
-          username: username,
-          password: password,
-          email: email,
+          firstname: user.firstname,
+          lastname: user.lastname,
+          username: user.username,
+          password: user.password,
+          email: user.email,
         })
         .single()
     ).pipe(
@@ -55,7 +49,7 @@ export class SupabaseService {
   login(username: string, password: string): Observable<User> {
     return from(
       this.supabase
-        .from('user')
+        .from(this.USER_TABELE)
         .select('*')
         .match({ username, password })
         .single()
@@ -75,7 +69,7 @@ export class SupabaseService {
   checkUsername(username: string): Observable<boolean> {
     return from(
       this.supabase
-        .from('user')
+        .from(this.USER_TABELE)
         .select('username')
         .eq('username', username)
         .single()
@@ -95,11 +89,36 @@ export class SupabaseService {
   updateUser(user: User): Observable<User> {
     return from(
       this.supabase
-        .from('user')
+        .from(this.USER_TABELE)
         .update(user)
         .match({ id: user.id })
         .select()
         .single()
+    ).pipe(
+      map((response) => {
+        if (response.error) {
+          throw new Error(response.error.message);
+        }
+        return response.data;
+      }),
+      catchError((error) => {
+        throw error;
+      })
+    );
+  }
+
+  addBlog(blog: Blog): Observable<Blog[]> {
+    return from(
+      this.supabase
+        .from(this.BLOG_TABELE)
+        .insert({
+          title: blog.title,
+          tags: blog.tags,
+          blogimage: blog.blogimage,
+          description: blog.description,
+          bloggerid: blog.bloggerid,
+        })
+        .select()
     ).pipe(
       map((response) => {
         if (response.error) {
