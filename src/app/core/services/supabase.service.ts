@@ -107,7 +107,7 @@ export class SupabaseService {
     );
   }
 
-  addBlog(blog: Blog): Observable<Blog[]> {
+  addBlog(blog: Blog): Observable<boolean> {
     return from(
       this.supabase
         .from(this.BLOG_TABELE)
@@ -124,10 +124,41 @@ export class SupabaseService {
         if (response.error) {
           throw new Error(response.error.message);
         }
-        return response.data;
+        return response.data ? true : false;
+      }),
+      catchError(() => {
+        return of(false);
+      })
+    );
+  }
+
+  getAllBlog(): Observable<Blog[]> {
+    return from(
+      this.supabase
+        .from(this.BLOG_TABELE)
+        .select(`*, user ( firstname, lastname,profileimage )`)
+    ).pipe(
+      map((response) => {
+        if (response.error) {
+          throw new Error(response.error.message);
+        }
+        return response.data.map(
+          (blog: any): Blog => ({
+            id: blog.id,
+            title: blog.title,
+            tags: JSON.parse(blog.tags), // Parse tags array from string
+            blogimage: blog.blogimage,
+            description: blog.description,
+            postingdate: new Date(blog.postingdate), // Convert postingdate to Date object
+            bloggerid: blog.bloggerid,
+            bloggername: blog.user.firstname + ' ' + blog.user.lastname,
+            bloggerimage: blog.user.profileimage,
+          })
+        );
       }),
       catchError((error) => {
-        throw error;
+        console.error('Error fetching blogs:', error.message);
+        return of([]);
       })
     );
   }

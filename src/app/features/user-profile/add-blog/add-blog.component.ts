@@ -220,18 +220,34 @@ export class AddBlogComponent implements OnInit, OnDestroy {
     if (this.uploadedImage != null) {
       blog.blogimage = this.uploadedImage;
     }
-    const blogAdded = this.blogService.addBlog(blog);
-    if (blogAdded) {
-      this.toasterService.success('Success!', 'The blog is added.');
-      setTimeout(() => {
-        this.toasterService.toasterInfo$.next(null);
-      }, 4000);
-    } else {
-      this.toasterService.error('Error!', 'Unable to add the blog.');
-      setTimeout(() => {
-        this.toasterService.toasterInfo$.next(null);
-      }, 4000);
-    }
+    const blogAdded = this.blogService.addBlog(blog).subscribe({
+      next: (response: boolean) => {
+        if (response) {
+          this.toasterService.success('Success!', 'Blog added successfully.');
+          setTimeout(() => {
+            this.toasterService.clear();
+          }, 3000);
+          this.onCancel();
+        }
+      },
+      error: () => {
+        this.toasterService.error('Error!', 'Error on adding the blog!');
+        setTimeout(() => {
+          this.toasterService.clear();
+        }, 3000);
+      },
+    });
+    // if (blogAdded) {
+    //   this.toasterService.success('Success!', 'The blog is added.');
+    //   setTimeout(() => {
+    //     this.toasterService.toasterInfo$.next(null);
+    //   }, 4000);
+    // } else {
+    //   this.toasterService.error('Error!', 'Unable to add the blog.');
+    //   setTimeout(() => {
+    //     this.toasterService.toasterInfo$.next(null);
+    //   }, 4000);
+    // }
   }
 
   onCancel(): void {

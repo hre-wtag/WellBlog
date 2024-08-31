@@ -97,7 +97,7 @@ export class AuthService {
         return true;
       }),
       catchError((error: Error) => {
-        console.error('Error during login:', error.message);
+        console.error('Error during update a user:', error.message);
         return throwError(() => false);
       })
     );

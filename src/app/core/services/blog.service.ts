@@ -1,8 +1,16 @@
 import { inject, Injectable } from '@angular/core';
-import { BehaviorSubject, filter, map, take } from 'rxjs';
+import {
+  BehaviorSubject,
+  catchError,
+  map,
+  Observable,
+  take,
+  throwError,
+} from 'rxjs';
 import { Blog } from '../interfaces/blog';
 import { AuthService } from './auth.service';
 import { User } from '../interfaces/user';
+import { SupabaseService } from './supabase.service';
 
 @Injectable({
   providedIn: 'root',
@@ -11,8 +19,25 @@ export class BlogService {
   blogs$ = new BehaviorSubject<Blog[] | null>(null);
 
   private authService = inject(AuthService);
+  private supaService = inject(SupabaseService);
+
   constructor() {
-    this.blogs$.next(this.loadBlogsFromLocalStorage() || []);
+    // this.blogs$.next(this.loadBlogsFromLocalStorage() || []);
+    this.supaService.getAllBlog().subscribe({
+      next: (blogs) => {
+        console.log(blogs, 'blogs');
+        for (let blog of blogs) {
+          console.log(blog.tags);
+          blog.tags= blog.tags
+        }
+
+        this.blogs$.next(blogs);
+      },
+      error: (error) => {
+        console.error('Error fetching blogs:', error.message);
+        throw error;
+      },
+    });
   }
 
   isMyBlog(bloggerid: number): boolean {
@@ -66,26 +91,21 @@ export class BlogService {
     }
     return null;
   }
-  
-  addBlog(newBlog: Blog): boolean {
-    let isAdded = false;
-    this.blogs$
-      .pipe(
-        filter((blogs) => blogs !== null),
-        map((blogs) => [...(blogs ?? []), newBlog]),
-        take(1)
-      )
-      .subscribe({
-        next: (blogs) => {
-          this.blogs$.next(blogs);
-          this.saveBlogsToLocalStorage(blogs);
-          isAdded = true;
-        },
-        error: () => {
-          isAdded = false;
-        },
-      });
-    return isAdded;
+
+  addBlog(newBlog: Blog): Observable<boolean> {
+    return this.supaService.addBlog(newBlog).pipe(
+      map((response) => {
+        if (!response) {
+          console.error('Error adding blog:', response);
+          return false;
+        }
+        return true;
+      }),
+      catchError((error: Error) => {
+        console.error('Error while adding blog:', error.message);
+        return throwError(() => false);
+      })
+    );
   }
 
   deleteBlog(id: number): boolean {
