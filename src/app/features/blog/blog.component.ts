@@ -10,7 +10,6 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import { BlogService } from '../../core/services/blog.service';
 import { Blog } from '../../core/interfaces/blog';
-import { map } from 'rxjs';
 import { DEFAULT_PROFILE_PHOTO_SRC } from '../../core/utils/constants';
 import { CommonModule } from '@angular/common';
 import { Title } from '@angular/platform-browser';
@@ -37,6 +36,7 @@ export class BlogComponent implements OnInit, AfterViewInit {
   default_profile_photo: string = DEFAULT_PROFILE_PHOTO_SRC;
   isMyBlog: boolean = false;
   clickedBTN: string | null = null;
+  blogUpdated: boolean = false;
 
   ngOnInit(): void {
     this.loadBlog();
@@ -55,19 +55,19 @@ export class BlogComponent implements OnInit, AfterViewInit {
   loadBlog(): void {
     const routeSubscription = this.activatedRoute.paramMap.subscribe({
       next: (paramMap) => {
-        const blogID = paramMap.get('id');
-        const blogSubcription = this.blogService.blogs$
-          .pipe(
-            map((arr) =>
-              arr?.filter((blog: Blog) => blog.id.toString() === blogID)
-            )
-          )
-          .subscribe((blogs) => {
-            this.blog = blogs?.[0] ?? null;
+        const blogId: number = Number(paramMap.get('id'));
+        const blogSubcription = this.blogService
+          .getSingleBlog(blogId)
+          .subscribe((blog: Blog | null) => {
+            this.blog = blog ?? null;
+
             if (this.blog === null) {
               this.router.navigate(['']);
             } else {
               this.titleService.setTitle(this.blog.title);
+              setTimeout(() => {
+                this.loadDescription();
+              }, 50);
               this.isMyBlog = this.blogService.isMyBlog(this.blog?.bloggerid);
             }
           });
@@ -83,11 +83,20 @@ export class BlogComponent implements OnInit, AfterViewInit {
 
   handleAddFormSubmitted(formSubmitted: string | null): void {
     this.clickedBTN = formSubmitted;
-    if (this.blog) {
-      setTimeout(() => {
-        this.loadDescription();
-      }, 50);
-    }
+    const blogSubcription = this.blogService.blog$.subscribe(
+      (blog: Blog | null) => {
+        this.blog = blog ?? null;
+        if (this.blog === null) {
+          this.router.navigate(['']);
+        } else {
+          this.titleService.setTitle(this.blog.title);
+          setTimeout(() => {
+            this.loadDescription();
+          }, 50);
+          this.isMyBlog = this.blogService.isMyBlog(this.blog?.bloggerid);
+        }
+      }
+    );
+    this.destroyRef.onDestroy(() => blogSubcription.unsubscribe());
   }
-
 }

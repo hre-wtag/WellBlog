@@ -70,6 +70,8 @@ export class AddBlogComponent implements OnInit, OnDestroy {
     resize: false,
     menubar: false,
     content_css: 'src/styles.scss',
+    font_formats:
+      'Andale Mono=andale mono,times; Arial=arial,helvetica,sans-serif; Arial Black=arial black,avant garde; Book Antiqua=book antiqua,palatino; Comic Sans MS=comic sans ms,sans-serif; Courier New=courier new,courier; Georgia=georgia,palatino; Helvetica=helvetica; Impact=impact,chicago; Oswald=oswald; Symbol=symbol; Tahoma=tahoma,arial,helvetica,sans-serif; Terminal=terminal,monaco; Times New Roman=times new roman,times; Trebuchet MS=trebuchet ms,geneva; Verdana=verdana,geneva; Webdings=webdings; Wingdings=wingdings,zapf dingbats',
     setup: (editor) => {
       editor.setContent('This is the initial text');
     },
@@ -166,28 +168,41 @@ export class AddBlogComponent implements OnInit, OnDestroy {
       tags: [],
       blogimage: '',
       bloggerid: this.editedBlog.bloggerid,
-      bloggerimage: this.editedBlog.bloggerimage,
-      bloggername: this.editedBlog.bloggername,
       id: this.editedBlog.id,
-      postingdate: this.editedBlog.postingdate,
     };
     blog.tags.push(...blogTags);
     blog.blogimage =
       this.uploadedImage != null
         ? this.uploadedImage
         : this.editedBlog.blogimage;
-    const blogUpdated = this.blogService.updateBlog(blog);
-    if (blogUpdated) {
-      this.toasterService.success('Success!', 'The blog is updated.');
-      setTimeout(() => {
-        this.toasterService.toasterInfo$.next(null);
-      }, 4000);
-    } else {
-      this.toasterService.error('Error!', 'Unable to update the blog.');
-      setTimeout(() => {
-        this.toasterService.toasterInfo$.next(null);
-      }, 4000);
-    }
+    const blogUpdated = this.blogService.updateBlog(blog).subscribe({
+      next: (response: boolean) => {
+        if (response) {
+          this.toasterService.success('Success!', 'The blog is updated.');
+          setTimeout(() => {
+            this.toasterService.clear();
+          }, 3000);
+          this.onCancel();
+        }
+      },
+      error: () => {
+        this.toasterService.error('Error!', 'Unable to update the blog.');
+        setTimeout(() => {
+          this.toasterService.clear();
+        }, 3000);
+      },
+    });
+    // if (blogUpdated) {
+    //   this.toasterService.success('Success!', 'The blog is updated.');
+    //   setTimeout(() => {
+    //     this.toasterService.toasterInfo$.next(null);
+    //   }, 4000);
+    // } else {
+    //   this.toasterService.error('Error!', 'Unable to update the blog.');
+    //   setTimeout(() => {
+    //     this.toasterService.toasterInfo$.next(null);
+    //   }, 4000);
+    // }
   }
 
   addBlog(blogTags: string[]): void {
@@ -237,17 +252,6 @@ export class AddBlogComponent implements OnInit, OnDestroy {
         }, 3000);
       },
     });
-    // if (blogAdded) {
-    //   this.toasterService.success('Success!', 'The blog is added.');
-    //   setTimeout(() => {
-    //     this.toasterService.toasterInfo$.next(null);
-    //   }, 4000);
-    // } else {
-    //   this.toasterService.error('Error!', 'Unable to add the blog.');
-    //   setTimeout(() => {
-    //     this.toasterService.toasterInfo$.next(null);
-    //   }, 4000);
-    // }
   }
 
   onCancel(): void {

@@ -42,18 +42,35 @@ export class BlogCardComponent implements OnChanges {
   }
 
   onDelete(id: number): void {
-    const blogDeleted = this.blogService.deleteBlog(id);
-    if (blogDeleted) {
-      this.toasterService.success('Success!', 'The blog is Deleted.');
-      setTimeout(() => {
-        this.toasterService.toasterInfo$.next(null);
-      }, 4000);
-    } else {
-      this.toasterService.error('Error!', 'Unable to delete the blog.');
-      setTimeout(() => {
-        this.toasterService.toasterInfo$.next(null);
-      }, 4000);
-    }
+    console.log('service',id);
+    
+    const blogDeleted = this.blogService.deleteBlog(id).subscribe({
+      next: (response: boolean) => {
+        if (response) {
+          this.toasterService.success('Success!', 'Blog deleted successfully.');
+          setTimeout(() => {
+            this.toasterService.clear();
+          }, 3000);
+        }
+      },
+      error: () => {
+        this.toasterService.error('Error!', 'Error deleting the blog!');
+        setTimeout(() => {
+          this.toasterService.clear();
+        }, 3000);
+      },
+    });
+    // if (blogDeleted) {
+    //   this.toasterService.success('Success!', 'The blog is Deleted.');
+    //   setTimeout(() => {
+    //     this.toasterService.toasterInfo$.next(null);
+    //   }, 4000);
+    // } else {
+    //   this.toasterService.error('Error!', 'Unable to delete the blog.');
+    //   setTimeout(() => {
+    //     this.toasterService.toasterInfo$.next(null);
+    //   }, 4000);
+    // }
   }
   onFilterTag(tag: string): void {
     this.selectedFilterTag.emit(tag);

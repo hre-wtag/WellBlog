@@ -11,8 +11,8 @@ import { Blog } from '../interfaces/blog';
 export class SupabaseService {
   private supabase: SupabaseClient;
 
-  USER_TABELE: string = 'user';
-  BLOG_TABELE: string = 'blog';
+  USER_TABLE: string = 'user';
+  BLOG_TABLE: string = 'blog';
 
   constructor() {
     this.supabase = createClient(
@@ -24,7 +24,7 @@ export class SupabaseService {
   register(user: User): Observable<User> {
     return from(
       this.supabase
-        .from(this.USER_TABELE)
+        .from(this.USER_TABLE)
         .insert({
           firstname: user.firstname,
           lastname: user.lastname,
@@ -49,7 +49,7 @@ export class SupabaseService {
   login(username: string, password: string): Observable<User> {
     return from(
       this.supabase
-        .from(this.USER_TABELE)
+        .from(this.USER_TABLE)
         .select('*')
         .match({ username, password })
         .single()
@@ -69,7 +69,7 @@ export class SupabaseService {
   checkUsername(username: string): Observable<boolean> {
     return from(
       this.supabase
-        .from(this.USER_TABELE)
+        .from(this.USER_TABLE)
         .select('username')
         .eq('username', username)
         .single()
@@ -89,7 +89,7 @@ export class SupabaseService {
   updateUser(user: User): Observable<User> {
     return from(
       this.supabase
-        .from(this.USER_TABELE)
+        .from(this.USER_TABLE)
         .update(user)
         .match({ id: user.id })
         .select()
@@ -110,7 +110,7 @@ export class SupabaseService {
   addBlog(blog: Blog): Observable<boolean> {
     return from(
       this.supabase
-        .from(this.BLOG_TABELE)
+        .from(this.BLOG_TABLE)
         .insert({
           title: blog.title,
           tags: blog.tags,
@@ -135,7 +135,7 @@ export class SupabaseService {
   getAllBlog(): Observable<Blog[]> {
     return from(
       this.supabase
-        .from(this.BLOG_TABELE)
+        .from(this.BLOG_TABLE)
         .select(`*, user ( firstname, lastname,profileimage )`)
     ).pipe(
       map((response) => {
@@ -146,10 +146,10 @@ export class SupabaseService {
           (blog: any): Blog => ({
             id: blog.id,
             title: blog.title,
-            tags: JSON.parse(blog.tags), // Parse tags array from string
+            tags: JSON.parse(blog.tags),
             blogimage: blog.blogimage,
             description: blog.description,
-            postingdate: new Date(blog.postingdate), // Convert postingdate to Date object
+            postingdate: new Date(blog.postingdate),
             bloggerid: blog.bloggerid,
             bloggername: blog.user.firstname + ' ' + blog.user.lastname,
             bloggerimage: blog.user.profileimage,
@@ -159,6 +159,79 @@ export class SupabaseService {
       catchError((error) => {
         console.error('Error fetching blogs:', error.message);
         return of([]);
+      })
+    );
+  }
+  deleteBlog(blogId: number): Observable<boolean> {
+    console.log('supa service', blogId);
+
+    return from(
+      this.supabase.from(this.BLOG_TABLE).delete().match({ id: blogId })
+    ).pipe(
+      map((response) => {
+        if (response.error) {
+          throw new Error(response.error.message);
+        }
+        return true;
+      }),
+      catchError((error) => {
+        console.error('Error deleting blog:', error.message);
+        return of(false);
+      })
+    );
+  }
+  updateBlog(blog: Blog): Observable<User> {
+    return from(
+      this.supabase
+        .from(this.BLOG_TABLE)
+        .update(blog)
+        .match({ id: blog.id })
+        .select()
+        .single()
+    ).pipe(
+      map((response) => {
+        if (response.error) {
+          throw new Error(response.error.message);
+        }
+        return response.data;
+      }),
+      catchError((error) => {
+        throw error;
+      })
+    );
+  }
+  getSingleBlog(id: number): Observable<Blog | null> {
+    return from(
+      this.supabase
+        .from(this.BLOG_TABLE)
+        .select(`*, user ( firstname, lastname,profileimage )`)
+        .match({ id: id })
+        .single()
+    ).pipe(
+      map((response) => {
+        if (response.error) {
+          throw new Error(response.error.message);
+        }
+        if (response.data) {
+          return {
+            id: response.data.id,
+            title: response.data.title,
+            tags: JSON.parse(response.data.tags),
+            blogimage: response.data.blogimage,
+            description: response.data.description,
+            postingdate: new Date(response.data.postingdate),
+            bloggerid: response.data.bloggerid,
+            bloggername:
+              response.data.user.firstname + ' ' + response.data.user.lastname,
+            bloggerimage: response.data.user.profileimage,
+          };
+        } else {
+          return null;
+        }
+      }),
+      catchError((error) => {
+        console.error('Error fetching blog:', error.message);
+        return of(null);
       })
     );
   }
