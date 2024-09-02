@@ -6,10 +6,10 @@
 .btn {
   @include btn-base;
 }
-.btn-login {
+.btn.btn-login {
   @include btn-primary;
 }
-.btn-register {
+.btn.btn-register {
   @include btn-outline-primary;
 }
 .form-control.form-input {
