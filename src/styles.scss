@@ -2,9 +2,7 @@
 @import "bootstrap-icons/font/bootstrap-icons.scss";
 @import "../public/styles/variables.scss";
 
-// global css
-*,
-*::after,
+* *::after,
 *::before {
   box-sizing: border-box;
   margin: 0;
@@ -14,70 +12,4 @@
 
 body {
   font: 100% $font-stack;
-}
-
-.color-primary {
-  color: $primary--color !important;
-}
-
-.background-primary {
-  background-color: $primary--color !important;
-  color: $white--color !important;
-}
-.btn-auth {
-  border-radius: 1.5rem;
-  height: 2.9rem;
-  text-align: center;
-  width: 8rem;
-}
-.btn-sub {
-  border-color: $primary--color !important;
-  color: $primary--color !important;
-}
-
-.form-input {
-  &:focus {
-    border-color: $primary--color;
-    box-shadow: none;
-  }
-  &:checked {
-    background-color: $primary--color;
-  }
-}
-
-.eye-btn {
-  cursor: pointer;
-  .eye-btn-icon {
-    color: #686a6c;
-  }
-  &:hover {
-    background-color: #ededff;
-    border-color: $primary--color !important;
-  }
-}
-
-// ========= Common ===========
-.form-input {
-  &:focus {
-    border-color: $primary--color;
-    box-shadow: none;
-  }
-}
-.btn {
-  height: 2.9rem;
-  width: 8rem;
-}
-.blog-description {
-  padding: 1.6rem !important;
-  .tox-tinymce {
-    border: none !important;
-  }
-  .tox .tox-edit-area::before {
-    border: 0.125rem solid $primary--color;
-    border-radius: 1rem;
-    padding: 1.6rem;
-  }
-  .tox-edit-area {
-    border-radius: 0.3rem;
-  }
 }

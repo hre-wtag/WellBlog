@@ -82,8 +82,9 @@
               />
               <span
                 class="input-group-text eye-btn"
-                appToggleOnHold
-                (hold)="onHoldChange($event, 'password')"
+                (mousedown)="changePasswordFlag(true, 'password')"
+                (mouseleave)="changePasswordFlag(false, 'password')"
+                (mouseup)="changePasswordFlag(false, 'password')"
                 ><i
                   class="bi"
                   [ngClass]="!showPassword ? 'bi-eye' : 'bi-eye-slash'"
@@ -105,14 +106,17 @@
                 class="form-control form-input"
                 formControlName="confirmPassword"
                 (input)="matchPassword()"
-                [ngClass]="{
-                  'border-danger': isFieldValid('confirmPassword')
-                }"
+                [ngClass]="
+                  confirmPasswordError || isFieldValid('confirmPassword')
+                    ? 'border-danger'
+                    : ''
+                "
               />
               <span
                 class="input-group-text eye-btn"
-                appToggleOnHold
-                (hold)="onHoldChange($event, 'confirmPassword')"
+                (mousedown)="changePasswordFlag(true, 'confirmPassword')"
+                (mouseleave)="changePasswordFlag(false, 'confirmPassword')"
+                (mouseup)="changePasswordFlag(false, 'confirmPassword')"
                 ><i
                   class="bi"
                   [ngClass]="!showConfirmPassword ? 'bi-eye' : 'bi-eye-slash'"
@@ -137,14 +141,14 @@
           }
           <div class="d-flex align-items-center">
             <button
-              class="btn background-primary btn-auth me-1"
+              class="btn btn-register me-1"
               type="submit"
               [disabled]="registerForm.invalid || !passMatched"
             >
               Register
             </button>
             <button
-              class="btn btn-auth btn-sub ms-1"
+              class="btn btn-login ms-1"
               type="button"
               (click)="onLogin()"
             >

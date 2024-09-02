@@ -1,7 +1,11 @@
-@import "../../../../styles.scss";
+@import "../../../../../public/styles/variables.scss";
+@import "../../../../../public/styles/mixins.scss";
 
+.btn {
+  @include btn-base;
+}
 .btn-submit {
-  color: $white--color !important;
+  color: $white;
 }
 .btn-cancel {
   border-color: #ccc;
@@ -19,7 +23,7 @@
 }
 .form-check-wrapper {
   &:hover {
-    background-color: $secondary--color;
+    background-color: $--bg-indigo;
     cursor: pointer;
   }
   .form-check,
@@ -28,16 +32,39 @@
     cursor: pointer;
   }
   .form-check-input:checked {
-    border-color: $primary--color;
+    border-color: $indigo;
   }
 }
 .dropdown-menu {
   &:focus {
-    border-color: $primary--color;
+    border-color: $indigo;
   }
 }
 .add-more,
 .cross-btn {
   cursor: pointer !important;
 }
-
+// .form-input {
+//   &:focus {
+//     border-color: $indigo;
+//     box-shadow: none;
+//   }
+// }
+// .btn {
+//   height: 2.9rem;
+//   width: 8rem;
+// }
+// .blog-description {
+//   padding: 1.6rem !important;
+//   .tox-tinymce {
+//     border: none !important;
+//   }
+//   .tox .tox-edit-area::before {
+//     border: 0.125rem solid $indigo;
+//     border-radius: 1rem;
+//     padding: 1.6rem;
+//   }
+//   .tox-edit-area {
+//     border-radius: 0.3rem;
+//   }
+// }
