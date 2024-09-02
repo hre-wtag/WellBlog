@@ -35,6 +35,7 @@ export class HeaderComponent {
       this.insideLogin = true;
     }
   }
+
   logout(): void {
     this.authService.removeLoggedInUser();
     this.router.navigate([this.login_route]);

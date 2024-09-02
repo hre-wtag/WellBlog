@@ -27,13 +27,13 @@ export class InputComponent {
   showPassword: boolean = false;
   private validatorService = inject(ValidatorsService);
 
- 
   updateErrorMessages(fControl: FormControl): void {
     this.errorMsg = null;
     if (fControl?.touched && fControl?.errors) {
       this.errorMsg = this.validatorService.getErrorMessages(fControl.errors);
     }
   }
+
   onTouched(fControl: FormControl): void {
     if (fControl) {
       fControl.markAsTouched();
@@ -41,6 +41,7 @@ export class InputComponent {
       this.updateErrorMessages(fControl);
     }
   }
+
   changePasswordFlag(flag: boolean): void {
     this.showPassword = flag;
   }
