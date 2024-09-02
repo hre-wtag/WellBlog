@@ -22,7 +22,8 @@
   border-color: #b3b6bd;
   &:hover {
     background: #eff1f9;
-  } &:active {
+  }
+  &:active {
     background: #e9ecf6;
   }
 }
@@ -49,6 +50,9 @@
   }
   .form-check-input:checked {
     border-color: $indigo;
+  }
+  .form-input:checked {
+    background-color: $indigo;
   }
 }
 .dropdown-menu {
