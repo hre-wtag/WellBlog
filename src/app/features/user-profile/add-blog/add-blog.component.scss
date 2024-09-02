@@ -1,6 +1,12 @@
 @import "../../../../../public/styles/variables.scss";
 @import "../../../../../public/styles/mixins.scss";
 
+.color-primary {
+  @include color-primary;
+}
+.form-control.form-input {
+  @include input-focus;
+}
 .btn {
   @include btn-base;
 }
@@ -42,7 +48,7 @@
 }
 .add-more,
 .cross-btn {
-  cursor: pointer !important;
+  cursor: pointer ;
 }
 // .form-input {
 //   &:focus {
@@ -54,17 +60,17 @@
 //   height: 2.9rem;
 //   width: 8rem;
 // }
-// .blog-description {
-//   padding: 1.6rem !important;
-//   .tox-tinymce {
-//     border: none !important;
-//   }
-//   .tox .tox-edit-area::before {
-//     border: 0.125rem solid $indigo;
-//     border-radius: 1rem;
-//     padding: 1.6rem;
-//   }
-//   .tox-edit-area {
-//     border-radius: 0.3rem;
-//   }
-// }
+.blog-description {
+  padding: 1.6rem !important;
+  .tox-tinymce {
+    border: none !important;
+  }
+  .tox .tox-edit-area::before {
+    border: 0.125rem solid $indigo;
+    border-radius: 1rem;
+    padding: 1.6rem;
+  }
+  .tox-edit-area {
+    border-radius: 0.3rem;
+  }
+}

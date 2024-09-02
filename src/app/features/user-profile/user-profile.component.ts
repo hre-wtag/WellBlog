@@ -23,7 +23,7 @@ import { TooltipDirective } from '../../shared/Directives/tooltip.directive';
   styleUrl: './user-profile.component.scss',
 })
 export class UserProfileComponent implements OnInit {
-  clickedAddBlog: boolean = false;
+  clickedAddBlog: boolean = true;
   blogService = inject(BlogService);
   authService = inject(AuthService);
   blogList$: Observable<Blog[]> | null = null;
