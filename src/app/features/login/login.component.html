@@ -1,1 +1,51 @@
-<p>login works!</p>
+<app-header />
+
+<div id="login-container" class="row m-0 p-4">
+  <div class="col-12">
+    <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+      <div class="row">
+        <div
+          class="col-md-5 border mx-auto p-3 rounded"
+          [ngClass]="
+            loginError ? 'border-danger bg-danger bg-opacity-10' : ' bg-light'
+          "
+        >
+          <h3 class="text-center color-primary">Login</h3>
+          <app-input
+            [fieldlabel]="'Username'"
+            [fieldName]="'username'"
+            [fieldType]="'text'"
+            [fControl]="getFormControl(loginForm, 'username')"
+          />
+          <app-input
+            [fieldlabel]="'Password'"
+            [fieldName]="'password'"
+            [fieldType]="'password'"
+            [fControl]="getFormControl(loginForm, 'password')"
+          />
+          @if(loginError){
+          <div class="text-danger mb-3">
+            {{ loginError }}
+          </div>
+          }
+          <div class="d-flex align-items-center">
+            <app-button
+              [btnLabel]="'Login'"
+              [btnType]="'submit'"
+              [classes]="'background-primary'"
+              [isDisabled]="loginForm.invalid"
+            />
+            <span class="text-muted fs-3 p-1">|</span>
+            <app-button
+              [btnLabel]="'Register'"
+              [btnType]="'button'"
+              [classes]="'btn-register'"
+              [isDisabled]="false"
+              (clickEvent)="onRegister()"
+            />
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

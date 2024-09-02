@@ -1,32 +1,36 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
-  <div class="container-fluid">
-    <a class="navbar-brand color-primary" [routerLink]="'/'">{{ title }}</a>
-    <button
-      class="navbar-toggler"
-      type="button"
-      data-bs-toggle="collapse"
-      data-bs-target="#navbarSupportedContent"
-      aria-controls="navbarSupportedContent"
-      aria-expanded="false"
-      aria-label="Toggle navigation"
-    >
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <form class="d-flex mx-auto w-25" role="search">
-        <div class="form-control d-flex m-0 p-0">
-          <input
-            class="form-control border-0 m-0"
-            type="search"
-            placeholder="Search"
-            aria-label="Search"
-          />
-          <button class="btn" type="submit">
-            <i class="bi bi-search text-body-secondary"></i>
-          </button>
-        </div>
-      </form>
+<div class="navbar-container">
+  <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+      <a class="navbar-brand color-primary" [routerLink]="'/'">{{ title }}</a>
+      @if(!insideRegister && !insideLogin ){
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <form class="d-flex mx-auto w-25" role="search">
+          <div class="form-control d-flex m-0 p-0">
+            <input
+              class="form-control border-0 m-0"
+              type="search"
+              placeholder="Search"
+              aria-label="Search"
+            />
+            <button class="btn" type="submit">
+              <i class="bi bi-search text-body-secondary"></i>
+            </button>
+          </div>
+        </form>
+      </div>
       <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+        @if(!isLoggedin){
         <li class="nav-item d-flex align-items-center">
           <a
             class="nav-link color-primary"
@@ -43,7 +47,23 @@
             Signup</a
           >
         </li>
+        } @else{
+        <li class="nav-item d-flex align-items-center fs-5">
+          <a class="nav-link d-flex align-items-center justify-content-between">
+            <span>Welcome&nbsp; </span
+            ><span class="color-primary fs-"> {{ userName }}</span>
+          </a>
+          <a
+            class="nav-link d-flex align-items-center mt-1"
+            style="cursor: pointer"
+            aria-current="page"
+            (click)="logout()"
+            ><i class="bi bi-box-arrow-in-left"></i
+          ></a>
+        </li>
+        }
       </ul>
+      }
     </div>
-  </div>
-</nav>
+  </nav>
+</div>

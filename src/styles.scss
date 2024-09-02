@@ -1,17 +1,15 @@
-/* You can add global styles to this file, and also import other style files */
 @import "bootstrap/scss/bootstrap";
 @import "bootstrap-icons/font/bootstrap-icons.scss";
-@import "assets/styles/variables.scss";
+@import "../public/styles/variables.scss";
 
-// global css
-*,
-*::after,
+* *::after,
 *::before {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
   text-decoration: none;
 }
+
 body {
   font: 100% $font-stack;
 }
