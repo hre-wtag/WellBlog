@@ -21,8 +21,6 @@ import {
 import { AuthService } from '../../core/services/auth.service';
 import { PreviousRouteService } from '../../core/services/previous-route.service';
 import { Observable, Subscription, filter, of, switchMap } from 'rxjs';
-import { __values } from 'tslib';
-import { User } from '../../core/interfaces/user';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
@@ -75,7 +73,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
         : ''
     );
   }
-
+ngOnchanges():void{
+  
+}
   logout(): void {
     this.authService.removeLoggedInUser();
     this.router.navigate([this.login_route]);

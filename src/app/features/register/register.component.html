@@ -101,28 +101,13 @@
                 formControlName="confirmPassword"
                 (input)="matchPassword()"
                 [ngClass]="
-                  confirmPasswordError &&
-                  registerForm.get('confirmPassword')?.touched &&
-                  registerForm.get('confirmPassword')?.valid &&
-                  registerForm.get('confirmPassword')?.dirty &&
-                  registerForm.get('password')?.touched &&
-                  registerForm.get('password')?.dirty
+                  confirmPasswordError || isFieldValid('confirmPassword')
                     ? 'border-danger'
                     : ''
                 "
               />
               <span
                 class="input-group-text eye-btn"
-                [ngClass]="
-                  confirmPasswordError &&
-                  registerForm.get('confirmPassword')?.touched &&
-                  registerForm.get('confirmPassword')?.valid &&
-                  registerForm.get('confirmPassword')?.dirty &&
-                  registerForm.get('password')?.touched &&
-                  registerForm.get('password')?.dirty
-                    ? 'border-danger'
-                    : ''
-                "
                 (mousedown)="changePasswordFlag(true, 'confirmPassword')"
                 (mouseleave)="changePasswordFlag(false, 'confirmPassword')"
                 (mouseup)="changePasswordFlag(false, 'confirmPassword')"
