@@ -25,11 +25,16 @@ export class PreviousRouteService {
           (event): event is NavigationStart => event instanceof NavigationStart
         )
       )
-      .subscribe((event: NavigationStart) => {
-        this.currURL = event.url;
-        localStorage.setItem('prevURL', this.prevURL);
-        localStorage.setItem('currURL', this.currURL);
-        this.prevURL = this.currURL;
+      .subscribe({
+        next: (event: NavigationStart) => {
+          this.currURL = event.url;
+          localStorage.setItem('prevURL', this.prevURL);
+          localStorage.setItem('currURL', this.currURL);
+          this.prevURL = this.currURL;
+        },
+        error: (error: Error) => {
+          console.error('Error fetching path:', error);
+        },
       });
   }
 

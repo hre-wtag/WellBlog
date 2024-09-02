@@ -45,9 +45,8 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const userSubcription = this.sub
-      .pipe(debounceTime(500))
-      .subscribe((user: AuthUser) => {
+    const userSubcription = this.sub.pipe(debounceTime(500)).subscribe({
+      next: (user: AuthUser) => {
         const loginStatus = this.authService.authenticateUser(user);
         if (loginStatus === true) {
           this.toasterService.success('success!', 'Login successful.');
@@ -64,7 +63,11 @@ export class LoginComponent implements OnInit {
             this.toasterService.clear();
           }, 3000);
         }
-      });
+      },
+      error: (err: Error) => {
+        console.error(err);
+      },
+    });
     this.destroyRef.onDestroy(() => userSubcription.unsubscribe());
   }
 

@@ -18,11 +18,14 @@ export class UserInfoComponent implements OnInit, OnDestroy {
   userSubcription: Subscription | null = null;
   constructor(private authService: AuthService) {}
   ngOnInit(): void {
-    this.userSubcription = this.authService.user$.subscribe(
-      (user: User | null) => {
+    this.userSubcription = this.authService.user$.subscribe({
+      next: (user: User | null) => {
         this.userInfo = user;
-      }
-    );
+      },
+      error: (err: Error) => {
+        console.error(err);
+      },
+    });
   }
   ngOnDestroy(): void {
     this.userSubcription?.unsubscribe;
