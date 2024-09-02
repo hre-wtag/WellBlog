@@ -1,0 +1,66 @@
+<div class="card container bg-light px-3 py-4 my-2">
+  @if(userInfo){
+  <div class="row g-0 text-center">
+    <div class="col-lg-6 mx-auto">
+      <div
+        class="card-header bg-transparent border-0 d-flex align-items-center justify-content-center text-start"
+      >
+        <div>
+          <img
+            class="user-photo"
+            [src]="
+              userInfo.profileImagePath
+                ? userInfo.profileImagePath.split('public')[1]
+                : default_profile_photo
+            "
+            [alt]="userInfo.firstName"
+          />
+        </div>
+        <div class="card-titles p-2">
+          <h5 class="card-title">
+            {{ userInfo.firstName }}
+            {{ userInfo.lastName }}
+          </h5>
+          <h6 class="card-subtitle mb-1 text-body-secondary">
+            {{
+              userInfo.subtitle ? userInfo.subtitle : "Collaborator & Editor "
+            }}
+          </h6>
+          <h6 class="card-subtitle mb-1 text-body-secondary">
+            Joined on
+            {{ userInfo.joiningDate | date : "MMMM d, y" }}
+          </h6>
+        </div>
+      </div>
+      <div class="card-body p-0 m-0">
+        <p class="card-text">
+          {{
+            userInfo.about
+              ? userInfo.about
+              : "Meet Chandler Bing, a passionate writer and blogger with a love for technology and travel. Jonathan holds a degree in Computer Science and has spent years working in the tech industry, gaining a deep understanding of the impact technology has on our lives."
+          }}
+        </p>
+      </div>
+      <div class="card-footer bg-transparent border-0 my-4">
+        <a
+          href="https://www.facebook.com/chandlerbingssarcasm/"
+          class="card-link rounded bg-secondary text-white"
+          ><i class="bi bi-facebook"></i></a
+        ><a
+          href="https://www.facebook.com/chandlerbingssarcasm/"
+          class="card-link rounded bg-secondary text-white"
+          ><i class="bi bi-twitter"></i></a
+        ><a
+          href="https://www.facebook.com/chandlerbingssarcasm/"
+          class="card-link rounded bg-secondary text-white"
+          ><i class="bi bi-instagram"></i></a
+        ><a
+          href="https://www.facebook.com/chandlerbingssarcasm/"
+          class="card-link rounded bg-secondary text-white"
+          ><i class="bi bi-youtube"></i
+        ></a>
+      </div>
+    </div>
+  </div>
+  }
+</div>

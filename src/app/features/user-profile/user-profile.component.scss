@@ -1,0 +1,9 @@
+@import "../../../styles.scss";
+
+.edit-button {
+  cursor: pointer;
+    &:hover {
+      color:$indigo;
+    }
+  
+}

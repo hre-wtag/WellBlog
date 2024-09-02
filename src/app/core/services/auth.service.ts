@@ -1,11 +1,14 @@
 import { Injectable } from '@angular/core';
 import { User } from '../interfaces/user';
 import { AuthUser } from '../interfaces/authUser';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
+  user$ = new BehaviorSubject<User | null>(null);
+
   registerUser(user: User): void {
     localStorage.setItem('registeredUser', JSON.stringify(user));
   }
@@ -29,19 +32,25 @@ export class AuthService {
 
   setLoggedInUser(user: User): void {
     localStorage.setItem('loggedInUser', JSON.stringify(user));
+    this.user$.next(user);
   }
-
-  getLoggedInUser(): User | null {
-    const loggedInUserString = localStorage.getItem('loggedInUser');
-    return loggedInUserString ? JSON.parse(loggedInUserString) : null;
-  }
-
   isLoggedIn(): boolean {
     const loggedInUserString = localStorage.getItem('loggedInUser');
+    try {
+      if (loggedInUserString) {
+        const user = JSON.parse(loggedInUserString);
+        this.user$.next(user);
+      } else {
+        this.user$.next(null);
+      }
+    } catch (error) {
+      console.error('Error parsing loggedInUserString:', error);
+    }
     return loggedInUserString ? true : false;
   }
 
   removeLoggedInUser(): void {
+    this.user$.next(null);
     localStorage.removeItem('loggedInUser');
   }
 }

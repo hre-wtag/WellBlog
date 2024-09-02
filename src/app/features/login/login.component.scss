@@ -1,5 +1,20 @@
-@import "../../../../public/styles/variables.scss";
+@import "../../../../public/styles/mixins.scss";
 
 .color-primary {
-  color: $indigo;
+  @include color-primary;
+}
+.btn {
+  @include btn-base;
+}
+.btn.btn-login {
+  @include btn-primary;
+}
+.btn.btn-register {
+  @include btn-outline-primary;
+}
+.form-control.form-input {
+  @include input-focus;
+}
+.input-group .eye-btn {
+  @include eye-btn-style;
 }

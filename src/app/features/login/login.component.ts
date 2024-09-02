@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, DestroyRef, OnInit, inject } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -6,70 +6,94 @@ import {
   Validators,
 } from '@angular/forms';
 import { AuthUser } from '../../core/interfaces/authUser';
-import { ValidatorsService } from '../../core/services/validators.service';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
-import { HOME_ROUTE, REGISTER_ROUTE } from '../../core/utils/constants';
+import { HOME_ROUTE, REGISTER_ROUTE, SLASH } from '../../core/utils/constants';
 import { AuthService } from '../../core/services/auth.service';
-import { HeaderComponent } from '../../shared/header/header.component';
 import { ToggleOnHoldDirective } from '../../shared/Directives/toggle-on-hold.directive';
-import { ButtonComponent } from '../../shared/button/button.component';
-import { InputComponent } from '../../shared/input/input.component';
+import { ToasterService } from '../../core/services/toaster.service';
+import { Subject, debounceTime } from 'rxjs';
 @Component({
   selector: 'app-login',
   standalone: true,
   imports: [
     ReactiveFormsModule,
     CommonModule,
-    HeaderComponent,
     RouterLink,
     ToggleOnHoldDirective,
-    ButtonComponent,
-    InputComponent,
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   loginForm: FormGroup;
-  loginError: string | null = null;
-  home_route: string = HOME_ROUTE;
-  register_route: string = REGISTER_ROUTE;
-  private validatorService = inject(ValidatorsService);
+  home_route: string = SLASH + HOME_ROUTE;
+  register_route: string = SLASH + REGISTER_ROUTE;
+  showPassword: boolean | Event = false;
+  loginError: boolean = false;
   private router = inject(Router);
   private authService = inject(AuthService);
+  private toasterService = inject(ToasterService);
+  private sub = new Subject<AuthUser>();
+  private destroyRef = inject(DestroyRef);
+
   constructor() {
     this.loginForm = new FormGroup({
-      username: new FormControl('', [
-        Validators.required,
-        this.validatorService.noSpacesValidator(),
-        Validators.minLength(3),
-        Validators.maxLength(15),
-      ]),
-      password: new FormControl('', [
-        Validators.required,
-        this.validatorService.noSpacesValidator(),
-      ]),
+      username: new FormControl('', Validators.required),
+      password: new FormControl('', Validators.required),
     });
   }
-  getFormControl = (formGroup: FormGroup, formControlName: string) => {
-    return formGroup.get(formControlName) as FormControl;
-  };
+
+  ngOnInit(): void {
+    const userSubcription = this.sub.pipe(debounceTime(500)).subscribe({
+      next: (user: AuthUser) => {
+        const loginStatus = this.authService.authenticateUser(user);
+        if (loginStatus === true) {
+          this.toasterService.success('success!', 'Login successful.');
+          setTimeout(() => {
+            this.toasterService.clear();
+          }, 3000);
+          this.router.navigate([this.home_route]);
+        } else {
+          this.toasterService.error(
+            'Error!',
+            'Incorrect username or password!'
+          );
+          setTimeout(() => {
+            this.toasterService.clear();
+          }, 3000);
+        }
+      },
+      error: (err: Error) => {
+        console.error(err);
+      },
+    });
+    this.destroyRef.onDestroy(() => userSubcription.unsubscribe());
+  }
+
+  isFieldValid(fieldname: string): boolean {
+    if (
+      !this.loginForm.get(fieldname)?.valid &&
+      this.loginForm.get(fieldname)?.touched
+    ) {
+      return true;
+    }
+    return false;
+  }
 
   onRegister(): void {
     this.router.navigate([this.register_route]);
   }
+
   onLogin(): void {
     if (this.loginForm.invalid) {
       return;
     }
     const user: AuthUser = this.loginForm.value;
-    const loginStatus = this.authService.authenticateUser(user);
-    if (loginStatus === true) {
-      this.router.navigate([this.home_route]);
-      this.loginError = null;
-    } else {
-      this.loginError = 'Incorrect username or password.';
-    }
+    this.sub.next(user);
+  }
+
+  changePasswordFlag(flag: boolean): void {
+    this.showPassword = flag;
   }
 }

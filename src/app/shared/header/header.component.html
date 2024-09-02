@@ -2,7 +2,7 @@
   <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
       <a class="navbar-brand color-primary" [routerLink]="'/'">{{ title }}</a>
-      @if(!insideRegister && !insideLogin ){
+      @if(currentPage !== register_route && currentPage !== login_route ){
       <button
         class="navbar-toggler"
         type="button"
@@ -14,6 +14,7 @@
       >
         <span class="navbar-toggler-icon"></span>
       </button>
+      @if(currentPage !== profile_route ){
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <form class="d-flex mx-auto w-25" role="search">
           <div class="form-control d-flex m-0 p-0">
@@ -29,6 +30,7 @@
           </div>
         </form>
       </div>
+      }
       <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
         @if(!isLoggedin){
         <li class="nav-item d-flex align-items-center">
@@ -51,7 +53,9 @@
         <li class="nav-item d-flex align-items-center fs-5">
           <a class="nav-link d-flex align-items-center justify-content-between">
             <span>Welcome&nbsp; </span
-            ><span class="color-primary fs-"> {{ userName }}</span>
+            ><span class="username-span color-primary" [routerLink]="profile_route">
+              {{ userName }}</span
+            >
           </a>
           <a
             class="nav-link d-flex align-items-center mt-1"

@@ -14,11 +14,10 @@ import {
   EMAIL_REGEX,
   LOGIN_ROUTE,
   PASSWORD_REGEX,
+  SLASH,
 } from '../../core/utils/constants';
-import { HeaderComponent } from '../../shared/header/header.component';
 import { ToggleOnHoldDirective } from '../../shared/Directives/toggle-on-hold.directive';
-import { ButtonComponent } from '../../shared/button/button.component';
-import { InputComponent } from '../../shared/input/input.component';
+import { ToasterService } from '../../core/services/toaster.service';
 
 @Component({
   selector: 'app-register',
@@ -26,19 +25,18 @@ import { InputComponent } from '../../shared/input/input.component';
   imports: [
     ReactiveFormsModule,
     CommonModule,
-    HeaderComponent,
     RouterLink,
     ToggleOnHoldDirective,
-    ButtonComponent,
-    InputComponent,
   ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss',
 })
 export class RegisterComponent {
   registerForm: FormGroup;
+  showPassword: boolean | Event = false;
+  showConfirmPassword: boolean | Event = false;
   confirmPasswordError: string | null = null;
-  login_route: string = LOGIN_ROUTE;
+  login_route: string = SLASH + LOGIN_ROUTE;
   passwordField: boolean | Event = false;
   confirmPasswordField: boolean | Event = false;
   activeField: string = '';
@@ -46,15 +44,16 @@ export class RegisterComponent {
   private validatorService = inject(ValidatorsService);
   private router = inject(Router);
   private authService = inject(AuthService);
+  private toasterService = inject(ToasterService);
   constructor() {
     this.registerForm = new FormGroup({
-      firstname: new FormControl('', [
+      firstName: new FormControl('', [
         Validators.required,
         this.validatorService.noSpacesValidator(),
         Validators.minLength(3),
         Validators.maxLength(15),
       ]),
-      lastname: new FormControl('', [
+      lastName: new FormControl('', [
         Validators.required,
         this.validatorService.noSpacesValidator(),
         Validators.minLength(3),
@@ -81,30 +80,39 @@ export class RegisterComponent {
     });
   }
 
-  onHoldChange(event: Event | boolean, activeField: string): void {
-    this.activeField = activeField;
-    if (this.activeField === 'password') {
-      this.passwordField = event;
-    } else if (this.activeField === 'confirmPassword') {
-      this.confirmPasswordField = event;
-    } else {
-      this.activeField = '';
-    }
-  }
   onLogin(): void {
     this.router.navigate([this.login_route]);
   }
   onRegister(): void {
     if (this.registerForm.valid && this.passMatched) {
-      const user: User = this.registerForm.value;
+      const user: User = { ...this.registerForm.value, joiningDate: Date() };
       this.authService.registerUser(user);
       this.router.navigate([this.login_route]);
+      this.toasterService.success('Success!', 'Registration successful!');
+      setTimeout(() => {
+        this.toasterService.clear();
+      }, 4000);
     }
   }
-
+  isFieldValid(fieldname: string): boolean {
+    if (
+      !this.registerForm.get(fieldname)?.valid &&
+      this.registerForm.get(fieldname)?.touched
+    ) {
+      return true;
+    }
+    return false;
+  }
   getFormControl = (formGroup: FormGroup, formControlName: string) => {
     return formGroup.get(formControlName) as FormControl;
   };
+  updateErrorMessages(fControlName: string): string | null {
+    let fControl = this.registerForm.get(fControlName);
+    if (fControl?.touched && fControl?.errors) {
+      return this.validatorService.getErrorMessages(fControl.errors);
+    }
+    return null;
+  }
 
   matchPassword(): void {
     if (
@@ -116,6 +124,17 @@ export class RegisterComponent {
     } else {
       this.passMatched = true;
       this.confirmPasswordError = null;
+    }
+  }
+
+  changePasswordFlag(
+    flag: boolean,
+    field: 'password' | 'confirmPassword'
+  ): void {
+    if (field === 'password') {
+      this.showPassword = flag;
+    } else if (field === 'confirmPassword') {
+      this.showConfirmPassword = flag;
     }
   }
 }
