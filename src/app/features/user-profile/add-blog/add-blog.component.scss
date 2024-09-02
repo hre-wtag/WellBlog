@@ -9,15 +9,25 @@
 }
 .btn {
   @include btn-base;
+  border-radius: 0.25rem;
 }
-.btn-submit {
+.btn.btn-submit {
   color: $white;
+  background: #49a4cb;
+  &not:active {
+    border-color: #49a4cb;
+  }
 }
-.btn-cancel {
-  border-color: #ccc;
+.btn.btn-cancel {
+  border-color: #b3b6bd;
+  &:hover {
+    background: #eff1f9;
+  } &:active {
+    background: #e9ecf6;
+  }
 }
 .banner-image {
-  border: 0.063rem dashed #ccc;
+  border: 0.063rem dashed #cccccc;
   height: 17rem;
   width: 100%;
   .image-label {
@@ -48,29 +58,5 @@
 }
 .add-more,
 .cross-btn {
-  cursor: pointer ;
-}
-// .form-input {
-//   &:focus {
-//     border-color: $indigo;
-//     box-shadow: none;
-//   }
-// }
-// .btn {
-//   height: 2.9rem;
-//   width: 8rem;
-// }
-.blog-description {
-  padding: 1.6rem !important;
-  .tox-tinymce {
-    border: none !important;
-  }
-  .tox .tox-edit-area::before {
-    border: 0.125rem solid $indigo;
-    border-radius: 1rem;
-    padding: 1.6rem;
-  }
-  .tox-edit-area {
-    border-radius: 0.3rem;
-  }
+  cursor: pointer;
 }
