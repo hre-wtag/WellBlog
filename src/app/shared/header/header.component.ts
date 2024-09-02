@@ -22,6 +22,7 @@ import { AuthService } from '../../core/services/auth.service';
 import { PreviousRouteService } from '../../core/services/previous-route.service';
 import { Observable, Subscription, filter, of, switchMap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { User } from '../../core/interfaces/user';
 
 @Component({
   selector: 'app-header',
@@ -48,9 +49,19 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.isLoggedin = this.authService.isLoggedIn();
-    this.userSubcription = this.authService.user$.subscribe(
-      
-    );
+    this.userSubcription = this.authService.user$.subscribe({
+      next: (user: User | null) => {
+        if (user) {
+          this.isLoggedin = true;
+          this.userName = user?.username;
+        } else {
+          this.isLoggedin = false;
+        }
+      },
+      error: (err: Error) => {
+        console.error(err);
+      },
+    });
     this.router.events
       .pipe(
         takeUntilDestroyed(this.destroyRef),
@@ -73,9 +84,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         : ''
     );
   }
-ngOnchanges():void{
-  
-}
+  ngOnchanges(): void {}
   logout(): void {
     this.authService.removeLoggedInUser();
     this.router.navigate([this.login_route]);
