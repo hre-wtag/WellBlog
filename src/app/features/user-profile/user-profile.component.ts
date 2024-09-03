@@ -23,12 +23,15 @@ import { TooltipDirective } from '../../shared/Directives/tooltip.directive';
   styleUrl: './user-profile.component.scss',
 })
 export class UserProfileComponent implements OnInit {
-  clickedAddBlog: boolean = false;
-  blogService = inject(BlogService);
-  authService = inject(AuthService);
   blogList$: Observable<Blog[]> | null = null;
+  clickedAddBlog: boolean = false;
   hasBlogs: boolean = false;
   showTooltip: boolean = false;
+  addBlogTooltip: boolean = false;
+  editProfileTooltip: boolean = false;
+
+  blogService = inject(BlogService);
+  authService = inject(AuthService);
 
   ngOnInit(): void {
     this.blogList$ = this.blogService.blogs$.asObservable().pipe(
@@ -53,7 +56,19 @@ export class UserProfileComponent implements OnInit {
       })
     );
   }
+
   handleAddFormSubmitted(formSubmitted: boolean): void {
     this.clickedAddBlog = formSubmitted;
+  }
+
+  changeTooltipFlag(flag: boolean, src: string): void {
+    this.addBlogTooltip = false;
+    this.editProfileTooltip = false;
+    if (src === 'add-blog') {
+      this.addBlogTooltip = flag;
+    }
+    if (src === 'edit-profile') {
+      this.editProfileTooltip = flag;
+    }
   }
 }

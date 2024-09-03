@@ -6,6 +6,9 @@
         appTooltip
         tooltipText="Add Blog"
         tooltipPosition="top"
+        [showTooltip]="addBlogTooltip"
+        (mouseleave)="changeTooltipFlag(false, 'add-blog')"
+        (mouseenter)="changeTooltipFlag(true, 'add-blog')"
       ></i
     ></span>
     <span class="edit-button ms-2"
@@ -14,6 +17,9 @@
         appTooltip
         tooltipText="Edit Profile"
         tooltipPosition="right"
+        [showTooltip]="editProfileTooltip"
+        (mouseleave)="changeTooltipFlag(false, 'edit-profile')"
+        (mouseenter)="changeTooltipFlag(true, 'edit-profile')"
       ></i
     ></span>
   </div>

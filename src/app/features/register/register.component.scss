@@ -1,0 +1,20 @@
+@import "../../../../public/styles/mixins.scss";
+
+.color-primary {
+  @include color-primary;
+}
+.btn {
+  @include btn-base;
+}
+.btn.btn-login {
+  @include btn-outline-primary;
+}
+.btn.btn-register {
+  @include btn-primary;
+}
+.form-control.form-input {
+  @include input-focus;
+}
+.input-group .eye-btn {
+  @include eye-btn-style;
+}
