@@ -54,12 +54,15 @@
           <a class="nav-link d-flex align-items-center justify-content-between">
             <span>Welcome&nbsp; </span
             ><span
-              class="color-primary"
-              style="cursor: pointer"
+              class="username-span color-primary"
+              [routerLink]="profile_route"
               appTooltip
               tooltipText="Profile"
               tooltipPosition="bottom"
-              [routerLink]="profile_route"
+              [isSticked]="true"
+              [showTooltip]="usernameTooltip"
+              (mouseleave)="changeTooltipFlag(false, 'username')"
+              (mouseenter)="changeTooltipFlag(true, 'username')"
             >
               {{ userName }}</span
             >
@@ -69,11 +72,15 @@
             style="cursor: pointer"
             aria-current="page"
             (click)="logout()"
+            (mouseleave)="changeTooltipFlag(false, 'logout')"
+            (mouseenter)="changeTooltipFlag(true, 'logout')"
             ><i
               class="bi bi-box-arrow-in-left"
               appTooltip
               tooltipText="Logout"
               tooltipPosition="left"
+              [isSticked]="true"
+              [showTooltip]="loginTooltip"
             ></i
           ></a>
         </li>

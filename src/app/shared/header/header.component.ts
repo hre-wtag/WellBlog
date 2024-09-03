@@ -37,10 +37,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
   login_route: string = SLASH + LOGIN_ROUTE;
   register_route: string = SLASH + REGISTER_ROUTE;
   profile_route: string = SLASH + PROFILE_ROUTE;
+  currentPage: string = '';
   isLoggedin: boolean = false;
   showTooltip: boolean = false;
+  usernameTooltip: boolean = false;
+  loginTooltip: boolean = false;
   userName: string | undefined = undefined;
-  currentPage: string = '';
   userSubcription: Subscription | null = null;
 
   private prevRouteService = inject(PreviousRouteService);
@@ -87,8 +89,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
         : ''
     );
   }
-
-  ngOnchanges(): void {}
   logout(): void {
     this.authService.removeLoggedInUser();
     this.router.navigate([this.login_route]);
@@ -96,5 +96,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.userSubcription?.unsubscribe();
+  }
+
+  changeTooltipFlag(flag: boolean, src: string): void {
+    this.loginTooltip = false;
+    this.usernameTooltip = false;
+    if (src === 'username') {
+      this.usernameTooltip = flag;
+    }
+    if (src === 'logout') {
+      this.loginTooltip = flag;
+    }
   }
 }

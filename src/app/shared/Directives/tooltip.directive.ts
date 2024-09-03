@@ -4,6 +4,9 @@ import {
   ElementRef,
   inject,
   Input,
+  OnChanges,
+  Renderer2,
+  SimpleChanges,
   ViewContainerRef,
 } from '@angular/core';
 import { TooltipComponent } from '../tooltip/tooltip.component';
@@ -12,34 +15,30 @@ import { TooltipComponent } from '../tooltip/tooltip.component';
   selector: '[appTooltip]',
   standalone: true,
 })
-export class TooltipDirective {
+export class TooltipDirective implements OnChanges {
+  @Input() isSticked: boolean = false;
+  @Input() showTooltip!: boolean;
   @Input() tooltipText!: string;
+
   @Input() tooltipPosition!: 'top' | 'right' | 'bottom' | 'left';
   offset: number = 7;
 
   private tooltipComponentRef: ComponentRef<TooltipComponent> | null = null;
   private elementRef = inject(ElementRef);
   private viewContainerRef = inject(ViewContainerRef);
-  ngOnInit() {
-    this.elementRef.nativeElement.addEventListener(
-      'mouseenter',
-      this.showTooltip.bind(this)
-    );
-    this.elementRef.nativeElement.addEventListener(
-      'mouseleave',
-      this.hideTooltip.bind(this)
-    );
+  private renderer = inject(Renderer2);
+
+  private scrollUnlistenFn: (() => void) | null = null;
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['showTooltip']) {
+      console.log(this.showTooltip, 'show tooltip');
+      if (this.showTooltip) this.createTooltip();
+      else this.destroyTooltip();
+    }
   }
 
   ngOnDestroy() {
-    this.destroyTooltip();
-  }
-
-  private showTooltip() {
-    this.createTooltip();
-  }
-
-  private hideTooltip() {
     this.destroyTooltip();
   }
 
@@ -56,6 +55,9 @@ export class TooltipDirective {
 
     this.tooltipComponentRef.changeDetectorRef.detectChanges();
     this.tooltipComponentRef.hostView.detectChanges();
+    this.scrollUnlistenFn = this.renderer.listen('window', 'scroll', () =>
+      this.destroyTooltip()
+    );
   }
 
   setTooltipPosition(size: { width: number; height: number }) {
@@ -64,11 +66,15 @@ export class TooltipDirective {
     const tooltipElement = this.tooltipComponentRef?.location.nativeElement;
     const tooltipRect = size;
     let top, left;
-    const scrollPos =
-      window.scrollY ||
-      document.documentElement.scrollTop ||
-      document.body.scrollTop ||
-      0;
+    let scrollPos;
+    if (this.isSticked) scrollPos = 0;
+    else {
+      scrollPos =
+        window.scrollY ||
+        document.documentElement.scrollTop ||
+        document.body.scrollTop ||
+        0;
+    }
     if (this.tooltipPosition === 'top') {
       top = targetRect.top - tooltipRect.height - this.offset;
       left = targetRect.left + (targetRect.width - tooltipRect.width) / 2;
@@ -91,18 +97,15 @@ export class TooltipDirective {
     this.tooltipComponentRef.instance.left = left / 16;
     this.tooltipComponentRef.instance.top = (top + scrollPos) / 16;
   }
+
   destroyTooltip(): void {
     if (this.tooltipComponentRef) {
       this.tooltipComponentRef.destroy();
       this.tooltipComponentRef = null;
     }
-    this.elementRef.nativeElement.removeEventListener(
-      'mouseenter',
-      this.showTooltip.bind(this)
-    );
-    this.elementRef.nativeElement.removeEventListener(
-      'mouseleave',
-      this.hideTooltip.bind(this)
-    );
+    if (this.scrollUnlistenFn) {
+      this.scrollUnlistenFn();
+      this.scrollUnlistenFn = null;
+    }
   }
 }
