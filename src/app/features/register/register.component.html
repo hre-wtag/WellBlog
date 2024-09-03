@@ -107,7 +107,13 @@
                 formControlName="confirmPassword"
                 (input)="matchPassword()"
                 [ngClass]="
-                  confirmPasswordError || isFieldValid('confirmPassword')
+                  (confirmPasswordError &&
+                    registerForm.get('confirmPassword')?.touched &&
+                    registerForm.get('confirmPassword')?.valid &&
+                    registerForm.get('confirmPassword')?.dirty &&
+                    registerForm.get('password')?.touched &&
+                    registerForm.get('password')?.dirty) ||
+                  isFieldValid('confirmPassword')
                     ? 'border-danger'
                     : ''
                 "
