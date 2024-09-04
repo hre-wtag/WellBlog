@@ -4,6 +4,9 @@ import {
   ElementRef,
   inject,
   Input,
+  OnChanges,
+  Renderer2,
+  SimpleChanges,
   ViewContainerRef,
 } from '@angular/core';
 import { TooltipComponent } from '../tooltip/tooltip.component';
@@ -12,7 +15,9 @@ import { TooltipComponent } from '../tooltip/tooltip.component';
   selector: '[appTooltip]',
   standalone: true,
 })
-export class TooltipDirective {
+export class TooltipDirective implements OnChanges {
+  @Input() isSticked: boolean = false;
+  @Input() showTooltip: boolean = false;
   @Input() tooltipText!: string;
   @Input() tooltipPosition!: 'top' | 'right' | 'bottom' | 'left';
   offset: number = 7;
@@ -20,30 +25,25 @@ export class TooltipDirective {
   private tooltipComponentRef: ComponentRef<TooltipComponent> | null = null;
   private elementRef = inject(ElementRef);
   private viewContainerRef = inject(ViewContainerRef);
-  ngOnInit() {
-    this.elementRef.nativeElement.addEventListener(
-      'mouseenter',
-      this.showTooltip.bind(this)
-    );
-    this.elementRef.nativeElement.addEventListener(
-      'mouseleave',
-      this.hideTooltip.bind(this)
-    );
+  private renderer = inject(Renderer2);
+
+  private scrollUnlistenFn: (() => void) | null = null;
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['showTooltip']) {
+      if (this.showTooltip) {
+        this.createTooltip();
+      } else {
+        this.destroyTooltip();
+      }
+    }
   }
 
   ngOnDestroy() {
     this.destroyTooltip();
   }
 
-  private showTooltip() {
-    this.createTooltip();
-  }
-
-  private hideTooltip() {
-    this.destroyTooltip();
-  }
-
-  createTooltip(): void {
+  private createTooltip(): void {
     if (this.tooltipComponentRef) return;
     this.tooltipComponentRef =
       this.viewContainerRef.createComponent(TooltipComponent);
@@ -56,53 +56,69 @@ export class TooltipDirective {
 
     this.tooltipComponentRef.changeDetectorRef.detectChanges();
     this.tooltipComponentRef.hostView.detectChanges();
+
+    this.scrollUnlistenFn = this.renderer.listen('window', 'scroll', () =>
+      this.destroyTooltip()
+    );
   }
 
-  setTooltipPosition(size: { width: number; height: number }) {
+  private setTooltipPosition(size: { width: number; height: number }) {
     if (!this.tooltipComponentRef) return;
-    const targetRect = this.elementRef.nativeElement.getBoundingClientRect();
-    const tooltipElement = this.tooltipComponentRef?.location.nativeElement;
+    const targetElement = this.elementRef.nativeElement;
+    const targetPos = this.getActualViewportPosition(targetElement);
+
     const tooltipRect = size;
-    let top, left;
-    const scrollPos =
-      window.scrollY ||
-      document.documentElement.scrollTop ||
-      document.body.scrollTop ||
-      0;
+    let top: number = 0;
+    let left: number = 0;
+
     if (this.tooltipPosition === 'top') {
-      top = targetRect.top - tooltipRect.height - this.offset;
-      left = targetRect.left + (targetRect.width - tooltipRect.width) / 2;
+      top = targetPos.top - tooltipRect.height - this.offset;
+      left = targetPos.left + (targetPos.width - tooltipRect.width) / 2;
+    } else if (this.tooltipPosition === 'bottom') {
+      top = targetPos.top + targetPos.height + this.offset;
+      left = targetPos.left + (targetPos.width - tooltipRect.width) / 2;
+    } else if (this.tooltipPosition === 'left') {
+      top = targetPos.top + (targetPos.height - tooltipRect.height) / 2;
+      left = targetPos.left - tooltipRect.width - this.offset;
+    } else if (this.tooltipPosition === 'right') {
+      top = targetPos.top + (targetPos.height - tooltipRect.height) / 2;
+      left = targetPos.left + targetPos.width + this.offset;
     }
 
-    if (this.tooltipPosition === 'bottom') {
-      top = targetRect.bottom + this.offset;
-      left = targetRect.left + (targetRect.width - tooltipRect.width) / 2;
-    }
-
-    if (this.tooltipPosition === 'left') {
-      top = targetRect.top + (targetRect.height - tooltipRect.height) / 2;
-      left = targetRect.left - tooltipRect.width - this.offset;
-    }
-
-    if (this.tooltipPosition === 'right') {
-      top = targetRect.top + (targetRect.height - tooltipRect.height) / 2;
-      left = targetRect.right + this.offset;
-    }
     this.tooltipComponentRef.instance.left = left / 16;
-    this.tooltipComponentRef.instance.top = (top + scrollPos) / 16;
+    this.tooltipComponentRef.instance.top = top / 16;
   }
-  destroyTooltip(): void {
+
+  private destroyTooltip(): void {
     if (this.tooltipComponentRef) {
       this.tooltipComponentRef.destroy();
       this.tooltipComponentRef = null;
     }
-    this.elementRef.nativeElement.removeEventListener(
-      'mouseenter',
-      this.showTooltip.bind(this)
-    );
-    this.elementRef.nativeElement.removeEventListener(
-      'mouseleave',
-      this.hideTooltip.bind(this)
-    );
+    if (this.scrollUnlistenFn) {
+      this.scrollUnlistenFn();
+      this.scrollUnlistenFn = null;
+    }
+  }
+
+  private getActualViewportPosition(element: HTMLElement): {
+    left: number;
+    top: number;
+    width: number;
+    height: number;
+  } {
+    const rect = element.getBoundingClientRect();
+
+    // get the offset position from the closest positioned ancestor
+    const offsetParent = element.offsetParent as HTMLElement | null;
+    const offsetParentRect = offsetParent
+      ? offsetParent.getBoundingClientRect()
+      : { left: 0, top: 0 };
+
+    return {
+      left: rect.left - offsetParentRect.left,
+      top: rect.top - offsetParentRect.top,
+      width: rect.width,
+      height: rect.height,
+    };
   }
 }

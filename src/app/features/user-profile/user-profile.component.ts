@@ -18,18 +18,22 @@ import { TooltipDirective } from '../../shared/Directives/tooltip.directive';
     AddBlogComponent,
     BlogCardComponent,
     CommonModule,
-    EditUserComponent,TooltipDirective
+    EditUserComponent,
+    TooltipDirective,
   ],
   templateUrl: './user-profile.component.html',
   styleUrl: './user-profile.component.scss',
 })
 export class UserProfileComponent implements OnInit {
-  clickedBTN: string | null = null;
-  blogService = inject(BlogService);
-  authService = inject(AuthService);
   blogList$: Observable<Blog[]> | null = null;
   hasBlogs: boolean = false;
   showTooltip: boolean = false;
+  addBlogTooltip: boolean = false;
+  editProfileTooltip: boolean = false;
+
+  clickedBTN: string | null = 'add-blog';
+  blogService = inject(BlogService);
+  authService = inject(AuthService);
 
   ngOnInit(): void {
     this.blogList$ = this.blogService.blogs$.asObservable().pipe(
@@ -58,6 +62,7 @@ export class UserProfileComponent implements OnInit {
   clickedHeaderBTN(btn: string): void {
     this.clickedBTN = btn;
   }
+
   handleAddFormSubmitted(formSubmitted: string | null): void {
     this.clickedBTN = formSubmitted;
   }
