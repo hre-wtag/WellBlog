@@ -38,12 +38,18 @@ export class BlogComponent implements OnInit {
   ngOnInit(): void {
     this.loadBlog();
   }
+
   ngAfterViewInit(): void {
+    this.loadDescription();
+  }
+
+  loadDescription(): void {
     if (this.blog) {
       const sanitizedDescription = DOMPurify.sanitize(this.blog.description);
       this.blogDescription.nativeElement.innerHTML = sanitizedDescription;
     }
   }
+
   loadBlog(): void {
     const routeSubscription = this.activatedRoute.paramMap.subscribe({
       next: (paramMap) => {
@@ -60,6 +66,9 @@ export class BlogComponent implements OnInit {
               this.router.navigate(['']);
             } else {
               this.titleService.setTitle(this.blog.title);
+              setTimeout(() => {
+                this.loadDescription();
+              }, 50);
               this.isMyBlog = this.blogService.isMyBlog(this.blog?.bloggerId);
             }
           });

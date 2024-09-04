@@ -38,7 +38,7 @@
             <span class="selected-tag position-relative border m-1 p-1">
               {{
                 selectedTag.length > 10
-                  ? selectedTag.substring(0, 10) + "..."
+                  ? (selectedTag | slice : 0 : 10) + "..."
                   : selectedTag
               }}
               <div
@@ -83,7 +83,7 @@
                 <label class="form-check-label my-1">
                   {{
                     tag.title.length > 15
-                      ? tag.title.substring(0, 15) + "..."
+                      ? (tag.title | slice : 0 : 15) + "..."
                       : tag.title
                   }}
                 </label>

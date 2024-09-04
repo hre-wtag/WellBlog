@@ -31,7 +31,7 @@ export class UserProfileComponent implements OnInit {
   addBlogTooltip: boolean = false;
   editProfileTooltip: boolean = false;
 
-  clickedBTN: string | null = 'add-blog';
+  clickedBTN: string | null = null;
   blogService = inject(BlogService);
   authService = inject(AuthService);
 
