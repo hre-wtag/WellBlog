@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, effect, inject, signal } from '@angular/core';
 import { UserInfoComponent } from './user-info/user-info.component';
 import { AddBlogComponent } from './add-blog/add-blog.component';
 import { BlogCardComponent } from '../blog-card/blog-card.component';
@@ -25,13 +25,19 @@ import { TooltipDirective } from '../../shared/Directives/tooltip.directive';
 export class UserProfileComponent implements OnInit {
   blogList$: Observable<Blog[]> | null = null;
   clickedAddBlog: boolean = false;
-  hasBlogs: boolean = false;
+  hasBlogs = signal(false);
   showTooltip: boolean = false;
   addBlogTooltip: boolean = false;
   editProfileTooltip: boolean = false;
 
   blogService = inject(BlogService);
   authService = inject(AuthService);
+
+  constructor() {
+    effect(() => {
+      this.hasBlogs();
+    });
+  }
 
   ngOnInit(): void {
     this.blogList$ = this.blogService.blogs$.asObservable().pipe(
@@ -47,10 +53,11 @@ export class UserProfileComponent implements OnInit {
                 new Date(b.postingDate).getTime() -
                 new Date(a.postingDate).getTime()
             );
-          this.hasBlogs = filteredBlogs.length > 0;
+
+          this.hasBlogs.set(filteredBlogs.length > 0);
           return filteredBlogs;
         } else {
-          this.hasBlogs = false;
+          this.hasBlogs.set(false);
           return [];
         }
       })

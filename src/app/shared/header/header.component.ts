@@ -91,6 +91,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         : ''
     );
   }
+  
   logout(): void {
     this.authService.removeLoggedInUser();
     this.router.navigate([this.login_route]);

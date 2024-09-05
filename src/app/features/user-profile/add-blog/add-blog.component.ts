@@ -162,6 +162,7 @@ export class AddBlogComponent implements OnInit, OnDestroy {
   onCancel(): void {
     this.clearForm();
   }
+
   clearForm(): void {
     this.addBlogForm.reset();
     for (let i = 0; i < this.tagList.length; i++) {
@@ -172,6 +173,7 @@ export class AddBlogComponent implements OnInit, OnDestroy {
     this.uploadedImage = null;
     this.uploadedImageName = null;
   }
+
   onCheckboxClick(title: string, isChecked: boolean): void {
     const existingTagIndex = this.tagList.findIndex(
       (tag) => tag.title === title
@@ -202,6 +204,7 @@ export class AddBlogComponent implements OnInit, OnDestroy {
       reader.readAsDataURL(imageFile[0]);
     }
   }
+
   dropHandler(ev: DragEvent): void {
     ev.preventDefault();
     if (ev.dataTransfer?.items) {
@@ -243,6 +246,7 @@ export class AddBlogComponent implements OnInit, OnDestroy {
     }
     return null;
   }
+
   dragOver(event: Event) {
     event.preventDefault();
   }

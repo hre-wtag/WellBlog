@@ -3,7 +3,7 @@
   cursor: pointer;
   height: 30.5rem;
   width: 24.5rem;
-  .blog-card-img {
+  &-img {
     height: 15rem;
     width: 22.5rem;
   }
@@ -30,11 +30,12 @@
     .footer-left {
       width: 9.813rem;
     }
+    &-img {
+      height: 2.25rem;
+      width: 2.25rem;
+    }
   }
-  .blog-footer-img {
-    height: 2.25rem;
-    width: 2.25rem;
-  }
+
   .btn-delete {
     i {
       color: #aaaec8;
