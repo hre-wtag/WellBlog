@@ -86,6 +86,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.userSubcription?.unsubscribe();
   }
+
   getPathFromRoute(): Observable<string> {
     return of(
       this.activatedRoute.firstChild?.snapshot?.url[0]

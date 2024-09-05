@@ -43,15 +43,14 @@
           <app-blog-card [blog]="blog" />
         </div>
 
-        }
-      </div>
-      @if(!hasBlogs){
-      <div
-        class="col p-2 bg-opacity-10 bg-danger border border-danger border-opacity-25 rounded"
-      >
-        <h6 class="text-danger">You have not posted anything yet.</h6>
-      </div>
       }
     </div>
+    @if(!hasBlogs()){
+    <div
+      class="col p-2 bg-opacity-10 bg-danger border border-danger border-opacity-25 rounded"
+    >
+      <h6 class="text-danger">You have not posted anything yet.</h6>
+    </div>
+    }
   </div>
 </div>

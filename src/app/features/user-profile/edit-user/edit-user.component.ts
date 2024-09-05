@@ -28,15 +28,18 @@ import { ToasterService } from '../../../core/services/toaster.service';
 })
 export class EditUserComponent implements OnInit {
   @Output() formSubmitted = new EventEmitter<string | null>();
+
   editUserForm: FormGroup;
   userInfo: User | null = null;
+
+  uploadedImageName: string | null = null;
+  uploadedImage: File | null = null;
+  default_profile_photo: string = DEFAULT_PROFILE_PHOTO_SRC;
+
   private sharedService = inject(SharedService);
   private authService = inject(AuthService);
   private toasterService = inject(ToasterService);
   private destroyRef = inject(DestroyRef);
-  uploadedImageName: string | null = null;
-  uploadedImage: File | null = null;
-  default_profile_photo: string = DEFAULT_PROFILE_PHOTO_SRC;
 
   constructor() {
     this.editUserForm = new FormGroup({
@@ -46,6 +49,7 @@ export class EditUserComponent implements OnInit {
       about: new FormControl(''),
     });
   }
+
   ngOnInit(): void {
     const userSubcription = this.authService.user$.subscribe(
       (user: User | null) => {
@@ -94,6 +98,7 @@ export class EditUserComponent implements OnInit {
   dragOver(event: Event) {
     event.preventDefault();
   }
+
   onSubmit(): void {
     if (this.editUserForm.invalid) {
       return;
@@ -107,7 +112,9 @@ export class EditUserComponent implements OnInit {
       about: this.editUserForm.get('about')!.value ?? null,
       profileImage: this.uploadedImage,
     };
+    
     let isUpdated = this.authService.updateUser(updatedUser as User);
+
     if (isUpdated) {
       this.toasterService.success('Success!', 'User update successful.');
       setTimeout(() => {
@@ -116,10 +123,12 @@ export class EditUserComponent implements OnInit {
       this.onCancel();
     }
   }
+
   onCancel(): void {
     this.formSubmitted.emit(null);
     this.clearForm();
   }
+
   clearForm(): void {
     this.editUserForm.reset();
     this.uploadedImage = null;

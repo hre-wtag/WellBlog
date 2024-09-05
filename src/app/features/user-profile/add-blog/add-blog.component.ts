@@ -220,6 +220,7 @@ export class AddBlogComponent implements OnInit, OnDestroy {
     this.formSubmitted.emit(null);
     this.clearForm();
   }
+
   clearForm(): void {
     this.blogForm.reset();
     for (let i = 0; i < this.tagList.length; i++) {

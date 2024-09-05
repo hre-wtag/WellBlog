@@ -9,7 +9,9 @@ export class PreviousRouteService {
   currURL: string = '';
   prevURL: string = '';
   tempURl: string = '';
+
   private router = inject(Router);
+
   constructor() {
     this.tempURl = window.location.href.split('4200')[1];
     this.prevURL = localStorage.getItem('prevURL') || this.tempURl;

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Blog } from '../../core/interfaces/blog';
 import {
   BLOG_ROUTE,
@@ -15,10 +15,22 @@ import { RouterLink } from '@angular/router';
   templateUrl: './blog-card.component.html',
   styleUrl: './blog-card.component.scss',
 })
-export class BlogCardComponent {
+export class BlogCardComponent implements OnInit {
   @Input() blog!: Blog;
+
   default_profile_photo: string = DEFAULT_PROFILE_PHOTO_SRC;
-  blog_route = SLASH + BLOG_ROUTE;
+  blog_route: string = SLASH + BLOG_ROUTE;
+  formattedBlogTitle: string = '';
+
+  ngOnInit(): void {
+    if (this.blog) {
+      this.formattedBlogTitle =
+        this.blog.title.length > 30
+          ? this.blog.title.slice(0, 30) + '...'
+          : this.blog.title;
+    }
+  }
+
   onDelete(id: number): void {
     console.log(id);
   }

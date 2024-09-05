@@ -31,6 +31,7 @@ export class LoginComponent implements OnInit {
   register_route: string = SLASH + REGISTER_ROUTE;
   showPassword: boolean | Event = false;
   loginError: boolean = false;
+  
   private router = inject(Router);
   private authService = inject(AuthService);
   private toasterService = inject(ToasterService);
