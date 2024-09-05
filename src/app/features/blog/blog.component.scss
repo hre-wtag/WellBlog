@@ -1,4 +1,4 @@
-@import "../../../styles.scss";
+@import "../../../../public/styles/variables.scss";
 
 .blog-container {
   width: 50rem;
@@ -7,14 +7,24 @@
   height: 1.7rem;
   width: 1.7rem;
 }
-
 .tag-btn {
-  background-color: $primary--color;
-  border-color: $primary--color;
+  background-color: $indigo;
+  border-color: $indigo;
   height: 1.5rem;
   padding: 0.375rem 0.75rem 0.375rem 0.75rem;
   text-align: center;
   width: 6.313rem;
+
+  &:active {
+    background-color: $indigo-dark;
+  }
+}
+.blog-image {
+  max-height: 28rem;
+  min-width: 45rem;
+}
+.edit-button {
+  cursor: pointer;
 }
 .blog-image-container {
   max-height: 28rem;

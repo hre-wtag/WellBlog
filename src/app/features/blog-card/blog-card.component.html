@@ -21,11 +21,7 @@
         >}
       </div>
       <h4 class="card-title m-1 fw-bold">
-        {{
-          blog.title.length > 50
-            ? (blog.title | slice : 0 : 50) + "..."
-            : blog.title
-        }}
+        {{ formattedBlogTitle }}
       </h4>
     </div>
     <div class="d-flex align-items-center">
@@ -44,7 +40,7 @@
         </div>
         <div class="card-text">
           <small class="text-body-secondary">{{
-            blog.postingDate | date : "MMMM d, yy"
+            blog.postingDate | date : "MMMM d, yyyy"
           }}</small>
         </div>
       </div>

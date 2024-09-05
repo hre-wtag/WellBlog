@@ -1,4 +1,4 @@
-import { Component, inject, Input, OnChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, inject } from '@angular/core';
 import { Blog } from '../../core/interfaces/blog';
 import {
   BLOG_ROUTE,
@@ -18,10 +18,22 @@ import { ToasterService } from '../../core/services/toaster.service';
   templateUrl: './blog-card.component.html',
   styleUrl: './blog-card.component.scss',
 })
-export class BlogCardComponent implements OnChanges {
+export class BlogCardComponent implements OnInit , OnChanges {
   @Input() blog!: Blog;
+
   default_profile_photo: string = DEFAULT_PROFILE_PHOTO_SRC;
   blog_route: string = SLASH + BLOG_ROUTE;
+  formattedBlogTitle: string = '';
+
+  ngOnInit(): void {
+    if (this.blog) {
+      this.formattedBlogTitle =
+        this.blog.title.length > 30
+          ? this.blog.title.slice(0, 30) + '...'
+          : this.blog.title;
+    }
+  }
+
   showDeleteBtn: boolean = false;
   profile_route: string = SLASH + PROFILE_ROUTE;
   private router = inject(Router);
