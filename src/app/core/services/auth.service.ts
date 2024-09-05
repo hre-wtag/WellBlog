@@ -16,11 +16,13 @@ export class AuthService {
     let usersArray = storedUsers ? [...storedUsers, userWithID] : [userWithID];
     localStorage.setItem('registeredUsers', JSON.stringify(usersArray));
   }
+
   getRegisteredUsers(): User[] | null {
     let users: User[];
     const storedUserData = localStorage.getItem('registeredUsers');
     return storedUserData ? JSON.parse(storedUserData) : null;
   }
+
   getLatestUserID(): number {
     let storedUsers = this.getRegisteredUsers();
     if (storedUsers) {
@@ -29,6 +31,7 @@ export class AuthService {
     }
     return 0;
   }
+
   validateUsername(username: string): boolean {
     let storedUsers = this.getRegisteredUsers();
 
@@ -57,6 +60,7 @@ export class AuthService {
     localStorage.setItem('loggedInUser', JSON.stringify(user));
     this.user$.next(user);
   }
+
   isLoggedIn(): boolean {
     const loggedInUserString = localStorage.getItem('loggedInUser');
     try {

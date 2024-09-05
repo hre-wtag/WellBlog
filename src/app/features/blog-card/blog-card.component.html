@@ -12,15 +12,9 @@
       }
     </div>
     <h5 class="card-title mt-1 fw-bold">
-      {{
-        blog.title.length > 30
-          ? (blog.title | slice : 0 : 30) + "..."
-          : blog.title
-      }}
+      {{ formattedBlogTitle }}
     </h5>
-    <div
-      class="blog-footer d-flex align-items-center justify-content-between "
-    >
+    <div class="blog-footer d-flex align-items-center justify-content-between">
       <img
         [src]="
           blog.bloggerImagePath

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Blog } from '../../core/interfaces/blog';
 import { DEFAULT_PROFILE_PHOTO_SRC } from '../../core/utils/constants';
 import { CommonModule } from '@angular/common';
@@ -10,7 +10,15 @@ import { CommonModule } from '@angular/common';
   templateUrl: './blog-card.component.html',
   styleUrl: './blog-card.component.scss',
 })
-export class BlogCardComponent {
+export class BlogCardComponent implements OnInit {
   @Input() blog!: Blog;
+
   default_profile_photo: string = DEFAULT_PROFILE_PHOTO_SRC;
+  formattedBlogTitle: string = '';
+
+  ngOnInit(): void {
+    if (this.blog ) {
+      this.formattedBlogTitle =  this.blog.title.length > 30 ?this.blog.title.slice(0, 30) + '...': this.blog.title;
+    }
+  }
 }

@@ -2,7 +2,7 @@
 .blog-card {
   height: 20.3rem;
   width: 16.3rem;
-  .blog-card-img {
+  &-img {
     height: 10rem;
     width: 15rem;
   }
@@ -18,9 +18,9 @@
   }
   .blog-footer {
     width: 85%;
-  }
-  .blog-footer-img {
-    height: 1.7rem;
-    width: 1.7rem;
+    &-img {
+      height: 1.7rem;
+      width: 1.7rem;
+    }
   }
 }
