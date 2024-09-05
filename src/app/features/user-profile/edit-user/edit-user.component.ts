@@ -31,7 +31,6 @@ export class EditUserComponent implements OnInit {
 
   editUserForm: FormGroup;
   userInfo: User | null = null;
-
   uploadedImageName: string | null = null;
   uploadedImage: File | null = null;
   default_profile_photo: string = DEFAULT_PROFILE_PHOTO_SRC;
@@ -65,10 +64,12 @@ export class EditUserComponent implements OnInit {
     );
     this.destroyRef.onDestroy(() => userSubcription.unsubscribe());
   }
+  
   removeWhiteSpaces(event: Event) {
     const trimmedValue = (event.target as HTMLInputElement).value.trim();
     (event.target as HTMLInputElement).value = trimmedValue;
   }
+  
   handleImageFileChange(event: Event): void {
     event.preventDefault();
     const imageFile = (<HTMLInputElement>event.target)?.files;
