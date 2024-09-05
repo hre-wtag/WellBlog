@@ -73,7 +73,10 @@ export class EditUserComponent implements OnInit {
     event.preventDefault();
     const imageFile = (<HTMLInputElement>event.target)?.files;
     if (imageFile) {
-      this.uploadedImageName = imageFile[0].name;
+      this.uploadedImageName =
+        imageFile[0].name.length > 30
+          ? imageFile[0].name.slice(0, 30) + '...'
+          : imageFile[0].name;
       const reader = new FileReader();
       reader.onload = (e: any) => {
         this.uploadedImage = e.target.result;
@@ -88,7 +91,10 @@ export class EditUserComponent implements OnInit {
     if (imageFile) {
       const reader = new FileReader();
       reader.onload = (e: any) => {
-        this.uploadedImageName = imageFile.name ?? null;
+        this.uploadedImageName =
+          (imageFile.name.length > 30
+            ? imageFile.name.slice(0, 30) + '...'
+            : imageFile.name) ?? null;
         this.uploadedImage = e.target.result;
       };
       reader.readAsDataURL(imageFile as Blob);
@@ -112,7 +118,7 @@ export class EditUserComponent implements OnInit {
       about: this.editUserForm.get('about')!.value ?? null,
       profileImage: this.uploadedImage,
     };
-    
+
     let isUpdated = this.authService.updateUser(updatedUser as User);
 
     if (isUpdated) {

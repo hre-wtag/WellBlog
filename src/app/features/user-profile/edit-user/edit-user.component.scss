@@ -12,10 +12,12 @@
   color: $white;
   background: $indigo;
   &not:active {
-    border-color: #49a4cb;
+    border-color: $indigo;
   }
 }
-
+.color-primary {
+  @include color-primary;
+}
 .btn.btn-cancel {
   padding: 0.25rem;
   border-color: #b3b6bd;

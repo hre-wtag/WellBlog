@@ -61,7 +61,7 @@
       ></div>
     </div>
   </div>
-  } @if(clickedBTN==='edit-blog'){
+  } @else{
   <app-add-blog
     [editedBlog]="blog"
     (formSubmitted)="handleAddFormSubmitted($event)"
