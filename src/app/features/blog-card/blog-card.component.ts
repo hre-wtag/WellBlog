@@ -4,6 +4,7 @@ import {
   inject,
   Input,
   OnChanges,
+  OnInit,
   Output,
 } from '@angular/core';
 import { Blog } from '../../core/interfaces/blog';
@@ -25,12 +26,23 @@ import { ToasterService } from '../../core/services/toaster.service';
   templateUrl: './blog-card.component.html',
   styleUrl: './blog-card.component.scss',
 })
-export class BlogCardComponent implements OnChanges {
+export class BlogCardComponent implements OnInit, OnChanges {
   @Input() blog!: Blog;
-  @Input() filteredTag: string = 'Nature';
+  @Input() filteredTag: string = '';
   @Output() selectedFilterTag = new EventEmitter<string>();
   default_profile_photo: string = DEFAULT_PROFILE_PHOTO_SRC;
   blog_route: string = SLASH + BLOG_ROUTE;
+  formattedBlogTitle: string = '';
+
+  ngOnInit(): void {
+    if (this.blog) {
+      this.formattedBlogTitle =
+        this.blog.title.length > 30
+          ? this.blog.title.slice(0, 30) + '...'
+          : this.blog.title;
+    }
+  }
+
   showDeleteBtn: boolean = false;
   profile_route: string = SLASH + PROFILE_ROUTE;
   private router = inject(Router);

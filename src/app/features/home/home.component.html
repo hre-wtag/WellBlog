@@ -18,7 +18,7 @@
           : ['not-loggedin', 'border']
       "
     >
-      <div class="d-flex flex-column justify-content-between">
+      <div class="d-flex flex-column justify-content-between h-100">
         <div class="blog-header">
           <div class="tag-list d-flex">
             @for(tag of heroBlog.tags; track $index){
@@ -29,7 +29,9 @@
             >
               @if(tag.length > 10){
               <span appTooltip [tooltipText]="tag">
-                {{ tag.length > 10 ? tag.substring(0, 10) + "..." : tag }}</span
+                {{
+                  tag.length > 10 ? (tag | slice : 0 : 10) + "..." : tag
+                }}</span
               >} @else { {{ tag }}}</button
             >}
           </div>

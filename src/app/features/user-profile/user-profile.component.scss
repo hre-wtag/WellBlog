@@ -2,7 +2,12 @@
 .profile-container {
   width: 76.563rem;
 }
-
+.edit-button {
+  cursor: pointer;
+  &:hover {
+    color: $indigo;
+  }
+}
 .blog-cards {
   width: 76.563rem;
 }
@@ -10,3 +15,6 @@
   width: 76.313rem;
 }
 
+.margin-end {
+  margin-right: 1.2rem;
+}

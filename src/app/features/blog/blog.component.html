@@ -10,7 +10,7 @@
         >
           @if(tag.length > 10){
           <span appTooltip [tooltipText]="tag">
-            {{ tag.length > 10 ? tag.substring(0, 10) + "..." : tag }}</span
+            {{ tag.length > 10 ? (tag | slice : 0 : 10) + "..." : tag }}</span
           >} @else { {{ tag }}}</button
         >}
       </div>
@@ -43,7 +43,7 @@
       </div>
       <div class="card-text ms-2">
         <small class="text-body-secondary">{{
-          blog.postingDate | date : "MMMM d, yy"
+          blog.postingDate | date : "MMMM d, yyyy"
         }}</small>
       </div>
     </div>
@@ -62,7 +62,7 @@
       ></div>
     </div>
   </div>
-  } @if(clickedBTN==='edit-blog'){
+  } @else{
   <app-add-blog
     [editedBlog]="blog"
     (formSubmitted)="handleAddFormSubmitted($event)"
