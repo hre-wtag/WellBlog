@@ -28,11 +28,17 @@ import { ToasterService } from '../../core/services/toaster.service';
 })
 export class BlogCardComponent implements OnInit, OnChanges {
   @Input() blog!: Blog;
-  @Input() filteredTag: string = '';
+  @Input() filteredTag: string | null = null;
   @Output() selectedFilterTag = new EventEmitter<string>();
   default_profile_photo: string = DEFAULT_PROFILE_PHOTO_SRC;
   blog_route: string = SLASH + BLOG_ROUTE;
   formattedBlogTitle: string = '';
+  showDeleteBtn: boolean = false;
+  profile_route: string = SLASH + PROFILE_ROUTE;
+
+  private router = inject(Router);
+  private blogService = inject(BlogService);
+  private toasterService = inject(ToasterService);
 
   ngOnInit(): void {
     if (this.blog) {
@@ -43,14 +49,9 @@ export class BlogCardComponent implements OnInit, OnChanges {
     }
   }
 
-  showDeleteBtn: boolean = false;
-  profile_route: string = SLASH + PROFILE_ROUTE;
-  private router = inject(Router);
-  private blogService = inject(BlogService);
-  private toasterService = inject(ToasterService);
-
   ngOnChanges(): void {
     this.showDeleteBtn = this.router.url === this.profile_route ? true : false;
+    this.sortTagsBasedOnFilter(this.blog.tags);
   }
 
   onDelete(id: number): void {
@@ -67,7 +68,21 @@ export class BlogCardComponent implements OnInit, OnChanges {
       }, 4000);
     }
   }
+
   onFilterTag(tag: string): void {
     this.selectedFilterTag.emit(tag);
+  }
+
+  private sortTagsBasedOnFilter(tagList: string[]): void {
+    if (this.filteredTag && tagList?.length) {
+      const filteredTagIndex = tagList.indexOf(this.filteredTag);
+      if (filteredTagIndex !== -1) {
+        const tags = [...tagList];
+        [tags[0], tags[filteredTagIndex]] = [tags[filteredTagIndex], tags[0]];
+        this.blog.tags = tags;
+      }
+    } else {
+      this.blog.tags = tagList?.sort() || [];
+    }
   }
 }
