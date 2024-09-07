@@ -1,5 +1,6 @@
 @import "../../../../public/styles/variables.scss";
 @import "../../../../public/styles/mixins.scss";
+
 .home_container {
   width: 76rem;
   .hero-blog-container {
@@ -81,4 +82,8 @@
     height: 2.25rem;
     width: 2.25rem;
   }
+}
+
+.margin-end {
+  margin-right: 1.2rem;
 }
