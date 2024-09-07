@@ -16,10 +16,11 @@ export class AuthService {
     let usersArray = storedUsers ? [...storedUsers, userWithID] : [userWithID];
     this.setRegisteredUsers(usersArray);
   }
-
+  
   setRegisteredUsers(usersArray: User[]): void {
     localStorage.setItem('registeredUsers', JSON.stringify(usersArray));
   }
+
 
   getRegisteredUsers(): User[] | null {
     const storedUserData = localStorage.getItem('registeredUsers');

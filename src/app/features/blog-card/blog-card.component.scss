@@ -1,9 +1,9 @@
-@import "../../../styles.scss";
+@import "../../../../public/styles/variables.scss";
 .blog-card {
   cursor: pointer;
   height: 30.5rem;
   width: 24.5rem;
-  .blog-card-img {
+  &-img {
     height: 15rem;
     width: 22.5rem;
   }
@@ -19,7 +19,7 @@
     flex-wrap: wrap;
   }
   .tag {
-    color: $primary--color;
+    color: $indigo;
     height: 1.75rem;
     text-align: center;
     max-width: 7rem !important;
@@ -32,10 +32,19 @@
     .footer-left {
       width: 9.813rem;
     }
+    &-img {
+      height: 2.25rem;
+      width: 2.25rem;
+    }
   }
-  .blog-footer-img {
-    height: 2.25rem;
-    width: 2.25rem;
+
+  .btn-delete {
+    i {
+      color: #aaaec8;
+    }
+    i:hover {
+      color: #dc3545;
+    }
   }
   .filtered-tag {
     border: 0.063rem solid #b6b5fb;

@@ -1,4 +1,10 @@
-import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import {
+  Component,
+  DestroyRef,
+  OnDestroy,
+  OnInit,
+  inject,
+} from '@angular/core';
 import {
   TITLE,
   LOGIN_ROUTE,
@@ -15,7 +21,8 @@ import {
 } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
 import { PreviousRouteService } from '../../core/services/previous-route.service';
-import { Subscription, filter, map } from 'rxjs';
+import { Observable, Subscription, filter, of, switchMap } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { User } from '../../core/interfaces/user';
 import { TooltipDirective } from '../Directives/tooltip.directive';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
@@ -34,58 +41,78 @@ export class NavbarComponent implements OnInit, OnDestroy {
   register_route: string = SLASH + REGISTER_ROUTE;
   profile_route: string = SLASH + PROFILE_ROUTE;
   blog_route: string = SLASH + BLOG_ROUTE;
-  isLoggedin: boolean = false;
-  showTooltip: boolean = false;
-  userName: string | undefined = undefined;
   currentPage: string = '';
+  isLoggedin: boolean = false;
+  usernameTooltip: boolean = false;
+  logoutTooltip: boolean = false;
+  userName: string | undefined = undefined;
+  userSubcription: Subscription | null = null;
+  searchForm: FormGroup;
+
   private prevRouteService = inject(PreviousRouteService);
   private router = inject(Router);
   private authService = inject(AuthService);
   private activatedRoute = inject(ActivatedRoute);
   private sharedService = inject(SharedService);
-  userSubcription: Subscription | null = null;
-  searchForm: FormGroup;
+  private destroyRef = inject(DestroyRef);
+
   constructor() {
     this.router.events
       .pipe(
+        takeUntilDestroyed(this.destroyRef),
         filter((event) => event instanceof NavigationEnd),
-        map(() => this.activatedRoute),
-        map((route) =>
-          route.firstChild?.snapshot?.url[0]
-            ? route.firstChild?.snapshot?.url[0].path
-            : ''
-        )
+        switchMap(() => this.getPathFromRoute())
       )
       .subscribe({
-        next: (path) => {
+        next: (path: string) => {
           this.currentPage = path ? '/' + path : '';
         },
+        error: (error: Error) => {
+          console.error('Error fetching path:', error);
+        },
       });
+
     this.searchForm = new FormGroup({
       searchField: new FormControl(''),
     });
   }
+  
   ngOnInit(): void {
     this.isLoggedin = this.authService.isLoggedIn();
-    this.userSubcription = this.authService.user$.subscribe(
-      (user: User | null) => {
+    this.userSubcription = this.authService.user$.subscribe({
+      next: (user: User | null) => {
         if (user) {
           this.isLoggedin = true;
           this.userName = user?.username;
         } else {
           this.isLoggedin = false;
         }
-      }
+      },
+      error: (err: Error) => {
+        console.error(err);
+      },
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.userSubcription?.unsubscribe();
+  }
+
+  getPathFromRoute(): Observable<string> {
+    return of(
+      this.activatedRoute.firstChild?.snapshot?.url[0]
+        ? this.activatedRoute.firstChild?.snapshot?.url[0].path
+        : ''
     );
   }
 
   logout(): void {
     this.authService.removeLoggedInUser();
+    this.usernameTooltip = false;
+    this.logoutTooltip = false;
     this.router.navigate([this.login_route]);
   }
-  ngOnDestroy(): void {
-    this.userSubcription?.unsubscribe();
-  }
+
   searchBlog(): void {
     const str = this.searchForm.get('searchField')?.value.trim();
     this.sharedService.blogSearch(str);

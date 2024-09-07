@@ -7,15 +7,23 @@
         tooltipPosition="top"
         appTooltip
         tooltipText="Add Blog"
+        [showTooltip]="addBlogTooltip"
+        (mouseleave)="addBlogTooltip = false"
+        (mouseover)="addBlogTooltip = true"
         ><i class="bi bi-plus-circle-fill"></i
       ></span>
       <span
         class="edit-button ms-2"
         (click)="clickedHeaderBTN('edit-profile')"
-        appTooltip
-        tooltipText="Edit Profile"
-        tooltipPosition="right"
-        ><i class="bi bi-pencil-square"></i
+        ><i
+          class="bi bi-pencil-square"
+          appTooltip
+          tooltipText="Edit Profile"
+          tooltipPosition="right"
+          [showTooltip]="editProfileTooltip"
+          (mouseleave)="editProfileTooltip = false"
+          (mouseover)="editProfileTooltip = true"
+        ></i
       ></span>
     </div>
     @if(clickedBTN !=='add-blog' && clickedBTN!=='edit-profile'){
@@ -34,15 +42,15 @@
         <div class="mb-3" [ngClass]="{ 'margin-end': ($index + 1) % 3 !== 0 }">
           <app-blog-card [blog]="blog" />
         </div>
-        }
-      </div>
-      @if(!hasBlogs){
-      <div
-        class="my-4 p-2 bg-opacity-10 bg-danger border border-danger border-opacity-25 rounded"
-      >
-        <h6 class="text-danger">You have not posted anything yet.</h6>
-      </div>
+
       }
     </div>
+    @if(!hasBlogs()){
+    <div
+      class="col p-2 bg-opacity-10 bg-danger border border-danger border-opacity-25 rounded"
+    >
+      <h6 class="text-danger">You have not posted anything yet.</h6>
+    </div>
+    }
   </div>
 </div>

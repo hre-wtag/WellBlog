@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   Component,
   DestroyRef,
   ElementRef,
@@ -24,24 +25,29 @@ import DOMPurify from 'dompurify';
   templateUrl: './blog.component.html',
   styleUrl: './blog.component.scss',
 })
-export class BlogComponent implements OnInit {
+export class BlogComponent implements OnInit, AfterViewInit {
   @ViewChild('blogDescription') blogDescription!: ElementRef;
+
+  blog: Blog | null = null;
+  default_profile_photo: string = DEFAULT_PROFILE_PHOTO_SRC;
+  clickedBTN: string | null = null;
+  isMyBlog: boolean = false;
 
   private activatedRoute = inject(ActivatedRoute);
   private blogService = inject(BlogService);
   private destroyRef = inject(DestroyRef);
   private router = inject(Router);
   private titleService = inject(Title);
-  blog: Blog | null = null;
-  default_profile_photo: string = DEFAULT_PROFILE_PHOTO_SRC;
-  isMyBlog: boolean = false;
-  clickedBTN: string | null = null;
 
   ngOnInit(): void {
     this.loadBlog();
   }
 
   ngAfterViewInit(): void {
+    this.loadDescription();
+  }
+
+  loadDescription(): void {
     if (this.blog) {
       const sanitizedDescription = DOMPurify.sanitize(this.blog.description);
       this.blogDescription.nativeElement.innerHTML = sanitizedDescription;
@@ -64,6 +70,9 @@ export class BlogComponent implements OnInit {
               this.router.navigate(['']);
             } else {
               this.titleService.setTitle(this.blog.title);
+              setTimeout(() => {
+                this.loadDescription();
+              }, 50);
               this.isMyBlog = this.blogService.isMyBlog(this.blog?.bloggerId);
             }
           });

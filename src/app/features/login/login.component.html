@@ -1,4 +1,4 @@
-<div class="row m-0 p-4">
+<div id="login-container" class="row m-0 p-4">
   <div class="col-12">
     <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
       <div class="row align-items-center justify-content-center">
@@ -21,7 +21,7 @@
             </div>
             <div class="mb-3">
               <label class="form-label">Password</label>
-              <div class="input-group form-input mb-3">
+              <div class="input-group  form-input mb-3">
                 <input
                   [type]="showPassword ? 'text' : 'password'"
                   class="form-control pass-field"
@@ -32,8 +32,12 @@
                 />
                 <span
                   class="input-group-text eye-btn"
-                  appToggleOnHold
-                  (hold)="onHoldChange($event)"
+                  [ngClass]="{
+                    'border-danger': isFieldValid('password')
+                  }"
+                  (mousedown)="changePasswordFlag(true)"
+                  (mouseleave)="changePasswordFlag(false)"
+                  (mouseup)="changePasswordFlag(false)"
                   ><i
                     class="bi"
                     [ngClass]="!showPassword ? 'bi-eye' : 'bi-eye-slash'"
@@ -46,14 +50,14 @@
             </div>
             <div class="d-flex align-items-center">
               <button
-                class="btn background-primary btn-auth me-1"
+                class="btn btn-login me-1"
                 type="submit"
                 [disabled]="loginForm.invalid"
               >
                 Login
               </button>
               <button
-                class="btn btn-auth btn-sub ms-1"
+                class="btn btn-register ms-1"
                 type="button"
                 (click)="onRegister()"
               >

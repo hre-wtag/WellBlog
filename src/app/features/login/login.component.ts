@@ -31,11 +31,13 @@ export class LoginComponent implements OnInit {
   register_route: string = SLASH + REGISTER_ROUTE;
   showPassword: boolean | Event = false;
   loginError: boolean = false;
+  
   private router = inject(Router);
   private authService = inject(AuthService);
   private toasterService = inject(ToasterService);
   private sub = new Subject<AuthUser>();
   private destroyRef = inject(DestroyRef);
+
 
   constructor() {
     this.loginForm = new FormGroup({
@@ -45,9 +47,8 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const userSubcription = this.sub
-      .pipe(debounceTime(500))
-      .subscribe((user: AuthUser) => {
+    const userSubcription = this.sub.pipe(debounceTime(500)).subscribe({
+      next: (user: AuthUser) => {
         const loginStatus = this.authService.authenticateUser(user);
         if (loginStatus === true) {
           this.toasterService.success('success!', 'Login successful.');
@@ -64,7 +65,11 @@ export class LoginComponent implements OnInit {
             this.toasterService.clear();
           }, 3000);
         }
-      });
+      },
+      error: (err: Error) => {
+        console.error(err);
+      },
+    });
     this.destroyRef.onDestroy(() => userSubcription.unsubscribe());
   }
 
@@ -78,10 +83,6 @@ export class LoginComponent implements OnInit {
     return false;
   }
 
-  onHoldChange(event: Event | boolean): void {
-    this.showPassword = event;
-  }
-
   onRegister(): void {
     this.router.navigate([this.register_route]);
   }
@@ -92,5 +93,9 @@ export class LoginComponent implements OnInit {
     }
     const user: AuthUser = this.loginForm.value;
     this.sub.next(user);
+  }
+
+  changePasswordFlag(flag: boolean): void {
+    this.showPassword = flag;
   }
 }

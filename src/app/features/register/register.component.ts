@@ -144,4 +144,15 @@ export class RegisterComponent {
       this.confirmPasswordError = null;
     }
   }
+
+  changePasswordFlag(
+    flag: boolean,
+    field: 'password' | 'confirmPassword'
+  ): void {
+    if (field === 'password') {
+      this.showPassword = flag;
+    } else if (field === 'confirmPassword') {
+      this.showConfirmPassword = flag;
+    }
+  }
 }

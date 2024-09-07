@@ -1,27 +1,39 @@
-@import "../../../styles.scss";
+@import "../../../../public/styles/variables.scss";
+@import "../../../../public/styles/mixins.scss";
+
 .navbar-container {
-  height: $navbar--height;
-  width: 76.25rem;
-}
-.search-container {
-  height: 2.75rem;
-  width: 22.438rem;
-}
-.search-field {
-  height: 2.25rem;
-  &:focus {
-    border: none;
-    box-shadow: none;
+  height: $--height-navbar;
+  box-shadow: 0 0.313rem 0.625rem 0 #e1e2e4;
+  .navbar {
+    width: 76.25rem;
   }
-}
-.search-btn {
-  &:focus {
-    border: none;
+  .color-primary {
+    @include color-primary;
   }
-} /* remove cross btn from search field Chrome */
-input[type="search"]::-webkit-search-decoration,
-input[type="search"]::-webkit-search-cancel-button,
-input[type="search"]::-webkit-search-results-button,
-input[type="search"]::-webkit-search-results-decoration {
-  display: none;
+
+  .link-span {
+    cursor: pointer;
+  }
+  .search-container {
+    height: 2.75rem;
+    width: 22.438rem;
+  }
+  .search-field {
+    height: 2.25rem;
+    &:focus {
+      border: none;
+      box-shadow: none;
+    }
+  }
+  .search-btn {
+    &:focus {
+      border: none;
+    }
+  } /* remove cross btn from search field Chrome */
+  input[type="search"]::-webkit-search-decoration,
+  input[type="search"]::-webkit-search-cancel-button,
+  input[type="search"]::-webkit-search-results-button,
+  input[type="search"]::-webkit-search-results-decoration {
+    display: none;
+  }
 }
