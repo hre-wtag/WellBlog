@@ -1,0 +1,66 @@
+@import "../../../../../public/styles/variables.scss";
+@import "../../../../../public/styles/mixins.scss";
+
+.color-primary {
+  @include color-primary;
+}
+.form-control.form-input {
+  @include input-focus;
+}
+.btn {
+  @include btn-base;
+  border-radius: 0.25rem;
+}
+.btn.btn-submit {
+  color: $white;
+  background: #49a4cb;
+  &not:active {
+    border-color: #49a4cb;
+  }
+}
+.btn.btn-cancel {
+  border-color: #b3b6bd;
+  &:hover {
+    background: #eff1f9;
+  }
+  &:active {
+    background: #e9ecf6;
+  }
+}
+.banner-image {
+  border: 0.063rem dashed #cccccc;
+  height: 17rem;
+  width: 100%;
+  .image-label {
+    cursor: pointer;
+  }
+}
+.select-tag {
+  cursor: pointer;
+}
+.form-check-wrapper {
+  &:hover {
+    background-color: $--bg-indigo;
+    cursor: pointer;
+  }
+  .form-check,
+  .form-check-label,
+  .form-check-input {
+    cursor: pointer;
+  }
+  .form-check-input:checked {
+    border-color: $indigo;
+  }
+  .form-input:checked {
+    background-color: $indigo;
+  }
+}
+.dropdown-menu {
+  &:focus {
+    border-color: $indigo;
+  }
+}
+.add-more,
+.cross-btn {
+  cursor: pointer;
+}

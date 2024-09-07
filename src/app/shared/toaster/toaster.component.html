@@ -1,6 +1,7 @@
 @if(toast){
+
 <div
-  class="toaster-card position-fixed p-2 bg-opacity-10 end-0 rounded"
+  class="toaster-card position-fixed p-2 end-0 rounded"
   [ngClass]="{
     'error-toast': toast.type === 'error',
     'success-toast': toast.type === 'success',

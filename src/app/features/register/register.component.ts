@@ -35,6 +35,7 @@ export class RegisterComponent {
   registerForm: FormGroup;
   showPassword: boolean | Event = false;
   showConfirmPassword: boolean | Event = false;
+  usernameError: boolean = false;
   confirmPasswordError: string | null = null;
   login_route: string = SLASH + LOGIN_ROUTE;
   passwordField: boolean | Event = false;
@@ -45,17 +46,16 @@ export class RegisterComponent {
   private router = inject(Router);
   private authService = inject(AuthService);
   private toasterService = inject(ToasterService);
+
   constructor() {
     this.registerForm = new FormGroup({
       firstName: new FormControl('', [
         Validators.required,
-        this.validatorService.noSpacesValidator(),
         Validators.minLength(3),
         Validators.maxLength(15),
       ]),
       lastName: new FormControl('', [
         Validators.required,
-        this.validatorService.noSpacesValidator(),
         Validators.minLength(3),
         Validators.maxLength(15),
       ]),
@@ -80,9 +80,24 @@ export class RegisterComponent {
     });
   }
 
+  onHoldChange(event: Event | boolean, field: 'password' | 'confirmPassword') {
+    if (field === 'password') {
+      this.showPassword = event as boolean;
+    } else if (field === 'confirmPassword') {
+      this.showConfirmPassword = event as boolean;
+    }
+  }
+
+  checkUsername(): void {
+    this.usernameError = this.authService.validateUsername(
+      this.registerForm.get('username')?.value
+    );
+  }
+
   onLogin(): void {
     this.router.navigate([this.login_route]);
   }
+
   onRegister(): void {
     if (this.registerForm.valid && this.passMatched) {
       const user: User = { ...this.registerForm.value, joiningDate: Date() };
@@ -94,6 +109,7 @@ export class RegisterComponent {
       }, 4000);
     }
   }
+
   isFieldValid(fieldname: string): boolean {
     if (
       !this.registerForm.get(fieldname)?.valid &&

@@ -54,12 +54,18 @@
               type="text"
               class="form-control form-input"
               formControlName="username"
+              (blur)="checkUsername()"
               [ngClass]="{
                 'border-danger': isFieldValid('username')
               }"
             />
             @if (isFieldValid('username')){
             <div class="text-danger">{{ updateErrorMessages("username") }}</div>
+            } @if(registerForm.get('username')?.valid &&
+            registerForm.get('username')?.touched && usernameError){
+            <div class="text-danger">
+              This username is taken. Please try another
+            </div>
             }
           </div>
           <div class="mb-3">
@@ -101,7 +107,13 @@
                 formControlName="confirmPassword"
                 (input)="matchPassword()"
                 [ngClass]="
-                  confirmPasswordError || isFieldValid('confirmPassword')
+                  (confirmPasswordError &&
+                    registerForm.get('confirmPassword')?.touched &&
+                    registerForm.get('confirmPassword')?.valid &&
+                    registerForm.get('confirmPassword')?.dirty &&
+                    registerForm.get('password')?.touched &&
+                    registerForm.get('password')?.dirty) ||
+                  isFieldValid('confirmPassword')
                     ? 'border-danger'
                     : ''
                 "

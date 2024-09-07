@@ -1,5 +1,5 @@
-<div class="navbar-container">
-  <nav class="navbar navbar-expand-lg bg-body-tertiary">
+<div class="navbar-container bg-body-tertiary">
+  <nav class="navbar container navbar-expand-lg">
     <div class="container-fluid">
       <a class="navbar-brand color-primary" [routerLink]="'/'">{{ title }}</a>
       @if(currentPage !== register_route && currentPage !== login_route ){
@@ -53,7 +53,17 @@
         <li class="nav-item d-flex align-items-center fs-5">
           <a class="nav-link d-flex align-items-center justify-content-between">
             <span>Welcome&nbsp; </span
-            ><span class="username-span color-primary" [routerLink]="profile_route">
+            ><span
+              class="username-span color-primary"
+              [routerLink]="profile_route"
+              appTooltip
+              tooltipText="Profile"
+              tooltipPosition="bottom"
+              [isSticked]="true"
+              [showTooltip]="usernameTooltip"
+              (mouseleave)="changeTooltipFlag(false, 'username')"
+              (mouseenter)="changeTooltipFlag(true, 'username')"
+            >
               {{ userName }}</span
             >
           </a>
@@ -62,7 +72,16 @@
             style="cursor: pointer"
             aria-current="page"
             (click)="logout()"
-            ><i class="bi bi-box-arrow-in-left"></i
+            (mouseleave)="changeTooltipFlag(false, 'logout')"
+            (mouseenter)="changeTooltipFlag(true, 'logout')"
+            ><i
+              class="bi bi-box-arrow-in-left"
+              appTooltip
+              tooltipText="Logout"
+              tooltipPosition="left"
+              [isSticked]="true"
+              [showTooltip]="loginTooltip"
+            ></i
           ></a>
         </li>
         }

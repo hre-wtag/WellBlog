@@ -1,7 +1,50 @@
 <div class="container mt-4">
   <div class="d-flex align-items-center justify-content-end my-3">
-    <span class="edit-button  me-2"><i class="bi bi-plus-circle-fill"></i></span>
-    <span class="edit-button  ms-2"><i class="bi bi-pencil-square"></i></span>
+    <span class="edit-button me-2" (click)="clickedAddBlog = !clickedAddBlog"
+      ><i
+        class="bi bi-plus-circle-fill"
+        appTooltip
+        tooltipText="Add Blog"
+        tooltipPosition="top"
+        [showTooltip]="addBlogTooltip"
+        (mouseleave)="changeTooltipFlag(false, 'add-blog')"
+        (mouseenter)="changeTooltipFlag(true, 'add-blog')"
+      ></i
+    ></span>
+    <span class="edit-button ms-2"
+      ><i
+        class="bi bi-pencil-square"
+        appTooltip
+        tooltipText="Edit Profile"
+        tooltipPosition="right"
+        [showTooltip]="editProfileTooltip"
+        (mouseleave)="changeTooltipFlag(false, 'edit-profile')"
+        (mouseenter)="changeTooltipFlag(true, 'edit-profile')"
+      ></i
+    ></span>
   </div>
-  <app-user-info></app-user-info>
+  @if(!clickedAddBlog){
+  <app-user-info />
+  } @if(clickedAddBlog){
+  <app-add-blog (formSubmitted)="handleAddFormSubmitted($event)" />
+  }
+  <div class="blogs my-3">
+    <h4 class="mt-4 mb-2">My published posts</h4>
+    <div
+      class="blog-cards row g-0 justify-content-start row-cols-xl-4 row-cols-lg-3 row-cols-md-2 row-cols-sm-1"
+    >
+      @for(blog of blogList$ | async ;track $index){
+      <div class="col d-flex justify-content-start my-3">
+        <app-blog-card [blog]="blog" />
+      </div>
+      }
+    </div>
+    @if(!hasBlogs()){
+    <div
+      class="col p-2 bg-opacity-10 bg-danger border border-danger border-opacity-25 rounded"
+    >
+      <h6 class="text-danger">You have not posted anything yet.</h6>
+    </div>
+    }
+  </div>
 </div>

@@ -28,6 +28,6 @@ export class UserInfoComponent implements OnInit, OnDestroy {
     });
   }
   ngOnDestroy(): void {
-    this.userSubcription?.unsubscribe;
+    this.userSubcription?.unsubscribe();
   }
 }

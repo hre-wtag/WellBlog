@@ -13,3 +13,15 @@
 body {
   font: 100% $font-stack;
 }
+
+.blog-description {
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  .tox-tinymce {
+    border: none;
+  }
+  .tox .tox-edit-area::before {
+    border: 0.125rem solid $indigo;
+    border-radius: 0.75rem;
+  }
+}
