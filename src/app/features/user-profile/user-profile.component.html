@@ -1,40 +1,47 @@
 <div class="profile-container container mt-4 p-0">
-  <div class="d-flex align-items-center justify-content-end my-3">
-    <span class="edit-button me-2" (click)="clickedAddBlog = !clickedAddBlog"
-      ><i
-        class="bi bi-plus-circle-fill"
+  <div class="profile-container container mt-4 p-0">
+    <div class="d-flex align-items-center justify-content-end my-3">
+      <span
+        class="edit-button me-2"
+        (click)="clickedHeaderBTN('add-blog')"
+        tooltipPosition="top"
         appTooltip
         tooltipText="Add Blog"
-        tooltipPosition="top"
         [showTooltip]="addBlogTooltip"
-        (mouseleave)="changeTooltipFlag(false, 'add-blog')"
-        (mouseenter)="changeTooltipFlag(true, 'add-blog')"
-      ></i
-    ></span>
-    <span class="edit-button ms-2"
-      ><i
-        class="bi bi-pencil-square"
-        appTooltip
-        tooltipText="Edit Profile"
-        tooltipPosition="right"
-        [showTooltip]="editProfileTooltip"
-        (mouseleave)="changeTooltipFlag(false, 'edit-profile')"
-        (mouseenter)="changeTooltipFlag(true, 'edit-profile')"
-      ></i
-    ></span>
-  </div>
-  @if(!clickedAddBlog){
-  <app-user-info />
-  } @if(clickedAddBlog){
-  <app-add-blog (formSubmitted)="handleAddFormSubmitted($event)" />
-  }
-  <div class="blogs my-3">
-    <h4 class="mt-4 mb-2">My published posts</h4>
-    <div class="blog-cards d-flex flex-wrap">
-      @for(blog of blogList$ | async ;track $index){
-      <div class="mb-3" [ngClass]="{ 'margin-end': ($index + 1) % 3 !== 0 }">
-        <app-blog-card [blog]="blog" />
-      </div>
+        (mouseleave)="addBlogTooltip = false"
+        (mouseover)="addBlogTooltip = true"
+        ><i class="bi bi-plus-circle-fill"></i
+      ></span>
+      <span
+        class="edit-button ms-2"
+        (click)="clickedHeaderBTN('edit-profile')"
+        ><i
+          class="bi bi-pencil-square"
+          appTooltip
+          tooltipText="Edit Profile"
+          tooltipPosition="right"
+          [showTooltip]="editProfileTooltip"
+          (mouseleave)="editProfileTooltip = false"
+          (mouseover)="editProfileTooltip = true"
+        ></i
+      ></span>
+    </div>
+    @if(clickedBTN !=='add-blog' && clickedBTN!=='edit-profile'){
+    <div class="user-info-container">
+      <app-user-info />
+    </div>
+    } @if(clickedBTN==='edit-profile'){
+    <app-edit-user (formSubmitted)="handleAddFormSubmitted($event)" />
+    } @if(clickedBTN==='add-blog'){
+    <app-add-blog (formSubmitted)="handleAddFormSubmitted($event)" />
+    }
+    <div class="blogs my-3">
+      <h4 class="mt-4 mb-2">My published posts</h4>
+      <div class="blog-cards d-flex flex-wrap">
+        @for(blog of blogList$ | async ;track $index){
+        <div class="mb-3" [ngClass]="{ 'margin-end': ($index + 1) % 3 !== 0 }">
+          <app-blog-card [blog]="blog" />
+        </div>
 
       }
     </div>

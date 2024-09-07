@@ -3,18 +3,31 @@
 .color-primary {
   @include color-primary;
 }
+
 .btn {
   @include btn-base;
 }
+
 .btn.btn-login {
   @include btn-primary;
 }
+
 .btn.btn-register {
   @include btn-outline-primary;
 }
+
 .form-control.form-input {
-  @include input-focus;
+  @include form-input;
 }
+
+.form-control.pass-field {
+  height: 3rem;
+  &:focus {
+    border-color: $indigo;
+    box-shadow: none;
+  }
+}
+
 .input-group .eye-btn {
   @include eye-btn-style;
 }

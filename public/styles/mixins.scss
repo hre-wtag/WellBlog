@@ -24,10 +24,25 @@
 }
 
 // ====== Form Inputs ======
-@mixin input-focus {
+// @mixin input-focus {
+//   &:focus {
+//     border-color: $indigo;
+//     box-shadow: none;
+//   }
+// }
+
+@mixin form-input {
+  border-radius: 0.25rem;
+  &:not([type="checkbox"]) {
+    height: 3rem;
+    width: 29.5rem;
+  }
   &:focus {
     border-color: $indigo;
     box-shadow: none;
+  }
+  &:checked {
+    background-color: $indigo;
   }
 }
 

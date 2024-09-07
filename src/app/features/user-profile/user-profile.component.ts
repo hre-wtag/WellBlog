@@ -7,6 +7,7 @@ import { BlogService } from '../../core/services/blog.service';
 import { Blog } from '../../core/interfaces/blog';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../core/services/auth.service';
+import { EditUserComponent } from './edit-user/edit-user.component';
 import { TooltipDirective } from '../../shared/Directives/tooltip.directive';
 
 @Component({
@@ -17,6 +18,7 @@ import { TooltipDirective } from '../../shared/Directives/tooltip.directive';
     AddBlogComponent,
     BlogCardComponent,
     CommonModule,
+    EditUserComponent,
     TooltipDirective,
   ],
   templateUrl: './user-profile.component.html',
@@ -30,6 +32,7 @@ export class UserProfileComponent implements OnInit {
   addBlogTooltip: boolean = false;
   editProfileTooltip: boolean = false;
 
+  clickedBTN: string | null = null;
   blogService = inject(BlogService);
   authService = inject(AuthService);
 
@@ -64,18 +67,11 @@ export class UserProfileComponent implements OnInit {
     );
   }
 
-  handleAddFormSubmitted(formSubmitted: boolean): void {
-    this.clickedAddBlog = formSubmitted;
+  clickedHeaderBTN(btn: string): void {
+    this.clickedBTN = btn;
   }
 
-  changeTooltipFlag(flag: boolean, src: string): void {
-    this.addBlogTooltip = false;
-    this.editProfileTooltip = false;
-    if (src === 'add-blog') {
-      this.addBlogTooltip = flag;
-    }
-    if (src === 'edit-profile') {
-      this.editProfileTooltip = flag;
-    }
+  handleAddFormSubmitted(formSubmitted: string | null): void {
+    this.clickedBTN = formSubmitted;
   }
 }

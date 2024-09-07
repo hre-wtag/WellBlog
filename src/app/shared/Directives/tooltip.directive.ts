@@ -17,7 +17,7 @@ import { TooltipComponent } from '../tooltip/tooltip.component';
 })
 export class TooltipDirective implements OnChanges {
   @Input() isSticked: boolean = false;
-  @Input() showTooltip!: boolean;
+  @Input() showTooltip: boolean = false;
   @Input() tooltipText!: string;
   @Input() tooltipPosition!: 'top' | 'right' | 'bottom' | 'left';
   offset: number = 7;
@@ -31,8 +31,11 @@ export class TooltipDirective implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['showTooltip']) {
-      if (this.showTooltip) this.createTooltip();
-      else this.destroyTooltip();
+      if (this.showTooltip) {
+        this.createTooltip();
+      } else {
+        this.destroyTooltip();
+      }
     }
   }
 

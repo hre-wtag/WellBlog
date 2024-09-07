@@ -1,67 +1,69 @@
 <div id="login-container" class="row m-0 p-4">
   <div class="col-12">
     <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
-      <div class="row">
+      <div class="row align-items-center justify-content-center">
         <div class="col-md-5 border mx-auto p-3 rounded bg-light">
           <h3 class="text-center color-primary">Login</h3>
-          <div class="mb-3">
-            <label class="form-label">Username</label>
-            <input
-              type="text"
-              class="form-control form-input"
-              formControlName="username"
-              [ngClass]="{
-                'border-danger': isFieldValid('username')
-              }"
-            />
-            @if (isFieldValid('username')){
-            <div class="text-danger">This field is required.</div>
-            }
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Password</label>
-            <div class="input-group mb-3">
+          <div class="d-grid justify-content-center">
+            <div class="mb-3">
+              <label class="form-label">Username</label>
               <input
-                [type]="showPassword ? 'text' : 'password'"
+                type="text"
                 class="form-control form-input"
-                formControlName="password"
+                formControlName="username"
                 [ngClass]="{
-                  'border-danger': isFieldValid('password')
+                  'border-danger': isFieldValid('username')
                 }"
               />
-              <span
-                class="input-group-text eye-btn"
-                [ngClass]="{
-                  'border-danger': isFieldValid('password')
-                }"
-                (mousedown)="changePasswordFlag(true)"
-                (mouseleave)="changePasswordFlag(false)"
-                (mouseup)="changePasswordFlag(false)"
-                ><i
-                  class="bi"
-                  [ngClass]="!showPassword ? 'bi-eye' : 'bi-eye-slash'"
-                ></i
-              ></span>
+              @if (isFieldValid('username')){
+              <div class="text-danger">This field is required.</div>
+              }
             </div>
-            @if( isFieldValid('password')){
-            <div class="text-danger">This field is required.</div>
-            }
-          </div>
-          <div class="d-flex align-items-center">
-            <button
-              class="btn btn-login me-1"
-              type="submit"
-              [disabled]="loginForm.invalid"
-            >
-              Login
-            </button>
-            <button
-              class="btn btn-register ms-1"
-              type="button"
-              (click)="onRegister()"
-            >
-              Register
-            </button>
+            <div class="mb-3">
+              <label class="form-label">Password</label>
+              <div class="input-group  form-input mb-3">
+                <input
+                  [type]="showPassword ? 'text' : 'password'"
+                  class="form-control pass-field"
+                  formControlName="password"
+                  [ngClass]="{
+                    'border-danger': isFieldValid('password')
+                  }"
+                />
+                <span
+                  class="input-group-text eye-btn"
+                  [ngClass]="{
+                    'border-danger': isFieldValid('password')
+                  }"
+                  (mousedown)="changePasswordFlag(true)"
+                  (mouseleave)="changePasswordFlag(false)"
+                  (mouseup)="changePasswordFlag(false)"
+                  ><i
+                    class="bi"
+                    [ngClass]="!showPassword ? 'bi-eye' : 'bi-eye-slash'"
+                  ></i
+                ></span>
+              </div>
+              @if( isFieldValid('password')){
+              <div class="text-danger">This field is required.</div>
+              }
+            </div>
+            <div class="d-flex align-items-center">
+              <button
+                class="btn btn-login me-1"
+                type="submit"
+                [disabled]="loginForm.invalid"
+              >
+                Login
+              </button>
+              <button
+                class="btn btn-register ms-1"
+                type="button"
+                (click)="onRegister()"
+              >
+                Register
+              </button>
+            </div>
           </div>
         </div>
       </div>

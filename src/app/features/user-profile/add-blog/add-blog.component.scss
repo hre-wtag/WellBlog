@@ -1,15 +1,25 @@
 @import "../../../../../public/styles/variables.scss";
 @import "../../../../../public/styles/mixins.scss";
 
+.add-blog-container {
+  width: 76.063rem;
+}
+
 .color-primary {
   @include color-primary;
 }
 .form-control.form-input {
-  @include input-focus;
+  @include form-input;
+  &:not([type="checkbox"]) {
+    width: 29.938rem;
+  }
 }
+
 .btn {
   @include btn-base;
   border-radius: 0.25rem;
+  height: 2.313rem;
+  width: 6.063rem;
 }
 .btn.btn-submit {
   color: $white;
@@ -28,12 +38,16 @@
   }
 }
 .banner-image {
-  border: 0.063rem dashed #cccccc;
-  height: 17rem;
-  width: 100%;
+  border: 0.063rem dashed #cccc;
+  height: 14.188rem;
+  width: 62.938rem;
   .image-label {
     cursor: pointer;
   }
+}
+
+.uploaded-file {
+  height: 3rem;
 }
 .select-tag {
   cursor: pointer;
@@ -55,12 +69,25 @@
     background-color: $indigo;
   }
 }
-.dropdown-menu {
-  &:focus {
-    border-color: $indigo;
-  }
+
+.dropdown-menu-container {
+  margin-top: 3rem;
 }
+
 .add-more,
 .cross-btn {
   cursor: pointer;
+}
+
+.blog-image {
+  max-height: 19rem;
+  min-width: 35rem;
+}
+
+.editing-image {
+  height: 20rem;
+  width: 62.938rem;
+  .banner-image {
+    height: 19rem;
+  }
 }

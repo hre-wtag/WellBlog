@@ -1,0 +1,152 @@
+<div
+  class="edit-user-container container bg-light px-5 py-4 my-4 border rounded"
+>
+  <form [formGroup]="editUserForm" (ngSubmit)="onSubmit()">
+    <div class="row align-items-center">
+      <div class="col-6 mb-3">
+        <div class="row">
+          <div class="col- mb-3">
+            <label class="form-label">First Name</label>
+            <input
+              type="text"
+              class="form-control form-input"
+              formControlName="firstName"
+              (blur)="removeWhiteSpaces($event)"
+              [ngClass]="{
+                'border-danger':
+                  !editUserForm.get('firstName')?.valid &&
+                  editUserForm.get('firstName')?.touched
+              }"
+            />
+            @if (!editUserForm.get('firstName')?.valid &&
+            editUserForm.get('firstName')?.touched){
+            <div class="text-danger">This field is required.</div>
+            }
+          </div>
+          <div class="col-12 mb-3">
+            <label class="form-label">Last Name</label>
+            <input
+              type="text"
+              class="form-control form-input"
+              formControlName="lastName"
+              (blur)="removeWhiteSpaces($event)"
+              [ngClass]="{
+                'border-danger':
+                  !editUserForm.get('lastName')?.valid &&
+                  editUserForm.get('lastName')?.touched
+              }"
+            />
+            @if (!editUserForm.get('lastName')?.valid &&
+            editUserForm.get('lastName')?.touched){
+            <div class="text-danger">This field is required.</div>
+            }
+          </div>
+          <div class="col-12 mb-3">
+            <label class="form-label">Subtitle</label>
+            <input
+              type="text"
+              class="form-control form-input"
+              formControlName="subtitle"
+              (blur)="removeWhiteSpaces($event)"
+              [ngClass]="{
+                'border-danger':
+                  !editUserForm.get('subtitle')?.valid &&
+                  editUserForm.get('subtitle')?.touched
+              }"
+            />
+            @if (!editUserForm.get('subtitle')?.valid &&
+            editUserForm.get('subtitle')?.touched){
+            <div class="text-danger">This field is required.</div>
+            }
+          </div>
+          <div class="col mb-3">
+            <label class="form-label">About</label>
+            <textarea
+              type="text"
+              class="form-control form-input about-input"
+              formControlName="about"
+              (blur)="removeWhiteSpaces($event)"
+              [ngClass]="{
+                'border-danger':
+                  !editUserForm.get('about')?.valid &&
+                  editUserForm.get('about')?.touched
+              }"
+            ></textarea>
+            @if (!editUserForm.get('description')?.valid &&
+            editUserForm.get('description')?.touched){
+            <div class="text-danger">This field is required.</div>
+            }
+          </div>
+        </div>
+      </div>
+      <div class="col-6 mb-3">
+        <div class="row g-0">
+          <div class="col-12">
+            <label class="form-label">Profile Image</label>
+            <div
+              class="profile-image d-flex align-items-center justify-content-center"
+              (drop)="dropHandler($event)"
+              (dragover)="dragOver($event)"
+            >
+              <input
+                class="form-control form-input"
+                id="fileUpload"
+                class="form-control form-input d-none"
+                accept="image/jpeg,image/jpg,image/png"
+                type="file"
+                (change)="handleImageFileChange($event)"
+              />
+              <h5>Drop your image here, or &nbsp;</h5>
+              <label class="image-label" for="fileUpload"
+                ><h5 class="color-primary">browse</h5></label
+              >
+            </div>
+          </div>
+          <div class="col-12 my-3 image-prev-container">
+            <div class="d-flex align-items-center justify-content-between">
+              <div
+                class="form-control uploaded-file-name text-center text-muted"
+              >
+                Uploaded File: :{{
+                  uploadedImageName ? uploadedImageName : "No file Uploaded."
+                }}
+              </div>
+              <div>
+                @if(uploadedImage===null){
+                <img
+                  [src]="default_profile_photo"
+                  class="profile-img-preview rounded-circle"
+                  alt="profile-image"
+                />
+                } @else{
+                <img
+                  [src]="uploadedImage"
+                  class="profile-img-preview rounded-circle"
+                  alt="profile-image"
+                />
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="d-flex align-items-center justify-content-start">
+      <button
+        class="btn btn-submit me-1"
+        type="submit"
+        [disabled]="editUserForm.invalid"
+      >
+        Submit
+      </button>
+      <button
+        class="btn btn-cancel text-muted ms-1"
+        type="button"
+        (click)="onCancel()"
+      >
+        Cancel
+      </button>
+    </div>
+  </form>
+</div>

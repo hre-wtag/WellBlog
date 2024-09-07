@@ -20,6 +20,9 @@ body {
   .tox-tinymce {
     border: none;
   }
+  .tox .tox-sidebar-wrap {
+    padding: 0.75rem;
+  }
   .tox .tox-edit-area::before {
     border: 0.125rem solid $indigo;
     border-radius: 0.75rem;

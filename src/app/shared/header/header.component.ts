@@ -41,9 +41,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   blog_route: string = SLASH + BLOG_ROUTE;
   currentPage: string = '';
   isLoggedin: boolean = false;
-  showTooltip: boolean = false;
   usernameTooltip: boolean = false;
-  loginTooltip: boolean = false;
+  logoutTooltip: boolean = false;
   userName: string | undefined = undefined;
   userSubcription: Subscription | null = null;
 
@@ -84,6 +83,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
       });
   }
 
+  ngOnDestroy(): void {
+    this.userSubcription?.unsubscribe();
+  }
+
   getPathFromRoute(): Observable<string> {
     return of(
       this.activatedRoute.firstChild?.snapshot?.url[0]
@@ -91,24 +94,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
         : ''
     );
   }
-  
+
   logout(): void {
     this.authService.removeLoggedInUser();
-    this.router.navigate([this.login_route]);
-  }
-
-  ngOnDestroy(): void {
-    this.userSubcription?.unsubscribe();
-  }
-
-  changeTooltipFlag(flag: boolean, src: string): void {
-    this.loginTooltip = false;
     this.usernameTooltip = false;
-    if (src === 'username') {
-      this.usernameTooltip = flag;
-    }
-    if (src === 'logout') {
-      this.loginTooltip = flag;
-    }
+    this.logoutTooltip = false;
+    this.router.navigate([this.login_route]);
   }
 }

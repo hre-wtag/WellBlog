@@ -1,17 +1,32 @@
-@if(blog){
 <div class="container d-flex justify-content-center my-4">
+  @if(blog){ @if(!clickedBTN){
   <div class="blog-container d-flex flex-column px-1">
-    <div class="tag-list d-flex">
-      @for(tag of blog.tags; track $index){
-      <button
-        type="button"
-        class="tag-btn btn btn-primary d-flex align-items-center justify-content-center m-1 rounded-1"
-      >
-        {{ tag }}</button
-      >}
+    <div class="d-flex justify-content-between align-items-center">
+      <div class="tag-list d-flex">
+        @for(tag of blog.tags; track $index){
+        <button
+          type="button"
+          class="tag-btn btn btn-primary d-flex align-items-center justify-content-center m-1 rounded-1"
+        >
+          @if(tag.length > 10){
+          <span appTooltip [tooltipText]="tag">
+            {{ tag.length > 10 ? (tag | slice : 0 : 10) + "..." : tag }}</span
+          >} @else { {{ tag }}}</button
+        >}
+      </div>
+      @if(isMyBlog){
+      <div>
+        <span
+          class="edit-button ms-2"
+          appTooltip
+          tooltipText="Edit"
+          (click)="clickedHeaderBTN('edit-blog')"
+          ><i class="bi bi-pencil-square"></i
+        ></span>
+      </div>
+      }
     </div>
-
-    <h1>
+    <h1 class="blog-title text-break">
       {{ blog.title }}
     </h1>
     <div class="d-flex align-items-center mt-3">
@@ -21,13 +36,13 @@
           class="blogger-img rounded-circle me-2"
           [alt]="blog.bloggerName"
         />
-        <div class="card-text me-2">
+        <div class="card-text mx-2">
           <small class="text-body-secondary">{{ blog.bloggerName }}</small>
         </div>
       </div>
       <div class="card-text ms-2">
         <small class="text-body-secondary">{{
-          blog.postingDate | date : "MMMM d, yy"
+          blog.postingDate | date : "MMMM d, yyyy"
         }}</small>
       </div>
     </div>
@@ -39,11 +54,17 @@
           [alt]="blog.title"
         />
       </div>
+
       <div
-        class="blog-description mt-5 mb-3 p-0"
-        [innerHTML]="blog.description"
+        #blogDescription
+        class="blog-description text-break mt-5 mb-3 p-0"
       ></div>
     </div>
   </div>
+  } @else{
+  <app-add-blog
+    [editedBlog]="blog"
+    (formSubmitted)="handleAddFormSubmitted($event)"
+  />
+  }}
 </div>
-}

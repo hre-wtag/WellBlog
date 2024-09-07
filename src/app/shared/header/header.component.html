@@ -14,7 +14,7 @@
       >
         <span class="navbar-toggler-icon"></span>
       </button>
-      @if(currentPage !== profile_route ){
+      @if(currentPage !== profile_route && currentPage !== blog_route ){
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <form class="d-flex mx-auto w-25" role="search">
           <div class="form-control d-flex m-0 p-0">
@@ -54,33 +54,32 @@
           <a class="nav-link d-flex align-items-center justify-content-between">
             <span>Welcome&nbsp; </span
             ><span
-              class="username-span color-primary"
+              class="link-span color-primary"
               [routerLink]="profile_route"
               appTooltip
               tooltipText="Profile"
               tooltipPosition="bottom"
               [isSticked]="true"
               [showTooltip]="usernameTooltip"
-              (mouseleave)="changeTooltipFlag(false, 'username')"
-              (mouseenter)="changeTooltipFlag(true, 'username')"
+              (mouseleave)="usernameTooltip = false"
+              (mouseover)="usernameTooltip = true"
             >
               {{ userName }}</span
             >
           </a>
           <a
-            class="nav-link d-flex align-items-center mt-1"
-            style="cursor: pointer"
+            class="nav-link link-span d-flex align-items-center mt-1"
             aria-current="page"
             (click)="logout()"
-            (mouseleave)="changeTooltipFlag(false, 'logout')"
-            (mouseenter)="changeTooltipFlag(true, 'logout')"
             ><i
               class="bi bi-box-arrow-in-left"
               appTooltip
               tooltipText="Logout"
               tooltipPosition="left"
               [isSticked]="true"
-              [showTooltip]="loginTooltip"
+              [showTooltip]="logoutTooltip"
+              (mouseleave)="logoutTooltip = false"
+              (mouseover)="logoutTooltip = true"
             ></i
           ></a>
         </li>

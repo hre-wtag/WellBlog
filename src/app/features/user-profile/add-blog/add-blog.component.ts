@@ -1,6 +1,7 @@
 import {
   Component,
   EventEmitter,
+  Input,
   OnDestroy,
   OnInit,
   Output,
@@ -21,6 +22,7 @@ import { AuthService } from '../../../core/services/auth.service';
 import { EditorComponent, EditorModule } from '@tinymce/tinymce-angular';
 import { TINYMCE_API_KEY } from '../../../../environments/seretKeys';
 import { HtmlToTextService } from '../../../core/services/html-to-text.service';
+import { SharedService } from '../../../core/services/shared.service';
 
 export interface Tag {
   title: string;
@@ -34,14 +36,19 @@ export interface Tag {
   styleUrl: './add-blog.component.scss',
 })
 export class AddBlogComponent implements OnInit, OnDestroy {
-  addBlogForm: FormGroup;
+  @Input() editedBlog!: Blog;
+  @Output() formSubmitted = new EventEmitter<string | null>();
+
+  blogForm: FormGroup;
   errorMsg: string | null = null;
   uploadedImageName: string | null = null;
   uploadedImage: File | null = null;
-  nothingIsChecked: boolean = false;
+  hasTag: boolean = false;
   showDropdown: boolean = false;
+  isSingleClick: boolean = true;
+  isEditing: boolean = false;
   tagList: Tag[] = [
-    { title: 'Technology', isChecked: false },
+    { title: 'Technology fdfadsasASDASASASDDSAADSDSADSAS', isChecked: false },
     { title: 'Poetry', isChecked: false },
     { title: 'Films', isChecked: false },
     { title: 'Fiction', isChecked: false },
@@ -49,6 +56,7 @@ export class AddBlogComponent implements OnInit, OnDestroy {
     { title: 'Tourism', isChecked: false },
     { title: 'Nature', isChecked: false },
   ];
+  selectedTags: string[] = [];
   tinyAPIKey: string = TINYMCE_API_KEY;
   init: EditorComponent['init'] = {
     plugins: 'emoticons link lists advlist preview',
@@ -57,22 +65,26 @@ export class AddBlogComponent implements OnInit, OnDestroy {
     advlist_number_styles:
       'default lower-alpha lower-greek lower-roman upper-alpha upper-roman',
     advlist_bullet_styles: 'default circle disc square',
+    height: 600,
     statusbar: false,
     resize: false,
     menubar: false,
     content_css: 'src/styles.scss',
+    font_formats:
+      'Andale Mono=andale mono,times; Arial=arial,helvetica,sans-serif; Arial Black=arial black,avant garde; Book Antiqua=book antiqua,palatino; Comic Sans MS=comic sans ms,sans-serif; Courier New=courier new,courier; Georgia=georgia,palatino; Helvetica=helvetica; Impact=impact,chicago; Oswald=oswald; Symbol=symbol; Tahoma=tahoma,arial,helvetica,sans-serif; Terminal=terminal,monaco; Times New Roman=times new roman,times; Trebuchet MS=trebuchet ms,geneva; Verdana=verdana,geneva; Webdings=webdings; Wingdings=wingdings,zapf dingbats',
+    setup: (editor) => {
+      editor.setContent('This is the initial text');
+    },
   };
-  maxBlogId: number = 0;
-
-  @Output() formSubmitted = new EventEmitter<boolean>();
   private toasterService = inject(ToasterService);
   private blogService = inject(BlogService);
   private authService = inject(AuthService);
   private htmlTOTextService = inject(HtmlToTextService);
+  private sharedService = inject(SharedService);
   private blogSubcription: Subscription | null = null;
 
   constructor() {
-    this.addBlogForm = new FormGroup({
+    this.blogForm = new FormGroup({
       title: new FormControl('', [
         Validators.required,
         Validators.maxLength(250),
@@ -81,15 +93,25 @@ export class AddBlogComponent implements OnInit, OnDestroy {
     });
   }
   ngOnInit(): void {
-    this.blogSubcription = this.blogService.blogs$.subscribe(
-      (blogs: Blog[] | null) => {
-        this.maxBlogId =
-          blogs?.reduce((maxId, blog) => Math.max(maxId, blog?.id || 0), 0) ??
-          0;
-      }
-    );
+    if (this.editedBlog) {
+      this.isEditing = true;
+      this.setBlogValues(this.editedBlog);
+    }
   }
-
+  setBlogValues(blog: Blog): void {
+    this.blogForm.patchValue({
+      title: blog.title,
+      description: blog.description,
+    });
+    this.selectedTags = blog.tags;
+    this.hasTag = true;
+    this.selectedTags.forEach((tag: string) => {
+      const foundTag = this.tagList.find((t) => t.title === tag);
+      if (foundTag) {
+        foundTag.isChecked = true;
+      }
+    });
+  }
   ngOnDestroy(): void {
     this.blogSubcription?.unsubscribe();
   }
@@ -99,7 +121,7 @@ export class AddBlogComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(): void {
-    if (this.addBlogForm.invalid) {
+    if (this.blogForm.invalid) {
       return;
     }
 
@@ -113,16 +135,9 @@ export class AddBlogComponent implements OnInit, OnDestroy {
       }, 4000);
       return;
     }
-    if (this.uploadedImage === null) {
-      this.toasterService.warning('Invalid!', 'Must upload an Image.');
-      setTimeout(() => {
-        this.toasterService.toasterInfo$.next(null);
-      }, 4000);
-      return;
-    }
 
     const convertedText = this.htmlTOTextService.htmlToText(
-      this.addBlogForm.get('description')?.value
+      this.blogForm.get('description')?.value
     );
     if (convertedText.trim() === '') {
       this.toasterService.warning('Invalid!', 'Must add blog Description.');
@@ -131,63 +146,120 @@ export class AddBlogComponent implements OnInit, OnDestroy {
       }, 4000);
       return;
     }
+    if (!this.isEditing) {
+      if (this.uploadedImage === null) {
+        this.toasterService.warning('Invalid!', 'Must upload an Image.');
+        setTimeout(() => {
+          this.toasterService.toasterInfo$.next(null);
+        }, 4000);
+        return;
+      }
+      this.addBlog(blogTags);
+    } else {
+      this.editBLog(blogTags);
+    }
+    this.formSubmitted.emit(null);
+    this.clearForm();
+  }
+  editBLog(blogTags: string[]): void {
+    const blog: Blog = {
+      ...this.blogForm.value,
+      tags: [],
+      blogImage: '',
+      bloggerId: this.editedBlog.bloggerId,
+      bloggerImage: this.editedBlog.bloggerImage,
+      bloggerName: this.editedBlog.bloggerName,
+      id: this.editedBlog.id,
+      postingDate: this.editedBlog.postingDate,
+    };
+    blog.tags.push(...blogTags);
+    blog.blogImage =
+      this.uploadedImage != null
+        ? this.uploadedImage
+        : this.editedBlog.blogImage;
+    this.blogService.updateBlog(blog);
+  }
+
+  addBlog(blogTags: string[]): void {
     const user = this.authService.user$.getValue();
     let bloggerName;
-    let bloggerImagePath;
+    let bloggerImage;
     if (user) {
       bloggerName = user.firstName?.concat(' ', user.lastName);
-      bloggerImagePath = user.profileImagePath;
+      bloggerImage = user.profileImage;
     }
-
+    let maxBlogId;
+    this.blogSubcription = this.blogService.blogs$.subscribe(
+      (blogs: Blog[] | null) => {
+        maxBlogId = blogs?.reduce(
+          (maxId, blog) => Math.max(maxId, blog?.id || 0),
+          0
+        );
+      }
+    );
     const blog: Blog = {
-      ...this.addBlogForm.value,
+      ...this.blogForm.value,
       tags: [],
       blogImage: '',
       postingDate: Date(),
       bloggerName: bloggerName,
-      bloggerImagePath: bloggerImagePath,
+      bloggerImage: bloggerImage,
       bloggerId: user?.id,
-      id: this.maxBlogId + 1,
+      id: maxBlogId ? maxBlogId + 1 : 1,
     };
     blog.tags.push(...blogTags);
-    blog.blogImage = this.uploadedImage;
+    if (this.uploadedImage != null) {
+      blog.blogImage = this.uploadedImage;
+    }
     this.blogService.blogs$.next([
       ...(this.blogService.blogs$.getValue() ?? []),
       blog,
     ]);
-    this.formSubmitted.emit(false);
-    this.clearForm();
   }
-
   onCancel(): void {
+    this.formSubmitted.emit(null);
     this.clearForm();
   }
 
   clearForm(): void {
-    this.addBlogForm.reset();
+    this.blogForm.reset();
     for (let i = 0; i < this.tagList.length; i++) {
       this.tagList[i].isChecked = false;
     }
-    this.nothingIsChecked = false;
+    this.hasTag = false;
     this.showDropdown = false;
     this.uploadedImage = null;
     this.uploadedImageName = null;
   }
-
+  onCheckboxDoubleClick(title: string, isChecked: boolean): void {
+    this.changeTagFlag(title, isChecked);
+    this.isSingleClick = false;
+    this.showDropdown = false;
+  }
   onCheckboxClick(title: string, isChecked: boolean): void {
+    this.isSingleClick = true;
+    setTimeout(() => {
+      if (this.isSingleClick) {
+        this.changeTagFlag(title, isChecked);
+      }
+    }, 300);
+  }
+  changeTagFlag(title: string, isChecked: boolean): void {
     const existingTagIndex = this.tagList.findIndex(
       (tag) => tag.title === title
     );
-
     if (existingTagIndex > -1) {
       this.tagList[existingTagIndex].isChecked = isChecked;
     }
-    this.nothingIsChecked = this.tagList.some((tag) => tag.isChecked);
-    if (!this.nothingIsChecked) {
+    this.hasTag = this.tagList.some((tag) => tag.isChecked);
+    if (!this.hasTag) {
       this.checkDropdown(false);
     }
+    if (isChecked) this.selectedTags.push(title);
+    else {
+      this.selectedTags = this.selectedTags.filter((item) => item != title);
+    }
   }
-
   checkDropdown(flag: boolean): void {
     this.showDropdown = flag;
   }
@@ -207,44 +279,15 @@ export class AddBlogComponent implements OnInit, OnDestroy {
 
   dropHandler(ev: DragEvent): void {
     ev.preventDefault();
-    if (ev.dataTransfer?.items) {
-      const files = Array.from(ev.dataTransfer.items);
-      for (let i = 0; i < files.length; i++) {
-        const item = files[i];
-        if (item.kind === 'file') {
-          const file = item.getAsFile();
-          if (this.validateFileType(file?.type)) {
-            this.uploadedImageName = file?.name ? file?.name : null;
-            const reader = new FileReader();
-            reader.onload = (e: any) => {
-              this.uploadedImage = e.target.result;
-            };
-            reader.readAsDataURL(file as Blob);
-            break;
-          } else {
-            this.toasterService.warning(
-              'Invalid!',
-              'Only jpeg, jgp, & png images are allowed.'
-            );
-            setTimeout(() => {
-              this.toasterService.toasterInfo$.next(null);
-            }, 5000);
-          }
-        }
-      }
+    const imageFile = this.sharedService.imageDropHandler(ev);
+    if (imageFile) {
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.uploadedImageName = imageFile.name ?? null;
+        this.uploadedImage = e.target.result;
+      };
+      reader.readAsDataURL(imageFile as Blob);
     }
-  }
-
-  validateFileType(fileType: string | undefined): boolean | null {
-    if (fileType) {
-      const allowedTypes: string[] | undefined = [
-        'image/jpeg',
-        'image/jpg',
-        'image/png',
-      ];
-      return allowedTypes.includes(fileType);
-    }
-    return null;
   }
 
   dragOver(event: Event) {
