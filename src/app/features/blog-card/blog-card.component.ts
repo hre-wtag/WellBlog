@@ -1,4 +1,11 @@
-import { Component, Input, OnChanges, inject } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  inject,
+  Input,
+  OnChanges,
+  Output,
+} from '@angular/core';
 import { Blog } from '../../core/interfaces/blog';
 import {
   BLOG_ROUTE,
@@ -20,7 +27,8 @@ import { ToasterService } from '../../core/services/toaster.service';
 })
 export class BlogCardComponent implements OnChanges {
   @Input() blog!: Blog;
-
+  @Input() filteredTag: string | null = null;
+  @Output() selectedFilterTag = new EventEmitter<string>();
   default_profile_photo: string = DEFAULT_PROFILE_PHOTO_SRC;
   blog_route: string = SLASH + BLOG_ROUTE;
   formattedBlogTitle: string = '';
@@ -39,6 +47,7 @@ export class BlogCardComponent implements OnChanges {
           : this.blog.title;
     }
     this.showDeleteBtn = this.router.url === this.profile_route ? true : false;
+    this.sortTagsBasedOnFilter(this.blog.tags);
   }
 
   onDelete(id: number): void {
@@ -53,6 +62,23 @@ export class BlogCardComponent implements OnChanges {
       setTimeout(() => {
         this.toasterService.toasterInfo$.next(null);
       }, 4000);
+    }
+  }
+
+  onFilterTag(tag: string): void {
+    this.selectedFilterTag.emit(tag);
+  }
+
+  private sortTagsBasedOnFilter(tagList: string[]): void {
+    if (this.filteredTag) {
+      const filteredTagIndex = tagList.indexOf(this.filteredTag);
+      if (filteredTagIndex !== -1) {
+        const tags = [...tagList];
+        [tags[0], tags[filteredTagIndex]] = [tags[filteredTagIndex], tags[0]];
+        this.blog.tags = tags;
+      }
+    } else {
+      this.blog.tags = this.blog.tags?.sort() || [];
     }
   }
 }

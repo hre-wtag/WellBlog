@@ -1,6 +1,6 @@
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { BlogService } from '../../core/services/blog.service';
-import { bufferCount, map, Observable } from 'rxjs';
+import { map } from 'rxjs';
 import { Blog } from '../../core/interfaces/blog';
 import { BlogCardComponent } from '../blog-card/blog-card.component';
 import { CommonModule } from '@angular/common';
@@ -17,22 +17,19 @@ import { User } from '../../core/interfaces/user';
   styleUrl: './home.component.scss',
 })
 export class HomeComponent implements OnInit {
-  private blogService = inject(BlogService);
   blogGroups: Blog[][] | null = null;
   heroBlog: Blog | null = null;
   default_profile_photo: string = DEFAULT_PROFILE_PHOTO_SRC;
+  isLoggedin: boolean = false;
+  isFiltered: boolean = false;
+  filteredTag: string = '';
+  headerTitle: string = 'Latest Posts';
+
+  private blogService = inject(BlogService);
   private destroyRef = inject(DestroyRef);
   private authService = inject(AuthService);
-  isLoggedin: boolean = false;
 
   ngOnInit(): void {
-    const blogSubcription = this.blogService.blogs$.subscribe((blogs) => {
-      this.blogGroups = this.groupBlogs(blogs) ?? null;
-    });
-    this.destroyRef.onDestroy(() => blogSubcription.unsubscribe());
-
-    this.heroBlog = this.blogGroups ? this.blogGroups[0][0] : null;
-    console.log(this.blogGroups, 'blogs');
     const userSubcription = this.authService.user$.subscribe(
       (user: User | null) => {
         if (user) {
@@ -43,9 +40,16 @@ export class HomeComponent implements OnInit {
       }
     );
     this.destroyRef.onDestroy(() => userSubcription.unsubscribe());
+    this.loadBlogs();
+    this.heroBlog = this.blogGroups ? this.blogGroups[0][0] : null;
   }
-
-  groupBlogs(blogs: Blog[] | null): Blog[][] {
+  loadBlogs(): void {
+    const blogSubcription = this.blogService.blogs$.subscribe((blogs) => {
+      this.blogGroups = this.groupBlogs(blogs) ?? null;
+    });
+    this.destroyRef.onDestroy(() => blogSubcription.unsubscribe());
+  }
+  groupBlogs(blogs: Blog[] | null | undefined): Blog[][] {
     const groupedBlogs: Blog[][] = [];
     if (blogs) {
       for (let i = 0; i < blogs.length; i += 3) {
@@ -53,5 +57,25 @@ export class HomeComponent implements OnInit {
       }
     }
     return groupedBlogs;
+  }
+
+  handleSelectedTag(tag: string): void {
+    this.filteredTag = tag;
+    this.isFiltered = true;
+    this.headerTitle = 'Filtered Blogs';
+    this.blogService.blogs$
+      .pipe(
+        map((blogs) =>
+          this.groupBlogs(blogs?.filter((blog) => blog.tags.includes(tag)))
+        )
+      )
+      .subscribe((groupedBlogs) => (this.blogGroups = groupedBlogs));
+  }
+
+  clearFilter(): void {
+    this.isFiltered = false;
+    this.loadBlogs();
+    this.filteredTag = '';
+    this.headerTitle = 'Latest Posts';
   }
 }
