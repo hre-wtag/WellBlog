@@ -60,9 +60,7 @@ export class HomeComponent implements OnInit {
     this.destroyRef.onDestroy(() => blogSubcription.unsubscribe());
 
     this.loadBlogs();
-    if ((this.blogList?.length ?? 0) > 0) {
-      this.heroBlog = this.blogList?.[(this.blogList?.length ?? 0) - 1] ?? null;
-    }
+
     const userSubcription = this.authService.user$.subscribe(
       (user: User | null) => {
         if (user) {
@@ -74,7 +72,9 @@ export class HomeComponent implements OnInit {
       }
     );
     this.destroyRef.onDestroy(() => userSubcription.unsubscribe());
+
     this.sharedService.searchedText.subscribe((text) => {
+      this.clearFilter();
       this.handleSearch(text);
     });
   }
@@ -89,6 +89,9 @@ export class HomeComponent implements OnInit {
             new Date(a.postingDate).getTime()
         )
       ) ?? null;
+    if ((this.blogList?.length ?? 0) > 0) {
+      this.heroBlog = this.blogList?.[(this.blogList?.length ?? 0) - 1] ?? null;
+    }
   }
 
   groupBlogs(blogs: Blog[] | null | undefined): Blog[][] {
@@ -108,6 +111,7 @@ export class HomeComponent implements OnInit {
   }
 
   handleSelectedTag(tag: string): void {
+    this.sharedService.searchedText.emit('');
     this.filteredTag = tag;
     this.isFiltered = true;
     this.headerTitle = 'Filtered Blogs';
@@ -140,7 +144,9 @@ export class HomeComponent implements OnInit {
             blog.title.toLowerCase().includes(str.toLowerCase())
           )
         ),
-        map((filteredBlogs: Blog[] | undefined) => this.groupBlogs(filteredBlogs))
+        map((filteredBlogs: Blog[] | undefined) =>
+          this.groupBlogs(filteredBlogs)
+        )
       )
       .subscribe((groupedBlogs) => (this.blogGroups = groupedBlogs));
   }

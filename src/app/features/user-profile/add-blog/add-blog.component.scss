@@ -1,21 +1,51 @@
 @import "../../../../../public/styles/variables.scss";
+@import "../../../../../public/styles/mixins.scss";
+
 .add-blog-container {
   width: 76.063rem;
 }
-.form-input {
+
+.color-primary {
+  @include color-primary;
+}
+.form-control.form-input {
+  @include form-input;
   &:not([type="checkbox"]) {
     width: 29.938rem;
   }
 }
 
+.btn {
+  @include btn-base;
+  border-radius: 0.25rem;
+  height: 2.313rem;
+  width: 6.063rem;
+}
+.btn.btn-submit {
+  color: $white;
+  background: #49a4cb;
+  &not:active {
+    border-color: #49a4cb;
+  }
+}
+.btn.btn-cancel {
+  border-color: #b3b6bd;
+  &:hover {
+    background: #eff1f9;
+  }
+  &:active {
+    background: #e9ecf6;
+  }
+}
 .banner-image {
-  border: 0.063rem dashed #ccc;
+  border: 0.063rem dashed #cccc;
   height: 14.188rem;
   width: 62.938rem;
   .image-label {
     cursor: pointer;
   }
 }
+
 .uploaded-file {
   height: 3rem;
 }
@@ -27,7 +57,7 @@
 }
 .form-check-wrapper {
   &:hover {
-    background-color: $secondary--color;
+    background-color: $--bg-indigo;
     cursor: pointer;
   }
   .form-check,
@@ -36,33 +66,32 @@
     cursor: pointer;
   }
   .form-check-input:checked {
-    border-color: $primary--color;
+    border-color: $indigo;
+  }
+  .form-input:checked {
+    background-color: $indigo;
   }
 }
-.dropdown-menu-container {
-  margin-top:   3rem;
 
+.dropdown-menu-container {
+  margin-top: 3rem;
 }
+
 .add-more,
 .cross-btn {
-  cursor: pointer !important;
+  cursor: pointer;
 }
-.btn {
-  height: 2.313rem;
-  width: 6.063rem;
-  border-radius: 0.25rem;
-}
-.btn-submit {
-  background-color: #49a4cb !important;
-}
+
 .blog-image {
   max-height: 19rem;
   min-width: 35rem;
 }
+
 .editing-image {
   height: 20rem;
   width: 62.938rem;
   .banner-image {
     height: 19rem;
+
   }
 }
