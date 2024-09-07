@@ -17,24 +17,19 @@ import { User } from '../../core/interfaces/user';
   styleUrl: './home.component.scss',
 })
 export class HomeComponent implements OnInit {
-  private blogService = inject(BlogService);
   blogGroups: Blog[][] | null = null;
   heroBlog: Blog | null = null;
   default_profile_photo: string = DEFAULT_PROFILE_PHOTO_SRC;
-  private destroyRef = inject(DestroyRef);
-  private authService = inject(AuthService);
   isLoggedin: boolean = false;
   isFiltered: boolean = false;
   filteredTag: string = '';
   headerTitle: string = 'Latest Posts';
 
-  ngOnInit(): void {
-    const blogSubcription = this.blogService.blogs$.subscribe((blogs) => {
-      this.blogGroups = this.groupBlogs(blogs) ?? null;
-    });
-    this.destroyRef.onDestroy(() => blogSubcription.unsubscribe());
+  private blogService = inject(BlogService);
+  private destroyRef = inject(DestroyRef);
+  private authService = inject(AuthService);
 
-    this.heroBlog = this.blogGroups ? this.blogGroups[0][0] : null;
+  ngOnInit(): void {
     const userSubcription = this.authService.user$.subscribe(
       (user: User | null) => {
         if (user) {
@@ -45,8 +40,15 @@ export class HomeComponent implements OnInit {
       }
     );
     this.destroyRef.onDestroy(() => userSubcription.unsubscribe());
+    this.loadBlogs();
+    this.heroBlog = this.blogGroups ? this.blogGroups[0][0] : null;
   }
-
+  loadBlogs(): void {
+    const blogSubcription = this.blogService.blogs$.subscribe((blogs) => {
+      this.blogGroups = this.groupBlogs(blogs) ?? null;
+    });
+    this.destroyRef.onDestroy(() => blogSubcription.unsubscribe());
+  }
   groupBlogs(blogs: Blog[] | null | undefined): Blog[][] {
     const groupedBlogs: Blog[][] = [];
     if (blogs) {
@@ -72,7 +74,7 @@ export class HomeComponent implements OnInit {
 
   clearFilter(): void {
     this.isFiltered = false;
-    this.ngOnInit();
+    this.loadBlogs();
     this.filteredTag = '';
     this.headerTitle = 'Latest Posts';
   }
