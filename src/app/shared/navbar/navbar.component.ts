@@ -27,11 +27,12 @@ import { User } from '../../core/interfaces/user';
 import { TooltipDirective } from '../Directives/tooltip.directive';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { SharedService } from '../../core/services/shared.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [RouterLink, TooltipDirective, ReactiveFormsModule],
+  imports: [RouterLink, TooltipDirective, ReactiveFormsModule, CommonModule],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss',
 })
@@ -76,7 +77,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
       searchField: new FormControl(''),
     });
   }
-  
+
   ngOnInit(): void {
     this.isLoggedin = this.authService.isLoggedIn();
     this.userSubcription = this.authService.user$.subscribe({
@@ -116,5 +117,9 @@ export class NavbarComponent implements OnInit, OnDestroy {
   searchBlog(): void {
     const str = this.searchForm.get('searchField')?.value.trim();
     this.sharedService.blogSearch(str);
+  }
+  clearSearch(): void {
+    this.searchForm.reset();
+    this.sharedService.blogSearch('');
   }
 }
