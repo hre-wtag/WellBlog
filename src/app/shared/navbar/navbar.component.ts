@@ -93,9 +93,16 @@ export class NavbarComponent implements OnInit, OnDestroy {
         console.error(err);
       },
     });
-    this.sharedService.searchedText.subscribe((text) => {
-      if (text === '') this.clearSearch();
+
+    const seachTextSub = this.sharedService.searchedText.subscribe({
+      next: (text: string) => {
+        if (text === '') this.clearSearch();
+      },
+      error: (err: Error) => {
+        console.error(err);
+      },
     });
+    this.destroyRef.onDestroy(() => seachTextSub.unsubscribe());
   }
 
   ngOnDestroy(): void {

@@ -73,10 +73,16 @@ export class HomeComponent implements OnInit {
     );
     this.destroyRef.onDestroy(() => userSubcription.unsubscribe());
 
-    this.sharedService.searchedText.subscribe((text) => {
-      this.clearFilter();
-      this.handleSearch(text);
+    const seachTextSub = this.sharedService.searchedText.subscribe({
+      next: (text: string) => {
+        this.clearFilter();
+        this.handleSearch(text);
+      },
+      error: (err: Error) => {
+        console.error(err);
+      },
     });
+    this.destroyRef.onDestroy(() => seachTextSub.unsubscribe());
   }
 
   loadBlogs(): void {
