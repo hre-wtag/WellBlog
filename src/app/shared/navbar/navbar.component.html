@@ -15,18 +15,40 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       @if(currentPage !== profile_route && currentPage !== blog_route ){
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <form class="d-flex mx-auto w-25" role="search">
-          <div class="form-control d-flex m-0 p-0">
+      <div
+        class="collapse navbar-collapse"
+        id="navbarSupportedContent"
+      >
+        <form
+          class="d-flex mx-auto"
+          role="search"
+          [formGroup]="searchForm"
+          (ngSubmit)="searchBlog()"
+        >
+          <div
+            class="search-container form-control d-flex align-items-center justify-content-between m-0 p-0"
+          >
             <input
-              class="form-control border-0 m-0"
+              class="form-control search-field m-0"
               type="search"
               placeholder="Search"
+              formControlName="searchField"
               aria-label="Search"
+              (keyup)="searchBlog()"
             />
-            <button class="btn" type="submit">
-              <i class="bi bi-search text-body-secondary"></i>
-            </button>
+            <div class="d-flex align-items-center ms-1">
+              @if (searchForm.get('searchField')?.value) {
+              <button
+                class="search-btn btn px-3 py-1 text-body-secondary rounded-pill bg-light"
+                type="button"
+                (click)="clearSearch()"
+              >
+                Clear</button
+              >}
+              <button class="search-btn btn" type="submit">
+                <i class="bi bi-search text-body-secondary"></i>
+              </button>
+            </div>
           </div>
         </form>
       </div>

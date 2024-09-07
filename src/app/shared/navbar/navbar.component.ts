@@ -25,15 +25,18 @@ import { Observable, Subscription, filter, of, switchMap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { User } from '../../core/interfaces/user';
 import { TooltipDirective } from '../Directives/tooltip.directive';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { SharedService } from '../../core/services/shared.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-header',
+  selector: 'app-navbar',
   standalone: true,
-  imports: [RouterLink, TooltipDirective],
-  templateUrl: './header.component.html',
-  styleUrl: './header.component.scss',
+  imports: [RouterLink, TooltipDirective, ReactiveFormsModule, CommonModule],
+  templateUrl: './navbar.component.html',
+  styleUrl: './navbar.component.scss',
 })
-export class HeaderComponent implements OnInit, OnDestroy {
+export class NavbarComponent implements OnInit, OnDestroy {
   title: string = TITLE;
   login_route: string = SLASH + LOGIN_ROUTE;
   register_route: string = SLASH + REGISTER_ROUTE;
@@ -45,12 +48,35 @@ export class HeaderComponent implements OnInit, OnDestroy {
   logoutTooltip: boolean = false;
   userName: string | undefined = undefined;
   userSubcription: Subscription | null = null;
+  searchForm: FormGroup;
 
   private prevRouteService = inject(PreviousRouteService);
   private router = inject(Router);
   private authService = inject(AuthService);
   private activatedRoute = inject(ActivatedRoute);
+  private sharedService = inject(SharedService);
   private destroyRef = inject(DestroyRef);
+
+  constructor() {
+    this.router.events
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        filter((event) => event instanceof NavigationEnd),
+        switchMap(() => this.getPathFromRoute())
+      )
+      .subscribe({
+        next: (path: string) => {
+          this.currentPage = path ? '/' + path : '';
+        },
+        error: (error: Error) => {
+          console.error('Error fetching path:', error);
+        },
+      });
+
+    this.searchForm = new FormGroup({
+      searchField: new FormControl(''),
+    });
+  }
 
   ngOnInit(): void {
     this.isLoggedin = this.authService.isLoggedIn();
@@ -67,20 +93,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
         console.error(err);
       },
     });
-    this.router.events
-      .pipe(
-        takeUntilDestroyed(this.destroyRef),
-        filter((event) => event instanceof NavigationEnd),
-        switchMap(() => this.getPathFromRoute())
-      )
-      .subscribe({
-        next: (path: string) => {
-          this.currentPage = path ? '/' + path : '';
-        },
-        error: (error: Error) => {
-          console.error('Error fetching path:', error);
-        },
-      });
   }
 
   ngOnDestroy(): void {
@@ -100,5 +112,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.usernameTooltip = false;
     this.logoutTooltip = false;
     this.router.navigate([this.login_route]);
+  }
+
+  searchBlog(): void {
+    const str = this.searchForm.get('searchField')?.value.trim();
+    this.sharedService.blogSearch(str);
+  }
+  clearSearch(): void {
+    this.searchForm.reset();
+    this.sharedService.blogSearch('');
   }
 }

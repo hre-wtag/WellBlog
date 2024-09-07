@@ -8,6 +8,7 @@ import { TooltipDirective } from '../../shared/Directives/tooltip.directive';
 import { DEFAULT_PROFILE_PHOTO_SRC } from '../../core/utils/constants';
 import { AuthService } from '../../core/services/auth.service';
 import { User } from '../../core/interfaces/user';
+import { SharedService } from '../../core/services/shared.service';
 
 @Component({
   selector: 'app-home',
@@ -23,11 +24,15 @@ export class HomeComponent implements OnInit {
   isLoggedin: boolean = false;
   isFiltered: boolean = false;
   filteredTag: string = '';
-  headerTitle: string = 'Latest Posts';
+  baseHeaderTitle: string = 'Latest Posts';
+  headerTitle: string = this.baseHeaderTitle;
+  isSearched: boolean = false;
+  hasBlogs: boolean = false;
 
   private blogService = inject(BlogService);
   private destroyRef = inject(DestroyRef);
   private authService = inject(AuthService);
+  private sharedService = inject(SharedService);
 
   ngOnInit(): void {
     const userSubcription = this.authService.user$.subscribe(
@@ -40,6 +45,9 @@ export class HomeComponent implements OnInit {
       }
     );
     this.destroyRef.onDestroy(() => userSubcription.unsubscribe());
+    this.sharedService.searchedText.subscribe((text) => {
+      this.handleSearch(text);
+    });
     this.loadBlogs();
     this.heroBlog = this.blogGroups ? this.blogGroups[0][0] : null;
   }
@@ -56,6 +64,7 @@ export class HomeComponent implements OnInit {
         groupedBlogs.push(blogs.slice(i, i + 3));
       }
     }
+    this.hasBlogs = groupedBlogs.length > 0;
     return groupedBlogs;
   }
 
@@ -76,6 +85,23 @@ export class HomeComponent implements OnInit {
     this.isFiltered = false;
     this.loadBlogs();
     this.filteredTag = '';
-    this.headerTitle = 'Latest Posts';
+    this.headerTitle = this.baseHeaderTitle;
+  }
+  handleSearch(str: string): void {
+    this.isSearched = str !== undefined && str !== '';
+    this.headerTitle = this.isSearched
+      ? 'Searched Blogs'
+      : this.baseHeaderTitle;
+
+    this.blogService.blogs$
+      .pipe(
+        map((blogs) =>
+          blogs?.filter((blog) =>
+            blog.title.toLowerCase().includes(str.toLowerCase())
+          )
+        ),
+        map((filteredBlogs) => this.groupBlogs(filteredBlogs))
+      )
+      .subscribe((groupedBlogs) => (this.blogGroups = groupedBlogs));
   }
 }
