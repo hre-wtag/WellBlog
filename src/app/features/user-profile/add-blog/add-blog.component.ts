@@ -76,7 +76,6 @@ export class AddBlogComponent implements OnInit, OnDestroy {
       editor.setContent('This is the initial text');
     },
   };
-
   private toasterService = inject(ToasterService);
   private blogService = inject(BlogService);
   private authService = inject(AuthService);

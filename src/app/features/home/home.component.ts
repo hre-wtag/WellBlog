@@ -5,10 +5,17 @@ import { Blog } from '../../core/interfaces/blog';
 import { BlogCardComponent } from '../blog-card/blog-card.component';
 import { CommonModule } from '@angular/common';
 import { TooltipDirective } from '../../shared/Directives/tooltip.directive';
-import { DEFAULT_PROFILE_PHOTO_SRC } from '../../core/utils/constants';
+import {
+  DEFAULT_PROFILE_PHOTO_SRC,
+  PROFILE_ROUTE,
+  REGISTER_ROUTE,
+  SLASH,
+  START_JOURNY_IMAGE_SRC,
+} from '../../core/utils/constants';
 import { AuthService } from '../../core/services/auth.service';
 import { User } from '../../core/interfaces/user';
 import { SharedService } from '../../core/services/shared.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -18,49 +25,85 @@ import { SharedService } from '../../core/services/shared.service';
   styleUrl: './home.component.scss',
 })
 export class HomeComponent implements OnInit {
+  blogList: Blog[] | null = null;
   blogGroups: Blog[][] | null = null;
   heroBlog: Blog | null = null;
-  default_profile_photo: string = DEFAULT_PROFILE_PHOTO_SRC;
   isLoggedin: boolean = false;
   isFiltered: boolean = false;
+  isSearched: boolean = false;
+  hasBlogs: boolean = false;
+  emptyBlogList: boolean = false;
+  isPaginated: boolean | undefined = false;
   filteredTag: string = '';
   baseHeaderTitle: string = 'Latest Posts';
   headerTitle: string = this.baseHeaderTitle;
-  isSearched: boolean = false;
-  hasBlogs: boolean = false;
-
+  welcomeBTNText: string = 'Join Now';
+  registerRoute: string = SLASH + REGISTER_ROUTE;
+  profileRoute: string = SLASH + PROFILE_ROUTE;
+  default_profile_photo: string = DEFAULT_PROFILE_PHOTO_SRC;
+  start_journey_image: string = START_JOURNY_IMAGE_SRC;
+  initialItemsToLoad: number = 6;
+  itemsLoaded: number = this.initialItemsToLoad;
   private blogService = inject(BlogService);
   private destroyRef = inject(DestroyRef);
   private authService = inject(AuthService);
   private sharedService = inject(SharedService);
+  private router = inject(Router);
 
   ngOnInit(): void {
+    const blogSubcription = this.blogService.blogs$.subscribe(
+      (blogs: Blog[] | null) => {
+        this.blogList = blogs;
+        this.emptyBlogList = this.blogList?.length === 0;
+      }
+    );
+    this.destroyRef.onDestroy(() => blogSubcription.unsubscribe());
+
+    this.loadBlogs();
+
     const userSubcription = this.authService.user$.subscribe(
       (user: User | null) => {
         if (user) {
           this.isLoggedin = true;
+          this.welcomeBTNText = 'Add Blogs';
         } else {
           this.isLoggedin = false;
         }
       }
     );
     this.destroyRef.onDestroy(() => userSubcription.unsubscribe());
-    this.sharedService.searchedText.subscribe((text) => {
-      this.handleSearch(text);
+
+    const seachTextSub = this.sharedService.searchedText.subscribe({
+      next: (text: string) => {
+        this.clearFilter();
+        this.handleSearch(text);
+      },
+      error: (err: Error) => {
+        console.error(err);
+      },
     });
-    this.loadBlogs();
-    this.heroBlog = this.blogGroups ? this.blogGroups[0][0] : null;
+    this.destroyRef.onDestroy(() => seachTextSub.unsubscribe());
   }
+
   loadBlogs(): void {
-    const blogSubcription = this.blogService.blogs$.subscribe((blogs) => {
-      this.blogGroups = this.groupBlogs(blogs) ?? null;
-    });
-    this.destroyRef.onDestroy(() => blogSubcription.unsubscribe());
+    this.isPaginated = (this.blogList?.length ?? 0) > this.itemsLoaded;
+    this.blogGroups =
+      this.groupBlogs(
+        this.blogList?.sort(
+          (a, b) =>
+            new Date(b.postingDate).getTime() -
+            new Date(a.postingDate).getTime()
+        )
+      ) ?? null;
+    if ((this.blogList?.length ?? 0) > 0) {
+      this.heroBlog = this.blogList?.[(this.blogList?.length ?? 0) - 1] ?? null;
+    }
   }
+
   groupBlogs(blogs: Blog[] | null | undefined): Blog[][] {
     const groupedBlogs: Blog[][] = [];
     if (blogs) {
-      for (let i = 0; i < blogs.length; i += 3) {
+      for (let i = 0; i < Math.min(this.itemsLoaded, blogs.length); i += 3) {
         groupedBlogs.push(blogs.slice(i, i + 3));
       }
     }
@@ -68,7 +111,13 @@ export class HomeComponent implements OnInit {
     return groupedBlogs;
   }
 
+  loadMore(): void {
+    this.itemsLoaded += 3;
+    this.loadBlogs();
+  }
+
   handleSelectedTag(tag: string): void {
+    this.sharedService.searchedText.emit('');
     this.filteredTag = tag;
     this.isFiltered = true;
     this.headerTitle = 'Filtered Blogs';
@@ -83,6 +132,7 @@ export class HomeComponent implements OnInit {
 
   clearFilter(): void {
     this.isFiltered = false;
+    this.itemsLoaded = this.initialItemsToLoad;
     this.loadBlogs();
     this.filteredTag = '';
     this.headerTitle = this.baseHeaderTitle;
@@ -95,13 +145,24 @@ export class HomeComponent implements OnInit {
 
     this.blogService.blogs$
       .pipe(
-        map((blogs) =>
-          blogs?.filter((blog) =>
+        map((blogs: Blog[] | null) =>
+          blogs?.filter((blog: Blog) =>
             blog.title.toLowerCase().includes(str.toLowerCase())
           )
         ),
-        map((filteredBlogs) => this.groupBlogs(filteredBlogs))
+        map((filteredBlogs: Blog[] | undefined) =>
+          this.groupBlogs(filteredBlogs)
+        )
       )
       .subscribe((groupedBlogs) => (this.blogGroups = groupedBlogs));
+  }
+
+  addBlog(): void {
+    if (this.isLoggedin) {
+      this.router.navigate([this.profileRoute]);
+      this.sharedService.onClickingAddBlog('add-blog');
+    } else {
+      this.router.navigate([this.registerRoute]);
+    }
   }
 }

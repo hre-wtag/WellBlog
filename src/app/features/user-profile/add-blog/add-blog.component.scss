@@ -52,6 +52,9 @@
 .select-tag {
   cursor: pointer;
 }
+.selected-tag {
+  height: 1.813rem;
+}
 .form-check-wrapper {
   &:hover {
     background-color: $--bg-indigo;
@@ -89,5 +92,6 @@
   width: 62.938rem;
   .banner-image {
     height: 19rem;
+
   }
 }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
-import { EMAIL_REGEX } from '../utils/constants';
+import { EMAIL_REGEX, USERNAME_REGEX } from '../utils/constants';
 
 @Injectable({
   providedIn: 'root',
@@ -30,10 +30,16 @@ export class ValidatorsService {
       case !!errors['pattern']:
         if (errors['pattern'].requiredPattern === EMAIL_REGEX.toString()) {
           errorMessage = 'Please enter a valid email address.';
+        } else if (
+          errors['pattern'].requiredPattern === USERNAME_REGEX.toString()
+        ) {
+          errorMessage =
+            `Username must contain only lowercase letters, numbers, and hyphens ('-').`;
         } else {
           errorMessage =
             'Password must contain at least one character, one number and one special character.';
         }
+
         return errorMessage;
       default:
         return errorMessage;

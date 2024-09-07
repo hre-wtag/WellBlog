@@ -53,7 +53,6 @@ export class BlogComponent implements OnInit, AfterViewInit {
       this.blogDescription.nativeElement.innerHTML = sanitizedDescription;
     }
   }
-
   loadBlog(): void {
     const routeSubscription = this.activatedRoute.paramMap.subscribe({
       next: (paramMap) => {
@@ -88,5 +87,11 @@ export class BlogComponent implements OnInit, AfterViewInit {
 
   handleAddFormSubmitted(formSubmitted: string | null): void {
     this.clickedBTN = formSubmitted;
+    if (this.blog) {
+      setTimeout(() => {
+        this.loadDescription();
+      }, 50);
+    }
   }
+
 }

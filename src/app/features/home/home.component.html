@@ -1,4 +1,4 @@
-<div class="container home_container d-grid  p-0">
+<div class="container home_container d-grid mb-3 p-0">
   @if(heroBlog && !isFiltered && ! isSearched){
   <div
     class="hero-blog-container my-5 mb-3"
@@ -35,10 +35,14 @@
               >} @else { {{ tag }}}</button
             >}
           </div>
-          <h4 class="card-title m-1 mt-3 fw-bold">
+          <h4
+            class="card-title m-1 mt-3 fw-bold text-break"
+            appTooltip
+            [tooltipText]="heroBlog.title"
+          >
             {{
-              heroBlog.title.length > 150
-                ? (heroBlog.title | slice : 0 : 150) + "..."
+              heroBlog.title.length > 90
+                ? (heroBlog.title | slice : 0 : 90) + "..."
                 : heroBlog.title
             }}
           </h4>
@@ -98,13 +102,37 @@
 
       }
     </div>
+
     }
   </div>
-  } @else {
-  <div
-    class="my-4 p-2 bg-opacity-10 bg-danger border border-danger border-opacity-25 rounded"
+  @if(isPaginated && !isFiltered && !isSearched){
+  <button
+    class="btn btn-outline-secondary mx-auto"
+    type="button"
+    (click)="loadMore()"
   >
-    <h2 class="text-danger">No blogs found.</h2>
+    Show more</button
+  >} } @else {
+  <div class="container mt-5 py-5 text-center">
+    <div class="row align-items-center justify-content-around">
+      <img class="welcome-image col-6 rounded" [src]="start_journey_image" />
+      <div
+        class="welcome-text py-5 col-5 bg-opacity-10 border-opacity-25 rounded"
+      >
+        <h3 class="my-2">
+          Be part of a vibrant community where ideas thrive. Explore, learn, and
+          share your thoughts.
+        </h3>
+        <h1 class="my-3">Start your journey here!</h1>
+      </div>
+    </div>
   </div>
-  }
+  @if(emptyBlogList){
+  <button
+    class="welcome-btn btn btn-outline-primary background-primary mx-auto"
+    type="button"
+    (click)="addBlog()"
+  >
+    {{ welcomeBTNText }}</button
+  >} }
 </div>

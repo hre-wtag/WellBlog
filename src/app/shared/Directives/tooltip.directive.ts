@@ -39,7 +39,7 @@ export class TooltipDirective implements OnChanges {
     }
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.destroyTooltip();
   }
 

@@ -61,11 +61,11 @@
                 formControlName="username"
                 (blur)="checkUsername()"
                 [ngClass]="{
-                  'border-danger': isFieldValid('username')
+                  'border-danger': isFieldValid('username') || usernameError
                 }"
               />
               @if (isFieldValid('username')){
-              <div class="text-danger">
+              <div class="text-danger text-break">
                 {{ updateErrorMessages("username") }}
               </div>
               } @if(registerForm.get('username')?.valid &&
