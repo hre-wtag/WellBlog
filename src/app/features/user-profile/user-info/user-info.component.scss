@@ -1,8 +1,8 @@
 @import "../../../../../public/styles/variables.scss";
 .user-photo {
-  border-radius: $profile-photo--radius;
-  height: $profile-photo--height;
-  width: $profile-photo--width;
+  border-radius: $--radius-profile-photo;
+  height: $--height-profile-photo;
+  width: $--width-rofile-photo;
 }
 .card-titles {
   letter-spacing: 0.05rem;

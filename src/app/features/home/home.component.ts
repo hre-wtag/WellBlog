@@ -60,9 +60,7 @@ export class HomeComponent implements OnInit {
     this.destroyRef.onDestroy(() => blogSubcription.unsubscribe());
 
     this.loadBlogs();
-    if ((this.blogList?.length ?? 0) > 0) {
-      this.heroBlog = this.blogList?.[(this.blogList?.length ?? 0) - 1] ?? null;
-    }
+
     const userSubcription = this.authService.user$.subscribe(
       (user: User | null) => {
         if (user) {
@@ -73,10 +71,19 @@ export class HomeComponent implements OnInit {
         }
       }
     );
+    
     this.destroyRef.onDestroy(() => userSubcription.unsubscribe());
-    this.sharedService.searchedText.subscribe((text) => {
-      this.handleSearch(text);
+
+    const seachTextSub = this.sharedService.searchedText.subscribe({
+      next: (text: string) => {
+        this.clearFilter();
+        this.handleSearch(text);
+      },
+      error: (err: Error) => {
+        console.error(err);
+      },
     });
+    this.destroyRef.onDestroy(() => seachTextSub.unsubscribe());
   }
 
   loadBlogs(): void {
@@ -89,6 +96,9 @@ export class HomeComponent implements OnInit {
             new Date(a.postingdate).getTime()
         )
       ) ?? null;
+    if ((this.blogList?.length ?? 0) > 0) {
+      this.heroBlog = this.blogList?.[(this.blogList?.length ?? 0) - 1] ?? null;
+    }
   }
 
   groupBlogs(blogs: Blog[] | null | undefined): Blog[][] {
@@ -108,6 +118,7 @@ export class HomeComponent implements OnInit {
   }
 
   handleSelectedTag(tag: string): void {
+    this.sharedService.searchedText.emit('');
     this.filteredTag = tag;
     this.isFiltered = true;
     this.headerTitle = 'Filtered Blogs';
@@ -140,7 +151,9 @@ export class HomeComponent implements OnInit {
             blog.title.toLowerCase().includes(str.toLowerCase())
           )
         ),
-        map((filteredBlogs: Blog[] | undefined) => this.groupBlogs(filteredBlogs))
+        map((filteredBlogs: Blog[] | undefined) =>
+          this.groupBlogs(filteredBlogs)
+        )
       )
       .subscribe((groupedBlogs) => (this.blogGroups = groupedBlogs));
   }

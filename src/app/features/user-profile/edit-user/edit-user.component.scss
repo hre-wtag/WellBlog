@@ -1,3 +1,35 @@
+@import "../../../../../public/styles/variables.scss";
+@import "../../../../../public/styles/mixins.scss";
+
+.btn {
+  @include btn-base;
+  border-radius: 0.25rem;
+  height: 2.75rem;
+  width: 9.031rem;
+}
+
+.btn.btn-submit {
+  color: $white;
+  background: $indigo;
+  &not:active {
+    border-color: $indigo;
+  }
+}
+.color-primary {
+  @include color-primary;
+}
+.btn.btn-cancel {
+  padding: 0.25rem;
+  border-color: #b3b6bd;
+  &:hover {
+    background: #eff1f9;
+  }
+  &:active {
+    background: #e9ecf6;
+    border-color: transparent;
+  }
+}
+
 .edit-user-container {
   height: 39.188rem;
   width: 76.063rem;
@@ -7,7 +39,7 @@
 }
 
 .uploaded-file-name {
-  border-radius: 0.25rem;
+  border-radius: 0.75rem;
   height: 3rem;
   width: 26.313rem;
 }

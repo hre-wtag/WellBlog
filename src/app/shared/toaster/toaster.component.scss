@@ -3,7 +3,7 @@
 @import "bootstrap-icons/font/bootstrap-icons.scss";
 
 .toaster-card {
-  top: calc($navbar--height + 1rem);
+  top: calc($--height-navbar + 1rem);
   margin-right: 1rem;
   border-left: 0.4rem solid;
   animation: 0.7s slide-left ease-in-out;
@@ -41,7 +41,7 @@
 }
 
 .error-toast {
-  background-color: $danger--bg;
+  background-color: $--bg-danger;
   @extend #{".border-danger"};
   .toast-title,
   .toast-btn i {
@@ -53,7 +53,7 @@
 }
 
 .warning-toast {
-  background-color: $warning--bg;
+  background-color: $--bg-warning;
   @extend #{".border-warning"};
   .toast-title,
   .toast-btn i {
@@ -65,7 +65,7 @@
 }
 
 .info-toast {
-  background-color: $info--bg;
+  background-color: $--bg-info;
   @extend #{".border-info"};
   .toast-title,
   .toast-btn i {
@@ -77,7 +77,7 @@
 }
 
 .success-toast {
-  background-color: $success--bg;
+  background-color: $--bg-success;
   @extend #{".border-success"};
   .toast-title,
   .toast-btn i {

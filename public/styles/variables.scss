@@ -1,13 +1,25 @@
+// ====== Fonts ======
 $font-stack: Roboto;
-$primary--color: #5957d6;
-$secondary--color: #5957d63a;
-$white--color: #fff;
-$profile-photo--width: 4rem;
-$profile-photo--height: 4rem;
-$profile-photo--radius: 50%;
-$navbar--height: 3rem;
 
-$warning--bg: #fcf6e4;
-$danger--bg: #fdefef;
-$info--bg: #e4f8fc;
-$success--bg: #e2f6ed;
+// ====== Colors ======
+$indigo: #5957d6;
+$indigo-dark: #4341d6;
+$indigo-10: #ededff;
+$white: #ffffff;
+$gray: #686a6c;
+
+// ----- backgrounds -----
+$--bg-warning: #fcf6e4;
+$--bg-danger: #fdefef;
+$--bg-info: #e4f8fc;
+$--bg-success: #e2f6ed;
+$--bg-indigo: #5957d63a;
+
+// ====== Sizes ======
+// ----- navbar -----
+$--height-navbar: 4rem;
+
+// ----- profile photo -----
+$--width-rofile-photo: 4rem;
+$--height-profile-photo: 4rem;
+$--radius-profile-photo: 50%;

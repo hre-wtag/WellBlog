@@ -30,10 +30,12 @@ export class LoginComponent implements OnInit {
   register_route: string = SLASH + REGISTER_ROUTE;
   showPassword: boolean | Event = false;
   loginError: boolean = false;
+  
   private router = inject(Router);
   private authService = inject(AuthService);
   private toasterService = inject(ToasterService);
   private destroyRef = inject(DestroyRef);
+
 
   constructor() {
     this.loginForm = new FormGroup({
@@ -54,10 +56,6 @@ export class LoginComponent implements OnInit {
     return false;
   }
 
-  onHoldChange(event: Event | boolean): void {
-    this.showPassword = event;
-  }
-
   onRegister(): void {
     this.router.navigate([this.register_route]);
   }
@@ -67,8 +65,7 @@ export class LoginComponent implements OnInit {
       return;
     }
     const user: AuthUser = this.loginForm.value;
-
-     this.authService.authenticateUser(user).subscribe({
+    this.authService.authenticateUser(user).subscribe({
       next: (isLoggedIn: boolean) => {
         if (isLoggedIn) {
           this.toasterService.success('success!', 'Login successful.');
@@ -86,5 +83,9 @@ export class LoginComponent implements OnInit {
         }, 3000);
       },
     });
+  }
+
+  changePasswordFlag(flag: boolean): void {
+    this.showPassword = flag;
   }
 }

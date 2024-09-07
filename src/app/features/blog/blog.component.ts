@@ -27,15 +27,16 @@ import DOMPurify from 'dompurify';
 export class BlogComponent implements OnInit, AfterViewInit {
   @ViewChild('blogDescription') blogDescription!: ElementRef;
 
+  blog: Blog | null = null;
+  default_profile_photo: string = DEFAULT_PROFILE_PHOTO_SRC;
+  clickedBTN: string | null = null;
+  isMyBlog: boolean = false;
+
   private activatedRoute = inject(ActivatedRoute);
   private blogService = inject(BlogService);
   private destroyRef = inject(DestroyRef);
   private router = inject(Router);
   private titleService = inject(Title);
-  blog: Blog | null = null;
-  default_profile_photo: string = DEFAULT_PROFILE_PHOTO_SRC;
-  isMyBlog: boolean = false;
-  clickedBTN: string | null = null;
   blogUpdated: boolean = false;
 
   ngOnInit(): void {

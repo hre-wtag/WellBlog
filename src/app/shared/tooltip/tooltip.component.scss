@@ -1,15 +1,15 @@
 @import "../../../../public/styles/variables.scss";
 .custom-tooltip {
   position: absolute;
-  background-color: $primary--color;
+  background-color: $indigo;
   border-radius: 0.25rem;
-  color: #ffffff;
+  color: $white;
   font-family: Arial;
   padding: 0.188rem 0.375rem;
   font-size: 0.813rem;
   pointer-events: none;
   max-width: 100%;
-  z-index: 1;
+  z-index: 100001;
 
   &::after {
     content: "";
@@ -29,7 +29,7 @@
   &::after {
     border-top: 0.313rem solid transparent;
     border-bottom: 0.313rem solid transparent;
-    border-left: 0.313rem solid $primary--color;
+    border-left: 0.313rem solid $indigo;
     left: 100%;
     bottom: calc(50% - 0.313rem);
   }
@@ -38,7 +38,7 @@
   &::after {
     border-left: 0.313rem solid transparent;
     border-right: 0.313rem solid transparent;
-    border-bottom: 0.313rem solid $primary--color;
+    border-bottom: 0.313rem solid $indigo;
     left: calc(50% - 0.313rem);
     top: -0.313rem;
   }
@@ -47,7 +47,7 @@
   &::after {
     border-top: 0.313rem solid transparent;
     border-bottom: 0.313rem solid transparent;
-    border-right: 0.313rem solid $primary--color;
+    border-right: 0.313rem solid $indigo;
     left: -0.313rem;
     bottom: calc(50% - 0.313rem);
   }
@@ -56,7 +56,7 @@
   &::after {
     border-left: 0.313rem solid transparent;
     border-right: 0.313rem solid transparent;
-    border-top: 0.313rem solid $primary--color;
+    border-top: 0.313rem solid $indigo;
     left: calc(50% - 0.313rem);
     top: 100%;
   }
