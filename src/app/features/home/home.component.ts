@@ -43,6 +43,7 @@ export class HomeComponent implements OnInit {
   default_profile_photo: string = DEFAULT_PROFILE_PHOTO_SRC;
   start_journey_image: string = START_JOURNY_IMAGE_SRC;
   initialItemsToLoad: number = 6;
+
   itemsLoaded: number = this.initialItemsToLoad;
   private blogService = inject(BlogService);
   private destroyRef = inject(DestroyRef);
@@ -54,12 +55,11 @@ export class HomeComponent implements OnInit {
     const blogSubcription = this.blogService.blogs$.subscribe(
       (blogs: Blog[] | null) => {
         this.blogList = blogs;
+        this.loadBlogs();
         this.emptyBlogList = this.blogList?.length === 0;
       }
     );
     this.destroyRef.onDestroy(() => blogSubcription.unsubscribe());
-
-    this.loadBlogs();
 
     const userSubcription = this.authService.user$.subscribe(
       (user: User | null) => {
@@ -71,7 +71,7 @@ export class HomeComponent implements OnInit {
         }
       }
     );
-    
+
     this.destroyRef.onDestroy(() => userSubcription.unsubscribe());
 
     const seachTextSub = this.sharedService.searchedText.subscribe({
