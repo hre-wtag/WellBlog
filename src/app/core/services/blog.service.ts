@@ -11,6 +11,9 @@ export class BlogService {
   blogs$ = new BehaviorSubject<Blog[] | null>(null);
 
   private authService = inject(AuthService);
+  constructor() {
+    this.blogs$.next(this.loadBlogsFromLocalStorage() || []);
+  }
 
   isMyBlog(bloggerId: number): boolean {
     let isMyBlog = false;
@@ -20,8 +23,9 @@ export class BlogService {
     userSub.unsubscribe();
     return isMyBlog;
   }
-  
-  updateBlog(updatedBlog: Blog): void {
+
+  updateBlog(updatedBlog: Blog): boolean {
+    let isUpdated = false;
     this.blogs$
       .pipe(
         take(1),
@@ -31,10 +35,78 @@ export class BlogService {
           )
         )
       )
-      .subscribe((updatedBlogs) => {
-        if (updatedBlogs) {
-          this.blogs$.next(updatedBlogs);
-        }
+      .subscribe({
+        next: (updatedBlogs) => {
+          if (updatedBlogs) {
+            this.blogs$.next(updatedBlogs);
+            this.saveBlogsToLocalStorage(updatedBlogs);
+            isUpdated = true;
+          }
+        },
+        error: () => {
+          isUpdated = false;
+        },
       });
+    return isUpdated;
+  }
+
+  private saveBlogsToLocalStorage(blogs: Blog[]): void {
+    localStorage.setItem('blogs', JSON.stringify(blogs));
+  }
+
+  private loadBlogsFromLocalStorage(): Blog[] | null {
+    const blogsJson = localStorage.getItem('blogs');
+    if (blogsJson) {
+      try {
+        return JSON.parse(blogsJson);
+      } catch (e) {
+        console.error('Error parsing blogs from local storage', e);
+        return null;
+      }
+    }
+    return null;
+  }
+  
+  addBlog(newBlog: Blog): boolean {
+    let isAdded = false;
+    this.blogs$
+      .pipe(
+        filter((blogs) => blogs !== null),
+        map((blogs) => [...(blogs ?? []), newBlog]),
+        take(1) // Ensures observable completes after emitting updatedBlogs
+      )
+      .subscribe({
+        next: (blogs) => {
+          this.blogs$.next(blogs);
+          this.saveBlogsToLocalStorage(blogs);
+          isAdded = true;
+        },
+        error: () => {
+          isAdded = false;
+        },
+      });
+    return isAdded;
+  }
+
+  deleteBlog(id: number): boolean {
+    let isDeleted = false;
+    this.blogs$
+      .pipe(
+        take(1),
+        map((blogs) => blogs?.filter((blog) => blog.id !== id)) // Filter out the blog to be deleted
+      )
+      .subscribe({
+        next: (updatedBlogs) => {
+          if (updatedBlogs) {
+            this.blogs$.next(updatedBlogs);
+            this.saveBlogsToLocalStorage(updatedBlogs);
+            isDeleted = true;
+          }
+        },
+        error: () => {
+          isDeleted = false;
+        },
+      });
+    return isDeleted;
   }
 }

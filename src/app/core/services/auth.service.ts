@@ -21,6 +21,7 @@ export class AuthService {
     localStorage.setItem('registeredUsers', JSON.stringify(usersArray));
   }
 
+
   getRegisteredUsers(): User[] | null {
     const storedUserData = localStorage.getItem('registeredUsers');
     return storedUserData ? JSON.parse(storedUserData) : null;

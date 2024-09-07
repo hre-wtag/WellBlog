@@ -44,12 +44,14 @@
           }}</small>
         </div>
       </div>
+      @if(showDeleteBtn){
       <div
         class="btn-delete d-flex ms-auto"
         (click)="onDelete(blog.id); $event.stopPropagation()"
       >
         <i class="bi bi-trash3 fs-4"></i>
       </div>
+      }
     </div>
   </div>
 </div>

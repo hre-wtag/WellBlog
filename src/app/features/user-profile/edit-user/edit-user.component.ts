@@ -29,6 +29,7 @@ import { ToasterService } from '../../../core/services/toaster.service';
 export class EditUserComponent implements OnInit {
   @Output() formSubmitted = new EventEmitter<string | null>();
 
+
   editUserForm: FormGroup;
   userInfo: User | null = null;
   uploadedImageName: string | null = null;

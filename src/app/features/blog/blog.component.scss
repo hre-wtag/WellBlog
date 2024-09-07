@@ -26,3 +26,12 @@
 .edit-button {
   cursor: pointer;
 }
+.blog-image-container {
+  max-height: 28rem;
+  min-width: 45rem;
+  overflow: hidden;
+}
+.blog-image {
+  max-width: 100%;
+  height: auto;
+}

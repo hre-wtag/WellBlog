@@ -43,7 +43,7 @@ export class TooltipDirective implements OnChanges {
     this.destroyTooltip();
   }
 
-  private createTooltip(): void {
+  createTooltip(): void {
     if (this.tooltipComponentRef) return;
     this.tooltipComponentRef =
       this.viewContainerRef.createComponent(TooltipComponent);
@@ -89,7 +89,7 @@ export class TooltipDirective implements OnChanges {
     this.tooltipComponentRef.instance.top = top / 16;
   }
 
-  private destroyTooltip(): void {
+  destroyTooltip(): void {
     if (this.tooltipComponentRef) {
       this.tooltipComponentRef.destroy();
       this.tooltipComponentRef = null;
@@ -100,7 +100,7 @@ export class TooltipDirective implements OnChanges {
     }
   }
 
-  private getActualViewportPosition(element: HTMLElement): {
+  getActualViewportPosition(element: HTMLElement): {
     left: number;
     top: number;
     width: number;

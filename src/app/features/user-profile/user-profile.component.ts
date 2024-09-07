@@ -26,7 +26,6 @@ import { TooltipDirective } from '../../shared/Directives/tooltip.directive';
 })
 export class UserProfileComponent implements OnInit {
   blogList$: Observable<Blog[]> | null = null;
-  clickedAddBlog: boolean = false;
   hasBlogs = signal(false);
   showTooltip: boolean = false;
   addBlogTooltip: boolean = false;

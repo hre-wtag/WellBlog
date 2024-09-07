@@ -119,9 +119,11 @@ export class RegisterComponent {
     }
     return false;
   }
+
   getFormControl = (formGroup: FormGroup, formControlName: string) => {
     return formGroup.get(formControlName) as FormControl;
   };
+
   updateErrorMessages(fControlName: string): string | null {
     let fControl = this.registerForm.get(fControlName);
     if (fControl?.touched && fControl?.errors) {

@@ -1,0 +1,82 @@
+<div class="container home_container d-grid my-5 p-0">
+  @if(heroBlog){
+  <div class="hero-blog-container"[ngClass]="{'loggedin-hero-blog-container':isLoggedin}">
+    <img
+      class="hero-blog-image img-fluid"
+      [src]="heroBlog.blogImage"
+      [alt]="heroBlog.title"
+    />
+    <div class="overlay-hero-blog-image"></div>
+      <div
+        class="blog-details card-img-overlay"
+        [ngClass]="
+          isLoggedin ? 'loggedin mx-auto mt-auto mb-3': ['not-loggedin', 'border']
+        "
+      >
+        <div class="d-flex flex-column justify-content-between h-100">
+          <div class="blog-header">
+            <div class="tag-list d-flex">
+              @for(tag of heroBlog.tags; track $index){
+              <button
+                type="button"
+                class="tag-btn btn btn-primary d-flex align-items-center justify-content-center m-1 rounded-1"
+              >
+                @if(tag.length > 10){
+                <span appTooltip [tooltipText]="tag">
+                  {{
+                    tag.length > 10 ? tag.substring(0, 10) + "..." : tag
+                  }}</span
+                >} @else { {{ tag }}}</button
+              >}
+            </div>
+            <h4 class="card-title m-1 mt-3 fw-bold">
+              {{
+                heroBlog.title.length > 150
+                  ? (heroBlog.title | slice : 0 : 150) + "..."
+                  : heroBlog.title
+              }}
+            </h4>
+          </div>
+
+          <div class="blog-footer d-flex align-items-center ms-1">
+            <div class="footer-left d-flex align-items-center">
+              <img
+                [src]="
+                  heroBlog.bloggerImage
+                    ? heroBlog.bloggerImage
+                    : default_profile_photo
+                "
+                class="blog-footer-img rounded-circle me-3"
+                [alt]="heroBlog.bloggerName"
+              />
+              <div class="card-text">
+                <small class="text-body-secondary"
+                  >{{ heroBlog.bloggerName }}
+                </small>
+              </div>
+            </div>
+            <div class="card-text">
+              <small class="text-body-secondary">{{
+                heroBlog.postingDate | date : "MMMM d, yyyy"
+              }}</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+  </div>
+  }
+  <h4 class="mt-4 mb-2">Latest Posts</h4>
+  <div class="blog-cards">
+    @for(blogs of blogGroups ;track $index){
+    <div class="mb-3 d-flex">
+      @for(blog of blogs ;track $index){
+      <app-blog-card
+        [blog]="blog"
+        [ngClass]="{ 'margin-end': ($index + 1) % 3 !== 0 }"
+      />
+      }
+    </div>
+    }
+  </div>
+</div>
