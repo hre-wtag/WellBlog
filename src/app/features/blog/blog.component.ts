@@ -16,11 +16,17 @@ import { Title } from '@angular/platform-browser';
 import { TooltipDirective } from '../../shared/Directives/tooltip.directive';
 import { AddBlogComponent } from '../user-profile/add-blog/add-blog.component';
 import DOMPurify from 'dompurify';
+import { LoadingSpinnerComponent } from '../../shared/loading-spinner/loading-spinner.component';
 
 @Component({
   selector: 'app-blog',
   standalone: true,
-  imports: [CommonModule, TooltipDirective, AddBlogComponent],
+  imports: [
+    CommonModule,
+    TooltipDirective,
+    AddBlogComponent,
+    LoadingSpinnerComponent,
+  ],
   templateUrl: './blog.component.html',
   styleUrl: './blog.component.scss',
 })
@@ -31,6 +37,7 @@ export class BlogComponent implements OnInit, AfterViewInit {
   default_profile_photo: string = DEFAULT_PROFILE_PHOTO_SRC;
   clickedBTN: string | null = null;
   isMyBlog: boolean = false;
+  isLoading: boolean = true;
 
   private activatedRoute = inject(ActivatedRoute);
   private blogService = inject(BlogService);
@@ -48,7 +55,7 @@ export class BlogComponent implements OnInit, AfterViewInit {
   }
 
   loadDescription(): void {
-    if (this.blog) {
+    if (this.blogDescription && this.blog) {
       const sanitizedDescription = DOMPurify.sanitize(this.blog.description);
       this.blogDescription.nativeElement.innerHTML = sanitizedDescription;
     }
@@ -65,7 +72,9 @@ export class BlogComponent implements OnInit, AfterViewInit {
             if (this.blog === null) {
               this.router.navigate(['']);
             } else {
+              this.isLoading = false;
               this.titleService.setTitle(this.blog.title);
+
               setTimeout(() => {
                 this.loadDescription();
               }, 50);

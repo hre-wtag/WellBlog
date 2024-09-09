@@ -1,4 +1,11 @@
-import { Component, DestroyRef, inject, OnInit } from '@angular/core';
+import {
+  Component,
+  DestroyRef,
+  effect,
+  inject,
+  OnInit,
+  signal,
+} from '@angular/core';
 import { BlogService } from '../../core/services/blog.service';
 import { map } from 'rxjs';
 import { Blog } from '../../core/interfaces/blog';
@@ -16,11 +23,19 @@ import { AuthService } from '../../core/services/auth.service';
 import { User } from '../../core/interfaces/user';
 import { SharedService } from '../../core/services/shared.service';
 import { Router } from '@angular/router';
+import { LoadingSpinnerComponent } from '../../shared/loading-spinner/loading-spinner.component';
+import { AddBlogComponent } from '../user-profile/add-blog/add-blog.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, BlogCardComponent, TooltipDirective],
+  imports: [
+    CommonModule,
+    BlogCardComponent,
+    TooltipDirective,
+    LoadingSpinnerComponent,
+    AddBlogComponent,
+  ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
@@ -43,20 +58,29 @@ export class HomeComponent implements OnInit {
   default_profile_photo: string = DEFAULT_PROFILE_PHOTO_SRC;
   start_journey_image: string = START_JOURNY_IMAGE_SRC;
   initialItemsToLoad: number = 6;
-
   itemsLoaded: number = this.initialItemsToLoad;
+  isLoading = signal(true);
   private blogService = inject(BlogService);
   private destroyRef = inject(DestroyRef);
   private authService = inject(AuthService);
   private sharedService = inject(SharedService);
   private router = inject(Router);
 
+  constructor() {
+    effect(() => {
+      this.isLoading();
+    });
+  }
   ngOnInit(): void {
     const blogSubcription = this.blogService.blogs$.subscribe(
       (blogs: Blog[] | null) => {
-        this.blogList = blogs;
-        this.loadBlogs();
-        this.emptyBlogList = this.blogList?.length === 0;
+        if (blogs !== null) {
+          this.blogList = blogs;
+          this.loadBlogs();
+          this.emptyBlogList = this.blogList?.length === 0;
+
+          console.log(this.blogList);
+        }
       }
     );
     this.destroyRef.onDestroy(() => blogSubcription.unsubscribe());
@@ -99,6 +123,7 @@ export class HomeComponent implements OnInit {
     if ((this.blogList?.length ?? 0) > 0) {
       this.heroBlog = this.blogList?.[(this.blogList?.length ?? 0) - 1] ?? null;
     }
+    this.isLoading.set(false);
   }
 
   groupBlogs(blogs: Blog[] | null | undefined): Blog[][] {

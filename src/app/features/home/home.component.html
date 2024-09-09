@@ -1,3 +1,4 @@
+@if(!isLoading()){
 <div class="container home_container d-grid mb-3 p-0">
   @if(heroBlog && !isFiltered && ! isSearched){
   <div
@@ -136,3 +137,5 @@
     {{ welcomeBTNText }}</button
   >} }
 </div>
+
+}@else {<app-loading-spinner />}
