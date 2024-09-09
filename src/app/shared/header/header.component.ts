@@ -11,6 +11,7 @@ import {
   REGISTER_ROUTE,
   PROFILE_ROUTE,
   SLASH,
+  BLOG_ROUTE,
 } from '../../core/utils/constants';
 import {
   ActivatedRoute,
@@ -37,6 +38,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   login_route: string = SLASH + LOGIN_ROUTE;
   register_route: string = SLASH + REGISTER_ROUTE;
   profile_route: string = SLASH + PROFILE_ROUTE;
+  blog_route: string = SLASH + BLOG_ROUTE;
   currentPage: string = '';
   isLoggedin: boolean = false;
   showTooltip: boolean = false;
