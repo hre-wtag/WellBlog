@@ -42,8 +42,8 @@ export class BlogCardComponent implements OnChanges {
   ngOnChanges(): void {
     if (this.blog) {
       this.formattedBlogTitle =
-        this.blog.title.length > 30
-          ? this.blog.title.slice(0, 30) + '...'
+        this.blog.title.length > 70
+          ? this.blog.title.slice(0, 70) + '...'
           : this.blog.title;
     }
     this.showDeleteBtn = this.router.url === this.profile_route ? true : false;
