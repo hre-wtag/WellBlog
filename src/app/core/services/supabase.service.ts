@@ -194,8 +194,6 @@ export class SupabaseService {
           throw new Error(response.error.message);
         }
         if (response.data) {
-          console.log(response.data,"blog data");
-          
           return {
             id: response.data.id,
             title: response.data.title,

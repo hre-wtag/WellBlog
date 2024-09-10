@@ -36,8 +36,6 @@ export class BlogService {
           return false;
         }
         this.blog$.next(response);
-        console.log(response,'u b');
-        
         return true;
       }),
       catchError((error: Error) => {
