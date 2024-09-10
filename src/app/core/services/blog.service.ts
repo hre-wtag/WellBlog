@@ -35,9 +35,9 @@ export class BlogService {
           console.error('Error updating blog:', response);
           return false;
         }
-       // this.getSingleBlog(updatedBlog.id);
-      //  this.blogUpdated.set(true);
-        this.blog$.next(updatedBlog);
+        this.blog$.next(response);
+        console.log(response,'u b');
+        
         return true;
       }),
       catchError((error: Error) => {

@@ -180,20 +180,37 @@ export class SupabaseService {
       })
     );
   }
-  updateBlog(blog: Blog): Observable<User> {
+  updateBlog(blog: Blog): Observable<Blog | null> {
     return from(
       this.supabase
         .from(this.BLOG_TABLE)
         .update(blog)
         .match({ id: blog.id })
-        .select()
+        .select(`*, user ( firstname, lastname,profileimage )`)
         .single()
     ).pipe(
       map((response) => {
         if (response.error) {
           throw new Error(response.error.message);
         }
-        return response.data;
+        if (response.data) {
+          console.log(response.data,"blog data");
+          
+          return {
+            id: response.data.id,
+            title: response.data.title,
+            tags: JSON.parse(response.data.tags),
+            blogimage: response.data.blogimage,
+            description: response.data.description,
+            postingdate: new Date(response.data.postingdate),
+            bloggerid: response.data.bloggerid,
+            bloggername:
+              response.data.user.firstname + ' ' + response.data.user.lastname,
+            bloggerimage: response.data.user.profileimage,
+          };
+        } else {
+          return null;
+        }
       }),
       catchError((error) => {
         throw error;
