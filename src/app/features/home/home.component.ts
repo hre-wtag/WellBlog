@@ -59,7 +59,9 @@ export class HomeComponent implements OnInit {
   start_journey_image: string = START_JOURNY_IMAGE_SRC;
   initialItemsToLoad: number = 6;
   itemsLoaded: number = this.initialItemsToLoad;
+  showLess: boolean = false;
   isLoading = signal(true);
+
   private blogService = inject(BlogService);
   private destroyRef = inject(DestroyRef);
   private authService = inject(AuthService);
@@ -111,7 +113,9 @@ export class HomeComponent implements OnInit {
   }
 
   loadBlogs(): void {
-    this.isPaginated = (this.blogList?.length ?? 0) > this.itemsLoaded;
+    const totalBlogs = this.blogList?.length ?? 0;
+    this.isPaginated = totalBlogs > this.itemsLoaded;
+    this.showLess = totalBlogs <= this.itemsLoaded;
     this.blogGroups =
       this.groupBlogs(
         this.blogList?.sort(
@@ -120,8 +124,8 @@ export class HomeComponent implements OnInit {
             new Date(a.postingdate).getTime()
         )
       ) ?? null;
-    if ((this.blogList?.length ?? 0) > 0) {
-      this.heroBlog = this.blogList?.[(this.blogList?.length ?? 0) - 1] ?? null;
+    if (totalBlogs > 0) {
+      this.heroBlog = this.blogList?.[totalBlogs - 1] ?? null;
     }
     this.isLoading.set(false);
   }
@@ -141,7 +145,12 @@ export class HomeComponent implements OnInit {
     this.itemsLoaded += 3;
     this.loadBlogs();
   }
-
+  loadLess(): void {
+    this.itemsLoaded = this.initialItemsToLoad;
+    this.showLess = false;
+    this.loadBlogs();
+    this.showLess = this.itemsLoaded >= (this.blogList?.length ?? 0);
+  }
   handleSelectedTag(tag: string): void {
     this.sharedService.searchedText.emit('');
     this.filteredTag = tag;

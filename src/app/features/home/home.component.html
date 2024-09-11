@@ -106,14 +106,23 @@
 
     }
   </div>
-  @if(isPaginated && !isFiltered && !isSearched){
+  @if(isPaginated && !isFiltered && !isSearched && !showLess ){
+
   <button
     class="btn btn-outline-secondary mx-auto"
     type="button"
     (click)="loadMore()"
   >
     Show more</button
-  >} } @else {
+  >} @if(showLess){
+  <button
+    class="btn btn-outline-secondary mx-auto"
+    type="button"
+    (click)="loadLess()"
+  >
+    Show less
+  </button>
+  } }@else {
   <div class="container mt-5 py-5 text-center">
     <div class="row align-items-center justify-content-around">
       <img class="welcome-image col-6 rounded" [src]="start_journey_image" />
@@ -137,5 +146,4 @@
     {{ welcomeBTNText }}</button
   >} }
 </div>
-
 }@else {<app-loading-spinner />}
