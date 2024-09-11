@@ -1,6 +1,5 @@
-@defer (when !isLoading) {
 <div class="container d-flex justify-content-center my-4">
-  @if(blog){ @if(!clickedBTN){
+  @defer (when !isLoading) { @if(blog){ @if(!clickedBTN){
   <div class="blog-container d-flex flex-column px-1">
     <div class="d-flex justify-content-between align-items-center">
       <div class="tag-list d-flex">
@@ -68,6 +67,5 @@
     [editedBlog]="blog"
     (formSubmitted)="handleAddFormSubmitted($event)"
   />
-  }}
+  }} } @placeholder (minimum 1s) { <app-loading-spinner />}
 </div>
-} @placeholder (minimum 1s) { <app-loading-spinner />}
