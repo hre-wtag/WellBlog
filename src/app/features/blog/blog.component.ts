@@ -45,7 +45,7 @@ export class BlogComponent implements OnInit, AfterViewInit {
   private router = inject(Router);
   private titleService = inject(Title);
   blogUpdated: boolean = false;
-
+  loadingDesc: boolean = true;
   ngOnInit(): void {
     this.loadBlog();
   }
@@ -58,6 +58,7 @@ export class BlogComponent implements OnInit, AfterViewInit {
     if (this.blogDescription && this.blog) {
       const sanitizedDescription = DOMPurify.sanitize(this.blog.description);
       this.blogDescription.nativeElement.innerHTML = sanitizedDescription;
+      this.loadingDesc = false;
     }
   }
   loadBlog(): void {
@@ -77,7 +78,7 @@ export class BlogComponent implements OnInit, AfterViewInit {
 
               setTimeout(() => {
                 this.loadDescription();
-              }, 50);
+              }, 1000);
               this.isMyBlog = this.blogService.isMyBlog(this.blog?.bloggerid);
             }
           });
