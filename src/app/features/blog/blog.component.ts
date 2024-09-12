@@ -10,18 +10,23 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import { BlogService } from '../../core/services/blog.service';
 import { Blog } from '../../core/interfaces/blog';
-import { map } from 'rxjs';
 import { DEFAULT_PROFILE_PHOTO_SRC } from '../../core/utils/constants';
 import { CommonModule } from '@angular/common';
 import { Title } from '@angular/platform-browser';
 import { TooltipDirective } from '../../shared/Directives/tooltip.directive';
 import { AddBlogComponent } from '../user-profile/add-blog/add-blog.component';
 import DOMPurify from 'dompurify';
+import { LoadingSpinnerComponent } from '../../shared/loading-spinner/loading-spinner.component';
 
 @Component({
   selector: 'app-blog',
   standalone: true,
-  imports: [CommonModule, TooltipDirective, AddBlogComponent],
+  imports: [
+    CommonModule,
+    TooltipDirective,
+    AddBlogComponent,
+    LoadingSpinnerComponent,
+  ],
   templateUrl: './blog.component.html',
   styleUrl: './blog.component.scss',
 })
@@ -32,13 +37,15 @@ export class BlogComponent implements OnInit, AfterViewInit {
   default_profile_photo: string = DEFAULT_PROFILE_PHOTO_SRC;
   clickedBTN: string | null = null;
   isMyBlog: boolean = false;
+  isLoading: boolean = true;
 
   private activatedRoute = inject(ActivatedRoute);
   private blogService = inject(BlogService);
   private destroyRef = inject(DestroyRef);
   private router = inject(Router);
   private titleService = inject(Title);
-
+  blogUpdated: boolean = false;
+  loadingDesc: boolean = true;
   ngOnInit(): void {
     this.loadBlog();
   }
@@ -48,31 +55,31 @@ export class BlogComponent implements OnInit, AfterViewInit {
   }
 
   loadDescription(): void {
-    if (this.blog) {
+    if (this.blogDescription && this.blog) {
       const sanitizedDescription = DOMPurify.sanitize(this.blog.description);
       this.blogDescription.nativeElement.innerHTML = sanitizedDescription;
+      this.loadingDesc = false;
     }
   }
   loadBlog(): void {
     const routeSubscription = this.activatedRoute.paramMap.subscribe({
       next: (paramMap) => {
-        const blogID = paramMap.get('id');
-        const blogSubcription = this.blogService.blogs$
-          .pipe(
-            map((arr) =>
-              arr?.filter((blog: Blog) => blog.id.toString() === blogID)
-            )
-          )
-          .subscribe((blogs) => {
-            this.blog = blogs?.[0] ?? null;
+        const blogId: number = Number(paramMap.get('id'));
+        const blogSubcription = this.blogService
+          .getSingleBlog(blogId)
+          .subscribe((blog: Blog | null) => {
+            this.blog = blog ?? null;
+
             if (this.blog === null) {
               this.router.navigate(['']);
             } else {
+              this.isLoading = false;
               this.titleService.setTitle(this.blog.title);
+
               setTimeout(() => {
                 this.loadDescription();
-              }, 50);
-              this.isMyBlog = this.blogService.isMyBlog(this.blog?.bloggerId);
+              }, 1000);
+              this.isMyBlog = this.blogService.isMyBlog(this.blog?.bloggerid);
             }
           });
         this.destroyRef.onDestroy(() => blogSubcription.unsubscribe());
@@ -87,11 +94,20 @@ export class BlogComponent implements OnInit, AfterViewInit {
 
   handleAddFormSubmitted(formSubmitted: string | null): void {
     this.clickedBTN = formSubmitted;
-    if (this.blog) {
-      setTimeout(() => {
-        this.loadDescription();
-      }, 50);
-    }
+    const blogSubcription = this.blogService.blog$.subscribe(
+      (blog: Blog | null) => {
+        this.blog = blog ?? null;
+        if (this.blog === null) {
+          this.router.navigate(['']);
+        } else {
+          this.titleService.setTitle(this.blog.title);
+          setTimeout(() => {
+            this.loadDescription();
+          }, 50);
+          this.isMyBlog = this.blogService.isMyBlog(this.blog?.bloggerid);
+        }
+      }
+    );
+    this.destroyRef.onDestroy(() => blogSubcription.unsubscribe());
   }
-
 }

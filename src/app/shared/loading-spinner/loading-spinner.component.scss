@@ -1,0 +1,8 @@
+@import "../../../../public/styles/variables.scss";
+.spinner-container {
+    min-height: 50vh;
+  .spinner {
+    height: 3rem;
+    width: 3rem;
+  }
+}

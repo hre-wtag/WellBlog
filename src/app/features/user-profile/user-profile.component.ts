@@ -50,12 +50,12 @@ export class UserProfileComponent implements OnInit {
           const filteredBlogs = blogs
             .filter(
               (blog: Blog) =>
-                blog.bloggerId === this.authService.user$.getValue()?.id
+                blog.bloggerid === this.authService.user$.getValue()?.id
             )
             .sort(
               (a, b) =>
-                new Date(b.postingDate).getTime() -
-                new Date(a.postingDate).getTime()
+                new Date(b.postingdate).getTime() -
+                new Date(a.postingdate).getTime()
             );
 
           this.hasBlogs.set(filteredBlogs.length > 0);

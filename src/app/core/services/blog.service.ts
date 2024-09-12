@@ -1,112 +1,114 @@
-import { inject, Injectable } from '@angular/core';
-import { BehaviorSubject, filter, map, take } from 'rxjs';
+import { inject, Injectable, signal } from '@angular/core';
+import { BehaviorSubject, catchError, map, Observable, throwError } from 'rxjs';
 import { Blog } from '../interfaces/blog';
 import { AuthService } from './auth.service';
 import { User } from '../interfaces/user';
+import { SupabaseService } from './supabase.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BlogService {
   blogs$ = new BehaviorSubject<Blog[] | null>(null);
-
+  blog$ = new BehaviorSubject<Blog | null>(null);
+  //blogUpdated = signal(false);
   private authService = inject(AuthService);
+  private supaService = inject(SupabaseService);
+
   constructor() {
-    this.blogs$.next(this.loadBlogsFromLocalStorage() || []);
+    this.getBlogs();
   }
 
-  isMyBlog(bloggerId: number): boolean {
+  isMyBlog(bloggerid: number): boolean {
     let isMyBlog = false;
     const userSub = this.authService.user$.subscribe((user: User | null) => {
-      isMyBlog = user?.id === bloggerId;
+      isMyBlog = user?.id === bloggerid;
     });
     userSub.unsubscribe();
     return isMyBlog;
   }
 
-  updateBlog(updatedBlog: Blog): boolean {
-    let isUpdated = false;
-    this.blogs$
-      .pipe(
-        take(1),
-        map((blogs) =>
-          blogs?.map((blog) =>
-            blog.id === updatedBlog.id ? updatedBlog : blog
-          )
-        )
-      )
-      .subscribe({
-        next: (updatedBlogs) => {
-          if (updatedBlogs) {
-            this.blogs$.next(updatedBlogs);
-            this.saveBlogsToLocalStorage(updatedBlogs);
-            isUpdated = true;
-          }
-        },
-        error: () => {
-          isUpdated = false;
-        },
-      });
-    return isUpdated;
+  updateBlog(updatedBlog: Blog): Observable<boolean> {
+    return this.supaService.updateBlog(updatedBlog).pipe(
+      map((response) => {
+        if (!response) {
+          console.error('Error updating blog:', response);
+          return false;
+        }
+        this.blog$.next(response);
+        return true;
+      }),
+      catchError((error: Error) => {
+        console.error('Error while updating blog:', error.message);
+        return throwError(() => false);
+      })
+    );
   }
 
-  private saveBlogsToLocalStorage(blogs: Blog[]): void {
-    localStorage.setItem('blogs', JSON.stringify(blogs));
+  addBlog(newBlog: Blog): Observable<boolean> {
+    return this.supaService.addBlog(newBlog).pipe(
+      map((response) => {
+        if (!response) {
+          console.error('Error adding blog:', response);
+          return false;
+        }
+        this.getBlogs();
+        return true;
+      }),
+      catchError((error: Error) => {
+        console.error('Error while adding blog:', error.message);
+        return throwError(() => false);
+      })
+    );
   }
 
-  private loadBlogsFromLocalStorage(): Blog[] | null {
-    const blogsJson = localStorage.getItem('blogs');
-    if (blogsJson) {
-      try {
-        return JSON.parse(blogsJson);
-      } catch (e) {
-        console.error('Error parsing blogs from local storage', e);
-        return null;
-      }
-    }
-    return null;
-  }
-  
-  addBlog(newBlog: Blog): boolean {
-    let isAdded = false;
-    this.blogs$
-      .pipe(
-        filter((blogs) => blogs !== null),
-        map((blogs) => [...(blogs ?? []), newBlog]),
-        take(1) // Ensures observable completes after emitting updatedBlogs
-      )
-      .subscribe({
-        next: (blogs) => {
-          this.blogs$.next(blogs);
-          this.saveBlogsToLocalStorage(blogs);
-          isAdded = true;
-        },
-        error: () => {
-          isAdded = false;
-        },
-      });
-    return isAdded;
+  deleteBlog(id: number): Observable<boolean> {
+    return this.supaService.deleteBlog(id).pipe(
+      map((response) => {
+        if (!response) {
+          console.error('Error deleting blog:', response);
+          return false;
+        }
+        this.getBlogs();
+        return true;
+      }),
+      catchError((error: Error) => {
+        console.error('Error while deleting blog:', error.message);
+        return throwError(() => false);
+      })
+    );
   }
 
-  deleteBlog(id: number): boolean {
-    let isDeleted = false;
-    this.blogs$
-      .pipe(
-        take(1),
-        map((blogs) => blogs?.filter((blog) => blog.id !== id)) // Filter out the blog to be deleted
-      )
-      .subscribe({
-        next: (updatedBlogs) => {
-          if (updatedBlogs) {
-            this.blogs$.next(updatedBlogs);
-            this.saveBlogsToLocalStorage(updatedBlogs);
-            isDeleted = true;
-          }
-        },
-        error: () => {
-          isDeleted = false;
-        },
-      });
-    return isDeleted;
+  getBlogs(): void {
+    this.supaService.getAllBlog().subscribe({
+      next: (blogs) => {
+        this.blogs$.next(blogs);
+      },
+      error: (error) => {
+        console.error('Error fetching blogs:', error.message);
+        throw error;
+      },
+    });
+  }
+  getSingleBlog(id: number): Observable<Blog | null> {
+    return this.supaService.getSingleBlog(id).pipe(
+      map((blog: Blog | null) => {
+        if (blog) {
+          console.log('Fetching blog successful.', blog);
+          this.blog$.next(blog);
+          return blog;
+        } else {
+          console.error('Error fetching blogs');
+          this.blog$.next(null);
+          return null;
+        }
+      }),
+      catchError((error: Error) => {
+        console.error('Error fetching blogs:', error.message);
+        this.blog$.next(null);
+
+        return throwError(() => null);
+      })
+    );
   }
 }

@@ -15,6 +15,12 @@
     border-color: $indigo;
   }
 }
+.form-control.form-input {
+  @include form-input;
+}
+.form-control.form-input.about-input {
+  height: 9.375rem;
+}
 .color-primary {
   @include color-primary;
 }
@@ -33,9 +39,6 @@
 .edit-user-container {
   height: 39.188rem;
   width: 76.063rem;
-}
-.about-input {
-  height: 9.375rem;
 }
 
 .uploaded-file-name {

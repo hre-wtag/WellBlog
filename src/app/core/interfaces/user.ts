@@ -2,11 +2,11 @@ import { AuthUser } from './authUser';
 
 export interface User extends AuthUser {
   id: number;
-  firstName: string;
-  lastName: string;
+  firstname: string;
+  lastname: string;
   email: string;
-  joiningDate: Date;
-  profileImage?: File;
+  joiningdate: Date;
+  profileimage?: File;
   subtitle?: string;
   about?: string;
 }

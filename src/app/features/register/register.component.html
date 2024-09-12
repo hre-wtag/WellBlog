@@ -10,14 +10,14 @@
               <input
                 type="text"
                 class="form-control form-input"
-                formControlName="firstName"
+                formControlName="firstname"
                 [ngClass]="{
-                  'border-danger': isFieldValid('firstName')
+                  'border-danger': isFieldValid('firstname')
                 }"
               />
-              @if (isFieldValid('firstName')){
+              @if (isFieldValid('firstname')){
               <div class="text-danger">
-                {{ updateErrorMessages("firstName") }}
+                {{ updateErrorMessages("firstname") }}
               </div>
               }
             </div>
@@ -26,14 +26,14 @@
               <input
                 type="text"
                 class="form-control form-input"
-                formControlName="lastName"
+                formControlName="lastname"
                 [ngClass]="{
-                  'border-danger': isFieldValid('lastName')
+                  'border-danger': isFieldValid('lastname')
                 }"
               />
-              @if (isFieldValid('lastName')){
+              @if (isFieldValid('lastname')){
               <div class="text-danger">
-                {{ updateErrorMessages("lastName") }}
+                {{ updateErrorMessages("lastname") }}
               </div>
               }
             </div>
@@ -59,7 +59,7 @@
                 type="text"
                 class="form-control form-input"
                 formControlName="username"
-                (blur)="checkUsername()"
+                (input)="checkUsername()"
                 [ngClass]="{
                   'border-danger': isFieldValid('username') || usernameError
                 }"

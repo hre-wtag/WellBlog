@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, effect, inject } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -50,12 +50,12 @@ export class RegisterComponent {
 
   constructor() {
     this.registerForm = new FormGroup({
-      firstName: new FormControl('', [
+      firstname: new FormControl('', [
         Validators.required,
         Validators.minLength(3),
         Validators.maxLength(15),
       ]),
-      lastName: new FormControl('', [
+      lastname: new FormControl('', [
         Validators.required,
         Validators.minLength(3),
         Validators.maxLength(15),
@@ -80,6 +80,9 @@ export class RegisterComponent {
       ]),
       confirmPassword: new FormControl('', Validators.required),
     });
+    effect(() => {
+      this.usernameError = this.authService.usernameExist();
+    });
   }
 
   onHoldChange(event: Event | boolean, field: 'password' | 'confirmPassword') {
@@ -91,9 +94,8 @@ export class RegisterComponent {
   }
 
   checkUsername(): void {
-    this.usernameError = this.authService.validateUsername(
-      this.registerForm.get('username')?.value
-    );
+    this.authService.validateUsername(this.registerForm.get('username')?.value);
+    this.usernameError=this.authService.usernameExist();
   }
 
   onLogin(): void {
@@ -102,7 +104,7 @@ export class RegisterComponent {
 
   onRegister(): void {
     if (this.registerForm.valid && this.passMatched) {
-      const user: User = { ...this.registerForm.value, joiningDate: Date() };
+      const user: User = { ...this.registerForm.value };
       this.authService.registerUser(user);
       this.router.navigate([this.login_route]);
       this.toasterService.success('Success!', 'Registration successful!');

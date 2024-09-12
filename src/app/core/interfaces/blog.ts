@@ -2,10 +2,10 @@ export interface Blog {
   id: number;
   title: string;
   tags: string[];
-  blogImage: File;
+  blogimage: File;
   description: string;
-  postingDate: Date;
-  bloggerId: number;
-  bloggerName: string;
-  bloggerImage: File;
+  postingdate: Date;
+  bloggerid: number;
+  bloggername: string;
+  bloggerimage: File;
 }

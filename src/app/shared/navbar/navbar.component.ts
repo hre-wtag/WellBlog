@@ -21,7 +21,14 @@ import {
 } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
 import { PreviousRouteService } from '../../core/services/previous-route.service';
-import { Observable, Subscription, filter, of, switchMap } from 'rxjs';
+import {
+  Observable,
+  Subscription,
+  distinctUntilChanged,
+  filter,
+  of,
+  switchMap,
+} from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { User } from '../../core/interfaces/user';
 import { TooltipDirective } from '../Directives/tooltip.directive';
@@ -94,14 +101,16 @@ export class NavbarComponent implements OnInit, OnDestroy {
       },
     });
 
-    const seachTextSub = this.sharedService.searchedText.subscribe({
-      next: (text: string) => {
-        if (text === '') this.clearSearch();
-      },
-      error: (err: Error) => {
-        console.error(err);
-      },
-    });
+    const seachTextSub = this.sharedService.searchedText
+      .pipe(distinctUntilChanged())
+      .subscribe({
+        next: (text: string) => {
+          if (text === '') this.clearSearch();
+        },
+        error: (err: Error) => {
+          console.error(err);
+        },
+      });
     this.destroyRef.onDestroy(() => seachTextSub.unsubscribe());
   }
 

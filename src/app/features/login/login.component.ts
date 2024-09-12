@@ -12,7 +12,6 @@ import { HOME_ROUTE, REGISTER_ROUTE, SLASH } from '../../core/utils/constants';
 import { AuthService } from '../../core/services/auth.service';
 import { ToggleOnHoldDirective } from '../../shared/Directives/toggle-on-hold.directive';
 import { ToasterService } from '../../core/services/toaster.service';
-import { Subject, debounceTime } from 'rxjs';
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -35,7 +34,6 @@ export class LoginComponent implements OnInit {
   private router = inject(Router);
   private authService = inject(AuthService);
   private toasterService = inject(ToasterService);
-  private sub = new Subject<AuthUser>();
   private destroyRef = inject(DestroyRef);
 
 
@@ -46,32 +44,7 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
-    const userSubcription = this.sub.pipe(debounceTime(500)).subscribe({
-      next: (user: AuthUser) => {
-        const loginStatus = this.authService.authenticateUser(user);
-        if (loginStatus === true) {
-          this.toasterService.success('success!', 'Login successful.');
-          setTimeout(() => {
-            this.toasterService.clear();
-          }, 3000);
-          this.router.navigate([this.home_route]);
-        } else {
-          this.toasterService.error(
-            'Error!',
-            'Incorrect username or password!'
-          );
-          setTimeout(() => {
-            this.toasterService.clear();
-          }, 3000);
-        }
-      },
-      error: (err: Error) => {
-        console.error(err);
-      },
-    });
-    this.destroyRef.onDestroy(() => userSubcription.unsubscribe());
-  }
+  ngOnInit(): void {}
 
   isFieldValid(fieldname: string): boolean {
     if (
@@ -92,7 +65,24 @@ export class LoginComponent implements OnInit {
       return;
     }
     const user: AuthUser = this.loginForm.value;
-    this.sub.next(user);
+    this.authService.authenticateUser(user).subscribe({
+      next: (isLoggedIn: boolean) => {
+        if (isLoggedIn) {
+          this.toasterService.success('success!', 'Login successful.');
+          setTimeout(() => {
+            this.toasterService.clear();
+          }, 3000);
+          this.router.navigate([this.home_route]);
+        } else {
+        }
+      },
+      error: () => {
+        this.toasterService.error('Error!', 'Incorrect username or password!');
+        setTimeout(() => {
+          this.toasterService.clear();
+        }, 3000);
+      },
+    });
   }
 
   changePasswordFlag(flag: boolean): void {
